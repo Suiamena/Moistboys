@@ -22,27 +22,21 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	public bool canLaunch = true;
 	public RectTransform launchChargeDisplay;
 	public Vector3 minLaunchVelocity = new Vector3(0, 12, 4), maxLaunchVelocity = new Vector3(0, 72, 10);
-	public float launchChargeSpeed = 1.5f;
+	public float launchChargeSpeed = 1f;
 	float launchCharge, launchChargeDisplayMaxWidth, launchChargeDisplayHeight;
 	bool launchRoutineRunning = false;
 
 	[Header("Movement Settings")]
 	public float walkingSpeed = 14;
 	public Vector3 leapingVelocity = new Vector3(0, 11, 20);
-	public float airborneMovementSpeed = 22, airborneMovementAcceleration = 26, airborneDecceleration = .92f;
+	public float airborneMovementSpeed = 22, airborneMovementAcceleration = 26, airborneDecceleration = 21;
 	[Range(0.0f, 1.0f)]
-	public float walkingBouncingThreshold = .85f;
+	public float walkingBouncingThreshold = .72f;
 
 	[Header("Hop Settings")]
 	public bool canHop = true;
 	public float hopVelocity = 9;
 	bool disableGravity = false;
-
-	[Header("Wall Bounce Settings")]
-	public bool wallBounceEnabled = false;
-	public Vector3 wallBounceVelocityModifier = new Vector3(0, 1, 1);
-	RaycastHit wallBounceCastHit;
-	bool canWallBounce;
 
 	[Header("Gravity Settings")]
 	public float gravityStrength = 38;
@@ -56,6 +50,16 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	public GameObject model;
 	public bool enableTwirl = true;
 	public float twirlTime = .26f;
+
+	[Header("Landing Indicator Settings")]
+	public Transform landingIndicatorTrans;
+	public Sprite landingIndicatorSprite;
+	public float landingIndicatorMaxDistance = 100;
+	public bool useLandingIndicator = true, useLandingIndicatorOnlyWhenAirborne = false;
+	Vector3 landingIndicatorPosition;
+	float landingIndicatorYRotation;
+	Ray landingIndicatorRay;
+	RaycastHit landingIndicatorRayHit;
 
 
 	//SETUP
@@ -76,8 +80,9 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		ProcessInputs();
 
 		CameraControl();
+		if (useLandingIndicator)
+			LandingIndicator();
 		Launch();
-
 		Hop();
 	}
 	private void FixedUpdate ()
@@ -86,9 +91,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			Gravity();
 
 			Movement();
-			if (canWallBounce) {
-				WallBounce();
-			}
 
 			//RESOLVE VELOCITY
 			rig.velocity = transform.rotation * velocity;
@@ -113,6 +115,26 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 		cameraTrans.position = transform.position + Quaternion.Euler(new Vector3(cameraXAngle, cameraYAngle)) * cameraOffset;
 		cameraTrans.LookAt(transform.position + Quaternion.Euler(new Vector3(cameraXAngle, cameraYAngle)) * cameraTarget);
+	}
+	void LandingIndicator ()
+	{
+		landingIndicatorPosition = transform.position;
+
+		landingIndicatorRay = new Ray(transform.position, Vector3.up * -1);
+		if (Physics.Raycast(landingIndicatorRay, out landingIndicatorRayHit, landingIndicatorMaxDistance)) {
+			landingIndicatorPosition.y = landingIndicatorRayHit.point.y;
+		}
+
+		landingIndicatorYRotation = transform.eulerAngles.y;
+		landingIndicatorTrans.eulerAngles = new Vector3(0, landingIndicatorYRotation, 0);
+
+		if (useLandingIndicatorOnlyWhenAirborne && Grounded()) {
+			landingIndicatorTrans.gameObject.SetActive(false);
+		} else {
+			landingIndicatorTrans.gameObject.SetActive(true);
+		}
+
+		landingIndicatorTrans.position = landingIndicatorPosition;
 	}
 	void Launch ()
 	{
@@ -147,16 +169,16 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 				if (lateralSpeed.magnitude > airborneMovementSpeed)
 					lateralSpeed = lateralSpeed.normalized * airborneMovementSpeed;
-
-				velocity.x = lateralSpeed.x;
-				velocity.z = lateralSpeed.y;
 			} else {
-				if (lateralSpeed.magnitude > 0) {
+				if (lateralSpeed.magnitude > 0.1f) {
 					lateralSpeed += lateralSpeed.normalized * airborneDecceleration * Time.fixedDeltaTime * -1;
-					velocity.x = lateralSpeed.x;
-					velocity.z = lateralSpeed.y;
+				} else {
+					lateralSpeed = Vector2.zero;
 				}
 			}
+
+			velocity.x = lateralSpeed.x;
+			velocity.z = lateralSpeed.y;
 		}
 	}
 	void Hop ()
@@ -172,26 +194,18 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 				canHop = true;
 		}
 	}
-	//DOOD
-	void WallBounce ()
-	{
-		if (wallBounceEnabled) {
-			if (!Grounded()) {
-				if (Physics.CapsuleCast(transform.position + new Vector3(0, .2f, 0), transform.position + new Vector3(0, 0, 0), .45f, transform.forward, out wallBounceCastHit, .1f)) {
-
-					if (wallBounceCastHit.transform.tag != "Tornado") {
-						transform.forward = Vector3.Reflect(transform.forward, wallBounceCastHit.normal);
-						transform.forward -= new Vector3(0, transform.forward.y, 0);
-					}
-				}
-			}
-		}
-	}
 	void Gravity ()
 	{
-		if (!Grounded())
+		if (!Grounded()) {
 			if (velocity.y > -maximumFallingSpeed)
 				velocity.y -= gravityStrength * Time.fixedDeltaTime;
+
+			Ray ceilingDetectRay = new Ray(transform.position, transform.up);
+			if (Physics.SphereCast(ceilingDetectRay, .5f, .1f)) {
+				if (velocity.y > 0)
+					velocity.y = 0;
+			}
+		}
 	}
 
 
@@ -209,12 +223,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		} else {
 			return false;
 		}
-	}
-	string CorrectTimerString (string timeUnit)
-	{
-		if (timeUnit.Length < 2)
-			timeUnit = "0" + timeUnit;
-		return timeUnit;
 	}
 
 
