@@ -17,7 +17,7 @@ public class WallMechanic : MonoBehaviour {
     public int playerJumpSpeed = 50, playerLerpSpeed;
     bool playerIsJumping;
 
-    CameraPlayerInProgress playerScript;
+    PlayerController playerScript;
     Rigidbody playerRig;
 
     [Header("Platform Settings")]
@@ -34,7 +34,7 @@ public class WallMechanic : MonoBehaviour {
 
     private void Awake()
     {
-        playerScript = player.GetComponent<CameraPlayerInProgress>();
+        //playerScript = player.GetComponent<CameraPlayerInProgress>();
         playerRig = player.GetComponent<Rigidbody>();
     }
 

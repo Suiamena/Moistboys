@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
+public class PlayerController : MonoBehaviour, ISnowTornado
 {
 	Rigidbody rig;
 	Vector3 velocity;
@@ -27,7 +27,7 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 	bool launchRoutineRunning = false;
 
 	[Header("Movement Settings")]
-	public float walkingMovementSpeed = 8;
+	public float walkingSpeed = 14;
 	public Vector3 leapingVelocity = new Vector3(0, 11, 20);
 	public float airborneMovementSpeed = 22, airborneMovementAcceleration = 26, airborneDecceleration = .92f;
 	[Range(0.0f, 1.0f)]
@@ -133,54 +133,31 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 			if (leftStickInput.magnitude == 0) {
 				velocity.x = velocity.z = 0;
 			} else if (leftStickInput.magnitude < walkingBouncingThreshold) {
-				float stuff = leftStickInput.x + leftStickInput.y;
-				Vector2 actualInput = leftStickInput.normalized * leftStickInput.magnitude / Mathf.Abs(stuff);
-				velocity.x = actualInput.x;
-				velocity.z = actualInput.y;
+				velocity.x = leftStickInput.x * walkingSpeed;
+				velocity.z = leftStickInput.y * walkingSpeed;
 			} else {
 				velocity = new Vector3(leftStickInput.x, 0, leftStickInput.y).normalized * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
 				StartCoroutine(SuspendGroundedCheck());
 			}
+		} else {
+			Vector2 lateralSpeed = new Vector2(velocity.x, velocity.z);
+
+			if (leftStickInput.magnitude > 0) {
+				lateralSpeed += new Vector2(leftStickInput.x, leftStickInput.y) * airborneMovementAcceleration * Time.fixedDeltaTime;
+
+				if (lateralSpeed.magnitude > airborneMovementSpeed)
+					lateralSpeed = lateralSpeed.normalized * airborneMovementSpeed;
+
+				velocity.x = lateralSpeed.x;
+				velocity.z = lateralSpeed.y;
+			} else {
+				if (lateralSpeed.magnitude > 0) {
+					lateralSpeed += lateralSpeed.normalized * airborneDecceleration * Time.fixedDeltaTime * -1;
+					velocity.x = lateralSpeed.x;
+					velocity.z = lateralSpeed.y;
+				}
+			}
 		}
-
-		//switch (groundMovementMode) {
-		//	case GroundMovementMode.Walking:
-		//		if (Grounded()) {
-		//			velocity.x = Input.GetAxis("Left Stick X") * walkingMovementSpeed;
-		//			velocity.z = Input.GetAxis("Left Stick Y") * walkingMovementSpeed;
-		//		} else {
-		//			if (Input.GetAxis("Left Stick X") != 0)
-		//				velocity.x = Mathf.Clamp(velocity.x + Input.GetAxis("Left Stick X") * airborneMovementAcceleration * Time.fixedDeltaTime, -airborneMovementSpeed, airborneMovementSpeed);
-		//			else
-		//				velocity.x *= airborneDecceleration;
-		//			if (Input.GetAxis("Left Stick Y") != 0)
-		//				velocity.z = Mathf.Clamp(velocity.z + Input.GetAxis("Left Stick Y") * airborneMovementAcceleration * Time.fixedDeltaTime, -airborneMovementSpeed, airborneMovementSpeed);
-		//			else
-		//				velocity.z *= airborneDecceleration;
-
-		//		}
-		//		break;
-		//	case GroundMovementMode.Leaping:
-		//		if (Grounded()) {
-		//			if (Mathf.Abs(Input.GetAxis("Left Stick X")) >= walkingBouncingThreshold || Mathf.Abs(Input.GetAxis("Left Stick Y")) >= walkingBouncingThreshold) {
-		//				velocity = new Vector3(Input.GetAxis("Left Stick X"), 0, Input.GetAxis("Left Stick Y")).normalized * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
-		//				StartCoroutine(SuspendGroundedCheck());
-		//			} else {
-		//				velocity.x = velocity.z = 0;
-		//			}
-		//		} else {
-		//			if (Input.GetAxis("Left Stick X") != 0)
-		//				velocity.x = Mathf.Clamp(velocity.x + Input.GetAxis("Left Stick X") * airborneMovementAcceleration * Time.fixedDeltaTime, -airborneMovementSpeed, airborneMovementSpeed);
-		//			else
-		//				velocity.x *= airborneDecceleration;
-		//			if (Input.GetAxis("Left Stick Y") != 0)
-		//				velocity.z = Mathf.Clamp(velocity.z + Input.GetAxis("Left Stick Y") * airborneMovementAcceleration * Time.fixedDeltaTime, -airborneMovementSpeed, airborneMovementSpeed);
-		//			else
-		//				velocity.z *= airborneDecceleration;
-
-		//		}
-		//		break;
-		//}
 	}
 	void Hop ()
 	{
