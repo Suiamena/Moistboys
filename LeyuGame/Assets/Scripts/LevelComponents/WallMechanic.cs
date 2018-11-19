@@ -2,19 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallMechanic : MonoBehaviour {
+public class WallMechanic : MonoBehaviour
+{
 
     [Header("Camera Settings")]
     public GameObject cam;
-    public float cameraXOffset = 0, cameraYOffset = 3, cameraZOffset = 10, cameraYRotation;
-    public float cameraSpeed = 50f, cameraRotationSpeed = 50f;
+    public float cameraXOffset, cameraYOffset, cameraZOffset, cameraYRotation;
+    public float cameraSpeed, cameraRotationSpeed;
+    float desiredCameraYRotation;
     float cameraX, cameraY, cameraZ;
     Quaternion cameraRotation;
 
     [Header("Player")]
     public GameObject player;
     Vector3 playerPositionLerp;
-    public int playerJumpSpeed = 50, playerLerpSpeed;
+    public int playerJumpSpeed, playerLerpSpeed;
     bool playerIsJumping;
 
     PlayerController playerScript;
@@ -36,6 +38,15 @@ public class WallMechanic : MonoBehaviour {
     {
         //playerScript = player.GetComponent<CameraPlayerInProgress>();
         playerRig = player.GetComponent<Rigidbody>();
+        cameraXOffset = -2f;
+        cameraYOffset = 1f;
+        cameraZOffset = 10f;
+        cameraYRotation = 10f;
+        playerJumpSpeed = 50;
+        playerLerpSpeed = 5;
+        cameraSpeed = 10f;
+        cameraRotationSpeed = 3f;
+        desiredCameraYRotation = transform.rotation.y;
     }
 
     private void Update()
@@ -60,7 +71,8 @@ public class WallMechanic : MonoBehaviour {
     //Detect wether or not the player can start the sequence
     void OnTriggerStay(Collider collider)
     {
-        if (collider.tag == "Player") {
+        if (collider.tag == "Player")
+        {
             platformsObject.SetActive(true);
             pressAObject.SetActive(true);
             enableSequence = true;
@@ -81,10 +93,13 @@ public class WallMechanic : MonoBehaviour {
     //Perform jumps from platform to platform
     void JumpInput()
     {
-        if (Input.GetButtonDown("A Button")) {
-            if (enableSequence && !playerIsJumping) {
+        if (Input.GetButtonDown("A Button"))
+        {
+            if (enableSequence && !playerIsJumping)
+            {
                 playerIsJumping = true;
-                if (platformsJumped == 0) {
+                if (platformsJumped == 0)
+                {
                     StartSequence();
                 }
             }
@@ -101,7 +116,8 @@ public class WallMechanic : MonoBehaviour {
     {
         if (playerIsJumping)
         {
-            player.transform.eulerAngles = new Vector3(0, 0, 0);
+            //player.transform.eulerAngles = new Vector3(0, 0, 0);
+            player.transform.rotation = transform.rotation;
             playerMovementTarget = platforms[platformsJumped].transform.position;
             playerPositionLerp = new Vector3(player.transform.position.x, Mathf.Lerp(player.transform.position.y, playerMovementTarget.y, playerLerpSpeed * Time.deltaTime), player.transform.position.z);
             player.transform.position = Vector3.MoveTowards(playerPositionLerp, playerMovementTarget, playerJumpSpeed * Time.deltaTime);
@@ -140,12 +156,15 @@ public class WallMechanic : MonoBehaviour {
         if (sequenceIsRunning)
         {
             cameraX = Mathf.Lerp(cam.transform.eulerAngles.x, 0, cameraRotationSpeed * Time.deltaTime);
-            cameraY = Mathf.Lerp(cam.transform.eulerAngles.y, cameraYRotation, cameraRotationSpeed * Time.deltaTime);
+            cameraY = Mathf.Lerp(cam.transform.eulerAngles.y, desiredCameraYRotation, cameraRotationSpeed * Time.deltaTime);
             cameraZ = Mathf.Lerp(cam.transform.eulerAngles.z, 0, cameraRotationSpeed * Time.deltaTime);
 
             cam.transform.position = new Vector3(Mathf.Lerp(cam.transform.position.x, player.transform.position.x + cameraXOffset, cameraSpeed * Time.deltaTime), Mathf.Lerp(cam.transform.position.y, player.transform.position.y + cameraYOffset, cameraSpeed * Time.deltaTime), Mathf.Lerp(cam.transform.position.z, player.transform.position.z - cameraZOffset, cameraSpeed * Time.deltaTime));
-            cameraRotation = Quaternion.Euler(0, cameraY, 0);
-            cam.transform.rotation = cameraRotation;
+            //cameraRotation = Quaternion.Euler(0, cameraY, 0);
+            //cameraRotation = Quaternion.Euler(0, 100, 0);
+            //cam.transform.rotation = cameraRotation;
+            //cam.transform.rotation = Quaternion.Euler(0, 100, 0);
+            cam.transform.rotation = player.transform.rotation;
         }
     }
 
