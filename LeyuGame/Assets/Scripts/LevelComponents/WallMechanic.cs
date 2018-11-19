@@ -6,15 +6,12 @@ public class WallMechanic : MonoBehaviour
 {
 
     [Header("Camera Settings")]
-    public GameObject cam;
-    public float cameraXOffset, cameraYOffset, cameraZOffset, cameraYRotation;
+    public GameObject camAnchor;
     public float cameraSpeed, cameraRotationSpeed;
-    float desiredCameraYRotation;
-    float cameraX, cameraY, cameraZ;
-    Quaternion cameraRotation;
 
     [Header("Player")]
     public GameObject player;
+    public GameObject playerCam;
     Vector3 playerPositionLerp;
     public int playerJumpSpeed, playerLerpSpeed;
     bool playerIsJumping;
@@ -30,23 +27,17 @@ public class WallMechanic : MonoBehaviour
     public int maxPlatformsAmount;
 
     //Sequence Manager
-    bool enableSequence, sequenceIsRunning, fuckingBoolean, coroutineRunning;
-
-    public GameObject pressAObject;
+    bool enableSequence, sequenceIsRunning, fuckingBoolean, coroutineRunning, creatureSpawnedPlatforms;
+       
+    public GameObject pressAObject, creatureAnim;
 
     private void Awake()
     {
-        //playerScript = player.GetComponent<CameraPlayerInProgress>();
+        playerScript = player.GetComponent<PlayerController>();
         playerRig = player.GetComponent<Rigidbody>();
-        cameraXOffset = -2f;
-        cameraYOffset = 1f;
-        cameraZOffset = 10f;
-        cameraYRotation = 10f;
         playerJumpSpeed = 50;
         playerLerpSpeed = 5;
         cameraSpeed = 10f;
-        cameraRotationSpeed = 3f;
-        desiredCameraYRotation = transform.rotation.y;
     }
 
     private void Update()
@@ -73,7 +64,6 @@ public class WallMechanic : MonoBehaviour
     {
         if (collider.tag == "Player")
         {
-            platformsObject.SetActive(true);
             pressAObject.SetActive(true);
             enableSequence = true;
         }
@@ -97,10 +87,19 @@ public class WallMechanic : MonoBehaviour
         {
             if (enableSequence && !playerIsJumping)
             {
-                playerIsJumping = true;
-                if (platformsJumped == 0)
+                if (creatureSpawnedPlatforms)
                 {
-                    StartSequence();
+                    playerIsJumping = true;
+                    if (platformsJumped == 0)
+                    {
+                        StartSequence();
+                    }
+                }
+                else
+                {
+                    StartCoroutine(CreatureDoesTrick());
+                    creatureSpawnedPlatforms = true;
+                    platformsObject.SetActive(true);
                 }
             }
         }
@@ -108,8 +107,10 @@ public class WallMechanic : MonoBehaviour
 
     void StartSequence()
     {
-        playerScript.enabled = false;
+        playerCam.SetActive(false);
+        camAnchor.SetActive(true);
         sequenceIsRunning = true;
+        playerScript.enabled = false;
     }
 
     void JumpExecution()
@@ -145,8 +146,11 @@ public class WallMechanic : MonoBehaviour
     void EndSequence()
     {
         playerScript.enabled = true;
+        playerCam.SetActive(true);
+        camAnchor.SetActive(false);
         sequenceIsRunning = false;
         enableSequence = false;
+        creatureSpawnedPlatforms = false;
         platformsJumped = 0;
     }
 
@@ -155,16 +159,8 @@ public class WallMechanic : MonoBehaviour
     {
         if (sequenceIsRunning)
         {
-            cameraX = Mathf.Lerp(cam.transform.eulerAngles.x, 0, cameraRotationSpeed * Time.deltaTime);
-            cameraY = Mathf.Lerp(cam.transform.eulerAngles.y, desiredCameraYRotation, cameraRotationSpeed * Time.deltaTime);
-            cameraZ = Mathf.Lerp(cam.transform.eulerAngles.z, 0, cameraRotationSpeed * Time.deltaTime);
-
-            cam.transform.position = new Vector3(Mathf.Lerp(cam.transform.position.x, player.transform.position.x + cameraXOffset, cameraSpeed * Time.deltaTime), Mathf.Lerp(cam.transform.position.y, player.transform.position.y + cameraYOffset, cameraSpeed * Time.deltaTime), Mathf.Lerp(cam.transform.position.z, player.transform.position.z - cameraZOffset, cameraSpeed * Time.deltaTime));
-            //cameraRotation = Quaternion.Euler(0, cameraY, 0);
-            //cameraRotation = Quaternion.Euler(0, 100, 0);
-            //cam.transform.rotation = cameraRotation;
-            //cam.transform.rotation = Quaternion.Euler(0, 100, 0);
-            cam.transform.rotation = player.transform.rotation;
+            camAnchor.transform.position = new Vector3(Mathf.Lerp(camAnchor.transform.position.x, player.transform.position.x, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.y, player.transform.position.y, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.z, player.transform.position.z, cameraSpeed * Time.deltaTime));
+            camAnchor.transform.rotation = player.transform.rotation;
         }
     }
 
@@ -172,5 +168,12 @@ public class WallMechanic : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         fuckingBoolean = true;
+    }
+
+    IEnumerator CreatureDoesTrick()
+    {
+        creatureAnim.SetActive(true);
+        yield return new WaitForSeconds(1F);
+        creatureAnim.SetActive(false);
     }
 }
