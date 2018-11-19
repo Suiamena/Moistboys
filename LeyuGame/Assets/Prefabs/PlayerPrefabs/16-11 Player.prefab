@@ -2013,7 +2013,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1289776210137778}
   m_LocalRotation: {x: -0, y: 0.77802837, z: -0, w: 0.62822926}
-  m_LocalPosition: {x: -9.582695, y: 0, z: 164.44843}
+  m_LocalPosition: {x: 111.401474, y: 15.200001, z: 391.28635}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4514493819537976}
@@ -3479,7 +3479,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2df535b0f2934a4fbf55ec54f498c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disableRotation: 0
   cameraTrans: {fileID: 4560527841012078}
   cameraOffset: {x: 0, y: 3, z: -14}
   cameraTarget: {x: 0, y: 0, z: 3}
@@ -3492,13 +3491,12 @@ MonoBehaviour:
   minLaunchVelocity: {x: 0, y: 12, z: 4}
   maxLaunchVelocity: {x: 0, y: 72, z: 10}
   launchChargeSpeed: 1.4
-  groundMovementMode: 0
   walkingMovementSpeed: 8
   leapingVelocity: {x: 0, y: 11, z: 22}
   airborneMovementSpeed: 24
   airborneMovementAcceleration: 26
   airborneDecceleration: 0.92
-  inputDeadzone: 0.5
+  walkingBouncingThreshold: 0.85
   canHop: 1
   hopVelocity: 9
   wallBounceEnabled: 0
@@ -3509,10 +3507,6 @@ MonoBehaviour:
   useTimer: 0
   timeBeforeAbilityDisabled: 300
   abilityTimerEnables: 1
-  dashSpeed: 30
-  dashHeigth: 10
-  timingInterval: 1.5
-  toggleDashHop: 1
   model: {fileID: 1052483362622220}
   enableTwirl: 1
   twirlTime: 0.26
