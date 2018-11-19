@@ -7,7 +7,7 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 	Rigidbody rig;
 	Vector3 velocity;
 	bool groundedSuspended = false;
-	public bool disableRotation;
+	Vector2 leftStickInput = new Vector2(0, 0);
 
 	[Header("Camera Settings")]
 	public Transform cameraTrans;
@@ -21,56 +21,36 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 	[Header("Launch Settings")]
 	public bool canLaunch = true;
 	public RectTransform launchChargeDisplay;
-	public Vector3 minLaunchVelocity = new Vector3(0, 12, 4), maxLaunchVelocity = new Vector3(0, 50, 10);
-	public float launchChargeSpeed = .5f;
+	public Vector3 minLaunchVelocity = new Vector3(0, 12, 4), maxLaunchVelocity = new Vector3(0, 72, 10);
+	public float launchChargeSpeed = 1.5f;
 	float launchCharge, launchChargeDisplayMaxWidth, launchChargeDisplayHeight;
 	bool launchRoutineRunning = false;
 
-	public enum GroundMovementMode { Walking, Leaping };
 	[Header("Movement Settings")]
-	public GroundMovementMode groundMovementMode = GroundMovementMode.Walking;
 	public float walkingMovementSpeed = 8;
-	public Vector3 leapingVelocity = new Vector3(0, 10, 16);
-	public float airborneMovementSpeed = 16, airborneMovementAcceleration = 18, airborneDecceleration = .85f, inputDeadzone = .5f;
+	public Vector3 leapingVelocity = new Vector3(0, 11, 20);
+	public float airborneMovementSpeed = 22, airborneMovementAcceleration = 26, airborneDecceleration = .92f;
+	[Range(0.0f, 1.0f)]
+	public float walkingBouncingThreshold = .85f;
 
 	[Header("Hop Settings")]
 	public bool canHop = true;
-	public float hopVelocity = 15;
+	public float hopVelocity = 9;
 	bool disableGravity = false;
 
 	[Header("Wall Bounce Settings")]
-	public bool wallBounceEnabled = true;
+	public bool wallBounceEnabled = false;
 	public Vector3 wallBounceVelocityModifier = new Vector3(0, 1, 1);
 	RaycastHit wallBounceCastHit;
+	bool canWallBounce;
 
 	[Header("Gravity Settings")]
-	public float gravityStrength = 2;
-	public float maximumFallingSpeed = 15;
-
-	[Header("Timer Settings")]
-	public UnityEngine.UI.Text timerDisplay;
-	public bool useTimer;
-	public float timeBeforeAbilityDisabled = 300;
-	public enum Abilities { Jump, Launch };
-	public Abilities abilityTimerEnables = Abilities.Launch;
-
-	[Header("Dash Settings")]
-	bool useDash = false;
-	public float dashSpeed = 30, dashHeigth = 10, timingInterval = 1.5f;
-	Vector3 timingRayOrigin;
-	bool disableAirControl;
-
-	[Header("Mechanic Settings (ON = HOP/OFF = DASH)")]
-	public bool toggleDashHop;
-	float dashHopCoroutineDelay;
+	public float gravityStrength = 38;
+	public float maximumFallingSpeed = 96;
 
 	//[Header("SnowTornado Settings")]
-	bool isSpinning = false, canBeisSpinning = true;
+	bool inTornado = false, canBeisSpinning = true;
 	Vector3 snowTornadoDesiredPlayerPosition;
-
-	[Header("New Camera Variables")]
-	//public bool isLaunching;
-	bool canBounce, stopDeactivateBounce;
 
 	[Header("Twirl Settings")]
 	public GameObject model;
@@ -86,11 +66,6 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 		launchChargeDisplayHeight = launchChargeDisplay.sizeDelta.y;
 		launchChargeDisplayMaxWidth = launchChargeDisplay.sizeDelta.x;
 		launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
-
-		if (useTimer)
-			StartCoroutine(TimedAbility(timeBeforeAbilityDisabled, abilityTimerEnables));
-		else
-			timerDisplay.enabled = false;
 	}
 
 
@@ -98,25 +73,24 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 	//UPDATES
 	void Update ()
 	{
+		ProcessInputs();
+
 		CameraControl();
 		Launch();
 
-		Dash();
 		Hop();
 	}
 	private void FixedUpdate ()
 	{
-		CheckRotation();
-		if (!isSpinning) {
+		if (!inTornado) {
 			Gravity();
 
 			Movement();
-			WalkSlowly();
-			if (canBounce) {
+			if (canWallBounce) {
 				WallBounce();
 			}
 
-			////RESOLVE VELOCITY
+			//RESOLVE VELOCITY
 			rig.velocity = transform.rotation * velocity;
 		}
 	}
@@ -124,6 +98,10 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 
 
 	//UPDATE FUNCTIONS
+	void ProcessInputs ()
+	{
+		leftStickInput = new Vector2(Input.GetAxis("Left Stick X"), Input.GetAxis("Left Stick Y"));
+	}
 	void CameraControl ()
 	{
 		cameraYAngle += Input.GetAxis("Right Stick X") * cameraHorizontalSensitivity * Time.deltaTime;
@@ -149,87 +127,60 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 
 
 	//FIXED UPDATE FUNCTIONS
-	void CheckRotation ()
-	{
-		Ray RotationRay = new Ray(transform.position, Vector3.up * -1);
-		if (Physics.Raycast(RotationRay, 1, 1)) {
-			disableRotation = false;
-		} else {
-			disableRotation = true;
-		}
-	}
-
-	void WalkSlowly ()
-	{
-		if (!disableAirControl) {
-			if (Input.GetAxis("Left Stick Y") >= -0.5 && Input.GetAxis("Left Stick Y") <= 0.5) {
-				if (Input.GetAxis("Left Stick X") >= -0.5 && Input.GetAxis("Left Stick X") <= 0.5) {
-					groundMovementMode = GroundMovementMode.Walking;
-				} else {
-					groundMovementMode = GroundMovementMode.Leaping;
-				}
-			} else {
-				groundMovementMode = GroundMovementMode.Leaping;
-			}
-		}
-	}
 	void Movement ()
 	{
-		switch (groundMovementMode) {
-			case GroundMovementMode.Walking:
-				if (Grounded()) {
-					velocity.x = Input.GetAxis("Left Stick X") * walkingMovementSpeed;
-					velocity.z = Input.GetAxis("Left Stick Y") * walkingMovementSpeed;
-				} else {
-					if (Input.GetAxis("Left Stick X") != 0)
-						velocity.x = Mathf.Clamp(velocity.x + Input.GetAxis("Left Stick X") * airborneMovementAcceleration * Time.fixedDeltaTime, -airborneMovementSpeed, airborneMovementSpeed);
-					else
-						velocity.x *= airborneDecceleration;
-					if (Input.GetAxis("Left Stick Y") != 0)
-						velocity.z = Mathf.Clamp(velocity.z + Input.GetAxis("Left Stick Y") * airborneMovementAcceleration * Time.fixedDeltaTime, -airborneMovementSpeed, airborneMovementSpeed);
-					else
-						velocity.z *= airborneDecceleration;
-
-				}
-				break;
-			case GroundMovementMode.Leaping:
-				if (Grounded()) {
-					if (Mathf.Abs(Input.GetAxis("Left Stick X")) >= inputDeadzone || Mathf.Abs(Input.GetAxis("Left Stick Y")) >= inputDeadzone) {
-						velocity = new Vector3(Input.GetAxis("Left Stick X"), 0, Input.GetAxis("Left Stick Y")).normalized * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
-						StartCoroutine(SuspendGroundedCheck());
-					} else {
-						velocity.x = velocity.z = 0;
-					}
-				} else {
-					if (!disableAirControl) {
-						if (Input.GetAxis("Left Stick X") != 0)
-							velocity.x = Mathf.Clamp(velocity.x + Input.GetAxis("Left Stick X") * airborneMovementAcceleration * Time.fixedDeltaTime, -airborneMovementSpeed, airborneMovementSpeed);
-						else
-							velocity.x *= airborneDecceleration;
-						if (Input.GetAxis("Left Stick Y") != 0)
-							velocity.z = Mathf.Clamp(velocity.z + Input.GetAxis("Left Stick Y") * airborneMovementAcceleration * Time.fixedDeltaTime, -airborneMovementSpeed, airborneMovementSpeed);
-						else
-							velocity.z *= airborneDecceleration;
-					}
-				}
-				break;
-		}
-	}
-	void Dash ()
-	{
-		Ray TimingRay = new Ray(transform.position, Vector3.up * -1);
-		if (Physics.Raycast(TimingRay, timingInterval, 1)) {
-			if (Input.GetButtonDown("B Button")) {
-				disableAirControl = true;
-				velocity.z = Mathf.Clamp(Mathf.Abs(Input.GetAxis("Left Stick Y")), 0.5f, 1) * dashSpeed;
-				if (Input.GetAxis("Left Stick Y") > 0) {
-					velocity.x = Mathf.Clamp(Input.GetAxis("Left Stick X"), -0.5f, 0.5f) * dashSpeed;
-				}
-				velocity.y = dashHeigth;
-				dashHopCoroutineDelay = 1f;
-				StartCoroutine(DashCooldown());
+		if (Grounded()) {
+			if (leftStickInput.magnitude == 0) {
+				velocity.x = velocity.z = 0;
+			} else if (leftStickInput.magnitude < walkingBouncingThreshold) {
+				float stuff = leftStickInput.x + leftStickInput.y;
+				Vector2 actualInput = leftStickInput.normalized * leftStickInput.magnitude / Mathf.Abs(stuff);
+				velocity.x = actualInput.x;
+				velocity.z = actualInput.y;
+			} else {
+				velocity = new Vector3(leftStickInput.x, 0, leftStickInput.y).normalized * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
+				StartCoroutine(SuspendGroundedCheck());
 			}
 		}
+
+		//switch (groundMovementMode) {
+		//	case GroundMovementMode.Walking:
+		//		if (Grounded()) {
+		//			velocity.x = Input.GetAxis("Left Stick X") * walkingMovementSpeed;
+		//			velocity.z = Input.GetAxis("Left Stick Y") * walkingMovementSpeed;
+		//		} else {
+		//			if (Input.GetAxis("Left Stick X") != 0)
+		//				velocity.x = Mathf.Clamp(velocity.x + Input.GetAxis("Left Stick X") * airborneMovementAcceleration * Time.fixedDeltaTime, -airborneMovementSpeed, airborneMovementSpeed);
+		//			else
+		//				velocity.x *= airborneDecceleration;
+		//			if (Input.GetAxis("Left Stick Y") != 0)
+		//				velocity.z = Mathf.Clamp(velocity.z + Input.GetAxis("Left Stick Y") * airborneMovementAcceleration * Time.fixedDeltaTime, -airborneMovementSpeed, airborneMovementSpeed);
+		//			else
+		//				velocity.z *= airborneDecceleration;
+
+		//		}
+		//		break;
+		//	case GroundMovementMode.Leaping:
+		//		if (Grounded()) {
+		//			if (Mathf.Abs(Input.GetAxis("Left Stick X")) >= walkingBouncingThreshold || Mathf.Abs(Input.GetAxis("Left Stick Y")) >= walkingBouncingThreshold) {
+		//				velocity = new Vector3(Input.GetAxis("Left Stick X"), 0, Input.GetAxis("Left Stick Y")).normalized * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
+		//				StartCoroutine(SuspendGroundedCheck());
+		//			} else {
+		//				velocity.x = velocity.z = 0;
+		//			}
+		//		} else {
+		//			if (Input.GetAxis("Left Stick X") != 0)
+		//				velocity.x = Mathf.Clamp(velocity.x + Input.GetAxis("Left Stick X") * airborneMovementAcceleration * Time.fixedDeltaTime, -airborneMovementSpeed, airborneMovementSpeed);
+		//			else
+		//				velocity.x *= airborneDecceleration;
+		//			if (Input.GetAxis("Left Stick Y") != 0)
+		//				velocity.z = Mathf.Clamp(velocity.z + Input.GetAxis("Left Stick Y") * airborneMovementAcceleration * Time.fixedDeltaTime, -airborneMovementSpeed, airborneMovementSpeed);
+		//			else
+		//				velocity.z *= airborneDecceleration;
+
+		//		}
+		//		break;
+		//}
 	}
 	void Hop ()
 	{
@@ -244,6 +195,7 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 				canHop = true;
 		}
 	}
+	//DOOD
 	void WallBounce ()
 	{
 		if (wallBounceEnabled) {
@@ -260,14 +212,9 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 	}
 	void Gravity ()
 	{
-		if (Grounded()) {
-			if (!disableGravity) {
-				velocity.y = 0;
-			}
-		} else {
+		if (!Grounded())
 			if (velocity.y > -maximumFallingSpeed)
 				velocity.y -= gravityStrength * Time.fixedDeltaTime;
-		}
 	}
 
 
@@ -279,12 +226,8 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 			return false;
 		}
 
-		Ray GroundedRay = new Ray(transform.position, Vector3.up * -1);
-		if (Physics.SphereCast(GroundedRay, .42f, .1f)) {
-			if (!stopDeactivateBounce) {
-				canBounce = false;
-			}
-			canHop = true;
+		Ray groundedRay = new Ray(transform.position, Vector3.up * -1);
+		if (Physics.SphereCast(groundedRay, .42f, .1f)) {
 			return true;
 		} else {
 			return false;
@@ -323,45 +266,12 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 
 		StopCoroutine(Twirl());
 		StartCoroutine(Twirl());
-
-		stopDeactivateBounce = true;
-		StartCoroutine(DeactivateBounce());
 	}
 	IEnumerator SuspendGroundedCheck (float suspensionTime = .1f)
 	{
 		groundedSuspended = true;
 		yield return new WaitForSeconds(suspensionTime);
 		groundedSuspended = false;
-	}
-	IEnumerator TimedAbility (float time, Abilities ability)
-	{
-		switch (ability) {
-			case Abilities.Jump:
-				canHop = true;
-				break;
-			case Abilities.Launch:
-				canLaunch = true;
-				break;
-		}
-
-		string hours, minutes, seconds;
-		for (float t = time; t > 0; t -= Time.deltaTime) {
-			hours = CorrectTimerString((Mathf.FloorToInt(t / 3600) % 99).ToString());
-			minutes = CorrectTimerString((Mathf.FloorToInt(t / 60) % 60).ToString());
-			seconds = CorrectTimerString((Mathf.FloorToInt(t) % 60).ToString());
-
-			timerDisplay.text = hours.ToString() + ":" + minutes.ToString() + ":" + seconds.ToString();
-			yield return null;
-		}
-
-		switch (ability) {
-			case Abilities.Jump:
-				canHop = false;
-				break;
-			case Abilities.Launch:
-				canLaunch = false;
-				break;
-		}
 	}
 	IEnumerator Twirl ()
 	{
@@ -379,10 +289,10 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 	//SNOW MECHANICS FUNCTIONS
 	IEnumerator ISnowTornado.HitBySnowTornado (Transform tornadoTrans, Vector3 playerOffsetFromCenter, float spinSpeed, float playerLerpFactor, Vector3 releaseVelocity)
 	{
-		if (isSpinning && !canBeisSpinning)
+		if (inTornado && !canBeisSpinning)
 			yield break;
 
-		isSpinning = true;
+		inTornado = true;
 		canBeisSpinning = false;
 
 		tornadoTrans.forward = -transform.right;
@@ -394,26 +304,12 @@ public class CameraPlayerInProgress : MonoBehaviour, ISnowTornado
 
 			if (Input.GetButtonDown("A Button")) {
 				velocity = releaseVelocity;
-				isSpinning = false;
+				inTornado = false;
 				break;
 			}
 			yield return null;
 		}
 		yield return new WaitForSeconds(2f);
 		canBeisSpinning = true;
-	}
-
-	IEnumerator DeactivateBounce ()
-	{
-		canBounce = true;
-		yield return new WaitForSeconds(0.5F);
-		stopDeactivateBounce = false;
-	}
-
-	IEnumerator DashCooldown ()
-	{
-		yield return new WaitForSeconds(dashHopCoroutineDelay);
-		disableAirControl = false;
-		disableGravity = false;
 	}
 }
