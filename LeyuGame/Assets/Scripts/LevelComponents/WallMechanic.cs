@@ -100,6 +100,11 @@ public class WallMechanic : MonoBehaviour
                     StartCoroutine(CreatureDoesTrick());
                     creatureSpawnedPlatforms = true;
                     platformsObject.SetActive(true);
+                    playerScript.enabled = false;
+
+                    //CUTSCENE CAMERA
+                    //camAnchor.transform.position = new Vector3(Mathf.Lerp(camAnchor.transform.position.x, 50, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.y, 50, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.z, 50, cameraSpeed * Time.deltaTime));
+                    //camAnchor.transform.LookAt(platforms[0].transform);
                 }
             }
         }
@@ -110,7 +115,6 @@ public class WallMechanic : MonoBehaviour
         playerCam.SetActive(false);
         camAnchor.SetActive(true);
         sequenceIsRunning = true;
-        playerScript.enabled = false;
     }
 
     void JumpExecution()
