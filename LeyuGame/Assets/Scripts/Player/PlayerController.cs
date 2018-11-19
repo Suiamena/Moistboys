@@ -70,8 +70,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		launchChargeDisplayHeight = launchChargeDisplay.sizeDelta.y;
 		launchChargeDisplayMaxWidth = launchChargeDisplay.sizeDelta.x;
 		launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
-
-		landingIndicatorTrans.GetChild(0).GetComponent<SpriteRenderer>().sprite = landingIndicatorSprite;
 	}
 
 
