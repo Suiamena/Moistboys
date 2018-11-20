@@ -16,4 +16,10 @@ public static class ExtensionMethods
 		Vector2 result = new Vector2(lhs.x / rhs.x, lhs.y / rhs.y);
 		return result;
 	}
+
+	public static Vector2 Rotate (this Vector2 lhs, Quaternion rhs)
+	{
+		Vector3 vec = rhs * new Vector3(lhs.x, 0, lhs.y);
+		return new Vector2(vec.x, vec.z);
+	}
 }

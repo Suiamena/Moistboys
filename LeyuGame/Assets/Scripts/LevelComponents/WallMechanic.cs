@@ -55,6 +55,10 @@ public class WallMechanic : MonoBehaviour
                 enableSequence = false;
             }
         }
+        if (creatureSpawnedPlatforms && !sequenceIsRunning)
+        {
+            ShowPlatformsCutscene();
+        }
 
     }
 
@@ -80,7 +84,7 @@ public class WallMechanic : MonoBehaviour
     }
 
 
-    //Perform jumps from platform to platform
+    //Start the sequence by pressing A and the player performs jumps from platform to platform
     void JumpInput()
     {
         if (Input.GetButtonDown("A Button"))
@@ -93,35 +97,41 @@ public class WallMechanic : MonoBehaviour
                     if (platformsJumped == 0)
                     {
                         StartSequence();
+                        Debug.Log("started");
                     }
                 }
                 else
                 {
+                    //Start Spawning Platforms Cutscene
+                    playerRig.velocity = new Vector3(0, 0, 0);
                     StartCoroutine(CreatureDoesTrick());
                     creatureSpawnedPlatforms = true;
                     platformsObject.SetActive(true);
                     playerScript.enabled = false;
-
-                    //CUTSCENE CAMERA
-                    //camAnchor.transform.position = new Vector3(Mathf.Lerp(camAnchor.transform.position.x, 50, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.y, 50, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.z, 50, cameraSpeed * Time.deltaTime));
-                    //camAnchor.transform.LookAt(platforms[0].transform);
+                    camAnchor.SetActive(true);
+                    playerCam.SetActive(false);
                 }
             }
         }
     }
 
+    //Sequence setup
+    void ShowPlatformsCutscene()
+    {
+        camAnchor.transform.position = new Vector3(Mathf.Lerp(camAnchor.transform.position.x, player.transform.position.x, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.y, player.transform.position.y + 5, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.z, player.transform.position.z, cameraSpeed * Time.deltaTime));
+        camAnchor.transform.LookAt(platforms[0].transform);
+    }
+
     void StartSequence()
     {
-        playerCam.SetActive(false);
-        camAnchor.SetActive(true);
         sequenceIsRunning = true;
     }
 
+    //Actual jumping
     void JumpExecution()
     {
         if (playerIsJumping)
         {
-            //player.transform.eulerAngles = new Vector3(0, 0, 0);
             player.transform.rotation = transform.rotation;
             playerMovementTarget = platforms[platformsJumped].transform.position;
             playerPositionLerp = new Vector3(player.transform.position.x, Mathf.Lerp(player.transform.position.y, playerMovementTarget.y, playerLerpSpeed * Time.deltaTime), player.transform.position.z);
@@ -147,10 +157,12 @@ public class WallMechanic : MonoBehaviour
         }
     }
 
+    //End the sequence, allows the player to move freely again
     void EndSequence()
     {
         playerScript.enabled = true;
         playerCam.SetActive(true);
+        playerCam.transform.rotation = player.transform.rotation;
         camAnchor.SetActive(false);
         sequenceIsRunning = false;
         enableSequence = false;

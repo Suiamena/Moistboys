@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	[Header("Camera Settings")]
 	public Transform cameraTrans;
 	public Vector3 cameraOffset = new Vector3(0, 3, -14), cameraTarget = new Vector3(0, 0, 3);
+	[Range(0.0f, 1.0f)]
+	public float cameraPositionSmoothing = .2f;
 	public float cameraHorizontalSensitivity = 130, cameraVerticalSensitivity = 90f, cameraXRotationMaxClamp = 50, cameraXRotationMinClamp = -50;
 	float cameraXAngle = 0, cameraYAngle = 0;
 	Vector3 cameraDesiredPosition;
@@ -53,7 +55,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 	[Header("Landing Indicator Settings")]
 	public Transform landingIndicatorTrans;
-	public Sprite landingIndicatorSprite;
 	public float landingIndicatorMaxDistance = 100;
 	public bool useLandingIndicator = true, useLandingIndicatorOnlyWhenAirborne = false;
 	Vector3 landingIndicatorPosition;
@@ -108,13 +109,20 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	{
 		cameraYAngle += Input.GetAxis("Right Stick X") * cameraHorizontalSensitivity * Time.deltaTime;
 		cameraXAngle = Mathf.Clamp(cameraXAngle - Input.GetAxis("Right Stick Y") * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
+		cameraRotation = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
 
 		if (Grounded()) {
 			transform.rotation = Quaternion.Euler(new Vector3(0, cameraYAngle, 0));
 		}
+		cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmoothing);
 
-		cameraTrans.position = transform.position + Quaternion.Euler(new Vector3(cameraXAngle, cameraYAngle)) * cameraOffset;
-		cameraTrans.LookAt(transform.position + Quaternion.Euler(new Vector3(cameraXAngle, cameraYAngle)) * cameraTarget);
+		if (Physics.Raycast(transform.position, cameraDesiredPosition - transform.position, out cameraRayHit, Vector3.Distance(transform.position, cameraDesiredPosition))) {
+			cameraTrans.position = Vector3.Lerp(cameraTrans.position, cameraRayHit.point, .45f);
+		} else {
+			cameraTrans.position = cameraDesiredPosition;
+		}
+
+		cameraTrans.LookAt(transform.position + cameraRotation * cameraTarget);
 	}
 	void LandingIndicator ()
 	{
@@ -164,16 +172,19 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		} else {
 			Vector2 lateralSpeed = new Vector2(velocity.x, velocity.z);
 
-			if (leftStickInput.magnitude > 0) {
-				lateralSpeed += new Vector2(leftStickInput.x, leftStickInput.y) * airborneMovementAcceleration * Time.fixedDeltaTime;
-
-				if (lateralSpeed.magnitude > airborneMovementSpeed)
-					lateralSpeed = lateralSpeed.normalized * airborneMovementSpeed;
-			} else {
+			if (leftStickInput.magnitude == 0) {
 				if (lateralSpeed.magnitude > 0.1f) {
 					lateralSpeed += lateralSpeed.normalized * airborneDecceleration * Time.fixedDeltaTime * -1;
 				} else {
 					lateralSpeed = Vector2.zero;
+				}
+			} else {
+				Vector2 lateralSpeedGain = Vector2.zero;
+
+				lateralSpeedGain = (leftStickInput.normalized * airborneMovementAcceleration * Time.fixedDeltaTime).Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0));
+				lateralSpeed += lateralSpeedGain;
+				if (lateralSpeed.magnitude > airborneMovementSpeed) {
+					lateralSpeed = lateralSpeed.normalized * airborneMovementSpeed;
 				}
 			}
 
@@ -186,7 +197,9 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		if (canHop) {
 			if (Input.GetButtonDown("A Button")) {
 				canHop = false;
-				velocity.y = hopVelocity;
+				if (velocity.y < 0)
+					velocity.y = 0;
+				velocity.y += hopVelocity;
 				StartCoroutine(SuspendGroundedCheck());
 			}
 		} else {
