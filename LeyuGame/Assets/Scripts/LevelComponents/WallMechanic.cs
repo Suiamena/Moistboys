@@ -33,6 +33,8 @@ public class WallMechanic : MonoBehaviour
 
     private void Awake()
     {
+        player = GameObject.Find("Character");
+        playerCam = GameObject.Find("Main Camera");
         playerScript = player.GetComponent<PlayerController>();
         playerRig = player.GetComponent<Rigidbody>();
         playerJumpSpeed = 50;
