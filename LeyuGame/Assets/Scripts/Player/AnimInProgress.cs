@@ -16,9 +16,15 @@ public class AnimInProgress : MonoBehaviour {
     {
         if (Input.GetButtonDown("A Button"))
         {
-            Debug.Log("running");
-            anim.SetBool("IsLaunching", true);
+            StartCoroutine(ExitLaunchAnim());
         }
+    }
+
+    IEnumerator ExitLaunchAnim()
+    {
+        anim.SetBool("IsLaunching", true);
+        yield return new WaitForSeconds(0.5F);
+        anim.SetBool("IsLaunching", false);
     }
 
 }
