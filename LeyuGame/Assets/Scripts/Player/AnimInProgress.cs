@@ -264,17 +264,6 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
 
     void RunAnimation()
     {
-
-        Debug.Log(launchRoutineRunning);
-        if (launchRoutineRunning)
-        {
-            isLaunching = true;
-        }
-        else
-        {
-            isLaunching = false;
-        }
-
         if (isLaunching)
         {
             animator.SetBool("IsLaunching", true);
@@ -330,9 +319,7 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
         StopCoroutine(SuspendGroundedCheck());
         StartCoroutine(SuspendGroundedCheck());
         launchRoutineRunning = false;
-
-        StopCoroutine(Twirl());
-        StartCoroutine(Twirl());
+        StartCoroutine(SetLaunchAnimation());
     }
     IEnumerator SuspendGroundedCheck(float suspensionTime = .1f)
     {
@@ -340,19 +327,13 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
         yield return new WaitForSeconds(suspensionTime);
         groundedSuspended = false;
     }
-    IEnumerator Twirl()
+
+    IEnumerator SetLaunchAnimation()
     {
-        if (model == null)
-            yield break;
-        while (!Grounded())
-        {
-            model.transform.Rotate(new Vector3(0, 0, 360 / twirlTime) * Time.deltaTime);
-            yield return null;
-        }
-        model.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        isLaunching = true;
+        yield return new WaitForSeconds(0.5f);
+        isLaunching = false;
     }
-
-
 
     //SNOW MECHANICS FUNCTIONS
     IEnumerator ISnowTornado.HitBySnowTornado(Transform tornadoTrans, Vector3 playerOffsetFromCenter, float spinSpeed, float playerLerpFactor, Vector3 releaseVelocity)
