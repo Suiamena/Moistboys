@@ -12,7 +12,7 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
     //Animation Settings
     GameObject animationModel;
     Animator animator;
-    bool isIdle = true, isBouncing, isLaunching;
+    bool isBouncing, isLaunching;
 
     [Header("Camera Settings")]
     public Transform cameraTrans;
@@ -184,16 +184,35 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
             if (leftStickInput.magnitude == 0)
             {
                 velocity.x = velocity.z = 0;
+                isBouncing = false;
             }
             else if (leftStickInput.magnitude < walkingBouncingThreshold)
             {
                 velocity.x = leftStickInput.x * walkingSpeed;
                 velocity.z = leftStickInput.y * walkingSpeed;
+                if (!isLaunching)
+                {
+                    //Vieze animatie code
+                    isBouncing = true;
+                }
+                else
+                {
+                    isBouncing = false;
+                }
             }
             else
             {
                 velocity = new Vector3(leftStickInput.x, 0, leftStickInput.y).normalized * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
                 StartCoroutine(SuspendGroundedCheck());
+                if (!isLaunching)
+                {
+                    //Vieze animatie code
+                    isBouncing = true;
+                }
+                else
+                {
+                    isBouncing = false;
+                }
             }
         }
         else
@@ -267,10 +286,21 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
         if (isLaunching)
         {
             animator.SetBool("IsLaunching", true);
+            animator.SetBool("IsBouncing", false);
+
         }
         else
         {
             animator.SetBool("IsLaunching", false);
+        }
+
+        if (isBouncing)
+        {
+            animator.SetBool("IsBouncing", true);
+        }
+        else
+        {
+            animator.SetBool("IsBouncing", false);
         }
     }
 
