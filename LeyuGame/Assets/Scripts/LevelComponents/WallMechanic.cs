@@ -55,6 +55,10 @@ public class WallMechanic : MonoBehaviour
                 enableSequence = false;
             }
         }
+        if (creatureSpawnedPlatforms && !sequenceIsRunning)
+        {
+            ShowPlatformsCutscene();
+        }
 
     }
 
@@ -93,6 +97,7 @@ public class WallMechanic : MonoBehaviour
                     if (platformsJumped == 0)
                     {
                         StartSequence();
+                        Debug.Log("started");
                     }
                 }
                 else
@@ -101,19 +106,22 @@ public class WallMechanic : MonoBehaviour
                     creatureSpawnedPlatforms = true;
                     platformsObject.SetActive(true);
                     playerScript.enabled = false;
-
-                    //CUTSCENE CAMERA
-                    //camAnchor.transform.position = new Vector3(Mathf.Lerp(camAnchor.transform.position.x, 50, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.y, 50, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.z, 50, cameraSpeed * Time.deltaTime));
-                    //camAnchor.transform.LookAt(platforms[0].transform);
+                    camAnchor.SetActive(true);
+                    playerCam.SetActive(false);
                 }
             }
         }
     }
 
+
+    void ShowPlatformsCutscene()
+    {
+        camAnchor.transform.position = new Vector3(Mathf.Lerp(camAnchor.transform.position.x, player.transform.position.x, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.y, player.transform.position.y + 5, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.z, player.transform.position.z, cameraSpeed * Time.deltaTime));
+        camAnchor.transform.LookAt(platforms[0].transform);
+    }
+
     void StartSequence()
     {
-        playerCam.SetActive(false);
-        camAnchor.SetActive(true);
         sequenceIsRunning = true;
     }
 
