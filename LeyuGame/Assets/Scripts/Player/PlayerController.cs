@@ -186,7 +186,9 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		if (canHop) {
 			if (Input.GetButtonDown("A Button")) {
 				canHop = false;
-				velocity.y = hopVelocity;
+				if (velocity.y < 0)
+					velocity.y = 0;
+				velocity.y += hopVelocity;
 				StartCoroutine(SuspendGroundedCheck());
 			}
 		} else {
