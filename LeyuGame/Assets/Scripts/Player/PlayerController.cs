@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour, ISnowTornado
 {
@@ -13,6 +14,8 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	public Transform cameraTrans;
 	public Vector3 cameraOffset = new Vector3(0, 3, -14), cameraTarget = new Vector3(0, 0, 3);
 	public float cameraHorizontalSensitivity = 130, cameraVerticalSensitivity = 90f, cameraXRotationMaxClamp = 50, cameraXRotationMinClamp = -50;
+	[Range(0.0f, 1.0f)]
+	public float cameraPositionSmooting = .2f;
 	float cameraXAngle = 0, cameraYAngle = 0;
 	Vector3 cameraDesiredPosition;
 	Quaternion cameraRotation;
@@ -21,6 +24,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	[Header("Launch Settings")]
 	public bool canLaunch = true;
 	public RectTransform launchChargeDisplay;
+	public Color launchDisplayChargingColour, launchDisplayUsedColour;
 	public Vector3 minLaunchVelocity = new Vector3(0, 12, 4), maxLaunchVelocity = new Vector3(0, 72, 10);
 	public float launchChargeSpeed = 1f;
 	float launchCharge, launchChargeDisplayMaxWidth, launchChargeDisplayHeight;
@@ -53,8 +57,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 	[Header("Landing Indicator Settings")]
 	public Transform landingIndicatorTrans;
-	public Sprite landingIndicatorSprite;
-	public float landingIndicatorMaxDistance = 100;
 	public bool useLandingIndicator = true, useLandingIndicatorOnlyWhenAirborne = false;
 	Vector3 landingIndicatorPosition;
 	float landingIndicatorYRotation;
@@ -85,6 +87,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		Launch();
 		Hop();
 	}
+
 	private void FixedUpdate ()
 	{
 		if (!inTornado) {
@@ -104,24 +107,34 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	{
 		leftStickInput = new Vector2(Input.GetAxis("Left Stick X"), Input.GetAxis("Left Stick Y"));
 	}
+
 	void CameraControl ()
 	{
 		cameraYAngle += Input.GetAxis("Right Stick X") * cameraHorizontalSensitivity * Time.deltaTime;
 		cameraXAngle = Mathf.Clamp(cameraXAngle - Input.GetAxis("Right Stick Y") * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
+		cameraRotation = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
 
 		if (Grounded()) {
 			transform.rotation = Quaternion.Euler(new Vector3(0, cameraYAngle, 0));
 		}
 
-		cameraTrans.position = transform.position + Quaternion.Euler(new Vector3(cameraXAngle, cameraYAngle)) * cameraOffset;
-		cameraTrans.LookAt(transform.position + Quaternion.Euler(new Vector3(cameraXAngle, cameraYAngle)) * cameraTarget);
+		cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmooting);
+
+		if (Physics.Raycast(transform.position, cameraDesiredPosition - transform.position, out cameraRayHit, Vector3.Distance(transform.position, cameraDesiredPosition))) {
+			cameraTrans.position = Vector3.Lerp(cameraTrans.position, cameraRayHit.point, .55f);
+		} else {
+			cameraTrans.position = cameraDesiredPosition;
+		}
+
+		cameraTrans.LookAt(transform.position + cameraRotation * cameraTarget);
 	}
+
 	void LandingIndicator ()
 	{
 		landingIndicatorPosition = transform.position;
 
 		landingIndicatorRay = new Ray(transform.position, Vector3.up * -1);
-		if (Physics.Raycast(landingIndicatorRay, out landingIndicatorRayHit, landingIndicatorMaxDistance)) {
+		if (Physics.Raycast(landingIndicatorRay, out landingIndicatorRayHit)) {
 			landingIndicatorPosition.y = landingIndicatorRayHit.point.y;
 		}
 
@@ -136,6 +149,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 		landingIndicatorTrans.position = landingIndicatorPosition;
 	}
+
 	void Launch ()
 	{
 		if (canLaunch && Input.GetAxis("Right Trigger") != 0) {
@@ -181,6 +195,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			velocity.z = lateralSpeed.y;
 		}
 	}
+
 	void Hop ()
 	{
 		if (canHop) {
@@ -196,6 +211,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 				canHop = true;
 		}
 	}
+
 	void Gravity ()
 	{
 		if (!Grounded()) {
@@ -203,7 +219,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 				velocity.y -= gravityStrength * Time.fixedDeltaTime;
 
 			Ray ceilingDetectRay = new Ray(transform.position, transform.up);
-			if (Physics.SphereCast(ceilingDetectRay, .5f, .1f)) {
+			if (Physics.SphereCast(ceilingDetectRay, .4f, .15f)) {
 				if (velocity.y > 0)
 					velocity.y = 0;
 			}
@@ -241,31 +257,42 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			yield return null;
 		}
 
+		if (velocity.y < 0)
+			velocity.y = 0;
+		velocity += minLaunchVelocity + (maxLaunchVelocity - minLaunchVelocity) * launchCharge;
+
+
+		StopCoroutine(SuspendGroundedCheck());
+		StartCoroutine(SuspendGroundedCheck());
+		StopCoroutine(Twirl());
+		if (enableTwirl)
+			StartCoroutine(Twirl());
+
+		launchChargeDisplay.GetComponent<Image>().color = launchDisplayUsedColour;
+
 		while (!Grounded()) {
 			yield return null;
 		}
 
-		launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
-		velocity = minLaunchVelocity + (maxLaunchVelocity - minLaunchVelocity) * launchCharge;
-		StopCoroutine(SuspendGroundedCheck());
-		StartCoroutine(SuspendGroundedCheck());
-		launchRoutineRunning = false;
-
 		StopCoroutine(Twirl());
-		StartCoroutine(Twirl());
+		launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
+		launchChargeDisplay.GetComponent<Image>().color = launchDisplayChargingColour;
+		launchRoutineRunning = false;
 	}
+
 	IEnumerator SuspendGroundedCheck (float suspensionTime = .1f)
 	{
 		groundedSuspended = true;
 		yield return new WaitForSeconds(suspensionTime);
 		groundedSuspended = false;
 	}
+
 	IEnumerator Twirl ()
 	{
 		if (model == null)
 			yield break;
 		while (!Grounded()) {
-			model.transform.Rotate(new Vector3(0, 0, 360 / twirlTime) * Time.deltaTime);
+			model.transform.Rotate(new Vector3(360 / twirlTime, 0, 0) * Time.deltaTime);
 			yield return null;
 		}
 		model.transform.localRotation = Quaternion.Euler(Vector3.zero);
