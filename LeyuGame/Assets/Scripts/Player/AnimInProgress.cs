@@ -314,11 +314,7 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
             yield return null;
         }
 
-        launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
-        velocity = minLaunchVelocity + (maxLaunchVelocity - minLaunchVelocity) * launchCharge;
-        StopCoroutine(SuspendGroundedCheck());
-        StartCoroutine(SuspendGroundedCheck());
-        launchRoutineRunning = false;
+        isLaunching = true;
         StartCoroutine(SetLaunchAnimation());
     }
     IEnumerator SuspendGroundedCheck(float suspensionTime = .1f)
@@ -330,9 +326,16 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
 
     IEnumerator SetLaunchAnimation()
     {
-        isLaunching = true;
         yield return new WaitForSeconds(0.5f);
         isLaunching = false;
+        if (!isLaunching)
+        {
+            launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
+            velocity = minLaunchVelocity + (maxLaunchVelocity - minLaunchVelocity) * launchCharge;
+            StopCoroutine(SuspendGroundedCheck());
+            StartCoroutine(SuspendGroundedCheck());
+            launchRoutineRunning = false;
+        }
     }
 
     //SNOW MECHANICS FUNCTIONS
