@@ -99,7 +99,6 @@ public class WallMechanic : MonoBehaviour
                     if (platformsJumped == 0)
                     {
                         StartSequence();
-                        Debug.Log("started");
                     }
                 }
                 else
