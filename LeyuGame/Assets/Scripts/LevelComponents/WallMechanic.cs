@@ -29,12 +29,17 @@ public class WallMechanic : MonoBehaviour
     //Sequence Manager
     bool enableSequence, sequenceIsRunning, fuckingBoolean, coroutineRunning, creatureSpawnedPlatforms;
        
-    public GameObject pressAObject, creatureAnim;
+    public GameObject pressAObject;
+
+    GameObject moustacheBoi;
+    Animator moustacheAnim;
 
     private void Awake()
     {
         player = GameObject.Find("Character");
         playerCam = GameObject.Find("Main Camera");
+        moustacheBoi = GameObject.Find("MOD_MoustacheBoi");
+        moustacheAnim = moustacheBoi.GetComponent<Animator>();
         playerScript = player.GetComponent<PlayerController>();
         playerRig = player.GetComponent<Rigidbody>();
         playerJumpSpeed = 50;
@@ -119,7 +124,7 @@ public class WallMechanic : MonoBehaviour
     //Sequence setup
     void ShowPlatformsCutscene()
     {
-        camAnchor.transform.position = new Vector3(Mathf.Lerp(camAnchor.transform.position.x, player.transform.position.x, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.y, player.transform.position.y + 5, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.z, player.transform.position.z, cameraSpeed * Time.deltaTime));
+        camAnchor.transform.position = new Vector3(Mathf.Lerp(camAnchor.transform.position.x, player.transform.position.x, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.y, player.transform.position.y + 3, cameraSpeed * Time.deltaTime), Mathf.Lerp(camAnchor.transform.position.z, player.transform.position.z, cameraSpeed * Time.deltaTime));
         camAnchor.transform.LookAt(platforms[0].transform);
     }
 
@@ -189,8 +194,8 @@ public class WallMechanic : MonoBehaviour
 
     IEnumerator CreatureDoesTrick()
     {
-        creatureAnim.SetActive(true);
+        moustacheAnim.SetBool("UseAbility", true);
         yield return new WaitForSeconds(1F);
-        creatureAnim.SetActive(false);
+        moustacheAnim.SetBool("UseAbility", false);
     }
 }
