@@ -184,35 +184,16 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
             if (leftStickInput.magnitude == 0)
             {
                 velocity.x = velocity.z = 0;
-                isBouncing = false;
             }
             else if (leftStickInput.magnitude < walkingBouncingThreshold)
             {
                 velocity.x = leftStickInput.x * walkingSpeed;
                 velocity.z = leftStickInput.y * walkingSpeed;
-                if (!isLaunching)
-                {
-                    //Vieze animatie code
-                    isBouncing = true;
-                }
-                else
-                {
-                    isBouncing = false;
-                }
             }
             else
             {
                 velocity = new Vector3(leftStickInput.x, 0, leftStickInput.y).normalized * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
                 StartCoroutine(SuspendGroundedCheck());
-                if (!isLaunching)
-                {
-                    //Vieze animatie code
-                    isBouncing = true;
-                }
-                else
-                {
-                    isBouncing = false;
-                }
             }
         }
         else
@@ -283,17 +264,50 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
 
     void RunAnimation()
     {
+        //Vieze animatie code
+
+        //Set Animation States
+        if (Grounded())
+        {
+            if (leftStickInput.magnitude == 0)
+            {
+                isBouncing = false;
+            }
+            else if (leftStickInput.magnitude < walkingBouncingThreshold)
+            {
+                if (!isLaunching)
+                {
+                    isBouncing = true;
+                }
+                else
+                {
+                    isBouncing = false;
+                }
+            }
+            else
+            {
+                if (!isLaunching)
+                {
+                    isBouncing = true;
+                }
+                else
+                {
+                    isBouncing = false;
+                }
+            }
+        }
+
+        //Play Launch Animation
         if (isLaunching)
         {
             animator.SetBool("IsLaunching", true);
-            animator.SetBool("IsBouncing", false);
-
         }
         else
         {
             animator.SetBool("IsLaunching", false);
         }
 
+        //Play Bounce Animation
         if (isBouncing)
         {
             animator.SetBool("IsBouncing", true);
@@ -344,7 +358,7 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
             yield return null;
         }
 
-        isLaunching = true;
+        //COPY PASTE THIS!
         StartCoroutine(SetLaunchAnimation());
     }
     IEnumerator SuspendGroundedCheck(float suspensionTime = .1f)
@@ -354,8 +368,10 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
         groundedSuspended = false;
     }
 
+    //COPY PASTE THIS!!!
     IEnumerator SetLaunchAnimation()
     {
+        isLaunching = true;
         yield return new WaitForSeconds(0.45f);
         isLaunching = false;
         if (!isLaunching)
