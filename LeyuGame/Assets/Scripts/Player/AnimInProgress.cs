@@ -356,7 +356,7 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
 
     IEnumerator SetLaunchAnimation()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.45f);
         isLaunching = false;
         if (!isLaunching)
         {
