@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
     //Animation Settings
     GameObject animationModel;
     Animator animator;
-    bool isBouncing, isLaunching;
+    public bool isBouncing, isLaunching;
 
     [Header("Camera Settings")]
     public Transform cameraTrans;

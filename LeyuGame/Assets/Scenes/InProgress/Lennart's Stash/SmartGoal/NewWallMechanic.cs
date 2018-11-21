@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class NewWallMechanic : MonoBehaviour {
 
-    public GameObject moustacheBoi;
+    [Header("Player Settings")]
+    GameObject player;
+
+    [Header("Other Settings")]
+    GameObject moustacheBoi;
     public int creatureRange = 10;
-    public GameObject player;
+
+    private void Awake()
+    {
+        player = GameObject.Find("Character");
+        moustacheBoi = GameObject.Find("MOD_MoustacheBoi");
+    }
 
     private void FixedUpdate()
     {
-        CheckDistance();
+        CutsceneSetup();
     }
 
-    void CheckDistance()
+    void CutsceneSetup()
     {
         //FOLLOW THE PLAYER
         if (Vector3.Distance(moustacheBoi.transform.position, player.transform.position) < creatureRange)
         {
-            Debug.Log("start");
         }
     }
 
