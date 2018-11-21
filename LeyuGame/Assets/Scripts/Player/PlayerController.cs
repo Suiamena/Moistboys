@@ -178,17 +178,17 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		} else {
 			Vector2 lateralSpeed = new Vector2(velocity.x, velocity.z);
 
-			if (leftStickInput.magnitude > 0) {
-				lateralSpeed += new Vector2(leftStickInput.x, leftStickInput.y) * airborneMovementAcceleration * Time.fixedDeltaTime;
+			if (leftStickInput.magnitude == 0) {
+				if (lateralSpeed.magnitude < .2f)
+					lateralSpeed = Vector2.zero;
+				else
+					lateralSpeed += lateralSpeed.normalized * -airborneDecceleration * Time.fixedDeltaTime;
+			} else {
+				Vector2 lateralSpeedGain = leftStickInput.Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0)) * airborneMovementAcceleration;
 
+				lateralSpeed += lateralSpeedGain * Time.fixedDeltaTime;
 				if (lateralSpeed.magnitude > airborneMovementSpeed)
 					lateralSpeed = lateralSpeed.normalized * airborneMovementSpeed;
-			} else {
-				if (lateralSpeed.magnitude > 0.1f) {
-					lateralSpeed += lateralSpeed.normalized * airborneDecceleration * Time.fixedDeltaTime * -1;
-				} else {
-					lateralSpeed = Vector2.zero;
-				}
 			}
 
 			velocity.x = lateralSpeed.x;
