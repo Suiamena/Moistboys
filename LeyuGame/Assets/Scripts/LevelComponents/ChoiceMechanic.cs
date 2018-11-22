@@ -31,6 +31,7 @@ public class ChoiceMechanic : MonoBehaviour {
 
     //cutscene 2
     bool playerAbilityMoves, playerPushing, secondCutsceneFinished;
+    public GameObject socialChoiceTrigger, competenceChoiceTrigger;
 
     private void Awake()
     {
@@ -181,6 +182,11 @@ public class ChoiceMechanic : MonoBehaviour {
 
     void StopSecondCutscene()
     {
+        //set choice
+        socialChoiceTrigger.SetActive(true);
+        competenceChoiceTrigger.SetActive(true);
+
+        //set player settings
         playerCamera.SetActive(true);
         playerScript.enabled = true;
         secondCutsceneCamera.SetActive(false);
