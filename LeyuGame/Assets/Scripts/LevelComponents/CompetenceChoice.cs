@@ -41,6 +41,7 @@ public class CompetenceChoice : MonoBehaviour
         if (Input.GetButtonDown("A Button"))
         {
             playerChooseCompetence = true;
+            choiceMessage.SetActive(false);
         }
     }
 

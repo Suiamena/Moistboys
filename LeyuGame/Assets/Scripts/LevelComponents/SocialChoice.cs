@@ -41,6 +41,7 @@ public class SocialChoice : MonoBehaviour
         if (Input.GetButtonDown("A Button"))
         {
             playerChooseSocial = true;
+            choiceMessage.SetActive(false);
         }
     }
 

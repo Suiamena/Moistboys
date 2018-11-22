@@ -40,6 +40,9 @@ public class ChoiceMechanic : MonoBehaviour {
     CompetenceChoice competentScript;
     SocialChoice socialScript;
 
+    public GameObject moustacheBoiEnding;
+    GameObject competencePlatform;
+
     private void Awake()
     {
         player = GameObject.Find("Character");
@@ -49,6 +52,7 @@ public class ChoiceMechanic : MonoBehaviour {
 
         moustacheBoiCutscene = GameObject.Find("MoustacheBoiCutscene");
         moustacheBoiTarget = GameObject.Find("MoustacheBoiTarget");
+        competencePlatform = GameObject.Find("CompetencePlatforms");
 
         warmthSource = GameObject.Find("WarmthSourceCutscene");
         warmthSourceOpen = GameObject.Find("WarmthSourceOpen");
@@ -221,16 +225,12 @@ public class ChoiceMechanic : MonoBehaviour {
         if (socialScript.playerChooseSocial)
         {
             moustacheBoiAbility.transform.position = Vector3.MoveTowards(moustacheBoiAbility.transform.position, moustacheBoiCutscene.transform.position, abilitySpeed * Time.deltaTime);
-            playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, warmthSourceTarget.transform.position, playerAbilitySpeed * Time.deltaTime);
-            Debug.Log("social!");
+            playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, warmthSourceTarget.transform.position, 15 * Time.deltaTime);
         }
         if (competentScript.playerChooseCompetence)
         {
-            playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, player.transform.position, playerAbilitySpeed * Time.deltaTime);
-            moustacheBoiAbility.transform.position = Vector3.MoveTowards(moustacheBoiAbility.transform.position, warmthSourceTarget.transform.position, playerAbilitySpeed * Time.deltaTime);
-            //playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, player.transform.position, playerAbilitySpeed * Time.deltaTime);
-
-            Debug.Log("competent");
+            playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, player.transform.position, abilitySpeed * Time.deltaTime);
+            moustacheBoiAbility.transform.position = Vector3.MoveTowards(moustacheBoiAbility.transform.position, warmthSourceTarget.transform.position, 15 * Time.deltaTime);
         }
         StartCoroutine(ActivateWarmthSource());
     }
@@ -242,15 +242,33 @@ public class ChoiceMechanic : MonoBehaviour {
         playerScript.enabled = false;
 
         //set camera
-        secondCutsceneCamera.SetActive(true);
+        thirdCutsceneCamera.SetActive(true);
         playerCamera.SetActive(false);
 
         yield return new WaitForSeconds(5F);
         decisionIsResolving = true;
         playerAbility.SetActive(false);
         moustacheBoiAbility.SetActive(false);
+        socialChoiceTrigger.SetActive(false);
+        competenceChoiceTrigger.SetActive(false);
         warmthSourceOpen.SetActive(true);
         warmthSource.SetActive(false);
+        yield return new WaitForSeconds(2F);
+        //RESOLVE
+        if (competentScript.playerChooseCompetence)
+        {
+            playerScript.canLaunch = true;
+        }
+        else
+        {
+            moustacheBoiEnding.SetActive(true);
+            competencePlatform.SetActive(false);
+        }
+
+        //set player settings
+        playerCamera.SetActive(true);
+        playerScript.enabled = true;
+        thirdCutsceneCamera.SetActive(false);
     }
 
 }
