@@ -41,7 +41,6 @@ public class ChoiceMechanic : MonoBehaviour {
     SocialChoice socialScript;
 
     public GameObject moustacheBoiEnding;
-    GameObject competencePlatform;
 
     private void Awake()
     {
@@ -52,7 +51,6 @@ public class ChoiceMechanic : MonoBehaviour {
 
         moustacheBoiCutscene = GameObject.Find("MoustacheBoiCutscene");
         moustacheBoiTarget = GameObject.Find("MoustacheBoiTarget");
-        competencePlatform = GameObject.Find("CompetencePlatforms");
 
         warmthSource = GameObject.Find("WarmthSourceCutscene");
         warmthSourceOpen = GameObject.Find("WarmthSourceOpen");
@@ -262,7 +260,6 @@ public class ChoiceMechanic : MonoBehaviour {
         else
         {
             moustacheBoiEnding.SetActive(true);
-            competencePlatform.SetActive(false);
         }
 
         //set player settings

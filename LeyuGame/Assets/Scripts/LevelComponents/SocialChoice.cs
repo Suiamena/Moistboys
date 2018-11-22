@@ -22,8 +22,16 @@ public class SocialChoice : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            choiceMessage.SetActive(true);
-            playerCanMakeChoice = true;
+            if (playerChooseSocial)
+            {
+                Debug.Log("kitten");
+                choiceMessage.SetActive(false);
+            }
+            else
+            {
+                choiceMessage.SetActive(true);
+                playerCanMakeChoice = true;
+            }
         }
     }
 
@@ -41,7 +49,6 @@ public class SocialChoice : MonoBehaviour
         if (Input.GetButtonDown("A Button"))
         {
             playerChooseSocial = true;
-            choiceMessage.SetActive(false);
         }
     }
 

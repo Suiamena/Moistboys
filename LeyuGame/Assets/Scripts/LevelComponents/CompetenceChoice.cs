@@ -22,8 +22,15 @@ public class CompetenceChoice : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            choiceMessage.SetActive(true);
-            playerCanMakeChoice = true;
+            if (playerChooseCompetence)
+            {
+                choiceMessage.SetActive(false);
+            }
+            else
+            {
+                choiceMessage.SetActive(true);
+                playerCanMakeChoice = true;
+            }
         }
     }
 
