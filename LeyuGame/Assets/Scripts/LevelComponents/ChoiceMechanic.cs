@@ -15,7 +15,7 @@ public class ChoiceMechanic : MonoBehaviour {
     GameObject moustacheBoiCutscene;
     GameObject moustacheBoiTarget;
 
-    int moustacheBoiSpeed = 10, abilitySpeed = 3;
+    int moustacheBoiSpeed = 10, abilitySpeed = 3, playerAbilitySpeed = 6;
 
     //WarmthSource Settings
     GameObject warmthSource;
@@ -24,7 +24,7 @@ public class ChoiceMechanic : MonoBehaviour {
     public int takeAbilityRange = 30;
 
     //Cutscene Settings
-    public GameObject cutsceneCamera;
+    public GameObject cutsceneCamera, secondCutsceneCamera;
 
     //cutscene 1
     bool creatureMoves, abilityMoves, cutsceneFinished;
@@ -60,6 +60,10 @@ public class ChoiceMechanic : MonoBehaviour {
         if (playerAbilityMoves)
         {
             PlayerAbilityMovesToSource();
+        }
+        if (playerPushing)
+        {
+            PlayerPushedBack();
         }
 
         //After cutscene
@@ -134,6 +138,9 @@ public class ChoiceMechanic : MonoBehaviour {
                 //stop player from moving
                 playerRig.velocity = new Vector3(0, 0, 0);
                 playerScript.enabled = false;
+                //set camera
+                secondCutsceneCamera.SetActive(true);
+                playerCamera.SetActive(false);
 
                 StartCoroutine(PlayerLosesAbility());
             }
@@ -156,20 +163,27 @@ public class ChoiceMechanic : MonoBehaviour {
         yield return new WaitForSeconds(2F);
         playerPushing = false;
 
+        //player loses ability
+        playerScript.canLaunch = false;
+
         StopSecondCutscene();
     }
 
     void PlayerAbilityMovesToSource()
     {
-        //playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, playerAbilityTarget.transform.position, abilitySpeed * Time.deltaTime);
-        //playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, new Vector3(playerAbility.transform.position.x, playerAbility.transform.position.y + 3, playerAbility.transform.position.z), abilitySpeed * Time.deltaTime);
-        playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, playerAbilityTarget.transform.position, abilitySpeed * Time.deltaTime);
+        playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, playerAbilityTarget.transform.position, playerAbilitySpeed * Time.deltaTime);
+    }
 
+    void PlayerPushedBack()
+    {
+        playerRig.velocity = new Vector3(0, 0, -10);
     }
 
     void StopSecondCutscene()
     {
+        playerCamera.SetActive(true);
         playerScript.enabled = true;
+        secondCutsceneCamera.SetActive(false);
         playerRig.velocity = new Vector3(0, 0, 0);
         secondCutsceneFinished = true;
     }
