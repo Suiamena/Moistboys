@@ -78,6 +78,8 @@ public class PlayerController : MonoBehaviour, ISnowTornado
         launchChargeDisplayMaxWidth = launchChargeDisplay.sizeDelta.x;
         launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
 
+		cameraYAngle = transform.rotation.eulerAngles.y;
+
         animationModel = GameObject.Find("MOD_Draak");
         animator = animationModel.GetComponent<Animator>();
     }
