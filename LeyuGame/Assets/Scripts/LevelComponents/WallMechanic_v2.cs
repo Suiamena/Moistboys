@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallMechanic : MonoBehaviour
+public class WallMechanic_v2 : MonoBehaviour
 {
 
 	[Header("Camera Settings")]
@@ -20,9 +20,9 @@ public class WallMechanic : MonoBehaviour
 	Rigidbody playerRig;
 
 	[Header("Platform Settings")]
-	public GameObject platformsObject;
 	public List<GameObject> platforms = new List<GameObject>();
-	Vector3 playerMovementTarget;
+	GameObject platformsParent;
+	Vector3 playerMovementTarget, platformPlayerOffset = new Vector3(0, 0.62f, 0);
 	int platformsJumped;
 
 	//Sequence Manager
@@ -44,6 +44,7 @@ public class WallMechanic : MonoBehaviour
 		playerJumpSpeed = 50;
 		playerLerpSpeed = 5;
 		cameraSpeed = 10f;
+		platformsParent = platforms[0].transform.parent.gameObject;
 	}
 
 	private void Update ()
@@ -54,7 +55,7 @@ public class WallMechanic : MonoBehaviour
 
 		if (!enableSequence) {
 			if (!sequenceIsRunning) {
-				platformsObject.SetActive(false);
+				platformsParent.SetActive(false);
 				pressAObject.SetActive(false);
 				enableSequence = false;
 			}
@@ -99,7 +100,7 @@ public class WallMechanic : MonoBehaviour
 					playerRig.velocity = new Vector3(0, 0, 0);
 					StartCoroutine(CreatureDoesTrick());
 					creatureSpawnedPlatforms = true;
-					platformsObject.SetActive(true);
+					platformsParent.SetActive(true);
 					playerScript.enabled = false;
 					camAnchor.SetActive(true);
 					playerCam.SetActive(false);
@@ -125,7 +126,7 @@ public class WallMechanic : MonoBehaviour
 	{
 		if (playerIsJumping) {
 			player.transform.rotation = transform.rotation;
-			playerMovementTarget = platforms[platformsJumped].transform.position;
+			playerMovementTarget = platforms[platformsJumped].transform.position + platformPlayerOffset;
 			playerPositionLerp = new Vector3(player.transform.position.x, Mathf.Lerp(player.transform.position.y, playerMovementTarget.y, playerLerpSpeed * Time.deltaTime), player.transform.position.z);
 			player.transform.position = Vector3.MoveTowards(playerPositionLerp, playerMovementTarget, playerJumpSpeed * Time.deltaTime);
 			//if (player.transform.position == playerMovementTarget)
