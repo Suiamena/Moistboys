@@ -7,11 +7,11 @@ public class WallMechanic_v2 : MonoBehaviour
 
 	[Header("Camera Settings")]
 	public GameObject camAnchor;
-	public float cameraSpeed, cameraRotationSpeed;
+	public float cameraSpeed = 10, cameraRotationSpeed =3;
 
 	[Header("Player")]
-	public int playerJumpSpeed;
-	public int playerLerpSpeed;
+	public int playerJumpSpeed = 50;
+	public int playerLerpSpeed = 5;
 	GameObject player, playerCam;
 	Vector3 playerPositionLerp;
 	bool playerIsJumping;
@@ -37,8 +37,7 @@ public class WallMechanic_v2 : MonoBehaviour
 	{
 		player = GameObject.Find("Character");
 		playerCam = GameObject.Find("Main Camera");
-		moustacheBoi = GameObject.Find("MOD_MoustacheBoi");
-		moustacheAnim = moustacheBoi.GetComponent<Animator>();
+		moustacheAnim = transform.GetChild(0).GetComponent<Animator>();
 		playerScript = player.GetComponent<PlayerController>();
 		playerRig = player.GetComponent<Rigidbody>();
 		playerJumpSpeed = 50;
@@ -171,7 +170,7 @@ public class WallMechanic_v2 : MonoBehaviour
 
 	IEnumerator WaitForNextJump ()
 	{
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.7f);
 		fuckingBoolean = true;
 	}
 
