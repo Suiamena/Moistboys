@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AnimInProgress : MonoBehaviour, ISnowTornado
 {
@@ -12,14 +13,14 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
     //Animation Settings
     GameObject animationModel;
     Animator animator;
-    bool isBouncing, isLaunching;
+    public bool isBouncing, isLaunching;
 
     [Header("Camera Settings")]
     public Transform cameraTrans;
     public Vector3 cameraOffset = new Vector3(0, 3, -14), cameraTarget = new Vector3(0, 0, 3);
-    [Range(0.0f, 1.0f)]
-    public float cameraPositionSmoothing = .2f;
     public float cameraHorizontalSensitivity = 130, cameraVerticalSensitivity = 90f, cameraXRotationMaxClamp = 50, cameraXRotationMinClamp = -50;
+    [Range(0.0f, 1.0f)]
+    public float cameraPositionSmooting = .2f;
     float cameraXAngle = 0, cameraYAngle = 0;
     Vector3 cameraDesiredPosition;
     Quaternion cameraRotation;
@@ -28,6 +29,7 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
     [Header("Launch Settings")]
     public bool canLaunch = true;
     public RectTransform launchChargeDisplay;
+    public Color launchDisplayChargingColour, launchDisplayUsedColour;
     public Vector3 minLaunchVelocity = new Vector3(0, 12, 4), maxLaunchVelocity = new Vector3(0, 72, 10);
     public float launchChargeSpeed = 1f;
     float launchCharge, launchChargeDisplayMaxWidth, launchChargeDisplayHeight;
@@ -60,7 +62,6 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
 
     [Header("Landing Indicator Settings")]
     public Transform landingIndicatorTrans;
-    public float landingIndicatorMaxDistance = 100;
     public bool useLandingIndicator = true, useLandingIndicatorOnlyWhenAirborne = false;
     Vector3 landingIndicatorPosition;
     float landingIndicatorYRotation;
@@ -76,6 +77,8 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
         launchChargeDisplayHeight = launchChargeDisplay.sizeDelta.y;
         launchChargeDisplayMaxWidth = launchChargeDisplay.sizeDelta.x;
         launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
+
+        cameraYAngle = transform.rotation.eulerAngles.y;
 
         animationModel = GameObject.Find("MOD_Draak");
         animator = animationModel.GetComponent<Animator>();
@@ -94,12 +97,12 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
         Launch();
         Hop();
     }
+
     private void FixedUpdate()
     {
         if (!inTornado)
         {
             Gravity();
-
             RunAnimation();
             Movement();
 
@@ -115,6 +118,7 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
     {
         leftStickInput = new Vector2(Input.GetAxis("Left Stick X"), Input.GetAxis("Left Stick Y"));
     }
+
     void CameraControl()
     {
         cameraYAngle += Input.GetAxis("Right Stick X") * cameraHorizontalSensitivity * Time.deltaTime;
@@ -125,11 +129,12 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, cameraYAngle, 0));
         }
-        cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmoothing);
+
+        cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmooting);
 
         if (Physics.Raycast(transform.position, cameraDesiredPosition - transform.position, out cameraRayHit, Vector3.Distance(transform.position, cameraDesiredPosition)))
         {
-            cameraTrans.position = Vector3.Lerp(cameraTrans.position, cameraRayHit.point, .45f);
+            cameraTrans.position = Vector3.Lerp(cameraTrans.position, cameraRayHit.point, .55f);
         }
         else
         {
@@ -138,12 +143,13 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
 
         cameraTrans.LookAt(transform.position + cameraRotation * cameraTarget);
     }
+
     void LandingIndicator()
     {
         landingIndicatorPosition = transform.position;
 
         landingIndicatorRay = new Ray(transform.position, Vector3.up * -1);
-        if (Physics.Raycast(landingIndicatorRay, out landingIndicatorRayHit, landingIndicatorMaxDistance))
+        if (Physics.Raycast(landingIndicatorRay, out landingIndicatorRayHit))
         {
             landingIndicatorPosition.y = landingIndicatorRayHit.point.y;
         }
@@ -162,6 +168,7 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
 
         landingIndicatorTrans.position = landingIndicatorPosition;
     }
+
     void Launch()
     {
         if (canLaunch && Input.GetAxis("Right Trigger") != 0)
@@ -202,31 +209,25 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
 
             if (leftStickInput.magnitude == 0)
             {
-                if (lateralSpeed.magnitude > 0.1f)
-                {
-                    lateralSpeed += lateralSpeed.normalized * airborneDecceleration * Time.fixedDeltaTime * -1;
-                }
-                else
-                {
+                if (lateralSpeed.magnitude < .2f)
                     lateralSpeed = Vector2.zero;
-                }
+                else
+                    lateralSpeed += lateralSpeed.normalized * -airborneDecceleration * Time.fixedDeltaTime;
             }
             else
             {
-                Vector2 lateralSpeedGain = Vector2.zero;
+                Vector2 lateralSpeedGain = leftStickInput.Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0)) * airborneMovementAcceleration;
 
-                lateralSpeedGain = (leftStickInput.normalized * airborneMovementAcceleration * Time.fixedDeltaTime).Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0));
-                lateralSpeed += lateralSpeedGain;
+                lateralSpeed += lateralSpeedGain * Time.fixedDeltaTime;
                 if (lateralSpeed.magnitude > airborneMovementSpeed)
-                {
                     lateralSpeed = lateralSpeed.normalized * airborneMovementSpeed;
-                }
             }
 
             velocity.x = lateralSpeed.x;
             velocity.z = lateralSpeed.y;
         }
     }
+
     void Hop()
     {
         if (canHop)
@@ -246,6 +247,7 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
                 canHop = true;
         }
     }
+
     void Gravity()
     {
         if (!Grounded())
@@ -254,11 +256,32 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
                 velocity.y -= gravityStrength * Time.fixedDeltaTime;
 
             Ray ceilingDetectRay = new Ray(transform.position, transform.up);
-            if (Physics.SphereCast(ceilingDetectRay, .5f, .1f))
+            if (Physics.SphereCast(ceilingDetectRay, .4f, .15f))
             {
                 if (velocity.y > 0)
                     velocity.y = 0;
             }
+        }
+    }
+
+
+
+    //RETURN FUNCTIONS
+    bool Grounded()
+    {
+        if (groundedSuspended)
+        {
+            return false;
+        }
+
+        Ray groundedRay = new Ray(transform.position, Vector3.up * -1);
+        if (Physics.SphereCast(groundedRay, .42f, .1f))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -298,14 +321,14 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
         }
 
         //Play Launch Animation
-        if (isLaunching)
-        {
-            animator.SetBool("IsLaunching", true);
-        }
-        else
-        {
-            animator.SetBool("IsLaunching", false);
-        }
+        //if (isLaunching)
+        //{
+        //    animator.SetBool("IsLaunching", true);
+        //}
+        //else
+        //{
+        //    animator.SetBool("IsLaunching", false);
+        //}
 
         //Play Bounce Animation
         if (isBouncing)
@@ -316,25 +339,14 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
         {
             animator.SetBool("IsBouncing", false);
         }
-    }
-
-
-    //RETURN FUNCTIONS
-    bool Grounded()
-    {
-        if (groundedSuspended)
+        //Play prelaunch
+        if (launchRoutineRunning)
         {
-            return false;
-        }
-
-        Ray groundedRay = new Ray(transform.position, Vector3.up * -1);
-        if (Physics.SphereCast(groundedRay, .42f, .1f))
-        {
-            return true;
+            animator.SetBool("IsLaunching", true);
         }
         else
         {
-            return false;
+            animator.SetBool("IsLaunching", false);
         }
     }
 
@@ -353,19 +365,30 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
             yield return null;
         }
 
+        StartCoroutine(SetLaunchAnimation());
+
+        if (velocity.y < 0)
+            velocity.y = 0;
+        velocity += minLaunchVelocity + (maxLaunchVelocity - minLaunchVelocity) * launchCharge;
+
+
+        StopCoroutine(SuspendGroundedCheck());
+        StartCoroutine(SuspendGroundedCheck());
+        StopCoroutine(Twirl());
+        if (enableTwirl)
+            StartCoroutine(Twirl());
+
+        launchChargeDisplay.GetComponent<Image>().color = launchDisplayUsedColour;
+
         while (!Grounded())
         {
             yield return null;
         }
 
-        //COPY PASTE THIS!
-        StartCoroutine(SetLaunchAnimation());
-    }
-    IEnumerator SuspendGroundedCheck(float suspensionTime = .1f)
-    {
-        groundedSuspended = true;
-        yield return new WaitForSeconds(suspensionTime);
-        groundedSuspended = false;
+        StopCoroutine(Twirl());
+        launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
+        launchChargeDisplay.GetComponent<Image>().color = launchDisplayChargingColour;
+        launchRoutineRunning = false;
     }
 
     //COPY PASTE THIS!!!
@@ -374,15 +397,28 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
         isLaunching = true;
         yield return new WaitForSeconds(0.45f);
         isLaunching = false;
-        if (!isLaunching)
-        {
-            launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
-            velocity = minLaunchVelocity + (maxLaunchVelocity - minLaunchVelocity) * launchCharge;
-            StopCoroutine(SuspendGroundedCheck());
-            StartCoroutine(SuspendGroundedCheck());
-            launchRoutineRunning = false;
-        }
     }
+
+    IEnumerator SuspendGroundedCheck(float suspensionTime = .1f)
+    {
+        groundedSuspended = true;
+        yield return new WaitForSeconds(suspensionTime);
+        groundedSuspended = false;
+    }
+
+    IEnumerator Twirl()
+    {
+        if (model == null)
+            yield break;
+        while (!Grounded())
+        {
+            model.transform.Rotate(new Vector3(360 / twirlTime, 0, 0) * Time.deltaTime);
+            yield return null;
+        }
+        model.transform.localRotation = Quaternion.Euler(Vector3.zero);
+    }
+
+
 
     //SNOW MECHANICS FUNCTIONS
     IEnumerator ISnowTornado.HitBySnowTornado(Transform tornadoTrans, Vector3 playerOffsetFromCenter, float spinSpeed, float playerLerpFactor, Vector3 releaseVelocity)
