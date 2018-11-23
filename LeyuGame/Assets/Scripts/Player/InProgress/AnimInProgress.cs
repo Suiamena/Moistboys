@@ -13,7 +13,7 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
     //Animation Settings
     GameObject animationModel;
     Animator animator;
-    public bool isBouncing, isLaunching;
+    public bool isBouncing, isPreLaunching, isAirborne;
 
     [Header("Camera Settings")]
     public Transform cameraTrans;
@@ -298,7 +298,7 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
             }
             else if (leftStickInput.magnitude < walkingBouncingThreshold)
             {
-                if (!isLaunching)
+                if (!isPreLaunching)
                 {
                     isBouncing = true;
                 }
@@ -309,7 +309,7 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
             }
             else
             {
-                if (!isLaunching)
+                if (!isPreLaunching)
                 {
                     isBouncing = true;
                 }
@@ -319,16 +319,6 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
                 }
             }
         }
-
-        //Play Launch Animation
-        //if (isLaunching)
-        //{
-        //    animator.SetBool("IsLaunching", true);
-        //}
-        //else
-        //{
-        //    animator.SetBool("IsLaunching", false);
-        //}
 
         //Play Bounce Animation
         if (isBouncing)
@@ -340,13 +330,23 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
             animator.SetBool("IsBouncing", false);
         }
         //Play prelaunch
-        if (launchRoutineRunning)
+        if (isPreLaunching)
         {
             animator.SetBool("IsLaunching", true);
         }
         else
         {
             animator.SetBool("IsLaunching", false);
+        }
+        if (Grounded())
+        {
+            Debug.Log("grounded");
+            animator.SetBool("IsAirborne", false);
+        }
+        else
+        {
+            Debug.Log("airborne");
+            animator.SetBool("IsAirborne", true);
         }
     }
 
@@ -365,13 +365,11 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
             yield return null;
         }
 
-        StartCoroutine(SetLaunchAnimation());
-
         if (velocity.y < 0)
             velocity.y = 0;
         velocity += minLaunchVelocity + (maxLaunchVelocity - minLaunchVelocity) * launchCharge;
 
-
+        StartCoroutine(PreLaunchRoutine());
         StopCoroutine(SuspendGroundedCheck());
         StartCoroutine(SuspendGroundedCheck());
         StopCoroutine(Twirl());
@@ -391,12 +389,11 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
         launchRoutineRunning = false;
     }
 
-    //COPY PASTE THIS!!!
-    IEnumerator SetLaunchAnimation()
+    IEnumerator PreLaunchRoutine()
     {
-        isLaunching = true;
-        yield return new WaitForSeconds(0.45f);
-        isLaunching = false;
+        isPreLaunching = true;
+        yield return new WaitForSeconds(0.2F);
+        isPreLaunching = false;
     }
 
     IEnumerator SuspendGroundedCheck(float suspensionTime = .1f)
