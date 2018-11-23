@@ -100,6 +100,7 @@ public class WallMechanic : MonoBehaviour
 					StartCoroutine(CreatureDoesTrick());
 					creatureSpawnedPlatforms = true;
 					platformsObject.SetActive(true);
+                    Debug.Log("end script");
 					playerScript.enabled = false;
 					camAnchor.SetActive(true);
 					playerCam.SetActive(false);

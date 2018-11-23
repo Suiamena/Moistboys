@@ -268,6 +268,12 @@ public class ChoiceMechanic : MonoBehaviour {
         warmthSourceOpen.SetActive(true);
         warmthSource.SetActive(false);
         yield return new WaitForSeconds(2F);
+
+        //set player settings
+        playerCamera.SetActive(true);
+        playerScript.enabled = true;
+        thirdCutsceneCamera.SetActive(false);
+
         //RESOLVE
         if (competentScript.playerChooseCompetence)
         {
@@ -277,11 +283,6 @@ public class ChoiceMechanic : MonoBehaviour {
         {
             moustacheBoiEnding.SetActive(true);
         }
-
-        //set player settings
-        playerCamera.SetActive(true);
-        playerScript.enabled = true;
-        thirdCutsceneCamera.SetActive(false);
     }
 
 }
