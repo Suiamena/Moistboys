@@ -24,7 +24,6 @@ public class SocialChoice : MonoBehaviour
         {
             if (playerChooseSocial)
             {
-                Debug.Log("kitten");
                 choiceMessage.SetActive(false);
             }
             else

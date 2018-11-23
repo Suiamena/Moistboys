@@ -6,8 +6,10 @@ public class ChoiceMechanic : MonoBehaviour {
 
     //Player Settings
     GameObject player;
+    GameObject playerModel;
     GameObject playerCamera;
 
+    Animator playerAnim;
     PlayerController playerScript;
     Rigidbody playerRig;
 
@@ -32,7 +34,7 @@ public class ChoiceMechanic : MonoBehaviour {
     bool creatureMoves, abilityMoves, cutsceneFinished;
 
     //cutscene 2
-    bool playerAbilityMoves, playerPushing, secondCutsceneFinished;
+    bool abilityFoundPlayer, playerAbilityMoves, playerPushing, secondCutsceneFinished;
     public GameObject socialChoiceTrigger, competenceChoiceTrigger;
 
     //Decision resolution
@@ -47,6 +49,8 @@ public class ChoiceMechanic : MonoBehaviour {
         player = GameObject.Find("Character");
         playerScript = player.GetComponent<PlayerController>();
         playerRig = player.GetComponent<Rigidbody>();
+        playerModel = GameObject.Find("MOD_Draak");
+        playerAnim = playerModel.GetComponent<Animator>();
         playerCamera = GameObject.Find("Main Camera");
 
         moustacheBoiCutscene = GameObject.Find("MoustacheBoiCutscene");
@@ -103,6 +107,9 @@ public class ChoiceMechanic : MonoBehaviour {
                 //stop player from moving
                 playerRig.velocity = new Vector3(0, 0, 0);
                 playerScript.enabled = false;
+                playerAnim.SetBool("IsLaunching", false);
+                playerAnim.SetBool("IsBouncing", false);
+                player.transform.position = new Vector3(player.transform.position.x, 17.03f, player.transform.position.z);
                 //set camera
                 cutsceneCamera.SetActive(true);
                 playerCamera.SetActive(false);
@@ -160,6 +167,9 @@ public class ChoiceMechanic : MonoBehaviour {
             {
                 //stop player from moving
                 playerRig.velocity = new Vector3(0, 0, 0);
+                playerAnim.SetBool("IsLaunching", false);
+                playerAnim.SetBool("IsBouncing", false);
+                player.transform.position = new Vector3(player.transform.position.x, 17.03f, player.transform.position.z);
                 playerScript.enabled = false;
                 //set camera
                 secondCutsceneCamera.SetActive(true);
@@ -175,10 +185,9 @@ public class ChoiceMechanic : MonoBehaviour {
         //PLAY CUTSCENE
 
         //Ability moves
-        playerAbility.transform.position = player.transform.position;
         playerAbility.SetActive(true);
         playerAbilityMoves = true;
-        yield return new WaitForSeconds(3F);
+        yield return new WaitForSeconds(4F);
         playerAbilityMoves = false;
 
         //Push player back
@@ -194,6 +203,11 @@ public class ChoiceMechanic : MonoBehaviour {
 
     void PlayerAbilityMovesToSource()
     {
+        if (!abilityFoundPlayer)
+        {
+            playerAbility.transform.position = player.transform.position;
+            abilityFoundPlayer = true;
+        }
         playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, playerAbilityTarget.transform.position, playerAbilitySpeed * Time.deltaTime);
     }
 
@@ -237,6 +251,9 @@ public class ChoiceMechanic : MonoBehaviour {
         //stop player from moving
         playerRig.velocity = new Vector3(0, 0, 0);
         playerScript.enabled = false;
+        playerAnim.SetBool("IsLaunching", false);
+        playerAnim.SetBool("IsBouncing", false);
+        player.transform.position = new Vector3(player.transform.position.x, 17.03f, player.transform.position.z);
 
         //set camera
         thirdCutsceneCamera.SetActive(true);
