@@ -19,7 +19,7 @@ public class ChoiceMechanic : MonoBehaviour {
 
     //WarmthSource Settings
     GameObject warmthSource;
-    GameObject warmthSourceOpen;
+    public GameObject warmthSourceOpen;
     GameObject playerAbilityTarget;
     GameObject warmthSourceTarget;
     public GameObject playerAbility, moustacheBoiAbility;
@@ -53,7 +53,6 @@ public class ChoiceMechanic : MonoBehaviour {
         moustacheBoiTarget = GameObject.Find("MoustacheBoiTarget");
 
         warmthSource = GameObject.Find("WarmthSourceCutscene");
-        warmthSourceOpen = GameObject.Find("WarmthSourceOpen");
         playerAbilityTarget = GameObject.Find("PlayerAbilityTarget");
         warmthSourceTarget = GameObject.Find("WarmthSourceTarget");
 
