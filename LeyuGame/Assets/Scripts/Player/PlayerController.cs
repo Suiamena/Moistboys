@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
     //Animation Settings
     GameObject animationModel;
     Animator animator;
-    public bool isBouncing, isLaunching;
+    public bool isBouncing, isPreLaunching, isAirborne;
 
     [Header("Camera Settings")]
     public Transform cameraTrans;
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
         launchChargeDisplayMaxWidth = launchChargeDisplay.sizeDelta.x;
         launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
 
-		cameraYAngle = transform.rotation.eulerAngles.y;
+        cameraYAngle = transform.rotation.eulerAngles.y;
 
         animationModel = GameObject.Find("MOD_Draak");
         animator = animationModel.GetComponent<Animator>();
@@ -298,7 +298,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
             }
             else if (leftStickInput.magnitude < walkingBouncingThreshold)
             {
-                if (!isLaunching)
+                if (!isPreLaunching)
                 {
                     isBouncing = true;
                 }
@@ -309,7 +309,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
             }
             else
             {
-                if (!isLaunching)
+                if (!isPreLaunching)
                 {
                     isBouncing = true;
                 }
@@ -320,16 +320,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
             }
         }
 
-        //Play Launch Animation
-        if (isLaunching)
-        {
-            animator.SetBool("IsLaunching", true);
-        }
-        else
-        {
-            animator.SetBool("IsLaunching", false);
-        }
-
         //Play Bounce Animation
         if (isBouncing)
         {
@@ -338,6 +328,23 @@ public class PlayerController : MonoBehaviour, ISnowTornado
         else
         {
             animator.SetBool("IsBouncing", false);
+        }
+        //Play prelaunch
+        if (isPreLaunching)
+        {
+            animator.SetBool("IsLaunching", true);
+        }
+        else
+        {
+            animator.SetBool("IsLaunching", false);
+        }
+        if (Grounded())
+        {
+            animator.SetBool("IsAirborne", false);
+        }
+        else
+        {
+            animator.SetBool("IsAirborne", true);
         }
     }
 
@@ -356,13 +363,11 @@ public class PlayerController : MonoBehaviour, ISnowTornado
             yield return null;
         }
 
-        StartCoroutine(SetLaunchAnimation());
-
         if (velocity.y < 0)
             velocity.y = 0;
         velocity += minLaunchVelocity + (maxLaunchVelocity - minLaunchVelocity) * launchCharge;
 
-
+        StartCoroutine(PreLaunchRoutine());
         StopCoroutine(SuspendGroundedCheck());
         StartCoroutine(SuspendGroundedCheck());
         StopCoroutine(Twirl());
@@ -382,12 +387,11 @@ public class PlayerController : MonoBehaviour, ISnowTornado
         launchRoutineRunning = false;
     }
 
-    //COPY PASTE THIS!!!
-    IEnumerator SetLaunchAnimation()
+    IEnumerator PreLaunchRoutine()
     {
-        isLaunching = true;
-        yield return new WaitForSeconds(0.45f);
-        isLaunching = false;
+        isPreLaunching = true;
+        yield return new WaitForSeconds(0.2F);
+        isPreLaunching = false;
     }
 
     IEnumerator SuspendGroundedCheck(float suspensionTime = .1f)
