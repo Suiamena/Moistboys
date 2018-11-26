@@ -340,12 +340,10 @@ public class AnimInProgress : MonoBehaviour, ISnowTornado
         }
         if (Grounded())
         {
-            Debug.Log("grounded");
             animator.SetBool("IsAirborne", false);
         }
         else
         {
-            Debug.Log("airborne");
             animator.SetBool("IsAirborne", true);
         }
     }
