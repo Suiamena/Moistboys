@@ -25,7 +25,7 @@ public class AvalancheAppears : MonoBehaviour
 
     private void Awake()
     {
-        creature = GameObject.Find("MOD_MoustacheBoi");
+        creature = GameObject.Find("Moustache");
         creatureTransformTarget = GameObject.Find("CreatureTarget");
         avalanche = GameObject.Find("MOD_Lawine");
         avalancheTransformTarget = GameObject.Find("AvalancheTarget");
@@ -65,8 +65,7 @@ public class AvalancheAppears : MonoBehaviour
     void CreatureMoving()
     {
         creature.transform.position = Vector3.MoveTowards(creature.transform.position, creatureTransformTarget.transform.position, creatureMovingSpeed * Time.deltaTime);
-
-    }
+   }
 
     void AvalancheFalling()
     {
@@ -83,7 +82,6 @@ public class AvalancheAppears : MonoBehaviour
         playerRig.velocity = new Vector3(0, 0, 0);
         playerScript.enabled = false;
         yield return new WaitForSeconds(5F);
-        Debug.Log("true");
         avalancheFall = true;
         yield return new WaitForSeconds(3F);
         SceneManager.LoadScene("Level3_rough");
