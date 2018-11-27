@@ -22,6 +22,10 @@ GameObject:
   - component: {fileID: 33602957437985154}
   - component: {fileID: 23097444441392386}
   - component: {fileID: 64722830561131468}
+  - component: {fileID: 65901919265769704}
+  - component: {fileID: 65397983439362106}
+  - component: {fileID: 65515323435639396}
+  - component: {fileID: 65783075054877940}
   m_Layer: 0
   m_Name: Tunnel
   m_TagString: Untagged
@@ -36,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1615009308618960}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 368.9, y: 148.4, z: -371.6}
+  m_LocalPosition: {x: 429.6, y: 93.9, z: 581.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -98,3 +102,51 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 01a956ce1db9b124abb83d3d90816f35, type: 3}
+--- !u!65 &65397983439362106
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1615009308618960}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.3431952, y: 0.1546154, z: 2}
+  m_Center: {x: 0.00000011920929, y: -1.0369482, z: 0}
+--- !u!65 &65515323435639396
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1615009308618960}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.16186237, y: 2.2285118, z: 2}
+  m_Center: {x: -1.0906663, y: 0, z: 0}
+--- !u!65 &65783075054877940
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1615009308618960}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.17455792, y: 2.2285118, z: 2}
+  m_Center: {x: 1.0843188, y: 0, z: 0}
+--- !u!65 &65901919265769704
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1615009308618960}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.3431952, y: 0.14694786, z: 2}
+  m_Center: {x: 0.00000011920929, y: 1.040782, z: 0}
