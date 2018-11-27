@@ -13,58 +13,36 @@ public class MusicManager : MonoBehaviour {
 
     public FMOD.Studio.ParameterInstance MusicParameter;
 
-    int progress;
+    public int musicStage;
 
     private void Awake()
     {
+        //FMOD SETUP
         Music = FMODUnity.RuntimeManager.CreateInstance(music);
         Music.getParameter("Music", out MusicParameter);
         Music.start();
 
-
-        //na het ontwaken
+        //WAKE UP
         sound = 0.5f;
-        //sound = 7.5f;
     }
 
     private void FixedUpdate()
     {
-        float curValue = 0.0f;
-        Debug.Log(progress);
-        progress += 1;
-
         RegulateMusic();
         MusicParameter.setValue(sound);
-
-       
-        print(sound);
     }
 
     void RegulateMusic()
     {
-        Debug.Log("et");
-        if (progress == 500)
+        if (musicStage == 1)
         {
-            //tutorial bounce
+            //BOUNCE TUTORIAL
             sound = 2.5f;
         }
-
-        if (progress == 1000)
+        if (musicStage == 2)
         {
-            //creature met
+            //MEET CREATURE
             sound = 3.5f;
-        }
-
-        if (progress == 2000)
-        {
-            //creature uses ability
-            sound = 4.5f;
-        }
-
-        if (progress == 3000)
-        {
-            //player gets ability
-            sound = 5.5f;
         }
     }
 
