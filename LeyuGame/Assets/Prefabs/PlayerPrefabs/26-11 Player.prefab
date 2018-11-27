@@ -1118,7 +1118,7 @@ GameObject:
   - component: {fileID: 4020110971866580}
   - component: {fileID: 135666124856673156}
   - component: {fileID: 54420811224205994}
-  - component: {fileID: 114517288164416890}
+  - component: {fileID: 114546643905816402}
   m_Layer: 0
   m_Name: Character
   m_TagString: Player
@@ -2096,7 +2096,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1063213585809738}
   m_LocalRotation: {x: -0, y: 0.7481514, z: -0, w: 0.663528}
-  m_LocalPosition: {x: 23.61, y: 22.6, z: 424.83}
+  m_LocalPosition: {x: -40.4, y: -0.38050008, z: -2.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4020110971866580}
@@ -3236,51 +3236,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 5, y: -5}
   m_UseGraphicAlpha: 1
---- !u!114 &114517288164416890
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1762526989752740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2df535b0f2934a4fbf55ec54f498c32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isBouncing: 0
-  isPreLaunching: 0
-  isAirborne: 0
-  cameraTrans: {fileID: 4695813490073938}
-  cameraOffset: {x: 0, y: 3, z: -8}
-  cameraTarget: {x: 0, y: 0, z: 3}
-  cameraHorizontalSensitivity: 130
-  cameraVerticalSensitivity: 90
-  cameraXRotationMaxClamp: 50
-  cameraXRotationMinClamp: -50
-  cameraPositionSmooting: 0.24
-  canLaunch: 1
-  launchChargeDisplay: {fileID: 224555914670727238}
-  launchDisplayChargingColour: {r: 0, g: 0.9510727, b: 1, a: 0}
-  launchDisplayUsedColour: {r: 0.509434, g: 0, b: 0.45730788, a: 0}
-  minLaunchVelocity: {x: 0, y: 12, z: 4}
-  maxLaunchVelocity: {x: 0, y: 72, z: 10}
-  launchChargeSpeed: 1
-  walkingSpeed: 16
-  leapingVelocity: {x: 0, y: 12.5, z: 18}
-  airborneMovementSpeed: 25
-  airborneMovementAcceleration: 50
-  airborneDecceleration: 56
-  walkingBouncingThreshold: 0.8
-  canHop: 1
-  hopVelocity: 10
-  gravityStrength: 48
-  maximumFallingSpeed: 112
-  model: {fileID: 1896770820314578}
-  enableTwirl: 1
-  twirlTime: 0.26
-  landingIndicatorTrans: {fileID: 4999790569972006}
-  useLandingIndicator: 1
-  useLandingIndicatorOnlyWhenAirborne: 0
 --- !u!114 &114540036200464794
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3340,6 +3295,52 @@ MonoBehaviour:
   m_DistantDisable: 0
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
+--- !u!114 &114546643905816402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1762526989752740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d8d91a11eab0e46bb2dc9869a54c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBouncing: 0
+  isPreLaunching: 0
+  isAirborne: 0
+  isBuildingLaunch: 0
+  cameraTrans: {fileID: 4695813490073938}
+  cameraOffset: {x: 0, y: 3, z: -8}
+  cameraTarget: {x: 0, y: 0, z: 3}
+  cameraHorizontalSensitivity: 130
+  cameraVerticalSensitivity: 90
+  cameraXRotationMaxClamp: 50
+  cameraXRotationMinClamp: -50
+  cameraPositionSmooting: 0.2
+  canLaunch: 1
+  launchChargeDisplay: {fileID: 224555914670727238}
+  launchDisplayChargingColour: {r: 0, g: 0, b: 0, a: 0}
+  launchDisplayUsedColour: {r: 0, g: 0, b: 0, a: 0}
+  minLaunchVelocity: {x: 0, y: 12, z: 4}
+  maxLaunchVelocity: {x: 0, y: 72, z: 10}
+  launchChargeSpeed: 1
+  walkingSpeed: 14
+  leapingVelocity: {x: 0, y: 11, z: 20}
+  airborneMovementSpeed: 22
+  airborneMovementAcceleration: 26
+  airborneDecceleration: 21
+  walkingBouncingThreshold: 0.72
+  canHop: 1
+  hopVelocity: 9
+  gravityStrength: 38
+  maximumFallingSpeed: 96
+  model: {fileID: 1896770820314578}
+  enableTwirl: 1
+  twirlTime: 0.26
+  landingIndicatorTrans: {fileID: 4999790569972006}
+  useLandingIndicator: 1
+  useLandingIndicatorOnlyWhenAirborne: 0
 --- !u!114 &114547482984806126
 MonoBehaviour:
   m_ObjectHideFlags: 1
