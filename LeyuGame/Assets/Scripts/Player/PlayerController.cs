@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
     //Animation Settings
     GameObject animationModel;
     Animator animator;
-    public bool isBouncing, isPreLaunching, isAirborne;
+    public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch;
 
     [Header("Camera Settings")]
     public Transform cameraTrans;
@@ -358,6 +358,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
         while (Input.GetAxis("Right Trigger") != 0)
         {
+            isBuildingLaunch = true;
             launchChargeDisplay.sizeDelta = new Vector2(launchChargeDisplayMaxWidth * launchCharge, launchChargeDisplayHeight);
             launchCharge = Mathf.Clamp(launchCharge + launchChargeSpeed * Time.deltaTime, 0, 1);
             yield return null;
@@ -365,6 +366,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
         if (velocity.y < 0)
             velocity.y = 0;
+        isBuildingLaunch = false;
         velocity += minLaunchVelocity + (maxLaunchVelocity - minLaunchVelocity) * launchCharge;
 
         StartCoroutine(PreLaunchRoutine());
