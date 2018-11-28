@@ -22,6 +22,7 @@ public class MusicManager : MonoBehaviour {
     //MUSIC AND SOUND MANAGEMENT
     [Header("Management")]
     public int musicStage;
+    bool launchSoundStarted;
     bool playTutorialSound, playCreatureSound;
     bool playBuildLaunch, playExecuteLaunch;
 
@@ -80,7 +81,11 @@ public class MusicManager : MonoBehaviour {
         //BUILD LAUNCH POWER
         if (playerScript.isBuildingLaunch && !playBuildLaunch) {
             launchSound = 0f;
-            Launch.start();
+            if (!launchSoundStarted)
+            {
+                Launch.start();
+                launchSoundStarted = true;
+            }
             LaunchParameter.setValue(launchSound);
             playBuildLaunch = true;
             playExecuteLaunch = false;
@@ -90,7 +95,7 @@ public class MusicManager : MonoBehaviour {
         {
             Instantiate(launchParticles, launchParticleTransform.transform.position, Quaternion.Euler(90, 0, 0));
             launchSound = 1f;
-            Launch.start();
+            //Launch.start();
             LaunchParameter.setValue(launchSound);
             playExecuteLaunch = true;
             playBuildLaunch = false;
