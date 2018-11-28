@@ -13,6 +13,9 @@ public class AbilityPickup : MonoBehaviour
     Rigidbody playerRig;
     Animator playerAnim;
 
+    public GameObject launchBarBackground;
+    public GameObject launchBarFilling;
+
     private void Awake()
     {
         abilitySphere = GameObject.Find("AbilityPickup");
@@ -33,6 +36,8 @@ public class AbilityPickup : MonoBehaviour
     {
         yield return new WaitForSeconds(1F);
         playerScript.canLaunch = true;
+        launchBarBackground.SetActive(true);
+        launchBarFilling.SetActive(true);
         Destroy(abilitySphere);
         Destroy(gameObject);
     }
