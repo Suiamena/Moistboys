@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThirdMusicManager : MonoBehaviour
+public class FifthMusicManager : MonoBehaviour
 {
 
     //FMOD SETUP
@@ -24,6 +24,7 @@ public class ThirdMusicManager : MonoBehaviour
     [Header("Management")]
     public int musicStage;
     bool launchSoundStarted;
+    bool playTutorialSound, playCreatureSound;
     bool playBuildLaunch, playExecuteLaunch;
 
     //PLAYER
@@ -55,9 +56,6 @@ public class ThirdMusicManager : MonoBehaviour
     {
         PlayLaunch();
         MusicParameter.setValue(sound);
-
-        sound += Mathf.Lerp(0f, 5.5f, 0.01f);
-        sound = Mathf.Clamp(sound, 0, 5.5f);
     }
 
     void PlayLaunch()
