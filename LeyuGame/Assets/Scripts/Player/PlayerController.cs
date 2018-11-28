@@ -192,14 +192,10 @@ public class PlayerController : MonoBehaviour, ISnowTornado
             {
                 velocity.x = velocity.z = 0;
             }
-            else if (leftStickInput.magnitude < walkingBouncingThreshold)
-            {
-                velocity.x = leftStickInput.x * walkingSpeed;
-                velocity.z = leftStickInput.y * walkingSpeed;
-            }
             else
             {
-                velocity = new Vector3(leftStickInput.x, 0, leftStickInput.y).normalized * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
+                //BOUNCE VELOCITY
+                velocity = new Vector3(leftStickInput.x, 0, leftStickInput.y) * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
                 StartCoroutine(SuspendGroundedCheck());
             }
         }
@@ -209,6 +205,8 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
             if (leftStickInput.magnitude == 0)
             {
+                //AIR MOVEMENT WHEN NOT GIVING INPUT
+                //airborneDecceleration 21 is too low. 42 seems ok. Tweak this in the inspector.
                 if (lateralSpeed.magnitude < .2f)
                     lateralSpeed = Vector2.zero;
                 else
@@ -216,6 +214,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
             }
             else
             {
+                //AIR MOVEMENT WHEN GIVING INPUT
                 Vector2 lateralSpeedGain = leftStickInput.Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0)) * airborneMovementAcceleration;
 
                 lateralSpeed += lateralSpeedGain * Time.fixedDeltaTime;
@@ -227,6 +226,52 @@ public class PlayerController : MonoBehaviour, ISnowTornado
             velocity.z = lateralSpeed.y;
         }
     }
+
+    //OLD MOVEMENT
+
+    //void Movement()
+    //{
+    //    if (Grounded())
+    //    {
+    //        if (leftStickInput.magnitude == 0)
+    //        {
+    //            velocity.x = velocity.z = 0;
+    //        }
+    //        else if (leftStickInput.magnitude < walkingBouncingThreshold)
+    //        {
+    //            velocity.x = leftStickInput.x * walkingSpeed;
+    //            velocity.z = leftStickInput.y * walkingSpeed;
+    //        }
+    //        else
+    //        {
+    //            velocity = new Vector3(leftStickInput.x, 0, leftStickInput.y).normalized * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
+    //            StartCoroutine(SuspendGroundedCheck());
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Vector2 lateralSpeed = new Vector2(velocity.x, velocity.z);
+
+    //        if (leftStickInput.magnitude == 0)
+    //        {
+    //            if (lateralSpeed.magnitude < .2f)
+    //                lateralSpeed = Vector2.zero;
+    //            else
+    //                lateralSpeed += lateralSpeed.normalized * -airborneDecceleration * Time.fixedDeltaTime;
+    //        }
+    //        else
+    //        {
+    //            Vector2 lateralSpeedGain = leftStickInput.Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0)) * airborneMovementAcceleration;
+
+    //            lateralSpeed += lateralSpeedGain * Time.fixedDeltaTime;
+    //            if (lateralSpeed.magnitude > airborneMovementSpeed)
+    //                lateralSpeed = lateralSpeed.normalized * airborneMovementSpeed;
+    //        }
+
+    //        velocity.x = lateralSpeed.x;
+    //        velocity.z = lateralSpeed.y;
+    //    }
+    //}
 
     void Hop()
     {
@@ -338,6 +383,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
         {
             animator.SetBool("IsLaunching", false);
         }
+        //Play Airborne
         if (Grounded())
         {
             animator.SetBool("IsAirborne", false);
@@ -347,8 +393,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
             animator.SetBool("IsAirborne", true);
         }
     }
-
-
 
     //COROUTINES
     IEnumerator LaunchRoutine()
