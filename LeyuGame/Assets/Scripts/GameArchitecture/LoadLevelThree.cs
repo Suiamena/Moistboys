@@ -25,7 +25,7 @@ public class LoadLevelThree : MonoBehaviour
 
     private void Awake()
     {
-        creature = GameObject.Find("Moustache");
+        creature = GameObject.Find("Creature");
         creatureTransformTarget = GameObject.Find("CreatureTarget");
         avalanche = GameObject.Find("MOD_Lawine");
         avalancheTransformTarget = GameObject.Find("AvalancheTarget");
