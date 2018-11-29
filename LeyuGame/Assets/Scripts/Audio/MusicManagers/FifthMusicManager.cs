@@ -39,7 +39,6 @@ public class FifthMusicManager : MonoBehaviour
         Launch = FMODUnity.RuntimeManager.CreateInstance(launch);
         Music.getParameter("Music", out MusicParameter);
         Launch.getParameter("Launch", out LaunchParameter);
-        Music.start();
 
         //PLAYER
         player = GameObject.Find("Character");
