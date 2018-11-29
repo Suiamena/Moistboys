@@ -40,7 +40,6 @@ public class ThirdMusicManager : MonoBehaviour
         Launch = FMODUnity.RuntimeManager.CreateInstance(launch);
         Music.getParameter("Music", out MusicParameter);
         Launch.getParameter("Launch", out LaunchParameter);
-        Music.start();
 
         //PLAYER
         player = GameObject.Find("Character");
@@ -54,7 +53,7 @@ public class ThirdMusicManager : MonoBehaviour
         MusicParameter.setValue(sound);
         if (!abilityGot)
         {
-            sound += Mathf.Lerp(0f, 6.5f, 0.05f);
+            sound += Mathf.Lerp(0f, 6.5f, 0.005f);
             sound = Mathf.Clamp(sound, 0, 6.5f);
         }
         if (sound == 6.5f && sound < 7.5f)
@@ -67,7 +66,7 @@ public class ThirdMusicManager : MonoBehaviour
     IEnumerator PlayCompetentMusic()
     {
         yield return new WaitForSeconds(3F);
-        sound += Mathf.Lerp(0f, 7.5f, 0.05f);
+        sound += Mathf.Lerp(0f, 7.5f, 0.005f);
         sound = Mathf.Clamp(sound, 0, 7.5f);
     }
 

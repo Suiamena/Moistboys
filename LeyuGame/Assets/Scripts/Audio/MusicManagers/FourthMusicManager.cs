@@ -39,7 +39,6 @@ public class FourthMusicManager : MonoBehaviour
         Launch = FMODUnity.RuntimeManager.CreateInstance(launch);
         Music.getParameter("Music", out MusicParameter);
         Launch.getParameter("Launch", out LaunchParameter);
-        Music.start();
 
         //PLAYER
         player = GameObject.Find("Character");
@@ -51,7 +50,7 @@ public class FourthMusicManager : MonoBehaviour
     {
         PlayLaunch();
         MusicParameter.setValue(sound);
-        sound += Mathf.Lerp(0f, 9.5f, 0.01f);
+        sound += Mathf.Lerp(0f, 9.5f, 0.005f);
         sound = Mathf.Clamp(sound, 0, 9.5f);
     }
 
