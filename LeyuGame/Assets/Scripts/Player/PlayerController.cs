@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
     Vector3 snowTornadoDesiredPlayerPosition;
 
     //Boundary
-    public bool inBoundary;
+    public bool inBoundary, enableBoundaryPushBack;
     public Vector3 boundaryPushingDirection;
 
     [Header("Twirl Settings")]
@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
             //RESOLVE VELOCITY
             if (inBoundary)
             {
-                velocity = boundaryPushingDirection;
+                velocity += boundaryPushingDirection;
             }
             rig.velocity = transform.rotation * velocity;
         }
@@ -330,10 +330,12 @@ public class PlayerController : MonoBehaviour, ISnowTornado
         Ray groundedRay = new Ray(transform.position, Vector3.up * -1);
         if (Physics.SphereCast(groundedRay, .42f, .1f))
         {
+            enableBoundaryPushBack = false;
             return true;
         }
         else
         {
+            enableBoundaryPushBack = true;
             return false;
         }
     }
