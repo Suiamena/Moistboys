@@ -9,8 +9,6 @@ public class SecondBoundary : MonoBehaviour {
     PlayerController playerScript;
     Rigidbody playerRig;
 
-    Vector3 windStrength = new Vector3(-10, 0, 0);
-
     private void Awake()
     {
         player = GameObject.Find("Character");
@@ -22,9 +20,8 @@ public class SecondBoundary : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            playerScript.enabled = false;
-            playerRig.velocity = transform.rotation * windStrength;
-            //playerScript.enabled = true;
+            playerScript.inBoundary = true;
+            playerScript.boundaryPushingDirection = new Vector3(100, 0, 0);
         }
     }
 
