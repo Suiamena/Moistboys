@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MeetCreatureCutscene : MonoBehaviour {
+public class LoadLevelTwo : MonoBehaviour {
 
     GameObject creatureInSnow;
     public GameObject creatureOutSnow;
