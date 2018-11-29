@@ -55,6 +55,10 @@ public class PlayerController : MonoBehaviour, ISnowTornado
     bool inTornado = false, canBeisSpinning = true;
     Vector3 snowTornadoDesiredPlayerPosition;
 
+    //Boundary
+    public bool inBoundary;
+    public Vector3 boundaryPushingDirection;
+
     [Header("Twirl Settings")]
     public GameObject model;
     public bool enableTwirl = true;
@@ -107,6 +111,10 @@ public class PlayerController : MonoBehaviour, ISnowTornado
             Movement();
 
             //RESOLVE VELOCITY
+            if (inBoundary)
+            {
+                velocity = boundaryPushingDirection;
+            }
             rig.velocity = transform.rotation * velocity;
         }
     }
