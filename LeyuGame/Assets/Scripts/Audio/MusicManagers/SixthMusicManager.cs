@@ -24,6 +24,7 @@ public class SixthMusicManager : MonoBehaviour
     [Header("Management")]
     bool launchSoundStarted;
     bool playBuildLaunch, playExecuteLaunch;
+    bool competenceChosen = true, socialChosen = false;
 
     //PLAYER
     GameObject player;
@@ -51,6 +52,17 @@ public class SixthMusicManager : MonoBehaviour
     {
         PlayLaunch();
         MusicParameter.setValue(sound);
+
+        if (competenceChosen)
+        {
+            sound += Mathf.Lerp(0f, 14.5f, 0.01f);
+            sound = Mathf.Clamp(sound, 0, 14.5f);
+        }
+        if (socialChosen)
+        {
+            sound += Mathf.Lerp(0f, 13.5f, 0.01f);
+            sound = Mathf.Clamp(sound, 0, 13.5f);
+        }
     }
 
     void PlayLaunch()

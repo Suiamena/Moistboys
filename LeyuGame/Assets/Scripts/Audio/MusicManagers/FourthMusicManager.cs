@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThirdMusicManager : MonoBehaviour
+public class FourthMusicManager : MonoBehaviour
 {
 
     //FMOD SETUP
@@ -24,7 +24,6 @@ public class ThirdMusicManager : MonoBehaviour
     [Header("Management")]
     bool launchSoundStarted;
     bool playBuildLaunch, playExecuteLaunch;
-    bool abilityGot;
 
     //PLAYER
     GameObject player;
@@ -52,23 +51,8 @@ public class ThirdMusicManager : MonoBehaviour
     {
         PlayLaunch();
         MusicParameter.setValue(sound);
-        if (!abilityGot)
-        {
-            sound += Mathf.Lerp(0f, 6.5f, 0.05f);
-            sound = Mathf.Clamp(sound, 0, 6.5f);
-        }
-        if (sound == 6.5f && sound < 7.5f)
-        {
-            abilityGot = true;
-            StartCoroutine(PlayCompetentMusic());
-        }
-    }
-
-    IEnumerator PlayCompetentMusic()
-    {
-        yield return new WaitForSeconds(3F);
-        sound += Mathf.Lerp(0f, 7.5f, 0.05f);
-        sound = Mathf.Clamp(sound, 0, 7.5f);
+        sound += Mathf.Lerp(0f, 9.5f, 0.01f);
+        sound = Mathf.Clamp(sound, 0, 9.5f);
     }
 
     void PlayLaunch()
