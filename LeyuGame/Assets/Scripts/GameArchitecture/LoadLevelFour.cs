@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ReuniteCreature : MonoBehaviour
+public class LoadLevelFour : MonoBehaviour
 {
 
     private void OnTriggerEnter(Collider other)

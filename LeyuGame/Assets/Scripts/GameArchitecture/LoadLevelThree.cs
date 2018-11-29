@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class AvalancheAppears : MonoBehaviour
+public class LoadLevelThree : MonoBehaviour
 {
     public int avalancheFallingSpeed = 10, creatureMovingSpeed = 5;
 

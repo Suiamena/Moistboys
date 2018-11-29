@@ -6,15 +6,12 @@ using UnityEngine.SceneManagement;
 public class LoadCredits : MonoBehaviour
 {
 
-    private void FixedUpdate()
+    private void OnTriggerEnter(Collider other)
     {
-        StartCoroutine(StartCredits());
-    }
-
-    IEnumerator StartCredits()
-    {
-        yield return new WaitForSeconds(3F);
-        SceneManager.LoadScene("Credits_rough");
+        if (other.tag == "Player")
+        {
+            SceneManager.LoadScene("Credits_rough");
+        }
     }
 
 }

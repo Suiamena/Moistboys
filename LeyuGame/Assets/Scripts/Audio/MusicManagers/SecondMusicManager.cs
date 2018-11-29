@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicManagerTwo : MonoBehaviour
+public class SecondMusicManager : MonoBehaviour
 {
 
     //FMOD SETUP

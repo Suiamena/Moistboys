@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelSixPlaceholder : MonoBehaviour
+public class LoadLevelSix : MonoBehaviour
 {
 
     private void OnTriggerEnter(Collider other)
