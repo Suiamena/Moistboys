@@ -9,10 +9,16 @@ public class SecondBoundary : MonoBehaviour {
     PlayerController playerScript;
     Rigidbody playerRig;
 
+    [Header("Boundary Settings")]
+    public int windStrength;
+
+    //STARTING MOVEMENT SPEED
     float startingAirborneVelocity;
     Vector3 startingVelocity;
 
-    bool playerInBoundary, startCoroutine;
+    //MANAGEMENT
+    bool startCoroutine, playerInBoundary;
+    bool pushbackForceAdded, pushbackForceSubtracted;
 
     private void Awake()
     {
@@ -24,26 +30,17 @@ public class SecondBoundary : MonoBehaviour {
         startingAirborneVelocity = playerScript.airborneMovementSpeed;
     }
 
-    private void FixedUpdate()
-    {
-        if (!playerInBoundary)
-        {
-            CheckPlayerInBoundary();
-        }
-    }
-
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player")
         {
-            if (playerScript.enableBoundaryPushBack)
+            playerInBoundary = true;
+            playerScript.enablePlayerPushBack = true;
+
+            if (playerScript.playerIsAirborne)
             {
                 //player is airborne
-                playerScript.airborneMovementSpeed -= 0.1f;
-                playerScript.airborneMovementSpeed = Mathf.Clamp(playerScript.airborneMovementSpeed, 1, playerScript.airborneMovementSpeed);
-
-                playerScript.leapingVelocity.z -= 0.1f;
-                playerScript.leapingVelocity.z = Mathf.Clamp(playerScript.leapingVelocity.z, 1, playerScript.leapingVelocity.z);
+                DeaccelerateSpeed();
             }
             else
             {
@@ -57,28 +54,40 @@ public class SecondBoundary : MonoBehaviour {
         }
     }
 
+    void DeaccelerateSpeed()
+    {
+        playerScript.airborneMovementSpeed -= 0.1f;
+        playerScript.airborneMovementSpeed = Mathf.Clamp(playerScript.airborneMovementSpeed, 1, playerScript.airborneMovementSpeed);
+
+        playerScript.leapingVelocity.z -= 0.1f;
+        playerScript.leapingVelocity.z = Mathf.Clamp(playerScript.leapingVelocity.z, 1, playerScript.leapingVelocity.z);
+    }
+
     private void OnTriggerExit(Collider other)
     {
+        //RESET SPEED
         playerScript.airborneMovementSpeed = startingAirborneVelocity;
         playerScript.leapingVelocity = startingVelocity;
         playerScript.boundaryPushingDirection = new Vector3(0, 0, 0);
-        playerScript.inBoundary = false;
-        playerInBoundary = false;
-        Debug.Log("out");
-    }
 
-    void CheckPlayerInBoundary()
-    {
-        playerScript.inBoundary = false;
+        //MANAGEMENT
+        playerInBoundary = false;
+        startCoroutine = false;
+        playerScript.enablePlayerPushBack = false;
+        StopCoroutine(PushBackPlayer());
     }
 
     IEnumerator PushBackPlayer()
     {
         yield return new WaitForSeconds(0.2f);
-        if (!playerScript.enableBoundaryPushBack)
+        if (!playerScript.playerIsAirborne && playerInBoundary)
         {
-            playerScript.boundaryPushingDirection = new Vector3(0, 0, -10);
-            playerScript.inBoundary = true;
+            playerScript.boundaryPushingDirection = new Vector3(windStrength, 0, 0);
+            playerScript.enablePlayerPushBack = true;
+        }
+        else
+        {
+            playerScript.enablePlayerPushBack = false;
         }
         startCoroutine = false;
     }
