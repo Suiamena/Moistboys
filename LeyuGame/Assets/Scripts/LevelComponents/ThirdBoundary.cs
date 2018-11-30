@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SecondBoundary : MonoBehaviour {
+public class ThirdBoundary : MonoBehaviour
+{
 
     //PLAYER
     GameObject player;
@@ -41,17 +42,25 @@ public class SecondBoundary : MonoBehaviour {
             playerInBoundary = true;
             playerScript.enablePlayerPushBack = true;
 
+            playerScript.boundaryPushingDirection.z -= windForce;
+            //playerScript.boundaryPushingDirection.z = Mathf.Clamp(playerScript.boundaryPushingDirection.z, playerScript.boundaryPushingDirection.z, -1);
+
+            Vector3 windDirection = Quaternion.Inverse(transform.rotation) * (player.transform.position - transform.position);
+            playerScript.boundaryPushingDirection += new Vector3(windDirection.x, 0, windDirection.z).normalized * windForce;
+
+            Debug.Log(playerScript.boundaryPushingDirection);
+
             if (playerScript.playerIsAirborne)
             {
                 //player is airborne
-                DeaccelerateSpeed();
+                //DeaccelerateSpeed();
             }
             else
             {
                 //player is grounded
                 if (!startCoroutine)
                 {
-                    StartCoroutine(PushBackPlayer());
+                    //StartCoroutine(PushBackPlayer());
                     startCoroutine = true;
                 }
             }
