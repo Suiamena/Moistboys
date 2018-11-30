@@ -9,10 +9,12 @@ public class SecondBoundary : MonoBehaviour {
     PlayerController playerScript;
     Rigidbody playerRig;
 
+    //STARTING MOVEMENT SPEED
     float startingAirborneVelocity;
     Vector3 startingVelocity;
 
-    bool playerInBoundary, startCoroutine;
+    //MANAGEMENT
+    bool startCoroutine;
 
     private void Awake()
     {
@@ -24,14 +26,6 @@ public class SecondBoundary : MonoBehaviour {
         startingAirborneVelocity = playerScript.airborneMovementSpeed;
     }
 
-    private void FixedUpdate()
-    {
-        if (!playerInBoundary)
-        {
-            CheckPlayerInBoundary();
-        }
-    }
-
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player")
@@ -39,11 +33,7 @@ public class SecondBoundary : MonoBehaviour {
             if (playerScript.enableBoundaryPushBack)
             {
                 //player is airborne
-                playerScript.airborneMovementSpeed -= 0.1f;
-                playerScript.airborneMovementSpeed = Mathf.Clamp(playerScript.airborneMovementSpeed, 1, playerScript.airborneMovementSpeed);
-
-                playerScript.leapingVelocity.z -= 0.1f;
-                playerScript.leapingVelocity.z = Mathf.Clamp(playerScript.leapingVelocity.z, 1, playerScript.leapingVelocity.z);
+                DeaccelerateSpeed();
             }
             else
             {
@@ -57,30 +47,32 @@ public class SecondBoundary : MonoBehaviour {
         }
     }
 
+    void DeaccelerateSpeed()
+    {
+        playerScript.airborneMovementSpeed -= 0.1f;
+        playerScript.airborneMovementSpeed = Mathf.Clamp(playerScript.airborneMovementSpeed, 1, playerScript.airborneMovementSpeed);
+
+        playerScript.leapingVelocity.z -= 0.1f;
+        playerScript.leapingVelocity.z = Mathf.Clamp(playerScript.leapingVelocity.z, 1, playerScript.leapingVelocity.z);
+    }
+
     private void OnTriggerExit(Collider other)
     {
+        //RESET SPEED
         playerScript.airborneMovementSpeed = startingAirborneVelocity;
         playerScript.leapingVelocity = startingVelocity;
         playerScript.boundaryPushingDirection = new Vector3(0, 0, 0);
-        playerScript.inBoundary = false;
-        playerInBoundary = false;
-        Debug.Log("out");
-    }
 
-    void CheckPlayerInBoundary()
-    {
+        //MANAGEMENT
+        startCoroutine = false;
         playerScript.inBoundary = false;
     }
 
     IEnumerator PushBackPlayer()
     {
         yield return new WaitForSeconds(0.2f);
-        if (!playerScript.enableBoundaryPushBack)
-        {
-            playerScript.boundaryPushingDirection = new Vector3(0, 0, -10);
-            playerScript.inBoundary = true;
-        }
-        startCoroutine = false;
+        playerScript.boundaryPushingDirection = new Vector3(0, 0, -10);
+        playerScript.inBoundary = true;
     }
 
 }
