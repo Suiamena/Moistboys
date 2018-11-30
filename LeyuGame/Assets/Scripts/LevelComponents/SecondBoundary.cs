@@ -9,12 +9,15 @@ public class SecondBoundary : MonoBehaviour {
     PlayerController playerScript;
     Rigidbody playerRig;
 
+    [Header("Boundary Settings")]
+    public int windStrength;
+
     //STARTING MOVEMENT SPEED
     float startingAirborneVelocity;
     Vector3 startingVelocity;
 
     //MANAGEMENT
-    bool startCoroutine;
+    bool startCoroutine, playerInBoundary;
 
     private void Awake()
     {
@@ -30,6 +33,8 @@ public class SecondBoundary : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
+            playerInBoundary = true;
+
             if (playerScript.playerIsAirborne)
             {
                 //player is airborne
@@ -64,13 +69,25 @@ public class SecondBoundary : MonoBehaviour {
         playerScript.boundaryPushingDirection = new Vector3(0, 0, 0);
 
         //MANAGEMENT
+        playerInBoundary = false;
         startCoroutine = false;
+        playerScript.enablePlayerPushBack = false;
+        StopCoroutine(PushBackPlayer());
     }
 
     IEnumerator PushBackPlayer()
     {
         yield return new WaitForSeconds(0.2f);
-        playerScript.boundaryPushingDirection = new Vector3(0, 0, -10);
+        if (!playerScript.playerIsAirborne && playerInBoundary)
+        {
+            playerScript.boundaryPushingDirection = new Vector3(windStrength, 0, 0);
+            playerScript.enablePlayerPushBack = true;
+        }
+        else
+        {
+            playerScript.enablePlayerPushBack = false;
+        }
+        startCoroutine = false;
     }
 
 }
