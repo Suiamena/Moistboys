@@ -20,10 +20,6 @@ public class SecondBoundary : MonoBehaviour {
     bool startCoroutine, playerInBoundary;
     bool pushbackForceAdded, pushbackForceSubtracted;
 
-    //TRYOUT
-    //float windForce = 0.0015f;
-    float windForce = 0.005f;
-
     private void Awake()
     {
         player = GameObject.Find("Character");

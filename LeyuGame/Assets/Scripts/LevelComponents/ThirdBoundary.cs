@@ -8,101 +8,48 @@ public class ThirdBoundary : MonoBehaviour
     //PLAYER
     GameObject player;
     PlayerController playerScript;
-    Rigidbody playerRig;
-
-    [Header("Boundary Settings")]
-    public int windStrength;
-
-    //STARTING MOVEMENT SPEED
-    float startingAirborneVelocity;
-    Vector3 startingVelocity;
 
     //MANAGEMENT
-    bool startCoroutine, playerInBoundary;
-    bool pushbackForceAdded, pushbackForceSubtracted;
+    bool playerInBoundary;
 
-    //TRYOUT
-    //float windForce = 0.0015f;
-    float windForce = 0.005f;
+    [Header("Boundary Settings")]
+    public float windAcceleration;
+    float windForce;
 
     private void Awake()
     {
         player = GameObject.Find("Character");
         playerScript = player.GetComponent<PlayerController>();
-        playerRig = player.GetComponent<Rigidbody>();
-
-        startingVelocity = playerScript.leapingVelocity;
-        startingAirborneVelocity = playerScript.airborneMovementSpeed;
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player")
         {
-            playerInBoundary = true;
-            playerScript.enablePlayerPushBack = true;
-
-            playerScript.boundaryPushingDirection.z -= windForce;
-            //playerScript.boundaryPushingDirection.z = Mathf.Clamp(playerScript.boundaryPushingDirection.z, playerScript.boundaryPushingDirection.z, -1);
-
+            windForce += windAcceleration;
+            windForce = Mathf.Clamp(windForce, 0, 2);
             Vector3 windDirection = Quaternion.Inverse(transform.rotation) * (player.transform.position - transform.position);
-            playerScript.boundaryPushingDirection += new Vector3(windDirection.x, 0, windDirection.z).normalized * windForce;
-
-            Debug.Log(playerScript.boundaryPushingDirection);
+            playerScript.boundaryPushingDirection = new Vector3(windDirection.x, 0, windDirection.z).normalized * windForce;
+            playerScript.enablePlayerPushBack = true;
 
             if (playerScript.playerIsAirborne)
             {
                 //player is airborne
-                //DeaccelerateSpeed();
             }
             else
             {
                 //player is grounded
-                if (!startCoroutine)
-                {
-                    //StartCoroutine(PushBackPlayer());
-                    startCoroutine = true;
-                }
             }
         }
     }
 
-    void DeaccelerateSpeed()
-    {
-        playerScript.airborneMovementSpeed -= 0.1f;
-        playerScript.airborneMovementSpeed = Mathf.Clamp(playerScript.airborneMovementSpeed, 1, playerScript.airborneMovementSpeed);
-
-        playerScript.leapingVelocity.z -= 0.1f;
-        playerScript.leapingVelocity.z = Mathf.Clamp(playerScript.leapingVelocity.z, 1, playerScript.leapingVelocity.z);
-    }
-
     private void OnTriggerExit(Collider other)
     {
-        //RESET SPEED
-        playerScript.airborneMovementSpeed = startingAirborneVelocity;
-        playerScript.leapingVelocity = startingVelocity;
-        playerScript.boundaryPushingDirection = new Vector3(0, 0, 0);
-
-        //MANAGEMENT
-        playerInBoundary = false;
-        startCoroutine = false;
-        playerScript.enablePlayerPushBack = false;
-        StopCoroutine(PushBackPlayer());
-    }
-
-    IEnumerator PushBackPlayer()
-    {
-        yield return new WaitForSeconds(0.2f);
-        if (!playerScript.playerIsAirborne && playerInBoundary)
+        if (other.tag == "Player")
         {
-            playerScript.boundaryPushingDirection = new Vector3(windStrength, 0, 0);
-            playerScript.enablePlayerPushBack = true;
-        }
-        else
-        {
+            windForce = 0;
             playerScript.enablePlayerPushBack = false;
         }
-        startCoroutine = false;
     }
 
 }
