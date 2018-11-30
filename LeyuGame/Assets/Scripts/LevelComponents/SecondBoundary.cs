@@ -30,7 +30,7 @@ public class SecondBoundary : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            if (playerScript.enableBoundaryPushBack)
+            if (playerScript.playerIsAirborne)
             {
                 //player is airborne
                 DeaccelerateSpeed();
@@ -65,14 +65,12 @@ public class SecondBoundary : MonoBehaviour {
 
         //MANAGEMENT
         startCoroutine = false;
-        playerScript.inBoundary = false;
     }
 
     IEnumerator PushBackPlayer()
     {
         yield return new WaitForSeconds(0.2f);
         playerScript.boundaryPushingDirection = new Vector3(0, 0, -10);
-        playerScript.inBoundary = true;
     }
 
 }
