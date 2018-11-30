@@ -78,15 +78,21 @@ public class SecondBoundary : MonoBehaviour {
     IEnumerator PushBackPlayer()
     {
         yield return new WaitForSeconds(0.2f);
-        if (!playerScript.playerIsAirborne && playerInBoundary)
+        while (!playerScript.playerIsAirborne && playerInBoundary)
         {
             playerScript.boundaryPushingDirection = new Vector3(windStrength, 0, 0);
             playerScript.enablePlayerPushBack = true;
         }
-        else
-        {
-            playerScript.enablePlayerPushBack = false;
-        }
+        //if (!playerScript.playerIsAirborne && playerInBoundary)
+        //{
+        //    playerScript.boundaryPushingDirection = new Vector3(windStrength, 0, 0);
+        //    playerScript.enablePlayerPushBack = true;
+        //}
+        //else
+        //{
+        //    playerScript.enablePlayerPushBack = false;
+        //}
+        playerScript.enablePlayerPushBack = false;
         startCoroutine = false;
     }
 
