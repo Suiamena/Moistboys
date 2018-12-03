@@ -10,7 +10,9 @@ public class FinalBoundary : MonoBehaviour {
 
     Vector3 a;
     Vector3 b;
-    Vector3 origin;
+    Vector3 c;
+    Vector3 side1;
+    Vector3 side2;
     Vector3 pendicular;
 
     //PLAYER
@@ -29,12 +31,13 @@ public class FinalBoundary : MonoBehaviour {
     {
         a = objectA.transform.position;
         b = objectB.transform.position;
+        c = new Vector3(0, 0, 0);
 
-        //pendicular = Vector3.Cross(b, a);
+        side1 = b - a;
+        side2 = c - a;
 
-        origin = b - a;
-
-        pendicular = Vector3.Cross(origin, Vector3.up.normalized);
+        pendicular = Vector3.Cross(side1, side2).normalized;
+        pendicular = pendicular * 10;
 
         if (!playCoroutine)
         {
@@ -49,7 +52,7 @@ public class FinalBoundary : MonoBehaviour {
         playerScript.enablePlayerPushBack = true;
         playerScript.boundaryPushingDirection = pendicular;
         yield return new WaitForSeconds(0.5F);
-        playerScript.enablePlayerPushBack = false;
+        //playerScript.enablePlayerPushBack = false;
     }
 
 }
