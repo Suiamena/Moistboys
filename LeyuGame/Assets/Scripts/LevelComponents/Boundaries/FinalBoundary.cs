@@ -13,22 +13,21 @@ public class FinalBoundary : MonoBehaviour {
     Vector3 c;
     Vector3 side1;
     Vector3 side2;
-    Vector3 pendicular;
+    Vector3 pushDirection;
 
     //PLAYER
     GameObject player;
     PlayerController playerScript;
 
-    bool playCoroutine;
+    //WIND SETTINGS
+    public float windStrength;
 
     private void Awake()
     {
         player = GameObject.Find("Character");
         playerScript = player.GetComponent<PlayerController>();
-    }
 
-    private void FixedUpdate()
-    {
+        //CALCULATE PENDICULAR
         a = objectA.transform.position;
         b = objectB.transform.position;
         c = new Vector3(0, 0, 0);
@@ -36,23 +35,28 @@ public class FinalBoundary : MonoBehaviour {
         side1 = b - a;
         side2 = c - a;
 
-        pendicular = Vector3.Cross(side1, side2).normalized;
-        pendicular = pendicular * 10;
+        pushDirection = Vector3.Cross(side1, side2).normalized;
+    }
 
-        if (!playCoroutine)
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Player")
         {
-            StartCoroutine(Move());
-            playCoroutine = true;
+            playerScript.enablePlayerPushBack = true;
+
+            windStrength = 1;
+            print(windStrength);
+            pushDirection = pushDirection * windStrength;
+            playerScript.boundaryPushingDirection = pushDirection;
         }
     }
 
-    IEnumerator Move()
+    private void OnTriggerExit(Collider other)
     {
-        Debug.Log(pendicular);
-        playerScript.enablePlayerPushBack = true;
-        playerScript.boundaryPushingDirection = pendicular;
-        yield return new WaitForSeconds(0.5F);
-        //playerScript.enablePlayerPushBack = false;
+        if (other.tag == "Player")
+        {
+            playerScript.enablePlayerPushBack = false;
+        }
     }
 
 }
