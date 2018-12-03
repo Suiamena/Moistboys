@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class NewWallMechanic : MonoBehaviour {
 
-    //PLAYER
+    [Header("Player Settings")]
+    public int playerLerpSpeed;
+    public int playerJumpSpeed;
+
     GameObject player;
     GameObject playerModel;
     PlayerController playerScript;
@@ -15,8 +18,12 @@ public class NewWallMechanic : MonoBehaviour {
     Vector3 playerMovementTarget;
     Vector3 playerDistanceToPlatform;
 
-    public int playerLerpSpeed;
-    public int playerJumpSpeed;
+    [Header("Platform Settings")]
+    public GameObject platformsObject;
+    public List<GameObject> platforms = new List<GameObject>();
+
+    [Header("Other Settings")]
+    public int triggerAbilityRange = 10;
 
     //CREATURE
     GameObject moustacheBoi;
@@ -24,22 +31,11 @@ public class NewWallMechanic : MonoBehaviour {
 
     //UI
     public GameObject pressButtonPopup;
-
-    [Header("Camera Settings")]
     public GameObject sequenceCamera;
-
-    public float cameraXOffset, cameraYOffset, cameraZOffset;
 
     //MANAGER
     bool enableSequence, creatureSpawnsPlatforms, sequenceIsRunning, playerIsJumping;
     int platformsReached;
-
-    [Header("Platform Settings")]
-    public GameObject platformsObject;
-    public List<GameObject> platforms = new List<GameObject>();
-
-    [Header("Settings")]
-    public int triggerAbilityRange = 10;
 
     private void Awake()
     {
@@ -58,7 +54,6 @@ public class NewWallMechanic : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        Debug.Log(platformsReached);
         TriggerSequence();
         StartSequence();
         StartJump();
@@ -93,16 +88,13 @@ public class NewWallMechanic : MonoBehaviour {
 
             //DISABLE PLAYER MOVEMENT
             player.transform.position = new Vector3(player.transform.position.x, moustacheBoi.transform.position.y, playerRig.transform.position.z);
-            player.transform.LookAt(platforms[0].transform);
             playerScript.enabled = false;
             playerRig.velocity = new Vector3(0, 0, 0);
 
             //SHOW CAMERA
             sequenceCamera.SetActive(true);
-            sequenceCamera.transform.rotation = player.transform.rotation;
             sequenceCamera.transform.position = player.transform.position;
-            sequenceCamera.transform.position += sequenceCamera.transform.rotation * new Vector3(0, 0, -10);
-
+            sequenceCamera.transform.position += sequenceCamera.transform.rotation * new Vector3(0, 8, -10);
             sequenceCamera.transform.LookAt(platforms[0].transform);
 
             //SPAWN OBJECTS
@@ -124,13 +116,11 @@ public class NewWallMechanic : MonoBehaviour {
         if (playerIsJumping)
         {
             sequenceCamera.transform.LookAt(player.transform);
-            player.transform.LookAt(platforms[platformsReached].transform);
 
             playerMovementTarget = platforms[platformsReached].transform.position;
             playerPositionLerp = new Vector3(player.transform.position.x, Mathf.Lerp(player.transform.position.y, playerMovementTarget.y, playerLerpSpeed * Time.deltaTime), player.transform.position.z);
             player.transform.position = Vector3.MoveTowards(playerPositionLerp, playerMovementTarget, playerJumpSpeed * Time.deltaTime);
-            playerDistanceToPlatform = playerMovementTarget - playerPositionLerp;
-
+            //IF THIS FAILS AGAIN, TRY CALCULATING A MARGIN (LIKE THE DISTANCE.X < 1)
             if (player.transform.position == playerMovementTarget)
             {
                 playerDistanceToPlatform.x = 2;
@@ -146,12 +136,12 @@ public class NewWallMechanic : MonoBehaviour {
 
     void EndSequence()
     {
+        platformsObject.SetActive(false);
         playerScript.enabled = true;
         sequenceCamera.SetActive(false);
         creatureSpawnsPlatforms = false;
         sequenceIsRunning = false;
         platformsReached = 0;
-        //player.transform.position = new Vector3(player.transform.position.x, platforms[platforms.Count].transform.position.y, playerRig.transform.position.z);
         playerRig.velocity = new Vector3(0, 0, 0);
     }
 
