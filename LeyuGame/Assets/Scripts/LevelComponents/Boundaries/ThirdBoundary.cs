@@ -16,7 +16,7 @@ public class ThirdBoundary : MonoBehaviour
 
     [Header("Boundary Settings")]
     public float windAcceleration;
-    float windForce;
+    float windForce = -8;
 
     private void Awake()
     {
@@ -26,15 +26,15 @@ public class ThirdBoundary : MonoBehaviour
 
     private void Update()
     {
-        kube.transform.position = transform.position;
+        kube.transform.position = new Vector3(transform.position.x, kube.transform.position.y, transform.position.z);
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player")
         {
-            windForce += windAcceleration;
-            windForce = Mathf.Clamp(windForce, 0, 2);
+            //windForce += windAcceleration;
+            //windForce = Mathf.Clamp(windForce, 0, 2);
 
             if (playerScript.playerIsAirborne)
             {
@@ -55,7 +55,7 @@ public class ThirdBoundary : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            windForce = 0;
+            //windForce = 0;
             playerScript.enablePlayerPushBack = false;
         }
     }

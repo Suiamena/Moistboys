@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			//APPLY BOUNDARY PUSHBACK FORCE
 			if (enablePlayerPushBack) {
 				velocity += boundaryPushingDirection;
-				//rig.velocity = velocity;
+				rig.velocity = velocity;
 			} else {
 				//RESOLVE VELOCITY
 				//rig.velocity = transform.rotation * velocity;
