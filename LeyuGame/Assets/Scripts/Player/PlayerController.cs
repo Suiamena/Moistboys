@@ -159,7 +159,15 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			cameraTrans.position = cameraDesiredPosition;
 		}
 
-		cameraTrans.LookAt(transform.position + cameraRotation * cameraTarget);
+		float threshold = 5, factor = .5f;
+		float verticalVelocityInfluence = 0;
+		if (velocity.y < -threshold && velocity.y > threshold) {
+			if (velocity.y < -threshold)
+				verticalVelocityInfluence = (velocity.y + threshold) * factor;
+			else
+				verticalVelocityInfluence = (velocity.y - threshold) * factor;
+		}
+		cameraTrans.LookAt(transform.position + cameraRotation * (cameraTarget + new Vector3(0, verticalVelocityInfluence, 0)));
 	}
 
 	void LandingIndicator ()
