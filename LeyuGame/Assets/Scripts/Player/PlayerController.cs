@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	public Vector3 boundaryPushingDirection;
 
 	[Header("Twirl Settings")]
-	public GameObject twirlModel;
+	public GameObject dragonModel;
 	public bool enableTwirl = true;
 	public float twirlTime = .26f;
 
@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			LandingIndicator();
 		Launch();
 		Hop();
-		Handheld.Vibrate();
+		ModelRotation();
 	}
 
 	private void FixedUpdate ()
@@ -193,6 +193,20 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		}
 	}
 
+	void ModelRotation ()
+	{
+		Quaternion desiredRotation;
+		float xAngle = Vector3.Angle(Vector3.forward, new Vector3(0, velocity.y, velocity.z));
+		if (velocity.y > 0)
+			xAngle = Mathf.Abs(xAngle) * -1;
+		xAngle = Mathf.Clamp(xAngle, -40, 40);
+		float yAngle = Vector3.Angle(Vector3.forward, new Vector3(velocity.x, 0, velocity.z));
+		if (velocity.x < 0)
+			yAngle = Mathf.Abs(yAngle) * -1;
+		desiredRotation = transform.rotation * Quaternion.Euler(xAngle, yAngle, 0);
+		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, desiredRotation, .4f);
+	}
+
 
 
 	//FIXED UPDATE FUNCTIONS
@@ -212,7 +226,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			if (leftStickInput.magnitude == 0) {
 				//AIR MOVEMENT WHEN NOT GIVING INPUT
 				//airborneDecceleration 21 is too low. 42 seems ok. Tweak this in the inspector.
-				if (lateralSpeed.magnitude < .2f)
+				if (lateralSpeed.magnitude < 1)
 					lateralSpeed = Vector2.zero;
 				else
 					lateralSpeed += lateralSpeed.normalized * -airborneDecceleration * Time.fixedDeltaTime;
@@ -404,13 +418,13 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 	IEnumerator Twirl ()
 	{
-		if (twirlModel == null)
+		if (dragonModel == null)
 			yield break;
 		while (!Grounded()) {
-			twirlModel.transform.Rotate(new Vector3(360 / twirlTime, 0, 0) * Time.deltaTime);
+			dragonModel.transform.Rotate(new Vector3(360 / twirlTime, 0, 0) * Time.deltaTime);
 			yield return null;
 		}
-		twirlModel.transform.localRotation = Quaternion.Euler(Vector3.zero);
+		dragonModel.transform.localRotation = Quaternion.Euler(Vector3.zero);
 	}
 
 

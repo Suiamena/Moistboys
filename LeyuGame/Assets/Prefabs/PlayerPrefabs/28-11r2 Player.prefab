@@ -424,7 +424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1237301359188458
 GameObject:
   m_ObjectHideFlags: 1
@@ -561,7 +561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1332093281801276
 GameObject:
   m_ObjectHideFlags: 1
@@ -867,7 +867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1479938420235150
 GameObject:
   m_ObjectHideFlags: 1
@@ -1064,7 +1064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1580940847342360
 GameObject:
   m_ObjectHideFlags: 1
@@ -2504,15 +2504,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1438608994312882}
-  m_LocalRotation: {x: -0, y: 0.8839086, z: -0, w: 0.46765974}
-  m_LocalPosition: {x: 392.17, y: 169.19, z: 610.7}
+  m_LocalRotation: {x: -0, y: 0.23464096, z: -0, w: 0.97208214}
+  m_LocalPosition: {x: -161.85759, y: 1.714108, z: -163.87221}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4429766639984244}
   - {fileID: 4464605080284298}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 124.23501, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 27.141, z: 0}
 --- !u!4 &4570768886474782
 Transform:
   m_ObjectHideFlags: 1
@@ -3466,13 +3466,13 @@ MonoBehaviour:
   cameraXRotationMaxClamp: 50
   cameraXRotationMinClamp: -50
   cameraPositionSmooting: 0.24
-  canLaunch: 1
-  launchChargeDisplay: {fileID: 224968856794385776}
-  launchDisplayChargingColour: {r: 0.29803923, g: 1, b: 0.70980394, a: 1}
-  launchDisplayUsedColour: {r: 0.21698111, g: 0.08085617, b: 0.13828388, a: 1}
-  minLaunchVelocity: {x: 0, y: 22, z: 2}
-  maxLaunchVelocity: {x: 0, y: 50, z: 5}
-  launchChargeSpeed: 1.6
+  canLaunch: 0
+  launchStageTwoTime: 0.7
+  launchStageOneForce: {x: 0, y: 18, z: 10}
+  launchStageTwoForce: {x: 0, y: 38, z: 18}
+  launchStageOneColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  launchStageTwoColor: {r: 1, g: 0, b: 0, a: 1}
+  launchRenderer: {fileID: 0}
   walkingSpeed: 16
   leapingVelocity: {x: 0, y: 12.5, z: 18}
   airborneMovementSpeed: 25
@@ -3483,7 +3483,10 @@ MonoBehaviour:
   hopVelocity: 10
   gravityStrength: 48
   maximumFallingSpeed: 112
-  model: {fileID: 1325316068420654, guid: aa96e5a217d1ff140b45894557162e97, type: 2}
+  playerIsAirborne: 0
+  enablePlayerPushBack: 0
+  boundaryPushingDirection: {x: 0, y: 0, z: 0}
+  dragonModel: {fileID: 0}
   enableTwirl: 0
   twirlTime: 0.18
   landingIndicatorTrans: {fileID: 4318547590341170}
