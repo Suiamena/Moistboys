@@ -93,6 +93,7 @@ public class NewWallMechanic : MonoBehaviour {
 
             //DISABLE PLAYER MOVEMENT
             player.transform.position = new Vector3(player.transform.position.x, moustacheBoi.transform.position.y, playerRig.transform.position.z);
+            player.transform.LookAt(platforms[0].transform);
             playerScript.enabled = false;
             playerRig.velocity = new Vector3(0, 0, 0);
 
@@ -100,7 +101,7 @@ public class NewWallMechanic : MonoBehaviour {
             sequenceCamera.SetActive(true);
             sequenceCamera.transform.rotation = player.transform.rotation;
             sequenceCamera.transform.position = player.transform.position;
-            sequenceCamera.transform.position = sequenceCamera.transform.rotation * new Vector3(0, 0, 10);
+            sequenceCamera.transform.position += sequenceCamera.transform.rotation * new Vector3(0, 0, -10);
 
             sequenceCamera.transform.LookAt(platforms[0].transform);
 
@@ -149,6 +150,8 @@ public class NewWallMechanic : MonoBehaviour {
         sequenceCamera.SetActive(false);
         creatureSpawnsPlatforms = false;
         sequenceIsRunning = false;
+        platformsReached = 0;
+        //player.transform.position = new Vector3(player.transform.position.x, platforms[platforms.Count].transform.position.y, playerRig.transform.position.z);
         playerRig.velocity = new Vector3(0, 0, 0);
     }
 
