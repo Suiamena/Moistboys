@@ -14,6 +14,7 @@ public class FinalBoundary : MonoBehaviour {
     Vector3 side1;
     Vector3 side2;
     Vector3 pushDirection;
+    Vector3 appliedPushDirection;
 
     //PLAYER
     GameObject player;
@@ -49,16 +50,13 @@ public class FinalBoundary : MonoBehaviour {
         {
             if (!playerScript.enablePlayerPushBack)
             {
-
+                StartCoroutine(IncreaseWindStrength());
+                playerScript.enablePlayerPushBack = true;
             }
-            playerScript.enablePlayerPushBack = true;
-
-            windStrength = 5;
-            print(windStrength);
-			//DEZE REGEL LENNY IS STUK
-            pushDirection = pushDirection * windStrength;
-
-            playerScript.boundaryPushingDirection = pushDirection;
+            windStrength += windStrengthAcceleration;
+            appliedPushDirection = pushDirection * windStrength;
+            //appliedPushDirection = player.transform.rotation * appliedPushDirection;
+            playerScript.boundaryPushingDirection = appliedPushDirection;
         }
     }
 
@@ -66,17 +64,18 @@ public class FinalBoundary : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
+            windStrength = 0;
             playerScript.enablePlayerPushBack = false;
         }
     }
 
     IEnumerator IncreaseWindStrength()
     {
-        for (int i = 0; i < 500; i++)
+        for (int i = 0; i < 100; i++)
         {
-            windStrength += 1;
+            windStrength += windStrengthAcceleration;
+            yield return new WaitForSeconds(0.1f);
         }
-        yield return new WaitForSeconds(0f);
     }
 
 }
