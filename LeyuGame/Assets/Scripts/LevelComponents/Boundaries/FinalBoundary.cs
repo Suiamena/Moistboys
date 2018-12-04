@@ -20,7 +20,11 @@ public class FinalBoundary : MonoBehaviour {
     PlayerController playerScript;
 
     //WIND SETTINGS
-    public float windStrength;
+    public float windStrengthAcceleration;
+    float windStrength;
+
+    //MANAGER
+    bool coroutineStarted;
 
     private void Awake()
     {
@@ -43,12 +47,17 @@ public class FinalBoundary : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
+            if (!playerScript.enablePlayerPushBack)
+            {
+
+            }
             playerScript.enablePlayerPushBack = true;
 
             windStrength = 5;
             print(windStrength);
 			//DEZE REGEL LENNY IS STUK
             pushDirection = pushDirection * windStrength;
+
             playerScript.boundaryPushingDirection = pushDirection;
         }
     }
@@ -59,6 +68,15 @@ public class FinalBoundary : MonoBehaviour {
         {
             playerScript.enablePlayerPushBack = false;
         }
+    }
+
+    IEnumerator IncreaseWindStrength()
+    {
+        for (int i = 0; i < 500; i++)
+        {
+            windStrength += 1;
+        }
+        yield return new WaitForSeconds(0f);
     }
 
 }
