@@ -20,6 +20,12 @@ public class FinalBoundary : MonoBehaviour {
     GameObject player;
     PlayerController playerScript;
 
+    GameObject snowParticlesObject;
+    ParticleSystem snowParticlesSystem;
+    ParticleSystem.EmissionModule emissionRate;
+
+    ParticleSystem.MainModule main;
+
     //WIND SETTINGS
     public float windStrengthAcceleration;
     float windStrength;
@@ -31,6 +37,11 @@ public class FinalBoundary : MonoBehaviour {
     {
         player = GameObject.Find("Character");
         playerScript = player.GetComponent<PlayerController>();
+
+        snowParticlesObject = GameObject.Find("SnowParticles");
+        snowParticlesSystem = snowParticlesObject.GetComponent<ParticleSystem>();
+        emissionRate = snowParticlesSystem.emission;
+        main = snowParticlesSystem.main;
 
         //CALCULATE PENDICULAR
         a = objectA.transform.position;
@@ -53,6 +64,10 @@ public class FinalBoundary : MonoBehaviour {
                 StartCoroutine(IncreaseWindStrength());
                 playerScript.enablePlayerPushBack = true;
             }
+
+            emissionRate.rateOverTime = 50000f;
+            main.maxParticles = 10000;
+
             windStrength += windStrengthAcceleration;
             appliedPushDirection = pushDirection * windStrength;
             playerScript.boundaryPushingDirection = appliedPushDirection;
@@ -63,6 +78,9 @@ public class FinalBoundary : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
+            emissionRate.rateOverTime = 500f;
+            main.maxParticles = 5000;
+
             windStrength = 0;
             playerScript.enablePlayerPushBack = false;
         }
