@@ -8,8 +8,9 @@ public class NewWallMechanic : MonoBehaviour
 	[Header("Player Settings")]
 	public int playerLerpSpeed;
 	public int playerJumpSpeed;
+    //Default: playerLerpSpeed 5, playerJumpSpeed 40
 
-	GameObject player;
+    GameObject player;
 	GameObject playerModel;
 	PlayerController playerScript;
 	Rigidbody playerRig;
@@ -34,7 +35,8 @@ public class NewWallMechanic : MonoBehaviour
 	public GameObject pressButtonPopup;
 	public GameObject sequenceCamera;
 
-	//MANAGER
+    //MANAGER
+    public GameObject playerNose;
 	bool enableSequence, creatureSpawnsPlatforms, sequenceIsRunning, playerIsJumping;
 	int platformsReached;
 
@@ -48,9 +50,6 @@ public class NewWallMechanic : MonoBehaviour
 
 		moustacheBoi = GameObject.Find("Creature");
 		moustacheAnim = moustacheBoi.GetComponent<Animator>();
-
-		playerJumpSpeed = 50;
-		playerLerpSpeed = 5;
 	}
 
 	private void FixedUpdate ()
@@ -61,6 +60,7 @@ public class NewWallMechanic : MonoBehaviour
 		MakeJump();
 	}
 
+    //INSPECTOR HELP
 	Transform platformsParent;
 
 	private void OnDrawGizmosSelected ()
@@ -100,8 +100,8 @@ public class NewWallMechanic : MonoBehaviour
 				playerScript.enabled = false;
 				playerRig.velocity = new Vector3(0, 0, 0);
 
-				//SHOW CAMERA
-				sequenceCamera.SetActive(true);
+                //SHOW CAMERA
+                sequenceCamera.SetActive(true);
 				sequenceCamera.transform.position = player.transform.position;
 				sequenceCamera.transform.position += sequenceCamera.transform.rotation * new Vector3(0, 8, -10);
 				sequenceCamera.transform.LookAt(platforms[0].transform);
@@ -142,14 +142,17 @@ public class NewWallMechanic : MonoBehaviour
 
 	void EndSequence ()
 	{
-		platformsObject.SetActive(false);
-		playerScript.enabled = true;
+        player.transform.rotation = Quaternion.Euler(0, -90, 0);
+        player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
+        playerScript.enabled = true;
+        playerRig.velocity = new Vector3(0, 0, 0);
+
+        platformsObject.SetActive(false);
 		sequenceCamera.SetActive(false);
 		creatureSpawnsPlatforms = false;
 		sequenceIsRunning = false;
 		platformsReached = 0;
-		playerRig.velocity = new Vector3(0, 0, 0);
-	}
+    }
 
 	IEnumerator CreatureDoesTrick ()
 	{
