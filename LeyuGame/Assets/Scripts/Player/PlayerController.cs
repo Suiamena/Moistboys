@@ -15,15 +15,16 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	//Animation Settings
 	GameObject animationModel;
 	Animator animator;
+	[HideInInspector]
 	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch;
 
 	[Header("Camera Settings")]
 	public Transform cameraTrans;
-	public Vector3 cameraOffset = new Vector3(0, 3, -14), cameraTarget = new Vector3(0, 0, 3);
+	public Vector3 cameraOffset = new Vector3(0, 3, -7.5f), cameraTarget = new Vector3(0, 0, 3);
 	public float cameraHorizontalSensitivity = 130, cameraVerticalSensitivity = 90f, cameraXRotationMaxClamp = 50, cameraXRotationMinClamp = -50;
 	[Range(0.0f, 1.0f)]
-	public float cameraPositionSmooting = .2f;
-	public float cameraVerticalInfluenceThreshold = 5, cameraVerticalInfluenceFactor = .5f;
+	public float cameraPositionSmooting = .12f;
+	public float cameraVerticalInfluenceThreshold = 14, cameraVerticalInfluenceFactor = .06f;
 	float cameraVerticalInfluence = 0, cameraXAngle = 0, cameraYAngle = 0;
 	Vector3 cameraDesiredPosition;
 	Quaternion cameraRotation;
@@ -32,25 +33,26 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	[Header("Launch Settings")]
 	public bool canLaunch = true;
 	public float launchStageTwoTime = .7f;
-	public Vector3 launchStageOneForce = new Vector3(0, 18, 10), launchStageTwoForce = new Vector3(0, 38, 18);
-	public Color launchStageOneColor = Color.yellow, launchStageTwoColor = Color.red;
+	public Vector3 launchStageOneForce = new Vector3(0, 35, 10), launchStageTwoForce = new Vector3(0, 50, 22);
+	public Color launchStageOneColor = Color.green, launchStageTwoColor = Color.red;
 	public Renderer launchRenderer;
 	int launchMaterialIndex = 1;
 	Color launchBaseColor;
 	bool launchRoutineRunning = false;
 
 	[Header("Model Rotation Settings")]
-	public float modelRotationLerpFactor = .2f;
+	public float modelRotationLerpFactor = .24f;
 	public float modelRotationMaximumXAngle = 40, modelRotationMinimumXAngle = -40;
 	Quaternion modelRotationDesiredRotation;
 	float modelRotationXAngle, modelRotationYAngle;
 
 	[Header("Movement Settings")]
-	public float walkingSpeed = 14;
-	public Vector3 leapingVelocity = new Vector3(0, 11, 20);
-	public float airborneMovementSpeed = 22, airborneMovementAcceleration = 26, airborneDecceleration = 21;
+	public Vector3 leapingVelocity = new Vector3(0, 12.5f, 18);
+	public Vector3 snowLeapingVelocity = new Vector3(0, 8, 14);
+	public float airborneMovementSpeed = 25, snowAirborneMovementSpeed = 14, airborneMovementAcceleration = 50, airborneDecceleration = 56;
 	[Range(0.0f, 1.0f)]
-	public float walkingBouncingThreshold = .72f;
+	public float walkingBouncingThreshold = .8f;
+	bool inSnow = false;
 
 	[Header("Hop Settings")]
 	public bool canHop = true;
@@ -58,8 +60,8 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	bool disableGravity = false;
 
 	[Header("Gravity Settings")]
-	public float gravityStrength = 38;
-	public float maximumFallingSpeed = 96;
+	public float gravityStrength = 48;
+	public float maximumFallingSpeed = 112;
 
 	//[Header("SnowTornado Settings")]
 	bool inTornado = false, canBeisSpinning = true;
@@ -74,7 +76,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	[Header("Twirl Settings")]
 	public GameObject dragonModel;
 	public bool enableTwirl = true;
-	public float twirlTime = .26f;
+	public float twirlTime = .18f;
 
 	[Header("Landing Indicator Settings")]
 	public Transform landingIndicatorTrans;
@@ -239,7 +241,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 			if (leftStickInput.magnitude == 0) {
 				//AIR MOVEMENT WHEN NOT GIVING INPUT
-				//airborneDecceleration 21 is too low. 42 seems ok. Tweak this in the inspector.
 				if (lateralSpeed.magnitude < 1)
 					lateralSpeed = Vector2.zero;
 				else
@@ -249,8 +250,13 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 				Vector2 lateralSpeedGain = leftStickInput.Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0)) * airborneMovementAcceleration;
 
 				lateralSpeed += lateralSpeedGain * Time.fixedDeltaTime;
-				if (lateralSpeed.magnitude > airborneMovementSpeed)
-					lateralSpeed = lateralSpeed.normalized * airborneMovementSpeed;
+				if (!inSnow) {
+					if (lateralSpeed.magnitude > airborneMovementSpeed)
+						lateralSpeed = lateralSpeed.normalized * airborneMovementSpeed;
+				} else {
+					if (lateralSpeed.magnitude > snowAirborneMovementSpeed)
+						lateralSpeed = lateralSpeed.normalized * snowAirborneMovementSpeed;
+				}
 			}
 
 			velocity.x = lateralSpeed.x;
@@ -266,7 +272,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 				if (velocity.y < 0)
 					velocity.y = 0;
 				velocity.y += hopVelocity;
-				GamePad.SetVibration((PlayerIndex) 0, .2f, .2f);
+				GamePad.SetVibration(0, .2f, .2f);
 				KillVibration();
 				StartCoroutine(SuspendGroundedCheck());
 			}
@@ -302,8 +308,13 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		}
 
 		Ray groundedRay = new Ray(transform.position, Vector3.up * -1);
-		if (Physics.SphereCast(groundedRay, .42f, .1f)) {
+		RaycastHit groundedRayHit;
+		if (Physics.SphereCast(groundedRay, .42f, out groundedRayHit, .1f)) {
 			playerIsAirborne = false;
+			if (groundedRayHit.transform.tag == "Snow")
+				inSnow = true;
+			else
+				inSnow = false;
 			return true;
 		} else {
 			playerIsAirborne = true;
@@ -365,7 +376,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	{
 		float timeLapsed = 0;
 		bool stageTwoReached = false;
-		
+
 		GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
 
 		launchRenderer.materials[launchMaterialIndex].color = launchStageOneColor;
