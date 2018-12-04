@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,6 +36,7 @@ public class FinalBoundary : MonoBehaviour {
         side2 = c - a;
 
         pushDirection = Vector3.Cross(side1, side2).normalized;
+		pushDirection.y = 0;
     }
 
     private void OnTriggerStay(Collider other)
@@ -44,8 +45,9 @@ public class FinalBoundary : MonoBehaviour {
         {
             playerScript.enablePlayerPushBack = true;
 
-            windStrength = 1;
+            windStrength = 5;
             print(windStrength);
+			//DEZE REGEL LENNY IS STUK
             pushDirection = pushDirection * windStrength;
             playerScript.boundaryPushingDirection = pushDirection;
         }

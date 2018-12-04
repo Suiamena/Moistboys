@@ -167,7 +167,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		}
 
 		if (velocity.y < -cameraVerticalInfluenceThreshold || velocity.y > cameraVerticalInfluenceThreshold) {
-			Debug.Log("Hoi");
 			if (velocity.y < -cameraVerticalInfluenceThreshold)
 				cameraVerticalInfluence = (velocity.y + cameraVerticalInfluenceThreshold) * cameraVerticalInfluenceFactor;
 			else
@@ -175,7 +174,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		} else {
 			cameraVerticalInfluence = 0;
 		}
-		Debug.Log(cameraVerticalInfluence);
 		cameraTrans.LookAt(transform.position + cameraRotation * (cameraTarget + new Vector3(0, cameraVerticalInfluence, 0)));
 	}
 
