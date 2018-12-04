@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	public float cameraHorizontalSensitivity = 130, cameraVerticalSensitivity = 90f, cameraXRotationMaxClamp = 50, cameraXRotationMinClamp = -50;
 	[Range(0.0f, 1.0f)]
 	public float cameraPositionSmooting = .2f;
-	float cameraXAngle = 0, cameraYAngle = 0;
+	public float cameraVerticalInfluenceThreshold = 5, cameraVerticalInfluenceFactor = .5f;
+	float cameraVerticalInfluence = 0, cameraXAngle = 0, cameraYAngle = 0;
 	Vector3 cameraDesiredPosition;
 	Quaternion cameraRotation;
 	RaycastHit cameraRayHit;
@@ -37,6 +38,12 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	int launchMaterialIndex = 1;
 	Color launchBaseColor;
 	bool launchRoutineRunning = false;
+
+	[Header("Model Rotation Settings")]
+	public float modelRotationLerpFactor = .2f;
+	public float modelRotationMaximumXAngle = 40, modelRotationMinimumXAngle = -40;
+	Quaternion modelRotationDesiredRotation;
+	float modelRotationXAngle, modelRotationYAngle;
 
 	[Header("Movement Settings")]
 	public float walkingSpeed = 14;
@@ -124,12 +131,12 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			//APPLY BOUNDARY PUSHBACK FORCE
 			if (enablePlayerPushBack) {
 				velocity += boundaryPushingDirection;
-				//rig.velocity = velocity;
+				rig.velocity = velocity;
 			} else {
 				//RESOLVE VELOCITY
-				//rig.velocity = transform.rotation * velocity;
+				rig.velocity = transform.rotation * velocity;
 			}
-			rig.velocity = transform.rotation * velocity;
+			//rig.velocity = transform.rotation * velocity;
 		}
 	}
 
@@ -159,15 +166,17 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			cameraTrans.position = cameraDesiredPosition;
 		}
 
-		float threshold = 5, factor = .5f;
-		float verticalVelocityInfluence = 0;
-		if (velocity.y < -threshold && velocity.y > threshold) {
-			if (velocity.y < -threshold)
-				verticalVelocityInfluence = (velocity.y + threshold) * factor;
+		if (velocity.y < -cameraVerticalInfluenceThreshold || velocity.y > cameraVerticalInfluenceThreshold) {
+			Debug.Log("Hoi");
+			if (velocity.y < -cameraVerticalInfluenceThreshold)
+				cameraVerticalInfluence = (velocity.y + cameraVerticalInfluenceThreshold) * cameraVerticalInfluenceFactor;
 			else
-				verticalVelocityInfluence = (velocity.y - threshold) * factor;
+				cameraVerticalInfluence = (velocity.y - cameraVerticalInfluenceThreshold) * cameraVerticalInfluenceFactor;
+		} else {
+			cameraVerticalInfluence = 0;
 		}
-		cameraTrans.LookAt(transform.position + cameraRotation * (cameraTarget + new Vector3(0, verticalVelocityInfluence, 0)));
+		Debug.Log(cameraVerticalInfluence);
+		cameraTrans.LookAt(transform.position + cameraRotation * (cameraTarget + new Vector3(0, cameraVerticalInfluence, 0)));
 	}
 
 	void LandingIndicator ()
@@ -203,16 +212,15 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 	void ModelRotation ()
 	{
-		Quaternion desiredRotation;
-		float xAngle = Vector3.Angle(Vector3.forward, new Vector3(0, velocity.y, velocity.z));
+		modelRotationXAngle = Vector3.Angle(Vector3.forward, new Vector3(0, velocity.y, velocity.z));
 		if (velocity.y > 0)
-			xAngle = Mathf.Abs(xAngle) * -1;
-		xAngle = Mathf.Clamp(xAngle, -40, 40);
-		float yAngle = Vector3.Angle(Vector3.forward, new Vector3(velocity.x, 0, velocity.z));
+			modelRotationXAngle = Mathf.Abs(modelRotationXAngle) * -1;
+		modelRotationXAngle = Mathf.Clamp(modelRotationXAngle, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
+		modelRotationYAngle = Vector3.Angle(Vector3.forward, new Vector3(velocity.x, 0, velocity.z));
 		if (velocity.x < 0)
-			yAngle = Mathf.Abs(yAngle) * -1;
-		desiredRotation = transform.rotation * Quaternion.Euler(xAngle, yAngle, 0);
-		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, desiredRotation, .4f);
+			modelRotationYAngle = Mathf.Abs(modelRotationYAngle) * -1;
+		modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelRotationXAngle, modelRotationYAngle, 0);
+		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
 	}
 
 
@@ -370,23 +378,26 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 			if (timeLapsed > launchStageTwoTime) {
 				stageTwoReached = true;
-				GamePad.SetVibration(PlayerIndex.One, .4f, .4f);
+				GamePad.SetVibration(PlayerIndex.One, .3f, .3f);
 				launchRenderer.materials[launchMaterialIndex].color = launchStageTwoColor;
 			}
 			yield return null;
 		}
 
-		GamePad.SetVibration(PlayerIndex.One, 0.9f, 0.9f);
+		GamePad.SetVibration(PlayerIndex.One, 0.8f, 0.8f);
 		KillVibration(.15f);
 
 		if (velocity.y < 0)
 			velocity.y = 0;
 		isBuildingLaunch = false;
 
-		if (!stageTwoReached)
-			velocity = launchStageOneForce;
-		else
-			velocity = launchStageTwoForce;
+		if (!stageTwoReached) {
+			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageOneForce.z;
+			velocity.y = launchStageOneForce.y;
+		} else {
+			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageTwoForce.z;
+			velocity.y = launchStageTwoForce.y;
+		}
 
 		StartCoroutine(PreLaunchRoutine());
 		StopCoroutine(SuspendGroundedCheck());
