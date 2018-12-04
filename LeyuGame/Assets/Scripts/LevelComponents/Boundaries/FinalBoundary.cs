@@ -55,7 +55,6 @@ public class FinalBoundary : MonoBehaviour {
             }
             windStrength += windStrengthAcceleration;
             appliedPushDirection = pushDirection * windStrength;
-            //appliedPushDirection = player.transform.rotation * appliedPushDirection;
             playerScript.boundaryPushingDirection = appliedPushDirection;
         }
     }

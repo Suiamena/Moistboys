@@ -142,7 +142,7 @@ public class NewWallMechanic : MonoBehaviour
 
 	void EndSequence ()
 	{
-        player.transform.rotation = Quaternion.Euler(0, -90, 0);
+        player.transform.rotation = playerNose.transform.rotation;
         player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
         playerScript.enabled = true;
         playerRig.velocity = new Vector3(0, 0, 0);
