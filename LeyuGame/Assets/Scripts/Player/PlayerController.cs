@@ -115,30 +115,26 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		ModelRotation();
 	}
 
-	private void FixedUpdate ()
-	{
-		if (!inTornado) {
-			Gravity();
-			RunAnimation();
-			Movement();
+    private void FixedUpdate()
+    {
+        if (!inTornado)
+        {
+            Gravity();
+            RunAnimation();
+            Movement();
 
-			//APPLY BOUNDARY PUSHBACK FORCE
-			if (enablePlayerPushBack) {
-				//velocity += boundaryPushingDirection;
-				rig.velocity += boundaryPushingDirection;
-				//rig.velocity = velocity;
-			} else {
-				//RESOLVE VELOCITY
-				rig.velocity = transform.rotation * velocity;
-			}
-			//rig.velocity = transform.rotation * velocity;
-		}
-	}
+            rig.velocity = transform.rotation * velocity;
+            //APPLY BOUNDARY PUSHBACK FORCE
+            if (enablePlayerPushBack)
+            {
+                rig.velocity += boundaryPushingDirection;
+            }
+        }
+    }
 
 
-
-	//UPDATE FUNCTIONS
-	void ProcessInputs ()
+    //UPDATE FUNCTIONS
+    void ProcessInputs ()
 	{
 		leftStickInput = new Vector2(Input.GetAxis("Left Stick X"), Input.GetAxis("Left Stick Y"));
 	}
