@@ -36,8 +36,8 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	public Vector3 launchStageOneForce = new Vector3(0, 35, 10), launchStageTwoForce = new Vector3(0, 50, 22);
 	public Color launchStageOneColor = Color.green, launchStageTwoColor = Color.red;
 	public Renderer launchRenderer;
-	int launchMaterialIndex = 1;
-	Color launchBaseColor;
+	int[] launchMaterialIndexes = new int[] { 1, 3, 4 };
+	Color launchBaseColor = Color.white;
 	bool launchRoutineRunning = false;
 
 	[Header("Model Rotation Settings")]
@@ -92,20 +92,12 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	{
 		rig = GetComponent<Rigidbody>();
 
-		if (launchRenderer != null)
-			launchBaseColor = launchRenderer.materials[launchMaterialIndex].color;
-		else
-			launchBaseColor = Color.white;
-
 		cameraYAngle = transform.rotation.eulerAngles.y;
 
 		animationModel = GameObject.Find("MOD_Draak");
 		animator = animationModel.GetComponent<Animator>();
 
-		foreach (Material m in launchRenderer.materials) {
-			m.color = Color.black;
-		}
-		launchBaseColor = Color.black;
+		GamePad.SetVibration(0, 0, 0);
 	}
 
 
@@ -123,30 +115,26 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		ModelRotation();
 	}
 
-	private void FixedUpdate ()
-	{
-		if (!inTornado) {
-			Gravity();
-			RunAnimation();
-			Movement();
+    private void FixedUpdate()
+    {
+        if (!inTornado)
+        {
+            Gravity();
+            RunAnimation();
+            Movement();
 
-			//APPLY BOUNDARY PUSHBACK FORCE
-			if (enablePlayerPushBack) {
-				//velocity += boundaryPushingDirection;
+            rig.velocity = transform.rotation * velocity;
+            //APPLY BOUNDARY PUSHBACK FORCE
+            if (enablePlayerPushBack)
+            {
                 rig.velocity += boundaryPushingDirection;
-				//rig.velocity = velocity;
-			} else {
-				//RESOLVE VELOCITY
-				rig.velocity = transform.rotation * velocity;
-			}
-			//rig.velocity = transform.rotation * velocity;
-		}
-	}
+            }
+        }
+    }
 
 
-
-	//UPDATE FUNCTIONS
-	void ProcessInputs ()
+    //UPDATE FUNCTIONS
+    void ProcessInputs ()
 	{
 		leftStickInput = new Vector2(Input.GetAxis("Left Stick X"), Input.GetAxis("Left Stick Y"));
 	}
@@ -380,7 +368,9 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 		GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
 
-		launchRenderer.materials[launchMaterialIndex].color = launchStageOneColor;
+		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+			launchRenderer.materials[launchMaterialIndexes[i]].color = launchStageOneColor;
+		}
 
 		while (Input.GetAxis("Right Trigger") != 0) {
 			isBuildingLaunch = true;
@@ -389,7 +379,9 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			if (timeLapsed > launchStageTwoTime) {
 				stageTwoReached = true;
 				GamePad.SetVibration(PlayerIndex.One, .3f, .3f);
-				launchRenderer.materials[launchMaterialIndex].color = launchStageTwoColor;
+				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+					launchRenderer.materials[launchMaterialIndexes[i]].color = launchStageTwoColor;
+				}
 			}
 			yield return null;
 		}
@@ -421,7 +413,9 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		}
 
 		StopCoroutine(Twirl());
-		launchRenderer.materials[launchMaterialIndex].color = launchBaseColor;
+		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+			launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
+		}
 		launchRoutineRunning = false;
 	}
 
