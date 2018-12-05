@@ -61,17 +61,17 @@ public class NewWallMechanic : MonoBehaviour
 	}
 
     //INSPECTOR HELP
-	Transform platformsParent;
+	//Transform platformsParent;
 
-	private void OnDrawGizmosSelected ()
-	{
-		platformsParent = transform.parent.GetChild(1);
+	//private void OnDrawGizmosSelected ()
+	//{
+	//	platformsParent = transform.parent.GetChild(1);
 
-		platforms = new List<GameObject>();
-		for (int i = 0; i < platformsParent.childCount; i++) {
-			platforms.Add(platformsParent.GetChild(i).gameObject);
-		}
-	}
+	//	platforms = new List<GameObject>();
+	//	for (int i = 0; i < platformsParent.childCount; i++) {
+	//		platforms.Add(platformsParent.GetChild(i).gameObject);
+	//	}
+	//}
 
 	void TriggerSequence ()
 	{
@@ -127,9 +127,12 @@ public class NewWallMechanic : MonoBehaviour
 
 			playerMovementTarget = platforms[platformsReached].transform.position;
 			playerPositionLerp = new Vector3(player.transform.position.x, Mathf.Lerp(player.transform.position.y, playerMovementTarget.y, playerLerpSpeed * Time.deltaTime), player.transform.position.z);
-			player.transform.position = Vector3.MoveTowards(playerPositionLerp, playerMovementTarget, playerJumpSpeed * Time.deltaTime);
-			//IF THIS FAILS AGAIN, TRY CALCULATING A MARGIN (LIKE THE DISTANCE.X < 1)
-			if (player.transform.position == playerMovementTarget) {
+            player.transform.position = Vector3.MoveTowards(playerPositionLerp, playerMovementTarget, playerJumpSpeed * Time.deltaTime);
+            playerDistanceToPlatform = player.transform.position - playerMovementTarget;
+			//if (player.transform.position == playerMovementTarget) {
+            if (playerDistanceToPlatform.x > 1) { 
+                Debug.Log("go");
+                playerRig.velocity = new Vector3(0, 0, 0);
 				playerDistanceToPlatform.x = 2;
 				platformsReached += 1;
 				if (platformsReached == platforms.Count) {
