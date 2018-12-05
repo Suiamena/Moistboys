@@ -2,101 +2,118 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using XInputDotNetPure;
 
 public class PlayerController : MonoBehaviour, ISnowTornado
 {
-    Rigidbody rig;
-    Vector3 velocity;
-    bool groundedSuspended = false;
-    Vector2 leftStickInput = new Vector2(0, 0);
-
-    //Animation Settings
-    GameObject animationModel;
-    Animator animator;
-    public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch;
-
-    [Header("Camera Settings")]
-    public Transform cameraTrans;
-    public Vector3 cameraOffset = new Vector3(0, 3, -14), cameraTarget = new Vector3(0, 0, 3);
-    public float cameraHorizontalSensitivity = 130, cameraVerticalSensitivity = 90f, cameraXRotationMaxClamp = 50, cameraXRotationMinClamp = -50;
-    [Range(0.0f, 1.0f)]
-    public float cameraPositionSmooting = .2f;
-    float cameraXAngle = 0, cameraYAngle = 0;
-    Vector3 cameraDesiredPosition;
-    Quaternion cameraRotation;
-    RaycastHit cameraRayHit;
-
-    [Header("Launch Settings")]
-    public bool canLaunch = true;
-    public RectTransform launchChargeDisplay;
-    public Color launchDisplayChargingColour, launchDisplayUsedColour;
-    public Vector3 minLaunchVelocity = new Vector3(0, 12, 4), maxLaunchVelocity = new Vector3(0, 72, 10);
-    public float launchChargeSpeed = 1f;
-    float launchCharge, launchChargeDisplayMaxWidth, launchChargeDisplayHeight;
-    bool launchRoutineRunning = false;
-
-    [Header("Movement Settings")]
-    public float walkingSpeed = 14;
-    public Vector3 leapingVelocity = new Vector3(0, 11, 20);
-    public float airborneMovementSpeed = 22, airborneMovementAcceleration = 26, airborneDecceleration = 21;
-    [Range(0.0f, 1.0f)]
-    public float walkingBouncingThreshold = .72f;
-
-    [Header("Hop Settings")]
-    public bool canHop = true;
-    public float hopVelocity = 9;
-    bool disableGravity = false;
-
-    [Header("Gravity Settings")]
-    public float gravityStrength = 38;
-    public float maximumFallingSpeed = 96;
-
-    //[Header("SnowTornado Settings")]
-    bool inTornado = false, canBeisSpinning = true;
-    Vector3 snowTornadoDesiredPlayerPosition;
-
-    [Header("Twirl Settings")]
-    public GameObject model;
-    public bool enableTwirl = true;
-    public float twirlTime = .26f;
-
-    [Header("Landing Indicator Settings")]
-    public Transform landingIndicatorTrans;
-    public bool useLandingIndicator = true, useLandingIndicatorOnlyWhenAirborne = false;
-    Vector3 landingIndicatorPosition;
-    float landingIndicatorYRotation;
-    Ray landingIndicatorRay;
-    RaycastHit landingIndicatorRayHit;
+	Rigidbody rig;
+	Vector3 velocity;
+	bool groundedSuspended = false;
+	Vector2 leftStickInput = new Vector2(0, 0);
 
 
-    //SETUP
-    void Start()
-    {
-        rig = GetComponent<Rigidbody>();
+	//Animation Settings
+	GameObject animationModel;
+	Animator animator;
+	[HideInInspector]
+	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch;
 
-        launchChargeDisplayHeight = launchChargeDisplay.sizeDelta.y;
-        launchChargeDisplayMaxWidth = launchChargeDisplay.sizeDelta.x;
-        launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
+	[Header("Camera Settings")]
+	public Transform cameraTrans;
+	public Vector3 cameraOffset = new Vector3(0, 3, -7.5f), cameraTarget = new Vector3(0, 0, 3);
+	public float cameraHorizontalSensitivity = 130, cameraVerticalSensitivity = 90f, cameraXRotationMaxClamp = 50, cameraXRotationMinClamp = -50;
+	[Range(0.0f, 1.0f)]
+	public float cameraPositionSmooting = .12f;
+	public float cameraVerticalInfluenceThreshold = 14, cameraVerticalInfluenceFactor = .06f;
+	float cameraVerticalInfluence = 0, cameraXAngle = 0, cameraYAngle = 0;
+	Vector3 cameraDesiredPosition;
+	Quaternion cameraRotation;
+	RaycastHit cameraRayHit;
 
-        cameraYAngle = transform.rotation.eulerAngles.y;
+	[Header("Launch Settings")]
+	public bool canLaunch = true;
+	public float launchStageTwoTime = .7f;
+	public Vector3 launchStageOneForce = new Vector3(0, 35, 10), launchStageTwoForce = new Vector3(0, 50, 22);
+	public Color launchStageOneColor = Color.green, launchStageTwoColor = Color.red;
+	public Renderer launchRenderer;
+	int[] launchMaterialIndexes = new int[] { 1, 3, 4 };
+	Color launchBaseColor = Color.white;
+	bool launchRoutineRunning = false;
 
-        animationModel = GameObject.Find("MOD_Draak");
-        animator = animationModel.GetComponent<Animator>();
-    }
+	[Header("Model Rotation Settings")]
+	public float modelRotationLerpFactor = .24f;
+	public float modelRotationMaximumXAngle = 40, modelRotationMinimumXAngle = -40;
+	Quaternion modelRotationDesiredRotation;
+	float modelRotationXAngle, modelRotationYAngle;
+
+	[Header("Movement Settings")]
+	public Vector3 leapingVelocity = new Vector3(0, 12.5f, 18);
+	public Vector3 snowLeapingVelocity = new Vector3(0, 8, 14);
+	public float airborneMovementSpeed = 25, snowAirborneMovementSpeed = 14, airborneMovementAcceleration = 50, airborneDecceleration = 56;
+	[Range(0.0f, 1.0f)]
+	public float walkingBouncingThreshold = .8f;
+	bool inSnow = false;
+
+	[Header("Hop Settings")]
+	public bool canHop = true;
+	public float hopVelocity = 9;
+	bool disableGravity = false;
+
+	[Header("Gravity Settings")]
+	public float gravityStrength = 48;
+	public float maximumFallingSpeed = 112;
+
+	//[Header("SnowTornado Settings")]
+	bool inTornado = false, canBeisSpinning = true;
+	Vector3 snowTornadoDesiredPlayerPosition;
+
+	//Boundary Settings
+	[HideInInspector]
+	public bool playerIsAirborne, enablePlayerPushBack;
+	[HideInInspector]
+	public Vector3 boundaryPushingDirection;
+
+	[Header("Twirl Settings")]
+	public GameObject dragonModel;
+	public bool enableTwirl = true;
+	public float twirlTime = .18f;
+
+	[Header("Landing Indicator Settings")]
+	public Transform landingIndicatorTrans;
+	public bool useLandingIndicator = true, useLandingIndicatorOnlyWhenAirborne = false;
+	Vector3 landingIndicatorPosition;
+	float landingIndicatorYRotation;
+	Ray landingIndicatorRay;
+	RaycastHit landingIndicatorRayHit;
+
+
+	//SETUP
+	void Start ()
+	{
+		rig = GetComponent<Rigidbody>();
+
+		cameraYAngle = transform.rotation.eulerAngles.y;
+
+		animationModel = GameObject.Find("MOD_Draak");
+		animator = animationModel.GetComponent<Animator>();
+
+		GamePad.SetVibration(0, 0, 0);
+	}
 
 
 
-    //UPDATES
-    void Update()
-    {
-        ProcessInputs();
+	//UPDATES
+	void Update ()
+	{
+		ProcessInputs();
 
-        CameraControl();
-        if (useLandingIndicator)
-            LandingIndicator();
-        Launch();
-        Hop();
-    }
+		CameraControl();
+		if (useLandingIndicator)
+			LandingIndicator();
+		Launch();
+		Hop();
+		ModelRotation();
+	}
 
     private void FixedUpdate()
     {
@@ -106,387 +123,359 @@ public class PlayerController : MonoBehaviour, ISnowTornado
             RunAnimation();
             Movement();
 
-            //RESOLVE VELOCITY
             rig.velocity = transform.rotation * velocity;
+            //APPLY BOUNDARY PUSHBACK FORCE
+            if (enablePlayerPushBack)
+            {
+                rig.velocity += boundaryPushingDirection;
+            }
         }
     }
-
 
 
     //UPDATE FUNCTIONS
-    void ProcessInputs()
-    {
-        leftStickInput = new Vector2(Input.GetAxis("Left Stick X"), Input.GetAxis("Left Stick Y"));
-    }
+    void ProcessInputs ()
+	{
+		leftStickInput = new Vector2(Input.GetAxis("Left Stick X"), Input.GetAxis("Left Stick Y"));
+	}
 
-    void CameraControl()
-    {
-        cameraYAngle += Input.GetAxis("Right Stick X") * cameraHorizontalSensitivity * Time.deltaTime;
-        cameraXAngle = Mathf.Clamp(cameraXAngle - Input.GetAxis("Right Stick Y") * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
-        cameraRotation = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
+	void CameraControl ()
+	{
+		cameraYAngle += Input.GetAxis("Right Stick X") * cameraHorizontalSensitivity * Time.deltaTime;
+		cameraXAngle = Mathf.Clamp(cameraXAngle - Input.GetAxis("Right Stick Y") * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
+		cameraRotation = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
 
-        if (Grounded())
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(0, cameraYAngle, 0));
-        }
+		if (Grounded()) {
+			transform.rotation = Quaternion.Euler(new Vector3(0, cameraYAngle, 0));
+		}
 
-        cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmooting);
+		cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmooting);
 
-        if (Physics.Raycast(transform.position, cameraDesiredPosition - transform.position, out cameraRayHit, Vector3.Distance(transform.position, cameraDesiredPosition)))
-        {
-            cameraTrans.position = Vector3.Lerp(cameraTrans.position, cameraRayHit.point, .55f);
-        }
-        else
-        {
-            cameraTrans.position = cameraDesiredPosition;
-        }
+		if (Physics.Raycast(transform.position, cameraDesiredPosition - transform.position, out cameraRayHit, Vector3.Distance(transform.position, cameraDesiredPosition))) {
+			cameraTrans.position = Vector3.Lerp(cameraTrans.position, cameraRayHit.point, .55f);
+		} else {
+			cameraTrans.position = cameraDesiredPosition;
+		}
 
-        cameraTrans.LookAt(transform.position + cameraRotation * cameraTarget);
-    }
+		if (velocity.y < -cameraVerticalInfluenceThreshold || velocity.y > cameraVerticalInfluenceThreshold) {
+			if (velocity.y < -cameraVerticalInfluenceThreshold)
+				cameraVerticalInfluence = (velocity.y + cameraVerticalInfluenceThreshold) * cameraVerticalInfluenceFactor;
+			else
+				cameraVerticalInfluence = (velocity.y - cameraVerticalInfluenceThreshold) * cameraVerticalInfluenceFactor;
+		} else {
+			cameraVerticalInfluence = 0;
+		}
+		cameraTrans.LookAt(transform.position + cameraRotation * (cameraTarget + new Vector3(0, cameraVerticalInfluence, 0)));
+	}
 
-    void LandingIndicator()
-    {
-        landingIndicatorPosition = transform.position;
+	void LandingIndicator ()
+	{
+		landingIndicatorPosition = transform.position;
 
-        landingIndicatorRay = new Ray(transform.position, Vector3.up * -1);
-        if (Physics.Raycast(landingIndicatorRay, out landingIndicatorRayHit))
-        {
-            landingIndicatorPosition.y = landingIndicatorRayHit.point.y;
-        }
+		landingIndicatorRay = new Ray(transform.position, Vector3.up * -1);
+		if (Physics.Raycast(landingIndicatorRay, out landingIndicatorRayHit)) {
+			landingIndicatorPosition.y = landingIndicatorRayHit.point.y;
+		}
 
-        landingIndicatorYRotation = transform.eulerAngles.y;
-        landingIndicatorTrans.eulerAngles = new Vector3(0, landingIndicatorYRotation, 0);
+		landingIndicatorYRotation = transform.eulerAngles.y;
+		landingIndicatorTrans.eulerAngles = new Vector3(0, landingIndicatorYRotation, 0);
 
-        if (useLandingIndicatorOnlyWhenAirborne && Grounded())
-        {
-            landingIndicatorTrans.gameObject.SetActive(false);
-        }
-        else
-        {
-            landingIndicatorTrans.gameObject.SetActive(true);
-        }
+		if (useLandingIndicatorOnlyWhenAirborne && Grounded()) {
+			landingIndicatorTrans.gameObject.SetActive(false);
+		} else {
+			landingIndicatorTrans.gameObject.SetActive(true);
+		}
 
-        landingIndicatorTrans.position = landingIndicatorPosition;
-    }
+		landingIndicatorTrans.position = landingIndicatorPosition;
+	}
 
-    void Launch()
-    {
-        if (canLaunch && Input.GetAxis("Right Trigger") != 0)
-        {
-            if (!launchRoutineRunning)
-            {
-                launchRoutineRunning = true;
-                StartCoroutine(LaunchRoutine());
-            }
-        }
-    }
+	void Launch ()
+	{
+		if (canLaunch && Input.GetAxis("Right Trigger") != 0) {
+			if (!launchRoutineRunning) {
+				launchRoutineRunning = true;
+				StartCoroutine(LaunchRoutine());
+			}
+		}
+	}
 
-
-
-    //FIXED UPDATE FUNCTIONS
-    void Movement()
-    {
-        if (Grounded())
-        {
-            if (leftStickInput.magnitude == 0)
-            {
-                velocity.x = velocity.z = 0;
-            }
-            else
-            {
-                //BOUNCE VELOCITY
-                velocity = new Vector3(leftStickInput.x, 0, leftStickInput.y) * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
-                StartCoroutine(SuspendGroundedCheck());
-            }
-        }
-        else
-        {
-            Vector2 lateralSpeed = new Vector2(velocity.x, velocity.z);
-
-            if (leftStickInput.magnitude == 0)
-            {
-                //AIR MOVEMENT WHEN NOT GIVING INPUT
-                //airborneDecceleration 21 is too low. 42 seems ok. Tweak this in the inspector.
-                if (lateralSpeed.magnitude < .2f)
-                    lateralSpeed = Vector2.zero;
-                else
-                    lateralSpeed += lateralSpeed.normalized * -airborneDecceleration * Time.fixedDeltaTime;
-            }
-            else
-            {
-                //AIR MOVEMENT WHEN GIVING INPUT
-                Vector2 lateralSpeedGain = leftStickInput.Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0)) * airborneMovementAcceleration;
-
-                lateralSpeed += lateralSpeedGain * Time.fixedDeltaTime;
-                if (lateralSpeed.magnitude > airborneMovementSpeed)
-                    lateralSpeed = lateralSpeed.normalized * airborneMovementSpeed;
-            }
-
-            velocity.x = lateralSpeed.x;
-            velocity.z = lateralSpeed.y;
-        }
-    }
-
-    //OLD MOVEMENT
-
-    //void Movement()
-    //{
-    //    if (Grounded())
-    //    {
-    //        if (leftStickInput.magnitude == 0)
-    //        {
-    //            velocity.x = velocity.z = 0;
-    //        }
-    //        else if (leftStickInput.magnitude < walkingBouncingThreshold)
-    //        {
-    //            velocity.x = leftStickInput.x * walkingSpeed;
-    //            velocity.z = leftStickInput.y * walkingSpeed;
-    //        }
-    //        else
-    //        {
-    //            velocity = new Vector3(leftStickInput.x, 0, leftStickInput.y).normalized * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
-    //            StartCoroutine(SuspendGroundedCheck());
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Vector2 lateralSpeed = new Vector2(velocity.x, velocity.z);
-
-    //        if (leftStickInput.magnitude == 0)
-    //        {
-    //            if (lateralSpeed.magnitude < .2f)
-    //                lateralSpeed = Vector2.zero;
-    //            else
-    //                lateralSpeed += lateralSpeed.normalized * -airborneDecceleration * Time.fixedDeltaTime;
-    //        }
-    //        else
-    //        {
-    //            Vector2 lateralSpeedGain = leftStickInput.Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0)) * airborneMovementAcceleration;
-
-    //            lateralSpeed += lateralSpeedGain * Time.fixedDeltaTime;
-    //            if (lateralSpeed.magnitude > airborneMovementSpeed)
-    //                lateralSpeed = lateralSpeed.normalized * airborneMovementSpeed;
-    //        }
-
-    //        velocity.x = lateralSpeed.x;
-    //        velocity.z = lateralSpeed.y;
-    //    }
-    //}
-
-    void Hop()
-    {
-        if (canHop)
-        {
-            if (Input.GetButtonDown("A Button"))
-            {
-                canHop = false;
-                if (velocity.y < 0)
-                    velocity.y = 0;
-                velocity.y += hopVelocity;
-                StartCoroutine(SuspendGroundedCheck());
-            }
-        }
-        else
-        {
-            if (Grounded())
-                canHop = true;
-        }
-    }
-
-    void Gravity()
-    {
-        if (!Grounded())
-        {
-            if (velocity.y > -maximumFallingSpeed)
-                velocity.y -= gravityStrength * Time.fixedDeltaTime;
-
-            Ray ceilingDetectRay = new Ray(transform.position, transform.up);
-            if (Physics.SphereCast(ceilingDetectRay, .4f, .15f))
-            {
-                if (velocity.y > 0)
-                    velocity.y = 0;
-            }
-        }
-    }
+	void ModelRotation ()
+	{
+		modelRotationXAngle = Vector3.Angle(Vector3.forward, new Vector3(0, velocity.y, velocity.z));
+		if (velocity.y > 0)
+			modelRotationXAngle = Mathf.Abs(modelRotationXAngle) * -1;
+		modelRotationXAngle = Mathf.Clamp(modelRotationXAngle, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
+		modelRotationYAngle = Vector3.Angle(Vector3.forward, new Vector3(velocity.x, 0, velocity.z));
+		if (velocity.x < 0)
+			modelRotationYAngle = Mathf.Abs(modelRotationYAngle) * -1;
+		modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelRotationXAngle, modelRotationYAngle, 0);
+		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
+	}
 
 
 
-    //RETURN FUNCTIONS
-    bool Grounded()
-    {
-        if (groundedSuspended)
-        {
-            return false;
-        }
+	//FIXED UPDATE FUNCTIONS
+	void Movement ()
+	{
+		if (Grounded()) {
+			if (leftStickInput.magnitude == 0) {
+				velocity.x = velocity.z = 0;
+			} else {
+				//BOUNCE VELOCITY
+				velocity = new Vector3(leftStickInput.x, 0, leftStickInput.y) * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
+				StartCoroutine(SuspendGroundedCheck());
+			}
+		} else {
+			Vector2 lateralSpeed = new Vector2(velocity.x, velocity.z);
 
-        Ray groundedRay = new Ray(transform.position, Vector3.up * -1);
-        if (Physics.SphereCast(groundedRay, .42f, .1f))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+			if (leftStickInput.magnitude == 0) {
+				//AIR MOVEMENT WHEN NOT GIVING INPUT
+				if (lateralSpeed.magnitude < 1)
+					lateralSpeed = Vector2.zero;
+				else
+					lateralSpeed += lateralSpeed.normalized * -airborneDecceleration * Time.fixedDeltaTime;
+			} else {
+				//AIR MOVEMENT WHEN GIVING INPUT
+				Vector2 lateralSpeedGain = leftStickInput.Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0)) * airborneMovementAcceleration;
 
-    void RunAnimation()
-    {
-        //Vieze animatie code
+				lateralSpeed += lateralSpeedGain * Time.fixedDeltaTime;
+				if (!inSnow) {
+					if (lateralSpeed.magnitude > airborneMovementSpeed)
+						lateralSpeed = lateralSpeed.normalized * airborneMovementSpeed;
+				} else {
+					if (lateralSpeed.magnitude > snowAirborneMovementSpeed)
+						lateralSpeed = lateralSpeed.normalized * snowAirborneMovementSpeed;
+				}
+			}
 
-        //Set Animation States
-        if (Grounded())
-        {
-            if (leftStickInput.magnitude == 0)
-            {
-                isBouncing = false;
-            }
-            else if (leftStickInput.magnitude < walkingBouncingThreshold)
-            {
-                if (!isPreLaunching)
-                {
-                    isBouncing = true;
-                }
-                else
-                {
-                    isBouncing = false;
-                }
-            }
-            else
-            {
-                if (!isPreLaunching)
-                {
-                    isBouncing = true;
-                }
-                else
-                {
-                    isBouncing = false;
-                }
-            }
-        }
+			velocity.x = lateralSpeed.x;
+			velocity.z = lateralSpeed.y;
+		}
+	}
 
-        //Play Bounce Animation
-        if (isBouncing)
-        {
-            animator.SetBool("IsBouncing", true);
-        }
-        else
-        {
-            animator.SetBool("IsBouncing", false);
-        }
-        //Play prelaunch
-        if (isPreLaunching)
-        {
-            animator.SetBool("IsLaunching", true);
-        }
-        else
-        {
-            animator.SetBool("IsLaunching", false);
-        }
-        //Play Airborne
-        if (Grounded())
-        {
-            animator.SetBool("IsAirborne", false);
-        }
-        else
-        {
-            animator.SetBool("IsAirborne", true);
-        }
-    }
+	void Hop ()
+	{
+		if (canHop) {
+			if (Input.GetButtonDown("A Button")) {
+				canHop = false;
+				if (velocity.y < 0)
+					velocity.y = 0;
+				velocity.y += hopVelocity;
+				GamePad.SetVibration(0, .2f, .2f);
+				KillVibration();
+				StartCoroutine(SuspendGroundedCheck());
+			}
+		} else {
+			if (Grounded())
+				canHop = true;
+		}
+	}
 
-    //COROUTINES
-    IEnumerator LaunchRoutine()
-    {
-        launchCharge = 0;
-        launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
+	void Gravity ()
+	{
+		if (!Grounded()) {
+			if (velocity.y > -maximumFallingSpeed)
+				velocity.y -= gravityStrength * Time.fixedDeltaTime;
 
-        while (Input.GetAxis("Right Trigger") != 0)
-        {
-            isBuildingLaunch = true;
-            launchChargeDisplay.sizeDelta = new Vector2(launchChargeDisplayMaxWidth * launchCharge, launchChargeDisplayHeight);
-            launchCharge = Mathf.Clamp(launchCharge + launchChargeSpeed * Time.deltaTime, 0, 1);
-            yield return null;
-        }
-
-        if (velocity.y < 0)
-            velocity.y = 0;
-        isBuildingLaunch = false;
-        velocity += minLaunchVelocity + (maxLaunchVelocity - minLaunchVelocity) * launchCharge;
-
-        StartCoroutine(PreLaunchRoutine());
-        StopCoroutine(SuspendGroundedCheck());
-        StartCoroutine(SuspendGroundedCheck());
-        StopCoroutine(Twirl());
-        if (enableTwirl)
-            StartCoroutine(Twirl());
-
-        launchChargeDisplay.GetComponent<Image>().color = launchDisplayUsedColour;
-
-        while (!Grounded())
-        {
-            yield return null;
-        }
-
-        StopCoroutine(Twirl());
-        launchChargeDisplay.sizeDelta = new Vector2(0, launchChargeDisplayHeight);
-        launchChargeDisplay.GetComponent<Image>().color = launchDisplayChargingColour;
-        launchRoutineRunning = false;
-    }
-
-    IEnumerator PreLaunchRoutine()
-    {
-        isPreLaunching = true;
-        yield return new WaitForSeconds(0.2F);
-        isPreLaunching = false;
-    }
-
-    IEnumerator SuspendGroundedCheck(float suspensionTime = .1f)
-    {
-        groundedSuspended = true;
-        yield return new WaitForSeconds(suspensionTime);
-        groundedSuspended = false;
-    }
-
-    IEnumerator Twirl()
-    {
-        if (model == null)
-            yield break;
-        while (!Grounded())
-        {
-            model.transform.Rotate(new Vector3(360 / twirlTime, 0, 0) * Time.deltaTime);
-            yield return null;
-        }
-        model.transform.localRotation = Quaternion.Euler(Vector3.zero);
-    }
+			Ray ceilingDetectRay = new Ray(transform.position, transform.up);
+			if (Physics.SphereCast(ceilingDetectRay, .4f, .15f)) {
+				if (velocity.y > 0)
+					velocity.y = 0;
+			}
+		} else {
+			velocity.y = 0;
+		}
+	}
 
 
 
-    //SNOW MECHANICS FUNCTIONS
-    IEnumerator ISnowTornado.HitBySnowTornado(Transform tornadoTrans, Vector3 playerOffsetFromCenter, float spinSpeed, float playerLerpFactor, Vector3 releaseVelocity)
-    {
-        if (inTornado && !canBeisSpinning)
-            yield break;
+	//RETURN FUNCTIONS
+	bool Grounded ()
+	{
+		if (groundedSuspended) {
+			return false;
+		}
 
-        inTornado = true;
-        canBeisSpinning = false;
+		Ray groundedRay = new Ray(transform.position, Vector3.up * -1);
+		RaycastHit groundedRayHit;
+		if (Physics.SphereCast(groundedRay, .42f, out groundedRayHit, .1f)) {
+			playerIsAirborne = false;
+			if (groundedRayHit.transform.tag == "Snow")
+				inSnow = true;
+			else
+				inSnow = false;
+			return true;
+		} else {
+			playerIsAirborne = true;
+			return false;
+		}
+	}
 
-        tornadoTrans.forward = -transform.right;
+	void KillVibration (float timeBeforeKill = .1f)
+	{
+		StopCoroutine(KillVibrationRoutine());
+		StartCoroutine(KillVibrationRoutine(timeBeforeKill));
+	}
 
-        while (true)
-        {
-            snowTornadoDesiredPlayerPosition = tornadoTrans.forward + playerOffsetFromCenter;
-            transform.position = Vector3.Lerp(transform.position, tornadoTrans.position + tornadoTrans.rotation * playerOffsetFromCenter, playerLerpFactor);
-            transform.rotation *= Quaternion.Euler(new Vector3(0, spinSpeed * Time.deltaTime, 0));
+	void RunAnimation ()
+	{
+		//Vieze animatie code
 
-            if (Input.GetButtonDown("A Button"))
-            {
-                velocity = releaseVelocity;
-                inTornado = false;
-                break;
-            }
-            yield return null;
-        }
-        yield return new WaitForSeconds(2f);
-        canBeisSpinning = true;
-    }
+		//Set Animation States
+		if (Grounded()) {
+			if (leftStickInput.magnitude == 0) {
+				isBouncing = false;
+			} else if (leftStickInput.magnitude < walkingBouncingThreshold) {
+				if (!isPreLaunching) {
+					isBouncing = true;
+				} else {
+					isBouncing = false;
+				}
+			} else {
+				if (!isPreLaunching) {
+					isBouncing = true;
+				} else {
+					isBouncing = false;
+				}
+			}
+		}
+
+		//Play Bounce Animation
+		if (isBouncing) {
+			animator.SetBool("IsBouncing", true);
+		} else {
+			animator.SetBool("IsBouncing", false);
+		}
+		//Play prelaunch
+		if (isPreLaunching) {
+			animator.SetBool("IsLaunching", true);
+		} else {
+			animator.SetBool("IsLaunching", false);
+		}
+		//Play Airborne
+		if (Grounded()) {
+			animator.SetBool("IsAirborne", false);
+		} else {
+			animator.SetBool("IsAirborne", true);
+		}
+	}
+
+	//COROUTINES
+	IEnumerator LaunchRoutine ()
+	{
+		float timeLapsed = 0;
+		bool stageTwoReached = false;
+
+		GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
+
+		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+			launchRenderer.materials[launchMaterialIndexes[i]].color = launchStageOneColor;
+		}
+
+		while (Input.GetAxis("Right Trigger") != 0) {
+			isBuildingLaunch = true;
+			timeLapsed += Time.deltaTime;
+
+			if (timeLapsed > launchStageTwoTime) {
+				stageTwoReached = true;
+				GamePad.SetVibration(PlayerIndex.One, .3f, .3f);
+				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+					launchRenderer.materials[launchMaterialIndexes[i]].color = launchStageTwoColor;
+				}
+			}
+			yield return null;
+		}
+
+		GamePad.SetVibration(PlayerIndex.One, 0.8f, 0.8f);
+		KillVibration(.15f);
+
+		if (velocity.y < 0)
+			velocity.y = 0;
+		isBuildingLaunch = false;
+
+		if (!stageTwoReached) {
+			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageOneForce.z;
+			velocity.y = launchStageOneForce.y;
+		} else {
+			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageTwoForce.z;
+			velocity.y = launchStageTwoForce.y;
+		}
+
+		StartCoroutine(PreLaunchRoutine());
+		StopCoroutine(SuspendGroundedCheck());
+		StartCoroutine(SuspendGroundedCheck());
+		StopCoroutine(Twirl());
+		if (enableTwirl)
+			StartCoroutine(Twirl());
+
+		while (!Grounded()) {
+			yield return null;
+		}
+
+		StopCoroutine(Twirl());
+		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+			launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
+		}
+		launchRoutineRunning = false;
+	}
+
+	IEnumerator PreLaunchRoutine ()
+	{
+		isPreLaunching = true;
+		yield return new WaitForSeconds(0.2F);
+		isPreLaunching = false;
+	}
+
+	IEnumerator SuspendGroundedCheck (float suspensionTime = .1f)
+	{
+		groundedSuspended = true;
+		yield return new WaitForSeconds(suspensionTime);
+		groundedSuspended = false;
+	}
+
+	IEnumerator KillVibrationRoutine (float timeBeforeKill = 0.1f)
+	{
+		yield return new WaitForSeconds(timeBeforeKill);
+		GamePad.SetVibration((PlayerIndex) 0, 0, 0);
+	}
+
+	IEnumerator Twirl ()
+	{
+		if (dragonModel == null)
+			yield break;
+		while (!Grounded()) {
+			dragonModel.transform.Rotate(new Vector3(360 / twirlTime, 0, 0) * Time.deltaTime);
+			yield return null;
+		}
+		dragonModel.transform.localRotation = Quaternion.Euler(Vector3.zero);
+	}
+
+
+
+	//SNOW MECHANICS FUNCTIONS
+	IEnumerator ISnowTornado.HitBySnowTornado (Transform tornadoTrans, Vector3 playerOffsetFromCenter, float spinSpeed, float playerLerpFactor, Vector3 releaseVelocity)
+	{
+		if (inTornado && !canBeisSpinning)
+			yield break;
+
+		inTornado = true;
+		canBeisSpinning = false;
+
+		tornadoTrans.forward = -transform.right;
+
+		while (true) {
+			snowTornadoDesiredPlayerPosition = tornadoTrans.forward + playerOffsetFromCenter;
+			transform.position = Vector3.Lerp(transform.position, tornadoTrans.position + tornadoTrans.rotation * playerOffsetFromCenter, playerLerpFactor);
+			transform.rotation *= Quaternion.Euler(new Vector3(0, spinSpeed * Time.deltaTime, 0));
+
+			if (Input.GetButtonDown("A Button")) {
+				velocity = releaseVelocity;
+				inTornado = false;
+				break;
+			}
+			yield return null;
+		}
+		yield return new WaitForSeconds(2f);
+		canBeisSpinning = true;
+	}
 }

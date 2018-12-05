@@ -22,4 +22,12 @@ public static class ExtensionMethods
 		Vector3 vec = rhs * new Vector3(lhs.x, 0, lhs.y);
 		return new Vector2(vec.x, vec.z);
 	}
+
+	public static int ToInt (this bool lhs)
+	{
+		if (lhs)
+			return 1;
+		else
+			return 0;
+	}
 }
