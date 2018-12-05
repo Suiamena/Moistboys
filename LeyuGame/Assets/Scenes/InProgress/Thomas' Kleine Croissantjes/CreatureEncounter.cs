@@ -61,9 +61,9 @@ public class CreatureEncounter : MonoBehaviour {
         Destroy(destructibleBoi);
 
         yield return new WaitForSeconds(3f);
-        //cutsceneCamera.SetActive(false);
-        //controllerSwitch.enabled = true;
-        //Destroy(gameObject);
+        cutsceneCamera.SetActive(false);
+        controllerSwitch.enabled = true;
+        Destroy(gameObject);
     }
 
 	void Update ()
