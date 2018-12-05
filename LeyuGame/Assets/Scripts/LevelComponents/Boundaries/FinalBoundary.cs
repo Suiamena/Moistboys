@@ -35,7 +35,7 @@ public class FinalBoundary : MonoBehaviour {
     PlayerController playerScript;
 
     //MANAGER
-    bool coroutineStarted;
+    bool snowSpawned;
 
     private void Awake()
     {
@@ -67,7 +67,11 @@ public class FinalBoundary : MonoBehaviour {
                 playerScript.enablePlayerPushBack = true;
             }
 
-            snowParticlesWindObject.SetActive(true);
+            if (!snowSpawned)
+            {
+                StartCoroutine(SpawnSnowParticles());
+                snowSpawned = true;
+            }
 
             //WIND FORCE
             windStrength += windStrengthAcceleration;
@@ -92,6 +96,7 @@ public class FinalBoundary : MonoBehaviour {
             main.startSpeed = 10;
             windStrength = 0;
             playerScript.enablePlayerPushBack = false;
+            snowSpawned = false;
         }
     }
 
@@ -106,6 +111,7 @@ public class FinalBoundary : MonoBehaviour {
 
     IEnumerator SpawnSnowParticles()
     {
+        snowParticlesWindObject.SetActive(true);
         yield return new WaitForSeconds(1F);
         snowParticlesObject.SetActive(false);
     }
