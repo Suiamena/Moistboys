@@ -4,10 +4,24 @@ using UnityEngine;
 
 public class FinalBoundary : MonoBehaviour {
 
-    //VECTOR CALCULATION
+    [Header("Wall Endpoints")]
     public GameObject objectA;
     public GameObject objectB;
 
+    [Header("Particle Settings")]
+    public GameObject snowParticlesObject;
+    public GameObject snowParticlesWindObject;
+    ParticleSystem snowParticlesSystem;
+    ParticleSystem.MainModule main;
+    public int maxParticlesSpeed;
+    float particlesSpeed;
+
+    [Header("Wind Settings")]
+    public float windStrengthAcceleration;
+    public float maxWindStrength;
+    float windStrength;
+
+    //PENDICULAR CALCULATION
     Vector3 a;
     Vector3 b;
     Vector3 c;
@@ -20,16 +34,6 @@ public class FinalBoundary : MonoBehaviour {
     GameObject player;
     PlayerController playerScript;
 
-    GameObject snowParticlesObject;
-    ParticleSystem snowParticlesSystem;
-    ParticleSystem.EmissionModule emissionRate;
-
-    ParticleSystem.MainModule main;
-
-    //WIND SETTINGS
-    public float windStrengthAcceleration;
-    float windStrength;
-
     //MANAGER
     bool coroutineStarted;
 
@@ -38,9 +42,7 @@ public class FinalBoundary : MonoBehaviour {
         player = GameObject.Find("Character");
         playerScript = player.GetComponent<PlayerController>();
 
-        snowParticlesObject = GameObject.Find("SnowParticles");
-        snowParticlesSystem = snowParticlesObject.GetComponent<ParticleSystem>();
-        emissionRate = snowParticlesSystem.emission;
+        snowParticlesSystem = snowParticlesWindObject.GetComponent<ParticleSystem>();
         main = snowParticlesSystem.main;
 
         //CALCULATE PENDICULAR
@@ -65,12 +67,18 @@ public class FinalBoundary : MonoBehaviour {
                 playerScript.enablePlayerPushBack = true;
             }
 
-            emissionRate.rateOverTime = 50000f;
-            main.maxParticles = 10000;
+            snowParticlesWindObject.SetActive(true);
 
+            //WIND FORCE
             windStrength += windStrengthAcceleration;
+            windStrength = Mathf.Clamp(windStrength, 0, maxWindStrength);
             appliedPushDirection = pushDirection * windStrength;
             playerScript.boundaryPushingDirection = appliedPushDirection;
+
+            //PARTICLES
+            particlesSpeed = windStrength;
+            particlesSpeed = Mathf.Clamp(particlesSpeed, 0, maxParticlesSpeed);
+            main.startSpeed = particlesSpeed;
         }
     }
 
@@ -78,9 +86,10 @@ public class FinalBoundary : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            emissionRate.rateOverTime = 500f;
-            main.maxParticles = 5000;
+            snowParticlesObject.SetActive(true);
+            snowParticlesWindObject.SetActive(false);
 
+            main.startSpeed = 10;
             windStrength = 0;
             playerScript.enablePlayerPushBack = false;
         }
@@ -93,6 +102,12 @@ public class FinalBoundary : MonoBehaviour {
             windStrength += windStrengthAcceleration;
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    IEnumerator SpawnSnowParticles()
+    {
+        yield return new WaitForSeconds(1F);
+        snowParticlesObject.SetActive(false);
     }
 
 }
