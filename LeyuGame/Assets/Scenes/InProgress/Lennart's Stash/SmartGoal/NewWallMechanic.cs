@@ -29,6 +29,7 @@ public class NewWallMechanic : MonoBehaviour
 	[Header("Social Events")]
 	public GameObject beforeSequenceSocialPrefab;
 	public GameObject duringSequenceSocialPrefab, afterSequenceSocialPrefab;
+	bool beforeSequenceEventPlayed = false, duringSequenceEventPlayed = false, afterSequenceEventPlayed = false;
 
 	[Header("")]
 	//CREATURE
@@ -55,7 +56,13 @@ public class NewWallMechanic : MonoBehaviour
 		moustacheAnim = moustacheBoi.GetComponent<Animator>();
 
 		if (beforeSequenceSocialPrefab != null) {
-
+			beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+				beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Execute(() => {
+					beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().End(() => { beforeSequenceEventPlayed = true; });
+				});
+			});
+		} else {
+			beforeSequenceEventPlayed = true;
 		}
 	}
 
@@ -82,14 +89,16 @@ public class NewWallMechanic : MonoBehaviour
 
 	void TriggerSequence ()
 	{
-		if (Vector3.Distance(moustacheBoi.transform.position, player.transform.position) < triggerAbilityRange) {
-			if (!creatureSpawnsPlatforms) {
-				pressButtonPopup.SetActive(true);
+		if (beforeSequenceEventPlayed) {
+			if (Vector3.Distance(moustacheBoi.transform.position, player.transform.position) < triggerAbilityRange) {
+				if (!creatureSpawnsPlatforms) {
+					pressButtonPopup.SetActive(true);
+				}
+				enableSequence = true;
+			} else {
+				pressButtonPopup.SetActive(false);
+				enableSequence = false;
 			}
-			enableSequence = true;
-		} else {
-			pressButtonPopup.SetActive(false);
-			enableSequence = false;
 		}
 	}
 
