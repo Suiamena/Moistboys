@@ -7,12 +7,12 @@ public class TransitionMoment : MonoBehaviour
 {
 
     GameObject managerObject;
-    MusicManager managerScript;
+    Level1Music managerScript;
 
     private void Awake()
     {
-        managerObject = GameObject.Find("NewMusicManager");
-        managerScript = managerObject.GetComponent<MusicManager>();
+        managerObject = GameObject.Find("Level1MusicManager");
+        managerScript = managerObject.GetComponent<Level1Music>();
     }
 
     private void OnTriggerEnter(Collider other)

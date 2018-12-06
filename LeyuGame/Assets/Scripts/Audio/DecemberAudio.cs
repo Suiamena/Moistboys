@@ -25,9 +25,9 @@ public class DecemberAudio : MonoBehaviour
     public FMOD.Studio.ParameterInstance AreaParameter;
 
     public float windStage;
-    public static float amethystStage;
+    public float amethystStage;
     public float insideStage;
-    public static float areaStage;
+    public float areaStage;
 
     // OBJECTS
     [FMODUnity.EventRef]
@@ -54,8 +54,8 @@ public class DecemberAudio : MonoBehaviour
     public FMOD.Studio.EventInstance Walljump;
 
     public string launch = "event:/Dragon/Launch";
-    public FMOD.Studio.EventInstance Launch;
-    public FMOD.Studio.ParameterInstance LaunchParameter;
+    public static FMOD.Studio.EventInstance Launch;
+    public static FMOD.Studio.ParameterInstance LaunchParameter;
 
     public static float launchStage;
 
@@ -68,8 +68,8 @@ public class DecemberAudio : MonoBehaviour
     public FMOD.Studio.ParameterInstance HeightParameter;
     public FMOD.Studio.ParameterInstance GroundParameter;
 
-    public static float heightStage;
-    public static float groundStage;
+    public float heightStage;
+    public float groundStage;
 
 
     void Awake()
@@ -110,9 +110,7 @@ public class DecemberAudio : MonoBehaviour
         Bounce.getParameter("Height", out HeightParameter);
         Bounce.getParameter("Ground", out GroundParameter);
 
-
-
-        // start all
+        //START MUSIC AND AMBIENCE
         Music.start();
         Ambience.start();
     }

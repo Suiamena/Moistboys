@@ -12446,8 +12446,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72c5476cf34bdfd438c5cbf3f320efbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchSound: 0
-  launch: event:/Dragon/Launch
   countMusicStage: 0
   launchParticles: {fileID: 1729310620024972, guid: 231661e035515bb47866e81577d93c94,
     type: 2}
@@ -35078,7 +35076,7 @@ GameObject:
   - component: {fileID: 1758539209}
   - component: {fileID: 1758539207}
   m_Layer: 0
-  m_Name: NewMusicManager
+  m_Name: Level1MusicManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35087,8 +35085,7 @@ GameObject:
 --- !u!114 &1758539207
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114518726906369430, guid: d08258dbe2bd8304b8b5043ab9639b20,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1758539206}
   m_Enabled: 1
@@ -35096,8 +35093,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72c5476cf34bdfd438c5cbf3f320efbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchSound: 0
-  launch: event:/Dragon/Launch
   countMusicStage: 0
   launchParticles: {fileID: 1729310620024972, guid: 231661e035515bb47866e81577d93c94,
     type: 2}
@@ -35147,7 +35142,9 @@ MonoBehaviour:
   music: event:/Music
   ambience: event:/Ambience/Ambience
   windStage: 0
+  amethystStage: 0
   insideStage: 0
+  areaStage: 0
   lighttower: event:/Objects/Lighttower
   flaps: event:/Moustache_Boy/Flaps
   screeches: event:/Moustache_Boy/Screeches
@@ -35157,6 +35154,8 @@ MonoBehaviour:
   launch: event:/Dragon/Launch
   dragon_screeches: event:/Dragon/Dragon_Screeches
   bounce: event:/Dragon/Bounce
+  heightStage: 0
+  groundStage: 0
 --- !u!4 &1760563892
 Transform:
   m_ObjectHideFlags: 0
