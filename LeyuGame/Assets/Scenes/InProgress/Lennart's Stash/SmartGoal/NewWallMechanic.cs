@@ -21,7 +21,7 @@ public class NewWallMechanic : MonoBehaviour
 
 	[Header("Platform Settings")]
 	public GameObject platformsObject;
-	public List<GameObject> platforms = new List<GameObject>();
+	List<GameObject> platforms = new List<GameObject>();
 
 	[Header("Other Settings")]
 	public int triggerAbilityRange = 10;
@@ -56,6 +56,13 @@ public class NewWallMechanic : MonoBehaviour
 
 		moustacheAnim = moustacheBoi.GetComponent<Animator>();
 
+		Transform platformsParent;
+		platformsParent = transform.parent.GetChild(1);
+		platforms = new List<GameObject>();
+		for (int i = 0; i < platformsParent.childCount; i++) {
+			platforms.Add(platformsParent.GetChild(i).gameObject);
+		}
+
 		if (beforeSequenceSocialPrefab != null) {
 			beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
 				beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Execute(() => {
@@ -64,18 +71,6 @@ public class NewWallMechanic : MonoBehaviour
 			});
 		} else {
 			beforeSequenceEventPlayed = true;
-		}
-	}
-
-	Transform platformsParent;
-
-	private void OnDrawGizmosSelected ()
-	{
-		platformsParent = transform.parent.GetChild(1);
-
-		platforms = new List<GameObject>();
-		for (int i = 0; i < platformsParent.childCount; i++) {
-			platforms.Add(platformsParent.GetChild(i).gameObject);
 		}
 	}
 
@@ -149,7 +144,7 @@ public class NewWallMechanic : MonoBehaviour
 			playerDistanceToPlatform = new Vector3(Mathf.Abs(playerDistanceToPlatform.x), playerDistanceToPlatform.y, playerDistanceToPlatform.z);
 			if (playerDistanceToPlatform.x < 0.5f) {
 				playerRig.velocity = new Vector3(0, 0, 0);
-				activePlatform += 1;
+				++activePlatform;
 				if (activePlatform == platforms.Count) {
 					EndSequence();
 				}
