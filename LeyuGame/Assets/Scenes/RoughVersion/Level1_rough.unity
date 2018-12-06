@@ -23376,6 +23376,28 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: c3a0424951b18af4b97bcd35b905eb8e, type: 3}
+--- !u!114 &1169142574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1169142569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: event:/Objects/Lighttower
+  PlayEvent: 1
+  StopEvent: 2
+  CollisionTag: 
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &1170374279
 Prefab:
   m_ObjectHideFlags: 0
@@ -35054,7 +35076,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1758539209}
-  - component: {fileID: 1758539208}
   - component: {fileID: 1758539207}
   m_Layer: 0
   m_Name: NewMusicManager
@@ -35080,29 +35101,6 @@ MonoBehaviour:
   countMusicStage: 0
   launchParticles: {fileID: 1729310620024972, guid: 231661e035515bb47866e81577d93c94,
     type: 2}
---- !u!114 &1758539208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114586354573740748, guid: d08258dbe2bd8304b8b5043ab9639b20,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1758539206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: event:/Music
-  PlayEvent: 1
-  StopEvent: 0
-  CollisionTag: 
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 0
-  OverrideMaxDistance: 0
 --- !u!4 &1758539209
 Transform:
   m_ObjectHideFlags: 0
@@ -35128,7 +35126,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1760563892}
   - component: {fileID: 1760563891}
-  - component: {fileID: 1760563893}
   m_Layer: 0
   m_Name: FMODListener
   m_TagString: Untagged
@@ -35173,28 +35170,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1760563893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1760563890}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: event:/Ambience/Ambience
-  PlayEvent: 0
-  StopEvent: 0
-  CollisionTag: 
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 0
-  OverrideMaxDistance: 0
 --- !u!1 &1763177752
 GameObject:
   m_ObjectHideFlags: 0
