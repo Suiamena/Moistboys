@@ -25,6 +25,7 @@ public class NewWallMechanic : MonoBehaviour
 
 	[Header("Other Settings")]
 	public int triggerAbilityRange = 10;
+	public float cameraMovementSpeed = 40;
 
 	[Header("Social Events")]
 	public GameObject beforeSequenceSocialPrefab;
@@ -43,7 +44,7 @@ public class NewWallMechanic : MonoBehaviour
 	//MANAGER
 	public GameObject playerNose;
 	bool enableSequence, creatureSpawnsPlatforms, sequenceIsRunning, playerIsJumping;
-	int platformsReached;
+	int activePlatform;
 
 	private void Awake ()
 	{
@@ -66,15 +67,6 @@ public class NewWallMechanic : MonoBehaviour
 		}
 	}
 
-	private void FixedUpdate ()
-	{
-		TriggerSequence();
-		StartSequence();
-		StartJump();
-		MakeJump();
-	}
-
-	//INSPECTOR HELP
 	Transform platformsParent;
 
 	private void OnDrawGizmosSelected ()
@@ -86,6 +78,15 @@ public class NewWallMechanic : MonoBehaviour
 			platforms.Add(platformsParent.GetChild(i).gameObject);
 		}
 	}
+
+	private void FixedUpdate ()
+	{
+		TriggerSequence();
+		StartSequence();
+		StartJump();
+		MakeJump();
+	}
+	
 
 	void TriggerSequence ()
 	{
@@ -112,15 +113,14 @@ public class NewWallMechanic : MonoBehaviour
 				playerAnim.SetBool("IsAirborne", false);
 
 				//DISABLE PLAYER MOVEMENT
-				player.transform.position = new Vector3(player.transform.position.x, moustacheBoi.transform.position.y, playerRig.transform.position.z);
+				player.transform.position = new Vector3(player.transform.position.x, moustacheBoi.transform.position.y, player.transform.position.z);
 				playerScript.enabled = false;
-				playerRig.velocity = new Vector3(0, 0, 0);
+				playerRig.velocity = Vector3.zero;
 
 				//SHOW CAMERA
 				sequenceCamera.SetActive(true);
-				sequenceCamera.transform.position = player.transform.position;
-				sequenceCamera.transform.position += sequenceCamera.transform.rotation * new Vector3(0, 8, -10);
-				sequenceCamera.transform.LookAt(platforms[0].transform);
+				sequenceCamera.transform.position = platforms[0].transform.GetChild(0).position;
+				sequenceCamera.transform.LookAt(player.transform.position);
 
 				//SPAWN OBJECTS
 				creatureSpawnsPlatforms = true;
@@ -139,17 +139,18 @@ public class NewWallMechanic : MonoBehaviour
 	void MakeJump ()
 	{
 		if (playerIsJumping) {
+			sequenceCamera.transform.position = Vector3.MoveTowards(sequenceCamera.transform.position, platforms[activePlatform].transform.GetChild(0).position, cameraMovementSpeed * Time.deltaTime);
 			sequenceCamera.transform.LookAt(player.transform);
 
-			playerMovementTarget = platforms[platformsReached].transform.position;
+			playerMovementTarget = platforms[activePlatform].transform.position;
 			playerPositionLerp = new Vector3(player.transform.position.x, Mathf.Lerp(player.transform.position.y, playerMovementTarget.y, playerLerpSpeed * Time.deltaTime), player.transform.position.z);
 			player.transform.position = Vector3.MoveTowards(playerPositionLerp, playerMovementTarget, playerJumpSpeed * Time.deltaTime);
 			playerDistanceToPlatform = player.transform.position - playerMovementTarget;
 			playerDistanceToPlatform = new Vector3(Mathf.Abs(playerDistanceToPlatform.x), playerDistanceToPlatform.y, playerDistanceToPlatform.z);
 			if (playerDistanceToPlatform.x < 0.5f) {
 				playerRig.velocity = new Vector3(0, 0, 0);
-				platformsReached += 1;
-				if (platformsReached == platforms.Count) {
+				activePlatform += 1;
+				if (activePlatform == platforms.Count) {
 					EndSequence();
 				}
 				playerIsJumping = false;
@@ -168,7 +169,7 @@ public class NewWallMechanic : MonoBehaviour
 		sequenceCamera.SetActive(false);
 		creatureSpawnsPlatforms = false;
 		sequenceIsRunning = false;
-		platformsReached = 0;
+		activePlatform = 0;
 	}
 
 	IEnumerator CreatureDoesTrick ()
