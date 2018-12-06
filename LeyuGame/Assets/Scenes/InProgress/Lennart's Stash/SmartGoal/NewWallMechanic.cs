@@ -6,9 +6,8 @@ public class NewWallMechanic : MonoBehaviour
 {
 
 	[Header("Player Settings")]
-	public int playerLerpSpeed;
-	public int playerJumpSpeed;
-    //Default: playerLerpSpeed 5, playerJumpSpeed 40
+	public int playerLerpSpeed = 5;
+	public int playerJumpSpeed = 40;
 
     GameObject player;
 	GameObject playerModel;
@@ -26,6 +25,10 @@ public class NewWallMechanic : MonoBehaviour
 
 	[Header("Other Settings")]
 	public int triggerAbilityRange = 10;
+
+	[Header("Social Events")]
+	public GameObject beforeSequenceSocialPrefab;
+	public GameObject duringSequenceSocialPrefab, afterSequenceSocialPrefab;
 
 	//CREATURE
 	public GameObject moustacheBoi;
@@ -49,6 +52,10 @@ public class NewWallMechanic : MonoBehaviour
 		playerAnim = playerModel.GetComponent<Animator>();
 
 		moustacheAnim = moustacheBoi.GetComponent<Animator>();
+
+		if (beforeSequenceSocialPrefab != null) {
+
+		}
 	}
 
 	private void FixedUpdate ()
