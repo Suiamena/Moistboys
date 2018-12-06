@@ -64,12 +64,12 @@ public class DecemberAudio : MonoBehaviour
     public FMOD.Studio.ParameterInstance Dragon_ScreechesParameter;
 
     public string bounce = "event:/Dragon/Bounce";
-    public FMOD.Studio.EventInstance Bounce;
-    public FMOD.Studio.ParameterInstance HeightParameter;
-    public FMOD.Studio.ParameterInstance GroundParameter;
+    public static FMOD.Studio.EventInstance Bounce;
+    public static FMOD.Studio.ParameterInstance HeightParameter;
+    public static FMOD.Studio.ParameterInstance GroundParameter;
 
     public float heightStage;
-    public float groundStage;
+    public static float groundStage;
 
 
     void Awake()

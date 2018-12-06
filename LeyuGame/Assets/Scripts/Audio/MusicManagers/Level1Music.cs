@@ -32,6 +32,7 @@ public class Level1Music : MonoBehaviour {
     private void FixedUpdate()
     {
         RegulateMusic();
+        PlayBounce();
         PlayLaunch();
     }
 
@@ -50,6 +51,16 @@ public class Level1Music : MonoBehaviour {
                 DecemberAudio.musicStage = 3.5f;
                 playCreatureSound = true;
             }
+        }
+    }
+
+    void PlayBounce()
+    {
+        if (playerScript.playerIsAirborne)
+        {
+            Debug.Log("ground");
+            DecemberAudio.groundStage = 1f;
+            DecemberAudio.Bounce.start();
         }
     }
 
