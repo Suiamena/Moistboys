@@ -38,7 +38,7 @@ public class FinalBoundary : MonoBehaviour {
     PlayerController playerScript;
 
     //MANAGER
-    bool snowSpawned;
+    bool snowSpawned, snowDespawned;
 
     private void Awake()
     {
@@ -76,6 +76,7 @@ public class FinalBoundary : MonoBehaviour {
                 StartCoroutine(SpawnSnowParticles());
                 snowSpawned = true;
             }
+            snowDespawned = false;
 
             //WIND FORCE
             windStrength += windStrengthAcceleration;
@@ -98,14 +99,15 @@ public class FinalBoundary : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            snowParticlesObject.SetActive(true);
-            snowParticlesWindObject.SetActive(false);
-
-            main.startSpeed = 10;
-            emissionModule.rateOverTime = 5000;
             windStrength = 0;
             playerScript.enablePlayerPushBack = false;
             snowSpawned = false;
+
+            if (!snowDespawned)
+            {
+                StartCoroutine(DecreaseWindStrength());
+                snowDespawned = true;
+            }
         }
     }
 
@@ -114,6 +116,30 @@ public class FinalBoundary : MonoBehaviour {
         for (int i = 0; i < 100; i++)
         {
             windStrength += windStrengthAcceleration;
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    IEnumerator DecreaseWindStrength()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            //PARTICLES
+            particlesAmount = particlesAmount / 2;
+            particlesAmount = Mathf.Clamp(particlesAmount, 0, maxParticlesAmount);
+            emissionModule.rateOverTime = particlesAmount;
+            Debug.Log(particlesAmount);
+            if (particlesAmount < 500)
+            {
+                snowParticlesObject.SetActive(true);
+            }
+            if (particlesAmount < 1)
+            {
+                snowParticlesWindObject.SetActive(false);
+                particlesAmount = 0;
+                main.startSpeed = 10;
+                break;
+            }
             yield return new WaitForSeconds(0.1f);
         }
     }
