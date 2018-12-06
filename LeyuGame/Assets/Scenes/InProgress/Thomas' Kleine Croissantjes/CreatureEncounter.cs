@@ -15,7 +15,9 @@ public class CreatureEncounter : MonoBehaviour {
     GameObject creature;
     Vector3 distanceToWaypointDraak;
 
-	void Start ()
+    public ParticleSystem snowExplosionPrefab;
+
+    void Start ()
     {
         player = GameObject.Find("Character");
         creature = GameObject.Find("MOD_Moustacheboi_ANIM_IDLE");
@@ -39,12 +41,16 @@ public class CreatureEncounter : MonoBehaviour {
         playerAnim.SetBool("IsLaunching",false);
         //playerAnim.SetBool("IsBouncing", false);
         playerAnim.SetBool("IsAirborne", false);
+
+        //Teleport to position on cutscene start:
         //player.transform.position = wayPointDraak.transform.position;
         //player.transform.rotation = Quaternion.Euler(10, wayPointDraak.transform.rotation.y, wayPointDraak.transform.rotation.y);
+        //
     }
 
     void OnTriggerStay()
     {
+        //Move to position on cutscene start:
         player.transform.position = Vector3.MoveTowards(player.transform.position, wayPointDraak.transform.position, 10*Time.deltaTime);
         player.transform.LookAt(creature.transform.position);
         distanceToWaypointDraak = player.transform.position - wayPointDraak.transform.position;
@@ -57,12 +63,16 @@ public class CreatureEncounter : MonoBehaviour {
 
     IEnumerator CutsceneTime()
     {
+        yield return new WaitForSeconds(1.8f);
+        ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
+
         yield return new WaitForSeconds(2f);
         Destroy(destructibleBoi);
 
         yield return new WaitForSeconds(3f);
         cutsceneCamera.SetActive(false);
         controllerSwitch.enabled = true;
+        playerBody.velocity = new Vector3(0, 0, 0);
         Destroy(gameObject);
     }
 
@@ -71,3 +81,9 @@ public class CreatureEncounter : MonoBehaviour {
 		
 	}
 }
+
+
+//ParticleSystem breakParticles = Instantiate(breakParticlesPrefab) as ParticleSystem;
+//breakParticles.transform.position = transform.position;
+       // breakParticles.Emit(100);
+       // Destroy(breakParticles.gameObject, breakParticles.main.duration);
