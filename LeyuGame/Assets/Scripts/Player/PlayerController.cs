@@ -360,10 +360,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
         animator.SetBool("IsAirborne", false);
 
         //DISABLE PLAYER MOVEMENT
-        velocity = new Vector3(0, 0, 0);
         transform.rotation = Quaternion.Euler(0, 0, 0);
-        rig.velocity = velocity;
-        Debug.Log("stop!");
         enabled = false;
     }
 
