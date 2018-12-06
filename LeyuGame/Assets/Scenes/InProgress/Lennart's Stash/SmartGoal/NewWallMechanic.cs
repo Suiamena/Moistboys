@@ -55,6 +55,7 @@ public class NewWallMechanic : MonoBehaviour
 
 		moustacheAnim = moustacheBoi.GetComponent<Animator>();
 
+        //SOCIAL ENCOUNTERS SETUP
 		if (beforeSequenceSocialPrefab != null) {
 			beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
 				beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Execute(() => {
@@ -74,20 +75,21 @@ public class NewWallMechanic : MonoBehaviour
 		MakeJump();
 	}
 
-	//INSPECTOR HELP
-	Transform platformsParent;
+    //INSPECTOR HELP
+    Transform platformsParent;
 
-	private void OnDrawGizmosSelected ()
-	{
-		platformsParent = transform.parent.GetChild(1);
+    private void OnDrawGizmosSelected()
+    {
+        platformsParent = transform.parent.GetChild(1);
 
-		platforms = new List<GameObject>();
-		for (int i = 0; i < platformsParent.childCount; i++) {
-			platforms.Add(platformsParent.GetChild(i).gameObject);
-		}
-	}
+        platforms = new List<GameObject>();
+        for (int i = 0; i < platformsParent.childCount; i++)
+        {
+            platforms.Add(platformsParent.GetChild(i).gameObject);
+        }
+    }
 
-	void TriggerSequence ()
+    void TriggerSequence ()
 	{
 		if (beforeSequenceEventPlayed) {
 			if (Vector3.Distance(moustacheBoi.transform.position, player.transform.position) < triggerAbilityRange) {
