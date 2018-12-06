@@ -12,9 +12,11 @@ public class FinalBoundary : MonoBehaviour {
     public GameObject snowParticlesObject;
     public GameObject snowParticlesWindObject;
     ParticleSystem snowParticlesSystem;
+    ParticleSystem.EmissionModule emissionModule;
     ParticleSystem.MainModule main;
     public int maxParticlesSpeed;
     float particlesSpeed;
+    float particlesAmount;
 
     [Header("Wind Settings")]
     public float windStrengthAcceleration;
@@ -43,6 +45,7 @@ public class FinalBoundary : MonoBehaviour {
         playerScript = player.GetComponent<PlayerController>();
 
         snowParticlesSystem = snowParticlesWindObject.GetComponent<ParticleSystem>();
+        emissionModule = snowParticlesSystem.emission;
         main = snowParticlesSystem.main;
 
         //CALCULATE PENDICULAR
@@ -83,6 +86,10 @@ public class FinalBoundary : MonoBehaviour {
             particlesSpeed = windStrength;
             particlesSpeed = Mathf.Clamp(particlesSpeed, 0, maxParticlesSpeed);
             main.startSpeed = particlesSpeed;
+
+            particlesAmount = 100 * windStrength;
+            particlesAmount = Mathf.Clamp(particlesAmount, 0, 10000);
+            emissionModule.rateOverTime = particlesAmount;
         }
     }
 
@@ -94,6 +101,7 @@ public class FinalBoundary : MonoBehaviour {
             snowParticlesWindObject.SetActive(false);
 
             main.startSpeed = 10;
+            emissionModule.rateOverTime = 5000;
             windStrength = 0;
             playerScript.enablePlayerPushBack = false;
             snowSpawned = false;
