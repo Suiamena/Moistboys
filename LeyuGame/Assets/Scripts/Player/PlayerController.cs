@@ -120,7 +120,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
             RunAnimation();
             Movement();
 
-            Debug.Log(velocity);
             rig.velocity = transform.rotation * velocity;
             //APPLY BOUNDARY PUSHBACK FORCE
             if (enablePlayerPushBack)
