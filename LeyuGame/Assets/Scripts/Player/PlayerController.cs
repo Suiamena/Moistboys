@@ -86,7 +86,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	Ray landingIndicatorRay;
 	RaycastHit landingIndicatorRayHit;
 
-
 	//SETUP
 	void Start ()
 	{
@@ -99,8 +98,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 		GamePad.SetVibration(0, 0, 0);
 	}
-
-
 
 	//UPDATES
 	void Update ()
@@ -212,8 +209,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
 	}
 
-
-
 	//FIXED UPDATE FUNCTIONS
 	void Movement ()
 	{
@@ -287,8 +282,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		}
 	}
 
-
-
 	//RETURN FUNCTIONS
 	bool Grounded ()
 	{
@@ -319,8 +312,6 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 	void RunAnimation ()
 	{
-		//Vieze animatie code
-
 		//Set Animation States
 		if (Grounded()) {
 			if (leftStickInput.magnitude == 0) {
@@ -359,6 +350,18 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			animator.SetBool("IsAirborne", true);
 		}
 	}
+
+    void ResetPlayer()
+    {
+        //DISABLE PLAYER ANIMATION
+        animator.SetBool("IsBouncing", false);
+        animator.SetBool("IsLaunching", false);
+        animator.SetBool("IsAirborne", false);
+
+        //DISABLE PLAYER MOVEMENT
+        enabled = false;
+        velocity = new Vector3(0, 0, 0);
+    }
 
 	//COROUTINES
 	IEnumerator LaunchRoutine ()
