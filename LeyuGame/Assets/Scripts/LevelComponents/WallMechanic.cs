@@ -96,13 +96,15 @@ public class WallMechanic : MonoBehaviour
 					}
 				} else {
 					//Start Spawning Platforms Cutscene
-					playerRig.velocity = new Vector3(0, 0, 0);
+					//playerRig.velocity = new Vector3(0, 0, 0);
 					StartCoroutine(CreatureDoesTrick());
 					creatureSpawnedPlatforms = true;
 					platformsObject.SetActive(true);
-					playerScript.enabled = false;
+					//playerScript.enabled = false;
 					camAnchor.SetActive(true);
 					playerCam.SetActive(false);
+
+                    playerScript.ResetPlayer();
 				}
 			}
 		}
@@ -151,7 +153,7 @@ public class WallMechanic : MonoBehaviour
 	{
 		playerScript.enabled = true;
 		playerCam.SetActive(true);
-		playerCam.transform.rotation = player.transform.rotation;
+		//playerCam.transform.rotation = player.transform.rotation;
 		camAnchor.SetActive(false);
 		sequenceIsRunning = false;
 		enableSequence = false;

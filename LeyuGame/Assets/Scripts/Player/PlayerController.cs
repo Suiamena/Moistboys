@@ -120,6 +120,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
             RunAnimation();
             Movement();
 
+            Debug.Log(velocity);
             rig.velocity = transform.rotation * velocity;
             //APPLY BOUNDARY PUSHBACK FORCE
             if (enablePlayerPushBack)
@@ -351,7 +352,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		}
 	}
 
-    void ResetPlayer()
+    public void ResetPlayer()
     {
         //DISABLE PLAYER ANIMATION
         animator.SetBool("IsBouncing", false);
@@ -359,8 +360,11 @@ public class PlayerController : MonoBehaviour, ISnowTornado
         animator.SetBool("IsAirborne", false);
 
         //DISABLE PLAYER MOVEMENT
-        enabled = false;
         velocity = new Vector3(0, 0, 0);
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        rig.velocity = velocity;
+        Debug.Log("stop!");
+        enabled = false;
     }
 
 	//COROUTINES
