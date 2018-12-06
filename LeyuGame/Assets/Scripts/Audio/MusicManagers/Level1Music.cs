@@ -11,6 +11,8 @@ public class Level1Music : MonoBehaviour {
     bool playTutorialSound, playCreatureSound;
     bool playBuildLaunch, playExecuteLaunch;
 
+    bool playOnce;
+
     //PLAYER
     GameObject player;
     GameObject launchParticleTransform;
@@ -56,11 +58,18 @@ public class Level1Music : MonoBehaviour {
 
     void PlayBounce()
     {
-        if (playerScript.playerIsAirborne)
+        DecemberAudio.groundStage = 1f;
+        if (!playerScript.playerIsAirborne)
         {
-            Debug.Log("ground");
-            DecemberAudio.groundStage = 1f;
-            DecemberAudio.Bounce.start();
+            if (!playOnce)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(DecemberAudio.bounce);
+                playOnce = true;
+            }
+        }
+        else
+        {
+            playOnce = false;
         }
     }
 

@@ -54,6 +54,7 @@ public class LoadLevelTwo : MonoBehaviour {
         creatureInSnow.SetActive(false);
         creatureOutSnow.SetActive(true);
         yield return new WaitForSeconds(3F);
+
         SceneManager.LoadScene("Level2_rough");
     }
 
