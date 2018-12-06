@@ -15,6 +15,7 @@ public class FinalBoundary : MonoBehaviour {
     ParticleSystem.EmissionModule emissionModule;
     ParticleSystem.MainModule main;
     public int maxParticlesSpeed;
+    public int maxParticlesAmount;
     float particlesSpeed;
     float particlesAmount;
 
@@ -88,7 +89,7 @@ public class FinalBoundary : MonoBehaviour {
             main.startSpeed = particlesSpeed;
 
             particlesAmount = 100 * windStrength;
-            particlesAmount = Mathf.Clamp(particlesAmount, 0, 10000);
+            particlesAmount = Mathf.Clamp(particlesAmount, 0, maxParticlesAmount);
             emissionModule.rateOverTime = particlesAmount;
         }
     }
