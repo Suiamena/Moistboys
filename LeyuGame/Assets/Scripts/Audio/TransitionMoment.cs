@@ -11,7 +11,7 @@ public class TransitionMoment : MonoBehaviour
 
     private void Awake()
     {
-        managerObject = GameObject.Find("MusicManager");
+        managerObject = GameObject.Find("NewMusicManager");
         managerScript = managerObject.GetComponent<MusicManager>();
     }
 
@@ -19,7 +19,7 @@ public class TransitionMoment : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            managerScript.musicStage += 1;
+            managerScript.countMusicStage += 1;
             Destroy(gameObject);
         }
     }

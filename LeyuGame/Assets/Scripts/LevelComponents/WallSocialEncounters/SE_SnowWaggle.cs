@@ -11,8 +11,8 @@ public class SE_SnowWaggle : MonoBehaviour, ISocialEncounter
 	[Header("Animation Settings")]
 	Vector3 endPosition;
 	Quaternion endRotation;
-	public float rotationSpeed = 100;
-	public float movementSpeed = 3;
+	public float rotationSpeed = 260;
+	public float movementSpeed = 7, swayAngle = 20, swayTime = .2f;
 
 	//INITIAL BLOCK
 	bool isPlayerInRange = false;
@@ -63,8 +63,11 @@ public class SE_SnowWaggle : MonoBehaviour, ISocialEncounter
 
 		Debug.Log("Moving");
 		//MOVE TO FINAL POSITION
+		float t = 0;
 		while (moustacheBoy.position != endPosition) {
 			moustacheBoy.position = Vector3.MoveTowards(moustacheBoy.position, endPosition, movementSpeed * Time.deltaTime);
+			moustacheBoy.rotation = Quaternion.Euler(new Vector3(0, moustacheBoy.eulerAngles.y, Mathf.Sin(t / swayTime) * swayAngle));
+			t += Time.deltaTime;
 			yield return null;
 		}
 
