@@ -9,33 +9,16 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1001004595433762}
+  m_RootGameObject: {fileID: 1512746434437458}
   m_IsPrefabAsset: 1
---- !u!1 &1001004595433762
+--- !u!1 &1054160248232922
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4018291004426204}
-  - component: {fileID: 114259145092025078}
-  - component: {fileID: 135096980608151610}
-  m_Layer: 0
-  m_Name: SE_TotZo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1494097875555916
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4476021388013060}
+  - component: {fileID: 4880391338180064}
   m_Layer: 0
   m_Name: MoustacheBoyStartLocation
   m_TagString: Untagged
@@ -43,54 +26,73 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4018291004426204
+--- !u!1 &1512746434437458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4804968560549950}
+  - component: {fileID: 114518587102912828}
+  - component: {fileID: 135699922980015282}
+  m_Layer: 0
+  m_Name: SE_SnowWaggle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4804968560549950
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1001004595433762}
-  m_LocalRotation: {x: -0, y: 0.9999514, z: -0, w: 0.009859362}
-  m_LocalPosition: {x: -10.371279, y: 0, z: -22.230524}
+  m_GameObject: {fileID: 1512746434437458}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.260004, y: 0, z: 4.850003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4476021388013060}
+  - {fileID: 4880391338180064}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4476021388013060
+--- !u!4 &4880391338180064
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1494097875555916}
+  m_GameObject: {fileID: 1054160248232922}
   m_LocalRotation: {x: -0, y: -0.9999144, z: -0, w: 0.013089653}
-  m_LocalPosition: {x: 0.76, y: 0, z: -12.18}
+  m_LocalPosition: {x: 0.76, y: -0.1, z: -12.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4018291004426204}
+  m_Father: {fileID: 4804968560549950}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -178.50002, z: 0}
---- !u!114 &114259145092025078
+--- !u!114 &114518587102912828
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1001004595433762}
+  m_GameObject: {fileID: 1512746434437458}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce5afacbf942ab24babd05c708ff7259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moustacheBoy: {fileID: 0}
-  moustacheBoiStartPosition: {fileID: 4476021388013060}
-  rotationSpeed: 100
-  movementSpeed: 4
---- !u!135 &135096980608151610
+  moustacheBoiStartPosition: {fileID: 4880391338180064}
+  rotationSpeed: 240
+  movementSpeed: 7
+  swayAngle: 20
+  swayTime: 0.2
+--- !u!135 &135699922980015282
 SphereCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1001004595433762}
+  m_GameObject: {fileID: 1512746434437458}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
