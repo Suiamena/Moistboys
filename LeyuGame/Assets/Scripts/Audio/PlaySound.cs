@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DecemberAudio : MonoBehaviour
+public class PlaySound : MonoBehaviour
 {
 
     [Header("fmod Parameters")]
@@ -53,23 +53,9 @@ public class DecemberAudio : MonoBehaviour
     public string walljump = "event:/Dragon/Walljump";
     public FMOD.Studio.EventInstance Walljump;
 
-    public string launch = "event:/Dragon/Launch";
-    public static FMOD.Studio.EventInstance Launch;
-    public static FMOD.Studio.ParameterInstance LaunchParameter;
-
-    public static float launchStage;
-
     public string dragon_screeches = "event:/Dragon/Dragon_Screeches";
     public FMOD.Studio.EventInstance Dragon_Screeches;
     public FMOD.Studio.ParameterInstance Dragon_ScreechesParameter;
-
-    public static string bounce = "event:/Dragon/Bounce";
-    public static FMOD.Studio.EventInstance Bounce;
-    public static FMOD.Studio.ParameterInstance HeightParameter;
-    public static FMOD.Studio.ParameterInstance GroundParameter;
-
-    public static float heightStage;
-    public static float groundStage;
 
 
     void Awake()
@@ -102,13 +88,8 @@ public class DecemberAudio : MonoBehaviour
         //dragon
         Airjump = FMODUnity.RuntimeManager.CreateInstance(airjump); //if airjump, Audio.Airjump.start();
         Walljump = FMODUnity.RuntimeManager.CreateInstance(walljump); // if walljump, Audio.Walljump.start();
-        Launch = FMODUnity.RuntimeManager.CreateInstance(launch);
-        Launch.getParameter("Launch", out LaunchParameter);
         Dragon_Screeches = FMODUnity.RuntimeManager.CreateInstance(dragon_screeches); //start when screech nodig, Audio.Dragon_Screeches.start(); (or .Play();)
         Dragon_Screeches.getParameter("Screech", out Dragon_ScreechesParameter);
-        Bounce = FMODUnity.RuntimeManager.CreateInstance(bounce);
-        Bounce.getParameter("Height", out HeightParameter);
-        Bounce.getParameter("Ground", out GroundParameter);
 
         //START MUSIC AND AMBIENCE
         Music.start();
@@ -126,11 +107,6 @@ public class DecemberAudio : MonoBehaviour
         AmethystParameter.setValue(amethystStage);
         InsideParameter.setValue(insideStage);
         AreaParameter.setValue(areaStage);
-
-        //Dragon
-        LaunchParameter.setValue(launchStage);
-        HeightParameter.setValue(heightStage);
-        GroundParameter.setValue(groundStage);
     }
 
 }

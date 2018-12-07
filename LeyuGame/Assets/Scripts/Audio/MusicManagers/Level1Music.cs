@@ -7,18 +7,12 @@ public class Level1Music : MonoBehaviour {
     //MUSIC AND SOUND MANAGEMENT
     [Header("Management")]
     public int countMusicStage;
-    bool launchSoundStarted;
     bool playTutorialSound, playCreatureSound;
-    bool playBuildLaunch, playExecuteLaunch;
-
-    bool playOnce;
 
     //PLAYER
     GameObject player;
     GameObject launchParticleTransform;
     PlayerController playerScript;
-
-    public GameObject launchParticles;
 
     private void Awake()
     {
@@ -28,14 +22,12 @@ public class Level1Music : MonoBehaviour {
         playerScript = player.GetComponent<PlayerController>();
 
         //WAKE UP
-        DecemberAudio.musicStage = 0.5f;
+        PlaySound.musicStage = 0.5f;
     }
 
     private void FixedUpdate()
     {
         RegulateMusic();
-        PlayBounce();
-        PlayLaunch();
     }
 
     void RegulateMusic()
@@ -43,60 +35,17 @@ public class Level1Music : MonoBehaviour {
         //BOUNCE TUTORIAL
         if (countMusicStage == 1) {
             if (!playTutorialSound) {
-                DecemberAudio.musicStage = 2.5f;
+                PlaySound.musicStage = 2.5f;
                 playTutorialSound = true;
             }
         }
         //MEET CREATURE
         if (countMusicStage == 2) {
             if (!playCreatureSound) {
-                DecemberAudio.musicStage = 3.5f;
+                PlaySound.musicStage = 3.5f;
                 playCreatureSound = true;
             }
         }
     }
 
-    void PlayBounce()
-    {
-        if (!playerScript.playerIsAirborne)
-        {
-            if (!playOnce)
-            {
-                Debug.Log("ground");
-                DecemberAudio.groundStage = 1f;
-                DecemberAudio.heightStage = 0f;
-                DecemberAudio.Bounce.start();
-                //FMODUnity.RuntimeManager.PlayOneShot(DecemberAudio.bounce);
-                playOnce = true;
-            }
-        }
-        else
-        {
-            playOnce = false;
-        }
-    }
-
-    void PlayLaunch()
-    {
-        //BUILD LAUNCH POWER
-        if (playerScript.isBuildingLaunch && !playBuildLaunch) {
-            DecemberAudio.launchStage = 0f;
-            if (!launchSoundStarted)
-            {
-                DecemberAudio.Launch.start();
-                launchSoundStarted = true;
-            }
-            playBuildLaunch = true;
-            playExecuteLaunch = false;
-        }
-        //LAUNCH IN THE AIR
-        if (playerScript.isPreLaunching && !playExecuteLaunch)
-        {
-            Instantiate(launchParticles, launchParticleTransform.transform.position, Quaternion.Euler(90, 0, 0));
-            DecemberAudio.launchStage = 1f;
-            DecemberAudio.Launch.start();
-            playExecuteLaunch = true;
-            playBuildLaunch = false;
-        }
-    }
 }
