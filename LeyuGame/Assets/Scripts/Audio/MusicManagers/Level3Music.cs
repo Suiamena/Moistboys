@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThirdMusicManager : MonoBehaviour
+public class Level3Music : MonoBehaviour
 {
     bool abilityGot;
 
@@ -11,7 +11,7 @@ public class ThirdMusicManager : MonoBehaviour
         Debug.Log(PlaySound.musicStage);
         if (!abilityGot)
         {
-            PlaySound.musicStage += Mathf.Lerp(0f, 6.5f, 0.04f);
+            PlaySound.musicStage += Mathf.Lerp(0f, 6.5f, 0.096f);
             PlaySound.musicStage = Mathf.Clamp(PlaySound.musicStage, 0, 6.5f);
         }
         if (PlaySound.musicStage == 6.5f && PlaySound.musicStage < 7.5f)
