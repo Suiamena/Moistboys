@@ -42,7 +42,7 @@ public class LoadLevelThree : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            SceneManager.LoadScene("Level3_rough");
+            SceneManager.LoadScene("Level3_rough_lenny");
             if (!coroutineRunning)
             {
                 StartCoroutine(AvalancheFalls());
