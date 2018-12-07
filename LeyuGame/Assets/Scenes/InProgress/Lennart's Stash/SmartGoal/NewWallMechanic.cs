@@ -6,18 +6,14 @@ public class NewWallMechanic : MonoBehaviour
 {
 
 	[Header("Player Settings")]
-	public int playerLateralSpeed = 5;
-	public int playerVerticalSpeed = 40;
+	public int jumpingSpeed = 20;
 
 	GameObject player;
 	GameObject playerModel;
 	PlayerController playerScript;
 	Rigidbody playerRig;
 	Animator playerAnim;
-
-	Vector3 playerPositionLerp;
-	Vector3 playerMovementTarget;
-	Vector3 playerDistanceToPlatform;
+	
 	float playerPlatformOffset = .5f;
 
 	[Header("Platform Settings")]
@@ -91,6 +87,16 @@ public class NewWallMechanic : MonoBehaviour
 					pressButtonPopup.SetActive(true);
 				}
 				enableSequence = true;
+
+				if (duringSequenceSocialPrefab != null) {
+					duringSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+						duringSequenceSocialPrefab.GetComponent<ISocialEncounter>().Execute(() => {
+							duringSequenceSocialPrefab.GetComponent<ISocialEncounter>().End(() => { duringSequenceEventPlayed = true; });
+						});
+					});
+				} else {
+					duringSequenceEventPlayed = true;
+				}
 			} else {
 				pressButtonPopup.SetActive(false);
 				enableSequence = false;
@@ -147,7 +153,7 @@ public class NewWallMechanic : MonoBehaviour
 			//playerDistanceToPlatform = new Vector3(Mathf.Abs(playerDistanceToPlatform.x), playerDistanceToPlatform.y, playerDistanceToPlatform.z);
 
 			Vector3 targetPosition = platformTransforms[activePlatform].position + new Vector3(0, playerPlatformOffset, 0);
-			player.transform.position = Vector3.MoveTowards(player.transform.position, targetPosition, playerLateralSpeed * Time.deltaTime);
+			player.transform.position = Vector3.MoveTowards(player.transform.position, targetPosition, jumpingSpeed * Time.deltaTime);
 
 			Debug.Log("Player pos: " + player.transform.position);
 			Debug.Log("Target pos: " + targetPosition);
@@ -176,6 +182,16 @@ public class NewWallMechanic : MonoBehaviour
 		creatureSpawnsPlatforms = false;
 		sequenceIsRunning = false;
 		activePlatform = 0;
+
+		if (afterSequenceSocialPrefab != null && duringSequenceEventPlayed) {
+			afterSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+				afterSequenceSocialPrefab.GetComponent<ISocialEncounter>().Execute(() => {
+					afterSequenceSocialPrefab.GetComponent<ISocialEncounter>().End(() => { afterSequenceEventPlayed = true; });
+				});
+			});
+		} else {
+			duringSequenceEventPlayed = true;
+		}
 	}
 
 	IEnumerator CreatureDoesTrick ()
