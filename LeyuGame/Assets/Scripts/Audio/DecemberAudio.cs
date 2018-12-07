@@ -68,7 +68,7 @@ public class DecemberAudio : MonoBehaviour
     public static FMOD.Studio.ParameterInstance HeightParameter;
     public static FMOD.Studio.ParameterInstance GroundParameter;
 
-    public float heightStage;
+    public static float heightStage;
     public static float groundStage;
 
 
@@ -131,7 +131,6 @@ public class DecemberAudio : MonoBehaviour
         LaunchParameter.setValue(launchStage);
         HeightParameter.setValue(heightStage);
         GroundParameter.setValue(groundStage);
-
     }
 
 }

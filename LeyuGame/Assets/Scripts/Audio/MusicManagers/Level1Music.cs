@@ -58,12 +58,15 @@ public class Level1Music : MonoBehaviour {
 
     void PlayBounce()
     {
-        DecemberAudio.groundStage = 1f;
         if (!playerScript.playerIsAirborne)
         {
             if (!playOnce)
             {
-                FMODUnity.RuntimeManager.PlayOneShot(DecemberAudio.bounce);
+                Debug.Log("ground");
+                DecemberAudio.groundStage = 1f;
+                DecemberAudio.heightStage = 0f;
+                DecemberAudio.Bounce.start();
+                //FMODUnity.RuntimeManager.PlayOneShot(DecemberAudio.bounce);
                 playOnce = true;
             }
         }
