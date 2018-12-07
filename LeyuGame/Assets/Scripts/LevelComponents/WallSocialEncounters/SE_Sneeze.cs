@@ -49,7 +49,6 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 			}
 			Debug.Log(Vector3.Distance(player.transform.position, moustacheBoy.position));
 			if (IsPlayerInRange()) {
-				Debug.Log("hoi");
 				pressButtonPopup.SetActive(true);
 				sneezeTimer += Time.deltaTime;
 
