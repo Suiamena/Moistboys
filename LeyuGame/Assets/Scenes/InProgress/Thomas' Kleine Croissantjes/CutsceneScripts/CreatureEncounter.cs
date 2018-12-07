@@ -74,6 +74,7 @@ public class CreatureEncounter : MonoBehaviour {
     {
         yield return new WaitForSeconds(2f);
         ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
+        snowExplosion.transform.position = creature.transform.position;
         Destroy(snowExplosion.gameObject, 1);
         Destroy(destructibleBoi);
         creatureAnim.SetBool("IsPlaying", true);
