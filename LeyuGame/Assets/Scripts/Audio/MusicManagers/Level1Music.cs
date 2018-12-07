@@ -2,18 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicManager : MonoBehaviour {
-
-    //FMOD SETUP
-    [Header("FMOD Parameters")]
-    public float launchSound;
-
-    [Header("FMOD Event References")]
-    [FMODUnity.EventRef]
-    public string launch = "event:/Dragon/Launch";
-    public FMOD.Studio.EventInstance Launch;
-
-    public FMOD.Studio.ParameterInstance LaunchParameter;
+public class Level1Music : MonoBehaviour {
 
     //MUSIC AND SOUND MANAGEMENT
     [Header("Management")]
@@ -21,6 +10,8 @@ public class MusicManager : MonoBehaviour {
     bool launchSoundStarted;
     bool playTutorialSound, playCreatureSound;
     bool playBuildLaunch, playExecuteLaunch;
+
+    bool playOnce;
 
     //PLAYER
     GameObject player;
@@ -31,10 +22,6 @@ public class MusicManager : MonoBehaviour {
 
     private void Awake()
     {
-        //FMOD SETUP
-        Launch = FMODUnity.RuntimeManager.CreateInstance(launch);
-        Launch.getParameter("Launch", out LaunchParameter);
-
         //PLAYER
         player = GameObject.Find("Character");
         launchParticleTransform = GameObject.Find("LandingIndicator");
@@ -47,6 +34,7 @@ public class MusicManager : MonoBehaviour {
     private void FixedUpdate()
     {
         RegulateMusic();
+        PlayBounce();
         PlayLaunch();
     }
 
@@ -62,9 +50,26 @@ public class MusicManager : MonoBehaviour {
         //MEET CREATURE
         if (countMusicStage == 2) {
             if (!playCreatureSound) {
-                DecemberAudio.musicStage = 2.5f;
+                DecemberAudio.musicStage = 3.5f;
                 playCreatureSound = true;
             }
+        }
+    }
+
+    void PlayBounce()
+    {
+        DecemberAudio.groundStage = 1f;
+        if (!playerScript.playerIsAirborne)
+        {
+            if (!playOnce)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(DecemberAudio.bounce);
+                playOnce = true;
+            }
+        }
+        else
+        {
+            playOnce = false;
         }
     }
 
@@ -72,13 +77,12 @@ public class MusicManager : MonoBehaviour {
     {
         //BUILD LAUNCH POWER
         if (playerScript.isBuildingLaunch && !playBuildLaunch) {
-            launchSound = 0f;
+            DecemberAudio.launchStage = 0f;
             if (!launchSoundStarted)
             {
-                Launch.start();
+                DecemberAudio.Launch.start();
                 launchSoundStarted = true;
             }
-            LaunchParameter.setValue(launchSound);
             playBuildLaunch = true;
             playExecuteLaunch = false;
         }
@@ -86,9 +90,8 @@ public class MusicManager : MonoBehaviour {
         if (playerScript.isPreLaunching && !playExecuteLaunch)
         {
             Instantiate(launchParticles, launchParticleTransform.transform.position, Quaternion.Euler(90, 0, 0));
-            launchSound = 1f;
-            //Launch.start();
-            LaunchParameter.setValue(launchSound);
+            DecemberAudio.launchStage = 1f;
+            DecemberAudio.Launch.start();
             playExecuteLaunch = true;
             playBuildLaunch = false;
         }
