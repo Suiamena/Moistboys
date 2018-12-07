@@ -63,7 +63,7 @@ public class CreatureAbilityGet : MonoBehaviour {
     void OnTriggerStay()
     {
         //Move to position on cutscene start:
-        player.transform.position = Vector3.MoveTowards(player.transform.position, wayPointDraak.transform.position, 10 * Time.deltaTime);
+        player.transform.position = Vector3.MoveTowards(player.transform.position, wayPointDraak.transform.position, 20 * Time.deltaTime);
         distanceToWaypointDraak = player.transform.position - wayPointDraak.transform.position;
         distanceToWaypointDraak = new Vector3(Mathf.Abs(distanceToWaypointDraak.x), distanceToWaypointDraak.y, distanceToWaypointDraak.z);
 
@@ -78,6 +78,7 @@ public class CreatureAbilityGet : MonoBehaviour {
 
         if (movingToCreature == true)
         {
+            Debug.Log("lol");
         abilityPickUp.transform.position = Vector3.MoveTowards(abilityPickUp.transform.position, creature.transform.position, 5 * Time.deltaTime);
         abilityPickUp.transform.localScale -= new Vector3(0.008f, 0.008f, 0.008f);
         abilityPickUp.transform.localScale = new Vector3(Mathf.Clamp(abilityPickUp.transform.localScale.x,0,5), Mathf.Clamp(abilityPickUp.transform.localScale.y, 0, 5), Mathf.Clamp(abilityPickUp.transform.localScale.z, 0, 5));
@@ -91,9 +92,9 @@ public class CreatureAbilityGet : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         abilityAnim.SetBool("IsPlaying", true);
 
-        yield return new WaitForSeconds(1.5f);
-        movingToCreature = true;
+        yield return new WaitForSeconds(2f);
         abilityAnim.enabled = false;
+        movingToCreature = true;
 
         yield return new WaitForSeconds(3f);
 
