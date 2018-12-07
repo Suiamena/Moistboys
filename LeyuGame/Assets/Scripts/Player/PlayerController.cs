@@ -40,6 +40,10 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	Color launchBaseColor = Color.white;
 	bool launchRoutineRunning = false;
 
+	[Header("Creature Wall Settings")]
+	public bool canUseCreatureWalls = true;
+	public float creatureWallJumpSpeed = 40;
+
 	[Header("Model Rotation Settings")]
 	public float modelRotationLerpFactor = .24f;
 	public float modelRotationMaximumXAngle = 40, modelRotationMinimumXAngle = -40;

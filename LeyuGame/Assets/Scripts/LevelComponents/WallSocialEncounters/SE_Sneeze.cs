@@ -38,6 +38,7 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 	{
 		float shiverTimer = timePerShiver * .5f, sneezeTimer = 0;
 		bool shiverDirection = false;
+
 		while (true) {
 			moustacheBoy.Rotate(new Vector3(0, (-1 + shiverDirection.ToInt() * 2) * shiverYAngle * 2 * shiversPerSecond * Time.deltaTime, 0));
 			Debug.Log("Shivering");

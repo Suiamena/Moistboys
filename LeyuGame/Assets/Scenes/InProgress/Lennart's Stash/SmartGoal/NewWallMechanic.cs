@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class NewWallMechanic : MonoBehaviour
 {
-
-	[Header("Player Settings")]
-	public int jumpingSpeed = 40;
-
 	GameObject player;
 	GameObject playerModel;
 	PlayerController playerScript;
 	Rigidbody playerRig;
 	Animator playerAnim;
-	
+
+	float jumpingSpeed = 40;
 	float playerPlatformOffset = .7f;
 
 	[Header("Platform Settings")]
@@ -53,11 +50,11 @@ public class NewWallMechanic : MonoBehaviour
 
 		moustacheAnim = moustacheBoi.GetComponent<Animator>();
 
+		jumpingSpeed = playerScript.creatureWallJumpSpeed;
 		Transform platformsParent;
 		platformsParent = transform.parent.GetChild(1);
-		for (int i = 0; i < platformsParent.childCount; i++) {
+		for (int i = 0; i < platformsParent.childCount; i++)
 			platformTransforms.Add(platformsParent.GetChild(i));
-		}
 
 		if (beforeSequenceSocialPrefab != null) {
 			beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
@@ -77,7 +74,7 @@ public class NewWallMechanic : MonoBehaviour
 		StartJump();
 		MakeJump();
 	}
-	
+
 
 	void TriggerSequence ()
 	{
@@ -146,7 +143,9 @@ public class NewWallMechanic : MonoBehaviour
 			//HIER GING IETS FOUT
 			//playerMovementTarget = platforms[activePlatform].transform.position;
 
-			//playerPositionLerp = new Vector3(player.transform.position.x, Mathf.Lerp(player.transform.position.y, playerMovementTarget.y, playerLerpSpeed * Time.deltaTime), player.transform.position.z);
+			//playerPositionLerp = new Vector3(player.transform.position.x,
+			//	Mathf.Lerp(player.transform.position.y, playerMovementTarget.y, playerLerpSpeed * Time.deltaTime),
+			//	player.transform.position.z);
 			//player.transform.position = Vector3.MoveTowards(playerPositionLerp, playerMovementTarget, playerJumpSpeed * Time.deltaTime);
 
 			//playerDistanceToPlatform = player.transform.position - playerMovementTarget;
