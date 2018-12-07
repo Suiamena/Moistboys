@@ -4,27 +4,28 @@ using UnityEngine;
 
 public class ThirdMusicManager : MonoBehaviour
 {
+    bool abilityGot;
 
-    //private void FixedUpdate()
-    //{
-    //    PlaySound.setValue(musicStage);
-    //    if (!abilityGot)
-    //    {
-    //        sound += Mathf.Lerp(0f, 6.5f, 0.005f);
-    //        sound = Mathf.Clamp(sound, 0, 6.5f);
-    //    }
-    //    if (sound == 6.5f && sound < 7.5f)
-    //    {
-    //        abilityGot = true;
-    //        StartCoroutine(PlayCompetentMusic());
-    //    }
-    //}
+    private void FixedUpdate()
+    {
+        Debug.Log(PlaySound.musicStage);
+        if (!abilityGot)
+        {
+            PlaySound.musicStage += Mathf.Lerp(0f, 6.5f, 0.04f);
+            PlaySound.musicStage = Mathf.Clamp(PlaySound.musicStage, 0, 6.5f);
+        }
+        if (PlaySound.musicStage == 6.5f && PlaySound.musicStage < 7.5f)
+        {
+            abilityGot = true;
+            StartCoroutine(PlayCompetentMusic());
+        }
+    }
 
-    //IEnumerator PlayCompetentMusic()
-    //{
-    //    yield return new WaitForSeconds(3F);
-    //    sound += Mathf.Lerp(0f, 7.5f, 0.005f);
-    //    sound = Mathf.Clamp(sound, 0, 7.5f);
-    //}
+    IEnumerator PlayCompetentMusic()
+    {
+        yield return new WaitForSeconds(3F);
+        PlaySound.musicStage += Mathf.Lerp(0f, 7.5f, 0.005f);
+        PlaySound.musicStage = Mathf.Clamp(PlaySound.musicStage, 0, 7.5f);
+    }
 
 }
