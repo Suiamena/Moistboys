@@ -17,6 +17,10 @@ public class CreatureEncounter : MonoBehaviour {
 
     public ParticleSystem snowExplosionPrefab;
 
+    Animator creatureAnim;
+
+    bool camOnCreature = false; 
+
     void Start ()
     {
         player = GameObject.Find("Character");
@@ -26,7 +30,9 @@ public class CreatureEncounter : MonoBehaviour {
         playerModel = GameObject.Find("MOD_Draak");
         playerAnim = playerModel.GetComponent<Animator>();
         wayPointDraak = GameObject.Find("WaypointDraak");
-	}
+        creatureAnim = creature.GetComponent<Animator>();
+        creatureAnim.SetBool("IsPlaying", false);
+    }
 	
     void OnTriggerEnter()
     {
@@ -52,33 +58,47 @@ public class CreatureEncounter : MonoBehaviour {
     {
         //Move to position on cutscene start:
         player.transform.position = Vector3.MoveTowards(player.transform.position, wayPointDraak.transform.position, 10*Time.deltaTime);
-        player.transform.LookAt(creature.transform.position);
         distanceToWaypointDraak = player.transform.position - wayPointDraak.transform.position;
         distanceToWaypointDraak = new Vector3(Mathf.Abs(distanceToWaypointDraak.x), distanceToWaypointDraak.y, distanceToWaypointDraak.z);
         if (distanceToWaypointDraak.x < 0.5f)
         {
             playerAnim.SetBool("IsBouncing", false);
         }
+        else
+        {
+            player.transform.LookAt(creature.transform.position);
+        }
     }
 
     IEnumerator CutsceneTime()
     {
-        yield return new WaitForSeconds(1.8f);
-        ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
-
         yield return new WaitForSeconds(2f);
+        ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
+        Destroy(snowExplosion.gameObject, 1);
         Destroy(destructibleBoi);
+        creatureAnim.SetBool("IsPlaying", true);
+
+        yield return new WaitForSeconds(1.5f);
+        camOnCreature = true;
 
         yield return new WaitForSeconds(3f);
+
         cutsceneCamera.SetActive(false);
         controllerSwitch.enabled = true;
+
+        //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         playerBody.velocity = new Vector3(0, 0, 0);
+        //
+
         Destroy(gameObject);
     }
 
 	void Update ()
     {
-		
+		if (camOnCreature == true)
+        {
+            cutsceneCamera.transform.LookAt(creature.transform.position);
+        }
 	}
 }
 
