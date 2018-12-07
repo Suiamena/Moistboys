@@ -13,8 +13,6 @@ public class AbilityPickup : MonoBehaviour
     Rigidbody playerRig;
     Animator playerAnim;
 
-    public GameObject launchBarBackground;
-    public GameObject launchBarFilling;
     public GameObject musicManager;
 
     private void Awake()
@@ -37,8 +35,7 @@ public class AbilityPickup : MonoBehaviour
     {
         yield return new WaitForSeconds(1F);
         playerScript.canLaunch = true;
-        launchBarBackground.SetActive(true);
-        launchBarFilling.SetActive(true);
+        //SET UI ACTIVE AS WELL!
         musicManager.SetActive(true);
         Destroy(abilitySphere);
         Destroy(gameObject);
