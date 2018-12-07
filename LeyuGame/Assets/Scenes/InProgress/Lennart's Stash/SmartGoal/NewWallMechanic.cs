@@ -6,8 +6,8 @@ public class NewWallMechanic : MonoBehaviour
 {
 
 	[Header("Player Settings")]
-	public int playerLerpSpeed = 5;
-	public int playerJumpSpeed = 40;
+	public int playerLateralSpeed = 5;
+	public int playerVerticalSpeed = 40;
 
 	GameObject player;
 	GameObject playerModel;
@@ -18,10 +18,11 @@ public class NewWallMechanic : MonoBehaviour
 	Vector3 playerPositionLerp;
 	Vector3 playerMovementTarget;
 	Vector3 playerDistanceToPlatform;
+	float playerPlatformOffset = .5f;
 
 	[Header("Platform Settings")]
 	public GameObject platformsObject;
-	List<GameObject> platforms = new List<GameObject>();
+	List<Transform> platformTransforms = new List<Transform>();
 
 	[Header("Other Settings")]
 	public int triggerAbilityRange = 10;
@@ -58,9 +59,8 @@ public class NewWallMechanic : MonoBehaviour
 
 		Transform platformsParent;
 		platformsParent = transform.parent.GetChild(1);
-		platforms = new List<GameObject>();
 		for (int i = 0; i < platformsParent.childCount; i++) {
-			platforms.Add(platformsParent.GetChild(i).gameObject);
+			platformTransforms.Add(platformsParent.GetChild(i));
 		}
 
 		if (beforeSequenceSocialPrefab != null) {
@@ -114,7 +114,7 @@ public class NewWallMechanic : MonoBehaviour
 
 				//SHOW CAMERA
 				sequenceCamera.SetActive(true);
-				sequenceCamera.transform.position = platforms[0].transform.GetChild(0).position;
+				sequenceCamera.transform.position = platformTransforms[0].GetChild(0).position;
 				sequenceCamera.transform.LookAt(player.transform.position);
 
 				//SPAWN OBJECTS
@@ -134,18 +134,29 @@ public class NewWallMechanic : MonoBehaviour
 	void MakeJump ()
 	{
 		if (playerIsJumping) {
-			sequenceCamera.transform.position = Vector3.MoveTowards(sequenceCamera.transform.position, platforms[activePlatform].transform.GetChild(0).position, cameraMovementSpeed * Time.deltaTime);
+			sequenceCamera.transform.position = Vector3.MoveTowards(sequenceCamera.transform.position, platformTransforms[activePlatform].transform.GetChild(0).position, cameraMovementSpeed * Time.deltaTime);
 			sequenceCamera.transform.LookAt(player.transform);
 
-			playerMovementTarget = platforms[activePlatform].transform.position;
-			playerPositionLerp = new Vector3(player.transform.position.x, Mathf.Lerp(player.transform.position.y, playerMovementTarget.y, playerLerpSpeed * Time.deltaTime), player.transform.position.z);
-			player.transform.position = Vector3.MoveTowards(playerPositionLerp, playerMovementTarget, playerJumpSpeed * Time.deltaTime);
-			playerDistanceToPlatform = player.transform.position - playerMovementTarget;
-			playerDistanceToPlatform = new Vector3(Mathf.Abs(playerDistanceToPlatform.x), playerDistanceToPlatform.y, playerDistanceToPlatform.z);
-			if (playerDistanceToPlatform.x < 0.5f) {
+			//HIER GING IETS FOUT
+			//playerMovementTarget = platforms[activePlatform].transform.position;
+
+			//playerPositionLerp = new Vector3(player.transform.position.x, Mathf.Lerp(player.transform.position.y, playerMovementTarget.y, playerLerpSpeed * Time.deltaTime), player.transform.position.z);
+			//player.transform.position = Vector3.MoveTowards(playerPositionLerp, playerMovementTarget, playerJumpSpeed * Time.deltaTime);
+
+			//playerDistanceToPlatform = player.transform.position - playerMovementTarget;
+			//playerDistanceToPlatform = new Vector3(Mathf.Abs(playerDistanceToPlatform.x), playerDistanceToPlatform.y, playerDistanceToPlatform.z);
+
+			Vector3 targetPosition = platformTransforms[activePlatform].position + new Vector3(0, playerPlatformOffset, 0);
+			player.transform.position = Vector3.MoveTowards(player.transform.position, targetPosition, playerLateralSpeed * Time.deltaTime);
+
+			Debug.Log("Player pos: " + player.transform.position);
+			Debug.Log("Target pos: " + targetPosition);
+
+			if (Vector3.Distance(player.transform.position, targetPosition) < .1f) {
+				Debug.Log("yes");
 				playerRig.velocity = new Vector3(0, 0, 0);
 				++activePlatform;
-				if (activePlatform == platforms.Count) {
+				if (activePlatform == platformTransforms.Count) {
 					EndSequence();
 				}
 				playerIsJumping = false;
