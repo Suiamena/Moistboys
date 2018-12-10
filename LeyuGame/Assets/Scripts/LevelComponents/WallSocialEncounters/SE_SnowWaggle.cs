@@ -28,7 +28,6 @@ public class SE_SnowWaggle : MonoBehaviour, ISocialEncounter
 	IEnumerator WaitForPlayer (Action proceedToExecute)
 	{
 		while (!isPlayerInRange) {
-			Debug.Log("Waiting for player");
 			yield return null;
 		}
 		proceedToExecute();
@@ -53,15 +52,13 @@ public class SE_SnowWaggle : MonoBehaviour, ISocialEncounter
 		moustacheBoy.LookAt(endPosition);
 		targetRotation = moustacheBoy.rotation;
 		moustacheBoy.rotation = oldRotation;
-
-		Debug.Log("First Rot");
+		
 		//ROTATE TOWARDS TARGET POSITION
 		while (moustacheBoy.rotation != targetRotation) {
 			moustacheBoy.rotation = Quaternion.RotateTowards(moustacheBoy.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 			yield return null;
 		}
-
-		Debug.Log("Moving");
+		
 		//MOVE TO FINAL POSITION
 		float t = 0;
 		while (moustacheBoy.position != endPosition) {
@@ -70,15 +67,13 @@ public class SE_SnowWaggle : MonoBehaviour, ISocialEncounter
 			t += Time.deltaTime;
 			yield return null;
 		}
-
-		Debug.Log("Second Rot");
+		
 		//ROTATE TO FINAL ROTATION
 		while (moustacheBoy.rotation != endRotation) {
 			moustacheBoy.rotation = Quaternion.RotateTowards(moustacheBoy.rotation, endRotation, rotationSpeed * Time.deltaTime);
 			yield return null;
 		}
-
-		Debug.Log("Done");
+		
 		proceedToEnd();
 	}
 

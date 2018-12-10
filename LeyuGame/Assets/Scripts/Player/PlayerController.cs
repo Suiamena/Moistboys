@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	GameObject animationModel;
 	Animator animator;
 	[HideInInspector]
-	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch;
+	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch, isHopping;
 
 	[Header("Camera Settings")]
 	public Transform cameraTrans;
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	bool launchRoutineRunning = false;
 
 	[Header("Creature Wall Settings")]
-	public bool canUseCreatureWalls = true;
+	public bool creatureWallsEnabled = true;
 	public float creatureWallJumpSpeed = 40;
 
 	[Header("Model Rotation Settings")]
@@ -254,19 +254,23 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 	void Hop ()
 	{
-		if (canHop) {
-			if (Input.GetButtonDown("A Button")) {
-				canHop = false;
-				if (velocity.y < 0)
-					velocity.y = 0;
-				velocity.y += hopVelocity;
-				GamePad.SetVibration(0, .2f, .2f);
-				KillVibration();
-				StartCoroutine(SuspendGroundedCheck());
-			}
-		} else {
-			if (Grounded())
-				canHop = true;
+        if (canHop) {
+            if (Input.GetButtonDown("A Button")) {
+                isHopping = true;
+                canHop = false;
+                if (velocity.y < 0)
+                    velocity.y = 0;
+                velocity.y += hopVelocity;
+                GamePad.SetVibration(0, .2f, .2f);
+                KillVibration();
+                StartCoroutine(SuspendGroundedCheck());
+            }
+        } else {
+            if (Grounded())
+            {
+                isHopping = false;
+                canHop = true;
+            }
 		}
 	}
 
@@ -281,8 +285,21 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 				if (velocity.y > 0)
 					velocity.y = 0;
 			}
+
+			//SmoothLanding();
 		} else {
 			velocity.y = 0;
+		}
+	}
+
+	void SmoothLanding ()
+	{
+		float range = 10f;
+		RaycastHit smoothingRayHit;
+		if (velocity.y < 0) {
+			if (Physics.Raycast(transform.position, -Vector3.up, out smoothingRayHit, range)) {
+				velocity.y = Mathf.Clamp(velocity.y, -Vector3.Distance(transform.position, smoothingRayHit.point) - 14, 0);
+			}
 		}
 	}
 
@@ -410,6 +427,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageTwoForce.z;
 			velocity.y = launchStageTwoForce.y;
 		}
+		canHop = true;
 
 		StartCoroutine(PreLaunchRoutine());
 		StopCoroutine(SuspendGroundedCheck());

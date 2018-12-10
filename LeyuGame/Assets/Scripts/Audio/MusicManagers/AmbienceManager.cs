@@ -7,16 +7,16 @@ public class AmbienceManager : MonoBehaviour {
     // AMBIENCE
     [FMODUnity.EventRef]
     public string ambience = "event:/Ambience/Ambience";
-    public FMOD.Studio.EventInstance Ambience;
-    public FMOD.Studio.ParameterInstance WindParameter;
-    public FMOD.Studio.ParameterInstance AmethystParameter;
-    public FMOD.Studio.ParameterInstance InsideParameter;
-    public FMOD.Studio.ParameterInstance AreaParameter;
+    public static FMOD.Studio.EventInstance Ambience;
+    public static FMOD.Studio.ParameterInstance WindParameter;
+    public static FMOD.Studio.ParameterInstance AmethystParameter;
+    public static FMOD.Studio.ParameterInstance InsideParameter;
+    public static FMOD.Studio.ParameterInstance AreaParameter;
 
-    public float windStage;
-    public float amethystStage;
-    public float insideStage;
-    public float areaStage;
+    public static float windStage;
+    public static float amethystStage;
+    public static float insideStage;
+    public static float areaStage;
 
     private void Awake()
     {
@@ -27,8 +27,8 @@ public class AmbienceManager : MonoBehaviour {
         Ambience.getParameter("Inside", out InsideParameter);
         Ambience.getParameter("Area", out AreaParameter);
 
-        windStage = 0f; //wind op 0.5f, van 0.5 naar 1 lerpen bij de boundary
-        amethystStage = 0f;
+        windStage = 0.45f; //wind op 0.5f, van 0.5 naar 1 lerpen bij de boundary
+        amethystStage = 1f;
         insideStage = 0f;
         areaStage = 0f; //bij het laatste level, areaStage op 1 en wind op 0
 
