@@ -24,9 +24,6 @@ public class Level5Music : MonoBehaviour
     private void Update()
     {
         MusicParameter.setValue(musicStage);
-
-        //kies voor creature: 11.5
-        //kies voor competence: 12.5
     }
 
 }

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TransitionMoment : MonoBehaviour
+public class LoseCreatureSound : MonoBehaviour
 {
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            Level1Music.musicStage += 1;
+            Level2Music.musicStage = 5.5f;
             Destroy(gameObject);
         }
     }

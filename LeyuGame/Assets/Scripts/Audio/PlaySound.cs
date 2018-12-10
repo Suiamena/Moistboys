@@ -17,10 +17,6 @@ public class PlaySound : MonoBehaviour
     public FMOD.Studio.EventInstance Wall_Rumble;
 
     // DRAGON
-    [FMODUnity.EventRef]
-    public string airjump = "event:/Dragon/Airjump";
-    public FMOD.Studio.EventInstance Airjump;
-
     public string walljump = "event:/Dragon/Walljump";
     public FMOD.Studio.EventInstance Walljump;
 
@@ -37,8 +33,6 @@ public class PlaySound : MonoBehaviour
         Screeches = FMODUnity.RuntimeManager.CreateInstance(screeches);
         Wall_Rumble = FMODUnity.RuntimeManager.CreateInstance(wall_rumble); // Play when wall spawns
 
-        //dragon
-        Airjump = FMODUnity.RuntimeManager.CreateInstance(airjump); //if airjump, Audio.Airjump.start();
         Walljump = FMODUnity.RuntimeManager.CreateInstance(walljump); // if walljump, Audio.Walljump.start();
         Dragon_Screeches = FMODUnity.RuntimeManager.CreateInstance(dragon_screeches); //start when screech nodig, Audio.Dragon_Screeches.start(); (or .Play();)
         Dragon_Screeches.getParameter("Screech", out Dragon_ScreechesParameter);
