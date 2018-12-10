@@ -12,8 +12,8 @@ public class Level2MusicManager : MonoBehaviour
 
     void RegulateMusic()
     {
-        PlaySound.musicStage += Mathf.Lerp(0f, 4.5f, 0.005f);
-        PlaySound.musicStage = Mathf.Clamp(PlaySound.musicStage, 0, 4.5f);
+        ContinuePlayingSound.musicStage += Mathf.Lerp(0f, 4.5f, 0.005f);
+        ContinuePlayingSound.musicStage = Mathf.Clamp(ContinuePlayingSound.musicStage, 0, 4.5f);
     }
 
 }

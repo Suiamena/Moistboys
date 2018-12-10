@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlaySound : MonoBehaviour
+public class ContinuePlayingSound : MonoBehaviour
 {
 
     [Header("fmod Parameters")]
@@ -93,7 +93,6 @@ public class PlaySound : MonoBehaviour
 
         //START MUSIC AND AMBIENCE
         Music.start();
-        Ambience.start();
     }
 
 

@@ -8,13 +8,12 @@ public class Level3Music : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(PlaySound.musicStage);
         if (!abilityGot)
         {
-            PlaySound.musicStage += Mathf.Lerp(0f, 6.5f, 0.096f);
-            PlaySound.musicStage = Mathf.Clamp(PlaySound.musicStage, 0, 6.5f);
+            ContinuePlayingAgain.musicStage += Mathf.Lerp(0f, 6.5f, 0.096f);
+            ContinuePlayingAgain.musicStage = Mathf.Clamp(ContinuePlayingAgain.musicStage, 0, 6.5f);
         }
-        if (PlaySound.musicStage == 6.5f && PlaySound.musicStage < 7.5f)
+        if (ContinuePlayingAgain.musicStage == 6.5f && ContinuePlayingAgain.musicStage < 7.5f && !abilityGot)
         {
             abilityGot = true;
             StartCoroutine(PlayCompetentMusic());
@@ -24,8 +23,9 @@ public class Level3Music : MonoBehaviour
     IEnumerator PlayCompetentMusic()
     {
         yield return new WaitForSeconds(3F);
-        PlaySound.musicStage += Mathf.Lerp(0f, 7.5f, 0.005f);
-        PlaySound.musicStage = Mathf.Clamp(PlaySound.musicStage, 0, 7.5f);
+        ContinuePlayingAgain.musicStage = 7.5f;
+        //ContinuePlayingSound.musicStage += Mathf.Lerp(0f, 7.5f, 0.005f);
+        //ContinuePlayingSound.musicStage = Mathf.Clamp(PlaySound.musicStage, 0, 7.5f);
     }
 
 }

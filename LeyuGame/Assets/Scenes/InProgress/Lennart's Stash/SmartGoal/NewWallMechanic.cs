@@ -36,7 +36,6 @@ public class NewWallMechanic : MonoBehaviour
 	public GameObject sequenceCamera;
 
 	//MANAGER
-	public GameObject playerNose;
 	bool enableSequence, creatureSpawnsPlatforms, sequenceIsRunning, playerIsJumping;
 	int activePlatform;
 
@@ -167,7 +166,7 @@ public class NewWallMechanic : MonoBehaviour
 
 	void EndSequence ()
 	{
-		player.transform.rotation = playerNose.transform.rotation;
+		player.transform.rotation = platformTransforms[platformTransforms.Count - 1].rotation;
 		player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
 		playerScript.enabled = true;
 		playerRig.velocity = new Vector3(0, 0, 0);
