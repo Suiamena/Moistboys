@@ -18,6 +18,8 @@ public class AmbienceManager : MonoBehaviour {
     public static float insideStage;
     public static float areaStage;
 
+    static bool playerIsInside;
+
     private void Awake()
     {
         //ambience
@@ -26,11 +28,6 @@ public class AmbienceManager : MonoBehaviour {
         Ambience.getParameter("Amethyst", out AmethystParameter);
         Ambience.getParameter("Inside", out InsideParameter);
         Ambience.getParameter("Area", out AreaParameter);
-
-        windStage = 0.45f; //wind op 0.5f, van 0.5 naar 1 lerpen bij de boundary
-        amethystStage = 1f;
-        insideStage = 0f;
-        areaStage = 0f; //bij het laatste level, areaStage op 1 en wind op 0
 
         Ambience.start();
     }
@@ -42,6 +39,20 @@ public class AmbienceManager : MonoBehaviour {
         AmethystParameter.setValue(amethystStage);
         InsideParameter.setValue(insideStage);
         AreaParameter.setValue(areaStage);
+    }
+
+    public static void ToggleAmbience()
+    {
+        if (playerIsInside)
+        {
+            playerIsInside = false;
+            insideStage = 0f;
+        }
+        else
+        {
+            playerIsInside = true;
+            insideStage = 1f;
+        }
     }
 
 }

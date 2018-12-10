@@ -29,6 +29,15 @@ public class PlayerAudio : MonoBehaviour {
     static string airjump = "event:/Dragon/Airjump";
     static FMOD.Studio.EventInstance Airjump;
 
+    //WALL JUMP
+    public string walljump = "event:/Dragon/Walljump";
+    public FMOD.Studio.EventInstance Walljump;
+
+    //ROARS
+    public string dragon_screeches = "event:/Dragon/Dragon_Screeches";
+    public FMOD.Studio.EventInstance Dragon_Screeches;
+    public FMOD.Studio.ParameterInstance Dragon_ScreechesParameter;
+
     static float launchStage;
 
     static float heightStage;
@@ -54,6 +63,12 @@ public class PlayerAudio : MonoBehaviour {
 
         //AIR JUMP SETUP
         Airjump = FMODUnity.RuntimeManager.CreateInstance(airjump);
+
+        //WALL JUMP
+        Walljump = FMODUnity.RuntimeManager.CreateInstance(walljump);
+
+        //ROAR
+        Dragon_Screeches = FMODUnity.RuntimeManager.CreateInstance(dragon_screeches);
     }
 
     private void Update()
@@ -65,6 +80,10 @@ public class PlayerAudio : MonoBehaviour {
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Launch, GetComponent<Transform>(), GetComponent<Rigidbody>());
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Bounce, GetComponent<Transform>(), GetComponent<Rigidbody>());
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Airjump, GetComponent<Transform>(), GetComponent<Rigidbody>());
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(Walljump, GetComponent<Transform>(), GetComponent<Rigidbody>());
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(Dragon_Screeches, GetComponent<Transform>(), GetComponent<Rigidbody>());
+
+        Dragon_Screeches.getParameter("Screech", out Dragon_ScreechesParameter);
     }
 
     void PlayBounce()
