@@ -281,8 +281,21 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 				if (velocity.y > 0)
 					velocity.y = 0;
 			}
+
+			//SmoothLanding();
 		} else {
 			velocity.y = 0;
+		}
+	}
+
+	void SmoothLanding ()
+	{
+		float range = 1.5f;
+		RaycastHit smoothingRayHit;
+		if (velocity.y < 0) {
+			if (Physics.Raycast(transform.position, -Vector3.up, out smoothingRayHit, range)) {
+				velocity.y *= .75f;
+			}
 		}
 	}
 
