@@ -113,7 +113,7 @@ public class FinalBoundary : MonoBehaviour {
 
     IEnumerator IncreaseWindStrength()
     {
-        for (int i = 0; i < 500; i++)
+        for (int i = 0; i < 100; i++)
         {
             windStrength += windStrengthAcceleration;
             yield return new WaitForSeconds(0.1f);

@@ -10,8 +10,8 @@ public class ContinuePlayingSound : MonoBehaviour
     // BACKGROUND MUSIC
     [FMODUnity.EventRef]
     public string music = "event:/Music";
-    public FMOD.Studio.EventInstance Music;
-    public FMOD.Studio.ParameterInstance MusicParameter;
+    public static FMOD.Studio.EventInstance Music;
+    public static FMOD.Studio.ParameterInstance MusicParameter;
 
     public static float musicStage;
 
@@ -90,6 +90,9 @@ public class ContinuePlayingSound : MonoBehaviour
         Walljump = FMODUnity.RuntimeManager.CreateInstance(walljump); // if walljump, Audio.Walljump.start();
         Dragon_Screeches = FMODUnity.RuntimeManager.CreateInstance(dragon_screeches); //start when screech nodig, Audio.Dragon_Screeches.start(); (or .Play();)
         Dragon_Screeches.getParameter("Screech", out Dragon_ScreechesParameter);
+
+        //START MUSIC AND AMBIENCE
+        Music.start();
     }
 
 

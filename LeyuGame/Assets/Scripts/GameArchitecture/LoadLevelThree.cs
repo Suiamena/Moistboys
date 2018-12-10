@@ -42,6 +42,7 @@ public class LoadLevelThree : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            ContinuePlayingSound.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             SceneManager.LoadScene("Level3-rough_lenny");
             //if (!coroutineRunning)
             //{
