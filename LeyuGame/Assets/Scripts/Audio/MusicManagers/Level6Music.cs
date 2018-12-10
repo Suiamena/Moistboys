@@ -1,0 +1,30 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Level6Music : MonoBehaviour
+{
+
+    [FMODUnity.EventRef]
+    public string music = "event:/Music";
+    public static FMOD.Studio.EventInstance Music;
+    public static FMOD.Studio.ParameterInstance MusicParameter;
+
+    public static float musicStage;
+
+    private void Awake()
+    {
+        Music = FMODUnity.RuntimeManager.CreateInstance(music);
+        Music.getParameter("Music", out MusicParameter);
+        //kies voor creature: 13.5
+        //kies voor competence: 14.5
+
+        Music.start();
+    }
+
+    private void Update()
+    {
+        MusicParameter.setValue(musicStage);
+    }
+
+}

@@ -10,8 +10,9 @@ public class LoadLevelFour : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Level3Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            SceneManager.LoadScene("Level4_rough");
+            SceneManager.LoadScene("Level4v2_rough");
         }
     }
 

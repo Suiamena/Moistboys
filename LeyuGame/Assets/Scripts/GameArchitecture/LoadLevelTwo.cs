@@ -54,6 +54,7 @@ public class LoadLevelTwo : MonoBehaviour {
         creatureInSnow.SetActive(false);
         creatureOutSnow.SetActive(true);
         yield return new WaitForSeconds(3F);
+        AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         Level1Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         SceneManager.LoadScene("Level2_rough");
     }
