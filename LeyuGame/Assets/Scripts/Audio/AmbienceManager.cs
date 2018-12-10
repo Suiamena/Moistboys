@@ -4,28 +4,44 @@ using UnityEngine;
 
 public class AmbienceManager : MonoBehaviour {
 
+    // AMBIENCE
     [FMODUnity.EventRef]
-    public string wind = "event:/Ambience/Wind";
-    public string wolf = "event:/Creatures/Wolf";
-    public  string ground = "event:/Vegetation/Amethyst_Ground";
-    //public string awoo = "event:/Creatures/Awoo";
+    public string ambience = "event:/Ambience/Ambience";
+    public FMOD.Studio.EventInstance Ambience;
+    public FMOD.Studio.ParameterInstance WindParameter;
+    public FMOD.Studio.ParameterInstance AmethystParameter;
+    public FMOD.Studio.ParameterInstance InsideParameter;
+    public FMOD.Studio.ParameterInstance AreaParameter;
 
-    public FMOD.Studio.EventInstance Wind;
-    public FMOD.Studio.EventInstance Wolf;
-    public FMOD.Studio.EventInstance Amethyst_Ground;
-    //public FMOD.Studio.EventInstance Awoo;
+    public float windStage;
+    public float amethystStage;
+    public float insideStage;
+    public float areaStage;
 
     private void Awake()
     {
-        Wind = FMODUnity.RuntimeManager.CreateInstance(wind);
-        Wolf = FMODUnity.RuntimeManager.CreateInstance(wolf);
-        Amethyst_Ground = FMODUnity.RuntimeManager.CreateInstance(ground);
-        //Awoo = FMODUnity.RuntimeManager.CreateInstance(awoo);
+        //ambience
+        Ambience = FMODUnity.RuntimeManager.CreateInstance(ambience);
+        Ambience.getParameter("Wind", out WindParameter);
+        Ambience.getParameter("Amethyst", out AmethystParameter);
+        Ambience.getParameter("Inside", out InsideParameter);
+        Ambience.getParameter("Area", out AreaParameter);
 
-        Wind.start();
-        Wolf.start();
-        Amethyst_Ground.start();
-        //Awoo.start();
+        windStage = 0f; //wind op 0.5f, van 0.5 naar 1 lerpen bij de boundary
+        amethystStage = 0f;
+        insideStage = 0f;
+        areaStage = 0f; //bij het laatste level, areaStage op 1 en wind op 0
+
+        Ambience.start();
+    }
+
+    void Update()
+    {
+        //ambience
+        WindParameter.setValue(windStage);
+        AmethystParameter.setValue(amethystStage);
+        InsideParameter.setValue(insideStage);
+        AreaParameter.setValue(areaStage);
     }
 
 }
