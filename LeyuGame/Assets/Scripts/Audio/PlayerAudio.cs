@@ -7,6 +7,7 @@ public class PlayerAudio : MonoBehaviour {
     //MUSIC AND SOUND MANAGEMENT
     bool launchSoundStarted, playBuildLaunch, playExecuteLaunch;
     bool playBounceOnce;
+    bool playJumpOnce;
 
     //PLAYER
     GameObject player;
@@ -23,6 +24,10 @@ public class PlayerAudio : MonoBehaviour {
     static FMOD.Studio.EventInstance Bounce;
     static FMOD.Studio.ParameterInstance HeightParameter;
     static FMOD.Studio.ParameterInstance GroundParameter;
+
+    //JUMP
+    static string airjump = "event:/Dragon/Airjump";
+    static FMOD.Studio.EventInstance Airjump;
 
     static float launchStage;
 
@@ -46,16 +51,20 @@ public class PlayerAudio : MonoBehaviour {
         Bounce = FMODUnity.RuntimeManager.CreateInstance(bounce);
         Bounce.getParameter("Height", out HeightParameter);
         Bounce.getParameter("Ground", out GroundParameter);
+
+        //AIR JUMP SETUP
+        Airjump = FMODUnity.RuntimeManager.CreateInstance(airjump);
     }
 
     private void Update()
     {
         PlayBounce();
+        PlayJump();
         PlayLaunch();
 
-        //LaunchParameter.setValue(launchStage);
-        //HeightParameter.setValue(heightStage);
-        //GroundParameter.setValue(groundStage);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(Launch, GetComponent<Transform>(), GetComponent<Rigidbody>());
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(Bounce, GetComponent<Transform>(), GetComponent<Rigidbody>());
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(Airjump, GetComponent<Transform>(), GetComponent<Rigidbody>());
     }
 
     void PlayBounce()
@@ -75,6 +84,22 @@ public class PlayerAudio : MonoBehaviour {
         else
         {
             playBounceOnce = false;
+        }
+    }
+
+    void PlayJump()
+    {
+        if (playerScript.isHopping)
+        {
+            if (!playJumpOnce)
+            {
+                Airjump.start();
+                playJumpOnce = true;
+            }
+        }
+        else
+        {
+            playJumpOnce = false;
         }
     }
 
