@@ -7,14 +7,6 @@ public class PlaySound : MonoBehaviour
 
     [Header("fmod Parameters")]
 
-    // BACKGROUND MUSIC
-    [FMODUnity.EventRef]
-    public string music = "event:/Music";
-    public static FMOD.Studio.EventInstance Music;
-    public static FMOD.Studio.ParameterInstance MusicParameter;
-
-    public static float musicStage;
-
     // OBJECTS
     [FMODUnity.EventRef]
     public string lighttower = "event:/Objects/Lighttower";
@@ -46,11 +38,6 @@ public class PlaySound : MonoBehaviour
 
     void Awake()
     {
-        //music
-        Music = FMODUnity.RuntimeManager.CreateInstance(music);
-        Music.getParameter("Music", out MusicParameter);
-        musicStage = 0f;
-
         //objects
         Lighttower = FMODUnity.RuntimeManager.CreateInstance(lighttower); //always play at object
 
@@ -64,16 +51,6 @@ public class PlaySound : MonoBehaviour
         Walljump = FMODUnity.RuntimeManager.CreateInstance(walljump); // if walljump, Audio.Walljump.start();
         Dragon_Screeches = FMODUnity.RuntimeManager.CreateInstance(dragon_screeches); //start when screech nodig, Audio.Dragon_Screeches.start(); (or .Play();)
         Dragon_Screeches.getParameter("Screech", out Dragon_ScreechesParameter);
-
-        //START MUSIC AND AMBIENCE
-        Music.start();
-    }
-
-
-    void Update()
-    {
-        //music
-        MusicParameter.setValue(musicStage);
     }
 
 }

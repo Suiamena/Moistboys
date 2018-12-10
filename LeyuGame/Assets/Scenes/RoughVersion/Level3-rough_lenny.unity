@@ -4172,7 +4172,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 23.018448, y: 28.897192, z: 417.90115}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1952204603}
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4187,6 +4188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e29c03c651aa04cbd2d5efa434d944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  music: event:/Music
 --- !u!1 &943916515
 GameObject:
   m_ObjectHideFlags: 0
@@ -6926,59 +6928,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1553682387}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1555172147
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1555172149}
-  - component: {fileID: 1555172148}
-  m_Layer: 0
-  m_Name: FMODAudioSource
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1555172148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1555172147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cf5b406ba06617479f49cfc3cd1fdca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  music: event:/Music
-  ambience: event:/Ambience/Ambience
-  windStage: 0
-  amethystStage: 0
-  insideStage: 0
-  areaStage: 0
-  lighttower: event:/Objects/Lighttower
-  flaps: event:/Moustache_Boy/Flaps
-  screeches: event:/Moustache_Boy/Screeches
-  wall_rumble: event:/Moustache_Boy/Wall_Rumble
-  airjump: event:/Dragon/Airjump
-  walljump: event:/Dragon/Walljump
-  dragon_screeches: event:/Dragon/Dragon_Screeches
---- !u!4 &1555172149
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1555172147}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 615.7938, y: 166, z: 58.868683}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1565750504
 GameObject:
   m_ObjectHideFlags: 0
@@ -9772,13 +9721,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1916567700}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 234.9, y: 154.5, z: -862}
+  m_LocalRotation: {x: -0, y: 0.3506775, z: -0, w: 0.9364963}
+  m_LocalPosition: {x: -103.9, y: 8.8, z: -57}
   m_LocalScale: {x: 49.887203, y: 49.887203, z: -1.3987873}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 41.058002, z: 0}
 --- !u!1 &1920013196
 GameObject:
   m_ObjectHideFlags: 0
@@ -10119,6 +10068,51 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1944936048}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1952204602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1952204603}
+  - component: {fileID: 1952204604}
+  m_Layer: 0
+  m_Name: Ambience
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1952204603
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1952204602}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 71.80155, y: 5.9928074, z: 102.99887}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 894260253}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1952204604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1952204602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06498daaf0dd60a428d88ddaac013e7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ambience: event:/Ambience/Ambience
+  windStage: 0
+  amethystStage: 0
+  insideStage: 0
+  areaStage: 0
 --- !u!1 &1964188935
 GameObject:
   m_ObjectHideFlags: 0
