@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	bool launchRoutineRunning = false;
 
 	[Header("Creature Wall Settings")]
-	public bool canUseCreatureWalls = true;
+	public bool creatureWallsEnabled = true;
 	public float creatureWallJumpSpeed = 40;
 
 	[Header("Model Rotation Settings")]
@@ -290,11 +290,11 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 	void SmoothLanding ()
 	{
-		float range = 1.5f;
+		float range = 10f;
 		RaycastHit smoothingRayHit;
 		if (velocity.y < 0) {
 			if (Physics.Raycast(transform.position, -Vector3.up, out smoothingRayHit, range)) {
-				velocity.y *= .75f;
+				velocity.y = Mathf.Clamp(velocity.y, -Vector3.Distance(transform.position, smoothingRayHit.point) - 14, 0);
 			}
 		}
 	}
@@ -423,6 +423,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageTwoForce.z;
 			velocity.y = launchStageTwoForce.y;
 		}
+		canHop = true;
 
 		StartCoroutine(PreLaunchRoutine());
 		StopCoroutine(SuspendGroundedCheck());
