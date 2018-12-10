@@ -15,20 +15,6 @@ public class PlaySound : MonoBehaviour
 
     public static float musicStage;
 
-    // AMBIENCE
-    [FMODUnity.EventRef]
-    public string ambience = "event:/Ambience/Ambience";
-    public FMOD.Studio.EventInstance Ambience;
-    public FMOD.Studio.ParameterInstance WindParameter;
-    public FMOD.Studio.ParameterInstance AmethystParameter;
-    public FMOD.Studio.ParameterInstance InsideParameter;
-    public FMOD.Studio.ParameterInstance AreaParameter;
-
-    public float windStage;
-    public float amethystStage;
-    public float insideStage;
-    public float areaStage;
-
     // OBJECTS
     [FMODUnity.EventRef]
     public string lighttower = "event:/Objects/Lighttower";
@@ -65,18 +51,6 @@ public class PlaySound : MonoBehaviour
         Music.getParameter("Music", out MusicParameter);
         musicStage = 0f;
 
-        //ambience
-        Ambience = FMODUnity.RuntimeManager.CreateInstance(ambience);
-        Ambience.getParameter("Wind", out WindParameter);
-        Ambience.getParameter("Amethyst", out AmethystParameter);
-        Ambience.getParameter("Inside", out InsideParameter);
-        Ambience.getParameter("Area", out AreaParameter);
-
-        windStage = 0f; //wind op 0.5f, van 0.5 naar 1 lerpen bij de boundary
-        amethystStage = 0f;
-        insideStage = 0f;
-        areaStage = 0f; //bij het laatste level, areaStage op 1 en wind op 0
-
         //objects
         Lighttower = FMODUnity.RuntimeManager.CreateInstance(lighttower); //always play at object
 
@@ -93,7 +67,6 @@ public class PlaySound : MonoBehaviour
 
         //START MUSIC AND AMBIENCE
         Music.start();
-        Ambience.start();
     }
 
 
@@ -101,12 +74,6 @@ public class PlaySound : MonoBehaviour
     {
         //music
         MusicParameter.setValue(musicStage);
-
-        //ambience
-        WindParameter.setValue(windStage);
-        AmethystParameter.setValue(amethystStage);
-        InsideParameter.setValue(insideStage);
-        AreaParameter.setValue(areaStage);
     }
 
 }
