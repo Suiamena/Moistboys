@@ -53,9 +53,8 @@ public class PlayerAudio : MonoBehaviour {
         PlayBounce();
         PlayLaunch();
 
-        //LaunchParameter.setValue(launchStage);
-        //HeightParameter.setValue(heightStage);
-        //GroundParameter.setValue(groundStage);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(Launch, GetComponent<Transform>(), GetComponent<Rigidbody>());
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(Bounce, GetComponent<Transform>(), GetComponent<Rigidbody>());
     }
 
     void PlayBounce()

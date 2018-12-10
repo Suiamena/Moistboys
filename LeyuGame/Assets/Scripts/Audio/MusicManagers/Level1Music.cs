@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class Level1Music : MonoBehaviour {
 
+    [Header("fmod Parameters")]
+
+    // BACKGROUND MUSIC
+    [FMODUnity.EventRef]
+    public string music = "event:/Music";
+    public static FMOD.Studio.EventInstance Music;
+    public static FMOD.Studio.ParameterInstance MusicParameter;
+
+    public static float musicStage;
+
     //MUSIC AND SOUND MANAGEMENT
     [Header("Management")]
     public int countMusicStage;
@@ -22,12 +32,21 @@ public class Level1Music : MonoBehaviour {
         playerScript = player.GetComponent<PlayerController>();
 
         //WAKE UP
-        PlaySound.musicStage = 0.5f;
+        //PlaySound.musicStage = 0.5f;
+
+        //music
+        Music = FMODUnity.RuntimeManager.CreateInstance(music);
+        Music.getParameter("Music", out MusicParameter);
+        musicStage = 2.5f;
+
+        //START MUSIC AND AMBIENCE
+        Music.start();
     }
 
     private void FixedUpdate()
     {
-        RegulateMusic();
+        MusicParameter.setValue(musicStage);
+        //RegulateMusic();
     }
 
     void RegulateMusic()
