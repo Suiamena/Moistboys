@@ -164,7 +164,8 @@ public class NewWallMechanic : MonoBehaviour
 	void StartJump ()
 	{
 		if (Input.GetButtonDown("A Button") && sequenceIsRunning && !playerIsJumping) {
-			playerIsJumping = true;
+            PlayerAudio.PlayWallJump();
+            playerIsJumping = true;
 		}
 	}
 
@@ -225,6 +226,8 @@ public class NewWallMechanic : MonoBehaviour
 
 	IEnumerator CreatureDoesTrick ()
 	{
+        MoustacheBoiAudio.PlayScreeches();
+        MoustacheBoiAudio.PlayRumble();
 		moustacheAnim.SetBool("UseAbility", true);
 		pressButtonPopup.SetActive(false);
 		yield return new WaitForSeconds(1F);
@@ -243,7 +246,8 @@ public class NewWallMechanic : MonoBehaviour
 		moustacheBoi.SetActive(true);
 
 		while (Vector3.Distance(moustacheBoi.transform.position, defaultCreaturePos) > 0.1f) {
-			moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos, flyingSpeed * Time.deltaTime);
+            MoustacheBoiAudio.PlayFlaps();
+            moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos, flyingSpeed * Time.deltaTime);
 			yield return null;
 		}
 
@@ -253,7 +257,8 @@ public class NewWallMechanic : MonoBehaviour
 		}
 		moustacheBoi.transform.rotation = defaultRot;
 		WAARISDIEKUTCREATURE.HIER = gameObject;
-		flyingRoutineRunning = false;
+        MoustacheBoiAudio.StopFlaps();
+        flyingRoutineRunning = false;
 	}
 
 	IEnumerator FlyOut ()
