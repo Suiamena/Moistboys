@@ -5,13 +5,6 @@ using UnityEngine;
 public class PlaySound : MonoBehaviour
 {
 
-    [Header("fmod Parameters")]
-
-    // OBJECTS
-    [FMODUnity.EventRef]
-    public string lighttower = "event:/Objects/Lighttower";
-    public FMOD.Studio.EventInstance Lighttower;
-
     // MOUSTACHE BOY
     [FMODUnity.EventRef]
     public string flaps = "event:/Moustache_Boy/Flaps";
@@ -38,8 +31,6 @@ public class PlaySound : MonoBehaviour
 
     void Awake()
     {
-        //objects
-        Lighttower = FMODUnity.RuntimeManager.CreateInstance(lighttower); //always play at object
 
         //moustache boy
         Flaps = FMODUnity.RuntimeManager.CreateInstance(flaps); // talk with lenny about placement

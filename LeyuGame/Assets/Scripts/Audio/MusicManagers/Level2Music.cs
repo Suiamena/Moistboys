@@ -24,6 +24,8 @@ public class Level2Music : MonoBehaviour
     private void Update()
     {
         MusicParameter.setValue(musicStage);
+
+        //musicStage = 5.5f  lose creature;
     }
 
 }

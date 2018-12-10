@@ -39,7 +39,7 @@ public class Level3Music : MonoBehaviour
         yield return new WaitForSeconds(3F);
         musicStage = 7.5f;
 
-        //musicStage = 8.5f for LOSE CREATURE!
+        //musicStage = 8.5f for find CREATURE!
     }
 
 }
