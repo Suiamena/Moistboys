@@ -31,7 +31,7 @@ public class PlayerAudio : MonoBehaviour {
 
     //WALL JUMP
     public string walljump = "event:/Dragon/Walljump";
-    public FMOD.Studio.EventInstance Walljump;
+    static public FMOD.Studio.EventInstance Walljump;
 
     //ROARS
     public string dragon_screeches = "event:/Dragon/Dragon_Screeches";
@@ -69,6 +69,7 @@ public class PlayerAudio : MonoBehaviour {
 
         //ROAR
         Dragon_Screeches = FMODUnity.RuntimeManager.CreateInstance(dragon_screeches);
+        Dragon_Screeches.getParameter("Screech", out Dragon_ScreechesParameter);
     }
 
     private void Update()
@@ -83,7 +84,12 @@ public class PlayerAudio : MonoBehaviour {
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Walljump, GetComponent<Transform>(), GetComponent<Rigidbody>());
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Dragon_Screeches, GetComponent<Transform>(), GetComponent<Rigidbody>());
 
-        Dragon_Screeches.getParameter("Screech", out Dragon_ScreechesParameter);
+        //THIS FIXES SOME WARNINGS
+        Launch.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
+        Bounce.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
+        Airjump.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
+        Walljump.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
+        Dragon_Screeches.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
     }
 
     void PlayBounce()
@@ -147,6 +153,26 @@ public class PlayerAudio : MonoBehaviour {
             playExecuteLaunch = true;
             playBuildLaunch = false;
         }
+    }
+
+    public static void PlayWallJump()
+    {
+        Walljump.start();
+    }
+
+    IEnumerator TestAudio()
+    {
+        Dragon_Screeches.start();
+        Dragon_ScreechesParameter.setValue(0.5f);
+        yield return new WaitForSeconds(2f);
+        Dragon_Screeches.start();
+        Dragon_ScreechesParameter.setValue(1.5f);
+        yield return new WaitForSeconds(2f);
+        Dragon_Screeches.start();
+        Dragon_ScreechesParameter.setValue(2.5f);
+        yield return new WaitForSeconds(2f);
+        Dragon_Screeches.start();
+        Dragon_ScreechesParameter.setValue(3.5f);
     }
 
 }
