@@ -10,7 +10,7 @@ public class ReuniteCreatureSound : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Level2Music.musicStage = 8.5f;
+            Level3Music.musicStage = 8.5f;
             Destroy(gameObject);
         }
     }

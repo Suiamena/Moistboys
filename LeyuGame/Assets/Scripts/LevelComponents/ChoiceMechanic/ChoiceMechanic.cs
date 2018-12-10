@@ -227,12 +227,12 @@ public class ChoiceMechanic : MonoBehaviour {
         //RESOLVE
         if (competentScript.playerChooseCompetence)
         {
-            Level5Music.musicStage = 11.5f;
+            Level5Music.musicStage = 12.5f;
             playerScript.canLaunch = true;
         }
         else
         {
-            Level5Music.musicStage = 12.5f;
+            Level5Music.musicStage = 11.5f;
             moustacheBoiEnding.SetActive(true);
         }
     }
