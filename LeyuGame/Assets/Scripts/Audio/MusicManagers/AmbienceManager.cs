@@ -29,11 +29,6 @@ public class AmbienceManager : MonoBehaviour {
         Ambience.getParameter("Inside", out InsideParameter);
         Ambience.getParameter("Area", out AreaParameter);
 
-        windStage = 0.45f; //wind op 0.5f, van 0.5 naar 1 lerpen bij de boundary
-        amethystStage = 1f;
-        insideStage = 0f;
-        areaStage = 0f; //bij het laatste level, areaStage op 1 en wind op 0
-
         Ambience.start();
     }
 

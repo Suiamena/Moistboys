@@ -19,6 +19,7 @@ public class Level5Music : MonoBehaviour
         musicStage = 10.5f;
 
         AmbienceManager.windStage = 0.40f;
+        AmbienceManager.insideStage = 0f;
 
         //AmbienceManager.amethystStage = 0f;
         //AmbienceManager.amethystStage = 0.5f;

@@ -20,6 +20,7 @@ public class Level3Music : MonoBehaviour
         Music.getParameter("Music", out MusicParameter);
 
         AmbienceManager.windStage = 0.45f;
+        AmbienceManager.insideStage = 0f;
 
         //AmbienceManager.amethystStage = 0f;
         //AmbienceManager.amethystStage = 0.5f;
