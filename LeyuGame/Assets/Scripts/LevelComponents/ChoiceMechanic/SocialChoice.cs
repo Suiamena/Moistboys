@@ -47,7 +47,9 @@ public class SocialChoice : MonoBehaviour
     {
         if (Input.GetButtonDown("A Button"))
         {
+            Level5Music.musicStage = 11.5f;
             playerChooseSocial = true;
+            choiceMessage.SetActive(false);
         }
     }
 

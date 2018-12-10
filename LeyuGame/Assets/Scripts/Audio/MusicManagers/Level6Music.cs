@@ -18,6 +18,13 @@ public class Level6Music : MonoBehaviour
         Music.getParameter("Music", out MusicParameter);
         musicStage = 13.5f;
 
+        AmbienceManager.windStage = 0f;
+        AmbienceManager.areaStage = 1f;
+
+        //AmbienceManager.amethystStage = 0f;
+        //AmbienceManager.amethystStage = 0.5f;
+        //AmbienceManager.amethystStage = 1f;
+
         //FINAL MUSIC TO DO:
         //kies voor creature: 13.5
         //kies voor competence: 14.5

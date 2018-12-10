@@ -18,6 +18,8 @@ public class AmbienceManager : MonoBehaviour {
     public static float insideStage;
     public static float areaStage;
 
+    static bool playerIsInside;
+
     private void Awake()
     {
         //ambience
@@ -42,6 +44,20 @@ public class AmbienceManager : MonoBehaviour {
         AmethystParameter.setValue(amethystStage);
         InsideParameter.setValue(insideStage);
         AreaParameter.setValue(areaStage);
+    }
+
+    public static void ToggleAmbience()
+    {
+        if (playerIsInside)
+        {
+            playerIsInside = false;
+            insideStage = 0f;
+        }
+        else
+        {
+            playerIsInside = true;
+            insideStage = 1f;
+        }
     }
 
 }
