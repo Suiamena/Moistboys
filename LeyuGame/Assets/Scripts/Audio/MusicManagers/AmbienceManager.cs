@@ -34,7 +34,6 @@ public class AmbienceManager : MonoBehaviour {
 
     void Update()
     {
-        //ambience
         WindParameter.setValue(windStage);
         AmethystParameter.setValue(amethystStage);
         InsideParameter.setValue(insideStage);
@@ -53,6 +52,19 @@ public class AmbienceManager : MonoBehaviour {
             playerIsInside = true;
             insideStage = 1f;
         }
+    }
+
+    public static void IncreaseWindSound(float windGrowthSpeed)
+    {
+        windStage += windGrowthSpeed;
+        windStage = Mathf.Clamp(windStage, 0.4f, 0.7f);
+        //windStage = 0.7f;
+        Debug.Log(windStage);
+    }
+
+    public static void DecreaseWindSound()
+    {
+        windStage = 0.4f;
     }
 
 }
