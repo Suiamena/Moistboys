@@ -9566,6 +9566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f3383eb697ba694fafaa2d3ea839f59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  music: event:/Music
 --- !u!4 &693875892
 Transform:
   m_ObjectHideFlags: 0
@@ -9576,7 +9577,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 23.018448, y: 28.897192, z: 417.90115}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1053760355}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12627,59 +12629,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 918436541}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &923056219
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 923056221}
-  - component: {fileID: 923056220}
-  m_Layer: 0
-  m_Name: FMODAudioSource
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &923056220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 923056219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4e11e7eadb86b24c92217cfcf39d2bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  music: event:/Music
-  ambience: event:/Ambience/Ambience
-  windStage: 0
-  amethystStage: 0
-  insideStage: 0
-  areaStage: 0
-  lighttower: event:/Objects/Lighttower
-  flaps: event:/Moustache_Boy/Flaps
-  screeches: event:/Moustache_Boy/Screeches
-  wall_rumble: event:/Moustache_Boy/Wall_Rumble
-  airjump: event:/Dragon/Airjump
-  walljump: event:/Dragon/Walljump
-  dragon_screeches: event:/Dragon/Dragon_Screeches
---- !u!4 &923056221
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 923056219}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 615.7938, y: 166, z: 58.868683}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &925335468
 GameObject:
   m_ObjectHideFlags: 0
@@ -14239,6 +14188,51 @@ Transform:
   m_Father: {fileID: 1577866181}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1053760354
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1053760355}
+  - component: {fileID: 1053760356}
+  m_Layer: 0
+  m_Name: Ambience
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1053760355
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1053760354}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 71.80155, y: 5.9928074, z: 102.99887}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 693875892}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1053760356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1053760354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06498daaf0dd60a428d88ddaac013e7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ambience: event:/Ambience/Ambience
+  windStage: 0
+  amethystStage: 0
+  insideStage: 0
+  areaStage: 0
 --- !u!1 &1056645823
 GameObject:
   m_ObjectHideFlags: 0

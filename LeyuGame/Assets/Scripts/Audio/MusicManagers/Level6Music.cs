@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Level1Music : MonoBehaviour {
+public class Level6Music : MonoBehaviour
+{
 
     [FMODUnity.EventRef]
     public string music = "event:/Music";
@@ -15,7 +16,8 @@ public class Level1Music : MonoBehaviour {
     {
         Music = FMODUnity.RuntimeManager.CreateInstance(music);
         Music.getParameter("Music", out MusicParameter);
-        musicStage = 1.5f;
+        //kies voor creature: 13.5
+        //kies voor competence: 14.5
 
         Music.start();
     }

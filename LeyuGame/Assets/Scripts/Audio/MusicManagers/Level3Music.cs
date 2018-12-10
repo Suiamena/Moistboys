@@ -4,28 +4,42 @@ using UnityEngine;
 
 public class Level3Music : MonoBehaviour
 {
-    bool abilityGot;
 
-    private void FixedUpdate()
+    [FMODUnity.EventRef]
+    public string music = "event:/Music";
+    public static FMOD.Studio.EventInstance Music;
+    public static FMOD.Studio.ParameterInstance MusicParameter;
+
+    public static float musicStage;
+
+    bool runCoroutineOnce;
+
+    private void Awake()
     {
-        if (!abilityGot)
+        Music = FMODUnity.RuntimeManager.CreateInstance(music);
+        Music.getParameter("Music", out MusicParameter);
+
+        Music.start();
+    }
+
+    private void Update()
+    {
+        MusicParameter.setValue(musicStage);
+
+        if (!runCoroutineOnce)
         {
-            ContinuePlayingAgain.musicStage += Mathf.Lerp(0f, 6.5f, 0.096f);
-            ContinuePlayingAgain.musicStage = Mathf.Clamp(ContinuePlayingAgain.musicStage, 0, 6.5f);
-        }
-        if (ContinuePlayingAgain.musicStage == 6.5f && ContinuePlayingAgain.musicStage < 7.5f && !abilityGot)
-        {
-            abilityGot = true;
             StartCoroutine(PlayCompetentMusic());
+            runCoroutineOnce = true;
         }
     }
 
     IEnumerator PlayCompetentMusic()
     {
+        musicStage = 6.5f;
         yield return new WaitForSeconds(3F);
-        ContinuePlayingAgain.musicStage = 7.5f;
-        //ContinuePlayingSound.musicStage += Mathf.Lerp(0f, 7.5f, 0.005f);
-        //ContinuePlayingSound.musicStage = Mathf.Clamp(PlaySound.musicStage, 0, 7.5f);
+        musicStage = 7.5f;
+
+        //musicStage = 8.5f for LOSE CREATURE!
     }
 
 }
