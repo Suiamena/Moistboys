@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	GameObject animationModel;
 	Animator animator;
 	[HideInInspector]
-	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch;
+	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch, isHopping;
 
 	[Header("Camera Settings")]
 	public Transform cameraTrans;
@@ -254,19 +254,23 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 	void Hop ()
 	{
-		if (canHop) {
-			if (Input.GetButtonDown("A Button")) {
-				canHop = false;
-				if (velocity.y < 0)
-					velocity.y = 0;
-				velocity.y += hopVelocity;
-				GamePad.SetVibration(0, .2f, .2f);
-				KillVibration();
-				StartCoroutine(SuspendGroundedCheck());
-			}
-		} else {
-			if (Grounded())
-				canHop = true;
+        if (canHop) {
+            if (Input.GetButtonDown("A Button")) {
+                isHopping = true;
+                canHop = false;
+                if (velocity.y < 0)
+                    velocity.y = 0;
+                velocity.y += hopVelocity;
+                GamePad.SetVibration(0, .2f, .2f);
+                KillVibration();
+                StartCoroutine(SuspendGroundedCheck());
+            }
+        } else {
+            if (Grounded())
+            {
+                isHopping = false;
+                canHop = true;
+            }
 		}
 	}
 
