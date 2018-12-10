@@ -92,6 +92,10 @@ public class FinalBoundary : MonoBehaviour {
             particlesAmount = 100 * windStrength;
             particlesAmount = Mathf.Clamp(particlesAmount, 0, maxParticlesAmount);
             emissionModule.rateOverTime = particlesAmount;
+
+            //PLAY WIND SOUND
+            float growth = 0.005f;
+            AmbienceManager.IncreaseWindSound(growth);
         }
     }
 
@@ -102,6 +106,9 @@ public class FinalBoundary : MonoBehaviour {
             windStrength = 0;
             playerScript.enablePlayerPushBack = false;
             snowSpawned = false;
+
+            //DECREASE WIND SOUND
+            AmbienceManager.DecreaseWindSound();
 
             if (!snowDespawned)
             {
@@ -128,7 +135,6 @@ public class FinalBoundary : MonoBehaviour {
             particlesAmount = particlesAmount / 2;
             particlesAmount = Mathf.Clamp(particlesAmount, 0, maxParticlesAmount);
             emissionModule.rateOverTime = particlesAmount;
-            Debug.Log(particlesAmount);
             if (particlesAmount < 500)
             {
                 snowParticlesObject.SetActive(true);
