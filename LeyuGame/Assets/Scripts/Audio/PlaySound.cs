@@ -10,8 +10,8 @@ public class PlaySound : MonoBehaviour
     // BACKGROUND MUSIC
     [FMODUnity.EventRef]
     public string music = "event:/Music";
-    public FMOD.Studio.EventInstance Music;
-    public FMOD.Studio.ParameterInstance MusicParameter;
+    public static FMOD.Studio.EventInstance Music;
+    public static FMOD.Studio.ParameterInstance MusicParameter;
 
     public static float musicStage;
 

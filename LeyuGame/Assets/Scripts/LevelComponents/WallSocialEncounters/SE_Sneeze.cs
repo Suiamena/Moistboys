@@ -15,10 +15,10 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 	public float shiverYAngle = 12, shiverXAngle = 8, timeBeforeSneeze = 3;
 	Quaternion defaultRot;
 	bool sneezed = false;
-	public AudioClip sneezeClip;
+	public AudioClip sneezeClip, blessYouClip, thankYouClip;
 	AudioSource audioSource;
 
-	public float sneezeBackRotation = -15, sneezeFrontRotation = 20, sneezeBackTime = .3f, sneezeFrontTime = .08f;
+	public float sneezeBackRotation = -15, sneezeFrontRotation = 20, sneezeBackTime = .2f, sneezeFrontTime = .08f;
 
 	//INITIAL BLOCK
 	bool isPlayerInRange = false;
@@ -41,13 +41,13 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 
 		while (true) {
 			moustacheBoy.Rotate(new Vector3(0, (-1 + shiverDirection.ToInt() * 2) * shiverYAngle * 2 * shiversPerSecond * Time.deltaTime, 0));
-			Debug.Log("Shivering");
+
 			shiverTimer += Time.deltaTime;
 			if (shiverTimer >= timePerShiver) {
 				shiverDirection = !shiverDirection;
 				shiverTimer = 0;
 			}
-
+			Debug.Log(Vector3.Distance(player.transform.position, moustacheBoy.position));
 			if (IsPlayerInRange()) {
 				pressButtonPopup.SetActive(true);
 				sneezeTimer += Time.deltaTime;
@@ -89,12 +89,13 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 
 	IEnumerator Sneeze (Action proceedToEnd)
 	{
-		audioSource.clip = sneezeClip;
-		audioSource.Play();
 		for (float t = 0; t < sneezeBackTime; t += Time.deltaTime) {
 			moustacheBoy.Rotate(new Vector3(sneezeBackRotation / sneezeBackTime * Time.deltaTime, 0, 0));
 			yield return null;
 		}
+
+		audioSource.clip = sneezeClip;
+		audioSource.Play();
 
 		for (float t = 0; t < sneezeFrontTime; t += Time.deltaTime) {
 			moustacheBoy.Rotate(new Vector3((Mathf.Abs(sneezeBackRotation) + sneezeFrontRotation) / sneezeFrontTime * Time.deltaTime, 0, 0));
@@ -106,9 +107,25 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 			yield return null;
 		}
 
-		yield return new WaitForSeconds(.1f);
+		yield return new WaitForSeconds(.7f);
+		transform.position = player.transform.position;
+		audioSource.clip = blessYouClip;
+		audioSource.Play();
 
-		Debug.Log("Gezondheid.");
+		yield return new WaitForSeconds(1.4f);
+		transform.position = moustacheBoy.position;
+		audioSource.clip = thankYouClip;
+		audioSource.Play();
+
+		moustacheBoy.LookAt(player.transform);
+		for (float t = 0; t < .3f; t += Time.deltaTime) {
+			moustacheBoy.position += Vector3.up * 5 * Time.deltaTime;
+			yield return null;
+		}
+		for (float t = 0; t < .3f; t += Time.deltaTime) {
+			moustacheBoy.position -= Vector3.up * 5 * Time.deltaTime;
+			yield return null;
+		}
 		proceedToEnd();
 	}
 
