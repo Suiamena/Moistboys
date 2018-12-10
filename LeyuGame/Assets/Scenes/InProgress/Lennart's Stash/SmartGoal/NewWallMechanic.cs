@@ -226,7 +226,6 @@ public class NewWallMechanic : MonoBehaviour
 
 	IEnumerator CreatureDoesTrick ()
 	{
-        MoustacheBoiAudio.PlayScreeches();
         MoustacheBoiAudio.PlayRumble();
 		moustacheAnim.SetBool("UseAbility", true);
 		pressButtonPopup.SetActive(false);
@@ -244,9 +243,9 @@ public class NewWallMechanic : MonoBehaviour
 		moustacheBoi.transform.LookAt(defaultCreaturePos);
 		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
 		moustacheBoi.SetActive(true);
+        MoustacheBoiAudio.PlayFlaps();
 
-		while (Vector3.Distance(moustacheBoi.transform.position, defaultCreaturePos) > 0.1f) {
-            MoustacheBoiAudio.PlayFlaps();
+        while (Vector3.Distance(moustacheBoi.transform.position, defaultCreaturePos) > 0.1f) {
             moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos, flyingSpeed * Time.deltaTime);
 			yield return null;
 		}
