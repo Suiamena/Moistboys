@@ -94,7 +94,6 @@ public class NewWallMechanic : MonoBehaviour
 
 	void CheckForFlying ()
 	{
-		Debug.Log(currentCreatureLocation);
 		if (currentCreatureLocation == 0) {
 			if (Vector3.Distance(defaultCreaturePos, player.transform.position) < flyInOutRange) {
 				if (!flyingRoutineRunning) {
