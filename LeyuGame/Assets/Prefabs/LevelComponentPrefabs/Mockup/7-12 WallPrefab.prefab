@@ -164,6 +164,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1131124630947068
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4207186866495626}
+  - component: {fileID: 114044784176302564}
+  - component: {fileID: 82638875915105790}
+  m_Layer: 0
+  m_Name: SE_Sneeze
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1131160226386222
 GameObject:
   m_ObjectHideFlags: 1
@@ -451,7 +468,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4397223891049286}
-  - component: {fileID: 95985471652713744}
+  - component: {fileID: 95212377510754980}
   m_Layer: 0
   m_Name: Creature
   m_TagString: Untagged
@@ -822,6 +839,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1847897836118794
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4688112708927994}
+  m_Layer: 0
+  m_Name: MoustacheBoyStartLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1858635000648630
 GameObject:
   m_ObjectHideFlags: 1
@@ -1093,7 +1125,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4207186866495626}
   m_Father: {fileID: 4818937698551476}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1208,6 +1241,20 @@ Transform:
   - {fileID: 4712963219827656}
   m_Father: {fileID: 4450479578365856}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4207186866495626
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1131124630947068}
+  m_LocalRotation: {x: -0, y: 0.10344187, z: -0, w: 0.9946355}
+  m_LocalPosition: {x: -5.274644, y: 0, z: -4.4374194}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4688112708927994}
+  m_Father: {fileID: 4084994552912534}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4241759618435254
 Transform:
@@ -1329,7 +1376,7 @@ Transform:
   m_GameObject: {fileID: 1466989516485714}
   m_LocalRotation: {x: -0, y: -0.99997103, z: -0, w: -0.007612255}
   m_LocalPosition: {x: 14.791909, y: -0.10000038, z: 17.852953}
-  m_LocalScale: {x: 68.76871, y: 66.46683, z: 68.7687}
+  m_LocalScale: {x: 91.09791, y: 88.04861, z: 91.09789}
   m_Children:
   - {fileID: 4606313192713250}
   - {fileID: 4359951218094994}
@@ -1615,6 +1662,19 @@ Transform:
   m_Father: {fileID: 4765324023866240}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4688112708927994
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1847897836118794}
+  m_LocalRotation: {x: -0, y: -0.9999144, z: -0, w: 0.013089653}
+  m_LocalPosition: {x: 0.76, y: -0.1, z: -12.18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4207186866495626}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -178.50002, z: 0}
 --- !u!4 &4712963219827656
 Transform:
   m_ObjectHideFlags: 1
@@ -1845,7 +1905,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1523860951027760}
   m_LocalRotation: {x: -0, y: 0.9999514, z: -0, w: 0.009859362}
-  m_LocalPosition: {x: -355.29767, y: -87.10308, z: 208.20592}
+  m_LocalPosition: {x: -3.2083206, y: 0, z: -17.238316}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4818937698551476}
@@ -2218,7 +2278,102 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1349004755425030}
   m_Enabled: 1
---- !u!95 &95985471652713744
+--- !u!82 &82638875915105790
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1131124630947068}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!95 &95212377510754980
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -2226,9 +2381,9 @@ Animator:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1466989516485714}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 0eec6ba16617e8e418595c423134019d, type: 3}
-  m_Controller: {fileID: 9100000, guid: 222da47b3b7316148bc7be0531e27706, type: 2}
-  m_CullingMode: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -2236,6 +2391,30 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114044784176302564
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1131124630947068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a7d46daba6be34b9a5b0bc861f5288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moustacheBoy: {fileID: 4397223891049286}
+  pressButtonPopup: {fileID: 1511095658426216}
+  shiversPerSecond: 15
+  shiverYAngle: 12
+  shiverXAngle: 14
+  timeBeforeSneeze: 3
+  sneezeClip: {fileID: 8300000, guid: f6ebc650eeb74b54cba613f95e4f1097, type: 3}
+  blessYouClip: {fileID: 8300000, guid: f80293a200c6c93428cd99a1bcda423a, type: 3}
+  thankYouClip: {fileID: 8300000, guid: 4aae40bfdcaeb00458dc7ada1d2fcc40, type: 3}
+  sneezeBackRotation: -15
+  sneezeFrontRotation: 20
+  sneezeBackTime: 0.5
+  sneezeFrontTime: 0.2
 --- !u!114 &114331914110907296
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2311,17 +2490,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097c8f68fcb0a034480f9184395bd122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpingSpeed: 40
+  moustacheBoi: {fileID: 1466989516485714}
   platformsObject: {fileID: 1011959572289608}
-  triggerAbilityRange: 10
-  cameraMovementSpeed: 40
-  beforeSequenceSocialPrefab: {fileID: 0}
+  flyInOutPoint: {x: 0, y: 45, z: -7}
+  flyingSpeed: 50
+  flyInOutRange: 25
+  beforeSequenceSocialPrefab: {fileID: 1131124630947068}
   duringSequenceSocialPrefab: {fileID: 0}
   afterSequenceSocialPrefab: {fileID: 0}
-  moustacheBoi: {fileID: 1466989516485714}
+  cameraMovementSpeed: 40
   pressButtonPopup: {fileID: 1511095658426216}
   sequenceCamera: {fileID: 1349004755425030}
-  playerNose: {fileID: 1988004661804146}
 --- !u!114 &114766645269347806
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -29,6 +29,15 @@ public class PlayerAudio : MonoBehaviour {
     static string airjump = "event:/Dragon/Airjump";
     static FMOD.Studio.EventInstance Airjump;
 
+    //WALL JUMP
+    public string walljump = "event:/Dragon/Walljump";
+    static public FMOD.Studio.EventInstance Walljump;
+
+    //ROARS
+    public string dragon_screeches = "event:/Dragon/Dragon_Screeches";
+    public FMOD.Studio.EventInstance Dragon_Screeches;
+    public FMOD.Studio.ParameterInstance Dragon_ScreechesParameter;
+
     static float launchStage;
 
     static float heightStage;
@@ -54,6 +63,13 @@ public class PlayerAudio : MonoBehaviour {
 
         //AIR JUMP SETUP
         Airjump = FMODUnity.RuntimeManager.CreateInstance(airjump);
+
+        //WALL JUMP
+        Walljump = FMODUnity.RuntimeManager.CreateInstance(walljump);
+
+        //ROAR
+        Dragon_Screeches = FMODUnity.RuntimeManager.CreateInstance(dragon_screeches);
+        Dragon_Screeches.getParameter("Screech", out Dragon_ScreechesParameter);
     }
 
     private void Update()
@@ -65,6 +81,15 @@ public class PlayerAudio : MonoBehaviour {
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Launch, GetComponent<Transform>(), GetComponent<Rigidbody>());
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Bounce, GetComponent<Transform>(), GetComponent<Rigidbody>());
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Airjump, GetComponent<Transform>(), GetComponent<Rigidbody>());
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(Walljump, GetComponent<Transform>(), GetComponent<Rigidbody>());
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(Dragon_Screeches, GetComponent<Transform>(), GetComponent<Rigidbody>());
+
+        //THIS FIXES SOME WARNINGS
+        Launch.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
+        Bounce.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
+        Airjump.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
+        Walljump.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
+        Dragon_Screeches.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
     }
 
     void PlayBounce()
@@ -128,6 +153,26 @@ public class PlayerAudio : MonoBehaviour {
             playExecuteLaunch = true;
             playBuildLaunch = false;
         }
+    }
+
+    public static void PlayWallJump()
+    {
+        Walljump.start();
+    }
+
+    IEnumerator TestAudio()
+    {
+        Dragon_Screeches.start();
+        Dragon_ScreechesParameter.setValue(0.5f);
+        yield return new WaitForSeconds(2f);
+        Dragon_Screeches.start();
+        Dragon_ScreechesParameter.setValue(1.5f);
+        yield return new WaitForSeconds(2f);
+        Dragon_Screeches.start();
+        Dragon_ScreechesParameter.setValue(2.5f);
+        yield return new WaitForSeconds(2f);
+        Dragon_Screeches.start();
+        Dragon_ScreechesParameter.setValue(3.5f);
     }
 
 }

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class NewWallMechanic : MonoBehaviour
 {
-	public static NewWallMechanic currentCreatureLocation = null;
-
 	GameObject player;
 	GameObject playerModel;
 	PlayerController playerScript;
@@ -15,25 +13,33 @@ public class NewWallMechanic : MonoBehaviour
 	float jumpingSpeed = 40;
 	float playerPlatformOffset = .7f;
 
+	public GameObject moustacheBoi;
+
 	[Header("Platform Settings")]
 	public GameObject platformsObject;
 	List<Transform> platformTransforms = new List<Transform>();
 
-	[Header("Other Settings")]
-	public const float triggerAbilityRange = 10;
-	public float cameraMovementSpeed = 40;
+	[Header("Flying Settings")]
+	public Vector3 flyInOutPoint = new Vector3(0, 40, -7);
+	public float flyingSpeed = 50, flyInOutRange = 25;
+	Vector3 defaultCreaturePos;
+	Quaternion defaultRot;
+	bool flyingRoutineRunning = false;
 
 	[Header("Social Events")]
 	public GameObject beforeSequenceSocialPrefab;
 	public GameObject duringSequenceSocialPrefab, afterSequenceSocialPrefab;
 	bool beforeSequenceEventPlayed = false, duringSequenceEventPlayed = false, afterSequenceEventPlayed = false;
 
-	[Header("")]
+	[Header("Other Settings")]
+	public const float triggerAbilityRange = 10;
+	public float cameraMovementSpeed = 40;
+
 	//CREATURE
-	public GameObject moustacheBoi;
 	Animator moustacheAnim;
 
 	//UI
+	[Header("")]
 	public GameObject pressButtonPopup;
 	public GameObject sequenceCamera;
 
@@ -48,6 +54,9 @@ public class NewWallMechanic : MonoBehaviour
 		playerScript = player.GetComponent<PlayerController>();
 		playerRig = player.GetComponent<Rigidbody>();
 		playerAnim = playerModel.GetComponent<Animator>();
+		defaultCreaturePos = moustacheBoi.transform.position;
+		defaultRot = moustacheBoi.transform.rotation;
+		moustacheBoi.SetActive(false);
 
 		moustacheAnim = moustacheBoi.GetComponent<Animator>();
 
@@ -57,7 +66,7 @@ public class NewWallMechanic : MonoBehaviour
 		for (int i = 0; i < platformsParent.childCount; i++)
 			platformTransforms.Add(platformsParent.GetChild(i));
 
-		if (beforeSequenceSocialPrefab != null) {
+		if (beforeSequenceSocialPrefab != null && WAARISDIEKUTCREATURE.HIER == gameObject) {
 			beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
 				beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Execute(() => {
 					beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().End(() => { beforeSequenceEventPlayed = true; });
@@ -68,19 +77,43 @@ public class NewWallMechanic : MonoBehaviour
 		}
 	}
 
-	private void FixedUpdate ()
+	private void Update ()
 	{
+		CheckForFlying();
 		TriggerSequence();
 		StartSequence();
 		StartJump();
 		MakeJump();
 	}
 
+	void CheckForFlying ()
+	{
+		Debug.Log(WAARISDIEKUTCREATURE.HIER);
+		if (WAARISDIEKUTCREATURE.HIER == null) {
+			Debug.Log("+ Checking flying IN");
+			if (Vector3.Distance(defaultCreaturePos, player.transform.position) < flyInOutRange) {
+				if (!flyingRoutineRunning) {
+					Debug.Log("====== FLYING IN");
+					flyingRoutineRunning = true;
+					StartCoroutine(FlyIn());
+				}
+			}
+		} else if (WAARISDIEKUTCREATURE.HIER == gameObject) {
+			Debug.Log("- Checking flying OUT");
+			if (Vector3.Distance(defaultCreaturePos, player.transform.position) > flyInOutRange) {
+				if (!flyingRoutineRunning) {
+					Debug.Log("====== FLYING OUT");
+					flyingRoutineRunning = true;
+					StartCoroutine(FlyOut());
+				}
+			}
+		}
+	}
 
 	void TriggerSequence ()
 	{
-		if (beforeSequenceEventPlayed) {
-			if (Vector3.Distance(moustacheBoi.transform.position, player.transform.position) < triggerAbilityRange) {
+		if (beforeSequenceEventPlayed && WAARISDIEKUTCREATURE.HIER == gameObject) {
+			if (Vector3.Distance(defaultCreaturePos, player.transform.position) < triggerAbilityRange) {
 				if (!creatureSpawnsPlatforms) {
 					pressButtonPopup.SetActive(true);
 				}
@@ -131,7 +164,8 @@ public class NewWallMechanic : MonoBehaviour
 	void StartJump ()
 	{
 		if (Input.GetButtonDown("A Button") && sequenceIsRunning && !playerIsJumping) {
-			playerIsJumping = true;
+            PlayerAudio.PlayWallJump();
+            playerIsJumping = true;
 		}
 	}
 
@@ -192,6 +226,7 @@ public class NewWallMechanic : MonoBehaviour
 
 	IEnumerator CreatureDoesTrick ()
 	{
+        MoustacheBoiAudio.PlayRumble();
 		moustacheAnim.SetBool("UseAbility", true);
 		pressButtonPopup.SetActive(false);
 		yield return new WaitForSeconds(1F);
@@ -202,4 +237,41 @@ public class NewWallMechanic : MonoBehaviour
 		sequenceIsRunning = true;
 	}
 
+	IEnumerator FlyIn ()
+	{
+		moustacheBoi.transform.position = flyInOutPoint;
+		moustacheBoi.transform.LookAt(defaultCreaturePos);
+		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
+		moustacheBoi.SetActive(true);
+        MoustacheBoiAudio.PlayFlaps();
+
+        while (Vector3.Distance(moustacheBoi.transform.position, defaultCreaturePos) > 0.1f) {
+            moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos, flyingSpeed * Time.deltaTime);
+			yield return null;
+		}
+
+		while (Vector3.Distance(moustacheBoi.transform.eulerAngles, defaultRot.eulerAngles) < .1f) {
+			moustacheBoi.transform.rotation = Quaternion.RotateTowards(moustacheBoi.transform.rotation, defaultRot, 260 * Time.deltaTime);
+			yield return null;
+		}
+		moustacheBoi.transform.rotation = defaultRot;
+		WAARISDIEKUTCREATURE.HIER = gameObject;
+        MoustacheBoiAudio.StopFlaps();
+        flyingRoutineRunning = false;
+	}
+
+	IEnumerator FlyOut ()
+	{
+		moustacheBoi.transform.LookAt(flyInOutPoint);
+		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
+
+		while (Vector3.Distance(moustacheBoi.transform.position, flyInOutPoint) > 0.1f) {
+			moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyInOutPoint, flyingSpeed * Time.deltaTime);
+			yield return null;
+		}
+
+		moustacheBoi.gameObject.SetActive(false);
+		WAARISDIEKUTCREATURE.HIER = null;
+		flyingRoutineRunning = false;
+	}
 }
