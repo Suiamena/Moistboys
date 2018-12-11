@@ -56,7 +56,8 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	public float airborneMovementSpeed = 25, snowAirborneMovementSpeed = 14, airborneMovementAcceleration = 50, airborneDecceleration = 56;
 	[Range(0.0f, 1.0f)]
 	public float walkingBouncingThreshold = .8f;
-	bool inSnow = false;
+    bool inSnow = false;
+    public int groundType;
 
 	[Header("Hop Settings")]
 	public bool canHop = true;
@@ -314,11 +315,25 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		RaycastHit groundedRayHit;
 		if (Physics.SphereCast(groundedRay, .42f, out groundedRayHit, .1f)) {
 			playerIsAirborne = false;
+
+            //CHECK GROUND TYPE
 			if (groundedRayHit.transform.tag == "Snow")
-				inSnow = true;
+            {
+                inSnow = true;
+                groundType = 1;
+            }
 			else
-				inSnow = false;
-			return true;
+            {
+                inSnow = false;
+            }
+            if (groundedRayHit.transform.tag == "Rock")
+                groundType = 0;
+            if (groundedRayHit.transform.tag == "Other")
+                groundType = 2;
+            if (groundedRayHit.transform.tag == "Amethyst")
+                groundType = 3;
+
+            return true;
 		} else {
 			playerIsAirborne = true;
 			return false;
