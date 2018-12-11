@@ -20,7 +20,10 @@ public class MoustacheBoiAudio : MonoBehaviour
         Flaps = FMODUnity.RuntimeManager.CreateInstance(flaps);
         Screeches = FMODUnity.RuntimeManager.CreateInstance(screeches);
         Wall_Rumble = FMODUnity.RuntimeManager.CreateInstance(wall_rumble);
+    }
 
+    private void Update()
+    {
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Flaps, GetComponent<Transform>(), GetComponent<Rigidbody>());
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Screeches, GetComponent<Transform>(), GetComponent<Rigidbody>());
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Wall_Rumble, GetComponent<Transform>(), GetComponent<Rigidbody>());
