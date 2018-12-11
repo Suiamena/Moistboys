@@ -19,6 +19,7 @@ public class NewWallMechanic : MonoBehaviour
 
 	[Header("Platform Settings")]
 	public GameObject platformsObject;
+	public GameObject initialCameraPoint, initialCameraTarget;
 	List<Transform> platformTransforms = new List<Transform>();
 
 	[Header("Flying Settings")]
@@ -30,8 +31,8 @@ public class NewWallMechanic : MonoBehaviour
 
 	[Header("Social Events")]
 	public GameObject beforeSequenceSocialPrefab;
-	public GameObject duringSequenceSocialPrefab, afterSequenceSocialPrefab;
-	bool beforeSequenceEventPlayed = false, duringSequenceEventPlayed = false, afterSequenceEventPlayed = false;
+	public GameObject afterSequenceSocialPrefab;
+	bool beforeSequenceEventPlayed = false, afterSequenceEventPlayed = false;
 
 	[Header("Other Settings")]
 	public const float triggerAbilityRange = 10;
@@ -77,6 +78,9 @@ public class NewWallMechanic : MonoBehaviour
 		} else {
 			beforeSequenceEventPlayed = true;
 		}
+		if (afterSequenceSocialPrefab == null) {
+			afterSequenceEventPlayed = true;
+		}
 	}
 
 	private void Update ()
@@ -98,7 +102,7 @@ public class NewWallMechanic : MonoBehaviour
 					StartCoroutine(FlyIn());
 				}
 			}
-		} else if (currentCreatureLocation == gameObject.GetInstanceID()) {
+		} else if (currentCreatureLocation == gameObject.GetInstanceID() && afterSequenceEventPlayed) {
 			if (Vector3.Distance(defaultCreaturePos, player.transform.position) > flyInOutRange) {
 				if (!flyingRoutineRunning) {
 					flyingRoutineRunning = true;
@@ -116,16 +120,6 @@ public class NewWallMechanic : MonoBehaviour
 					pressButtonPopup.SetActive(true);
 				}
 				enableSequence = true;
-
-				if (duringSequenceSocialPrefab != null) {
-					duringSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
-						duringSequenceSocialPrefab.GetComponent<ISocialEncounter>().Execute(() => {
-							duringSequenceSocialPrefab.GetComponent<ISocialEncounter>().End(() => { duringSequenceEventPlayed = true; });
-						});
-					});
-				} else {
-					duringSequenceEventPlayed = true;
-				}
 			} else {
 				pressButtonPopup.SetActive(false);
 				enableSequence = false;
@@ -148,9 +142,9 @@ public class NewWallMechanic : MonoBehaviour
 				playerRig.velocity = Vector3.zero;
 
 				//SHOW CAMERA
+				sequenceCamera.transform.position = initialCameraPoint.transform.position;
+				sequenceCamera.transform.LookAt(initialCameraTarget.transform);
 				sequenceCamera.SetActive(true);
-				sequenceCamera.transform.position = platformTransforms[0].GetChild(0).position;
-				sequenceCamera.transform.LookAt(player.transform.position);
 
 				//SPAWN OBJECTS
 				creatureSpawnsPlatforms = true;
@@ -172,17 +166,6 @@ public class NewWallMechanic : MonoBehaviour
 		if (playerIsJumping) {
 			sequenceCamera.transform.position = Vector3.MoveTowards(sequenceCamera.transform.position, platformTransforms[activePlatform].transform.GetChild(0).position, cameraMovementSpeed * Time.deltaTime);
 			sequenceCamera.transform.LookAt(player.transform);
-
-			//HIER GING IETS FOUT
-			//playerMovementTarget = platforms[activePlatform].transform.position;
-
-			//playerPositionLerp = new Vector3(player.transform.position.x,
-			//	Mathf.Lerp(player.transform.position.y, playerMovementTarget.y, playerLerpSpeed * Time.deltaTime),
-			//	player.transform.position.z);
-			//player.transform.position = Vector3.MoveTowards(playerPositionLerp, playerMovementTarget, playerJumpSpeed * Time.deltaTime);
-
-			//playerDistanceToPlatform = player.transform.position - playerMovementTarget;
-			//playerDistanceToPlatform = new Vector3(Mathf.Abs(playerDistanceToPlatform.x), playerDistanceToPlatform.y, playerDistanceToPlatform.z);
 
 			Vector3 targetPosition = platformTransforms[activePlatform].position + new Vector3(0, playerPlatformOffset, 0);
 			player.transform.position = Vector3.MoveTowards(player.transform.position, targetPosition, jumpingSpeed * Time.deltaTime);
@@ -211,14 +194,12 @@ public class NewWallMechanic : MonoBehaviour
 		sequenceIsRunning = false;
 		activePlatform = 0;
 
-		if (afterSequenceSocialPrefab != null && duringSequenceEventPlayed) {
+		if (!afterSequenceEventPlayed) {
 			afterSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
 				afterSequenceSocialPrefab.GetComponent<ISocialEncounter>().Execute(() => {
 					afterSequenceSocialPrefab.GetComponent<ISocialEncounter>().End(() => { afterSequenceEventPlayed = true; });
 				});
 			});
-		} else {
-			duringSequenceEventPlayed = true;
 		}
 	}
 
