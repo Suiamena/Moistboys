@@ -57,7 +57,8 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	[Range(0.0f, 1.0f)]
 	public float walkingBouncingThreshold = .8f;
     bool inSnow = false;
-    public int groundType;
+    public int groundType, jumpHeight;
+    bool checkCurrentHeight;
 
 	[Header("Hop Settings")]
 	public bool canHop = true;
@@ -118,12 +119,13 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	}
 
     private void FixedUpdate()
-    {
+    { 
         if (!inTornado)
         {
             Gravity();
             RunAnimation();
             Movement();
+            CheckHeight();
 
             rig.velocity = transform.rotation * velocity;
             //APPLY BOUNDARY PUSHBACK FORCE
@@ -339,6 +341,26 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 			return false;
 		}
 	}
+
+    void CheckHeight()
+    {
+        if (velocity.y < 0)
+        {
+            if (!checkCurrentHeight)
+            {
+                Ray checkHeightRay = new Ray(transform.position, Vector3.up * -1);
+                if (Physics.Raycast(checkHeightRay, 10f))
+                {
+                }
+                else
+                {
+                    jumpHeight = 1;
+                }
+                checkCurrentHeight = true;
+            }
+        }
+        checkCurrentHeight = false;
+    }
 
 	void KillVibration (float timeBeforeKill = .1f)
 	{
