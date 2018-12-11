@@ -99,7 +99,7 @@ public class ChoiceMechanic : MonoBehaviour {
         {
             if (!cutsceneFinished)
             {
-                DisablePlayer();
+                playerScript.DisablePlayer();
                 cutsceneCamera.SetActive(true);
                 StartCoroutine(CreatureApproachesSource());
             }
@@ -135,7 +135,7 @@ public class ChoiceMechanic : MonoBehaviour {
 
     void StopCutscene()
     {
-        EnablePlayer();
+        playerScript.EnablePlayer();
         cutsceneCamera.SetActive(false);
         cutsceneFinished = true;
     }
@@ -146,7 +146,7 @@ public class ChoiceMechanic : MonoBehaviour {
         {
             if (!secondCutsceneFinished)
             {
-                DisablePlayer();
+                playerScript.DisablePlayer();
                 secondCutsceneCamera.SetActive(true);
                 StartCoroutine(PlayerLosesAbility());
             }
@@ -182,7 +182,7 @@ public class ChoiceMechanic : MonoBehaviour {
         socialChoiceTrigger.SetActive(true);
         competenceChoiceTrigger.SetActive(true);
 
-        EnablePlayer();
+        playerScript.EnablePlayer();
         secondCutsceneCamera.SetActive(false);
         secondCutsceneFinished = true;
     }
@@ -190,6 +190,7 @@ public class ChoiceMechanic : MonoBehaviour {
     //END OF THE MECHANIC
     void ResolveDecision()
     {
+        playerScript.DisablePlayer();
         if (socialScript.playerChooseSocial)
         {
             moustacheBoiAbility.transform.position = Vector3.MoveTowards(moustacheBoiAbility.transform.position, moustacheBoiCutscene.transform.position, abilitySpeed * Time.deltaTime);
@@ -209,7 +210,7 @@ public class ChoiceMechanic : MonoBehaviour {
 
     IEnumerator ActivateWarmthSource()
     {
-        DisablePlayer();
+        //DisablePlayer();
         thirdCutsceneCamera.SetActive(true);
 
         yield return new WaitForSeconds(5F);
@@ -222,7 +223,7 @@ public class ChoiceMechanic : MonoBehaviour {
         warmthSource.SetActive(false);
         yield return new WaitForSeconds(2F);
         //set player settings
-        EnablePlayer();
+        playerScript.EnablePlayer();
         thirdCutsceneCamera.SetActive(false);
         //RESOLVE
         if (competentScript.playerChooseCompetence)
