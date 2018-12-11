@@ -44,7 +44,7 @@ public class PlayerAudio : MonoBehaviour {
     static float groundStage;
 
     public GameObject launchParticles;
-    public GameObject littleParticles;
+    public GameObject superSaiyanLaunchParticles;
 
     private void Awake()
     {
@@ -75,9 +75,9 @@ public class PlayerAudio : MonoBehaviour {
 
     private void Update()
     {
+        PlayLaunch();
         PlayBounce();
         PlayJump();
-        PlayLaunch();
 
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Launch, GetComponent<Transform>(), GetComponent<Rigidbody>());
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Bounce, GetComponent<Transform>(), GetComponent<Rigidbody>());
@@ -147,7 +147,14 @@ public class PlayerAudio : MonoBehaviour {
         //LAUNCH IN THE AIR
         if (playerScript.isPreLaunching && !playExecuteLaunch)
         {
-            Instantiate(launchParticles, launchParticleTransform.transform.position, Quaternion.Euler(90, 0, 0));
+            if (playerScript.isLaunchingSuperSaiyan)
+            {
+                Instantiate(launchParticles, launchParticleTransform.transform.position, Quaternion.Euler(90, 0, 0));
+            }
+            else
+            {
+                Instantiate(superSaiyanLaunchParticles, launchParticleTransform.transform.position, Quaternion.Euler(90, 0, 0));
+            }
             launchStage = 1f;
             LaunchParameter.setValue(launchStage);
             Launch.start();

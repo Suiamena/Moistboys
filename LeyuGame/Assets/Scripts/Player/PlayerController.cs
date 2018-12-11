@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	GameObject animationModel;
 	Animator animator;
 	[HideInInspector]
-	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch, isHopping;
+	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch, isHopping, isLaunchingSuperSaiyan;
 
 	[Header("Camera Settings")]
 	public Transform cameraTrans;
@@ -427,11 +427,13 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 		if (!stageTwoReached) {
             //stage 1
-			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageOneForce.z;
+            isLaunchingSuperSaiyan = true;
+            velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageOneForce.z;
 			velocity.y = launchStageOneForce.y;
 		} else {
             //stage 2
-			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageTwoForce.z;
+            isLaunchingSuperSaiyan = false;
+            velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageTwoForce.z;
 			velocity.y = launchStageTwoForce.y;
 		}
 		canHop = true;
