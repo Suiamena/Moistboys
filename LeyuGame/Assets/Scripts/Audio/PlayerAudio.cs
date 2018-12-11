@@ -75,8 +75,8 @@ public class PlayerAudio : MonoBehaviour {
 
     private void Update()
     {
-        PlayLaunch();
         PlayBounce();
+        PlayLaunch();
         PlayJump();
 
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(Launch, GetComponent<Transform>(), GetComponent<Rigidbody>());
@@ -99,12 +99,14 @@ public class PlayerAudio : MonoBehaviour {
         {
             if (!playBounceOnce)
             {
-                groundStage = 1f;
-                heightStage = 0f;
+                groundStage = playerScript.groundType;
+                heightStage = playerScript.jumpHeight;
                 HeightParameter.setValue(heightStage);
                 GroundParameter.setValue(groundStage);
                 Bounce.start();
                 playBounceOnce = true;
+                heightStage = 0;
+                playerScript.jumpHeight = 0;
             }
         }
         else
