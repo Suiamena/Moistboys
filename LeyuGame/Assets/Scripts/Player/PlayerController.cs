@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	GameObject animationModel;
 	Animator animator;
 	[HideInInspector]
-	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch, isHopping;
+	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch, isHopping, isLaunchingSuperSaiyan;
 
 	[Header("Camera Settings")]
 	public Transform cameraTrans;
@@ -372,7 +372,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		}
 	}
 
-    public void ResetPlayer()
+    public void DisablePlayer()
     {
         //DISABLE PLAYER ANIMATION
         animator.SetBool("IsBouncing", false);
@@ -383,8 +383,13 @@ public class PlayerController : MonoBehaviour, ISnowTornado
         velocity = new Vector3(0, 0, 0);
         transform.rotation = Quaternion.Euler(0, 0, 0);
         rig.velocity = velocity;
-        Debug.Log("stop!");
         enabled = false;
+    }
+
+    public void EnablePlayer()
+    {
+        enabled = true;
+        cameraYAngle = transform.rotation.y;
     }
 
 	//COROUTINES
@@ -421,10 +426,14 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		isBuildingLaunch = false;
 
 		if (!stageTwoReached) {
-			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageOneForce.z;
+            //stage 1
+            isLaunchingSuperSaiyan = true;
+            velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageOneForce.z;
 			velocity.y = launchStageOneForce.y;
 		} else {
-			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageTwoForce.z;
+            //stage 2
+            isLaunchingSuperSaiyan = false;
+            velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageTwoForce.z;
 			velocity.y = launchStageTwoForce.y;
 		}
 		canHop = true;
