@@ -246,7 +246,6 @@ public class NewWallMechanic : MonoBehaviour
 		moustacheBoi.SetActive(true);
 
 		while (Vector3.Distance(moustacheBoi.transform.position, defaultCreaturePos) > 0.1f) {
-            MoustacheBoiAudio.PlayFlaps();
             moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos, flyingSpeed * Time.deltaTime);
 			yield return null;
 		}
@@ -256,8 +255,9 @@ public class NewWallMechanic : MonoBehaviour
 			yield return null;
 		}
 		moustacheBoi.transform.rotation = defaultRot;
+
+		yield return new WaitForSeconds(1);
 		WAARISDIEKUTCREATURE.HIER = gameObject;
-        MoustacheBoiAudio.StopFlaps();
         flyingRoutineRunning = false;
 	}
 
@@ -266,11 +266,13 @@ public class NewWallMechanic : MonoBehaviour
 		moustacheBoi.transform.LookAt(flyInOutPoint);
 		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
 
+		MoustacheBoiAudio.PlayFlaps();
 		while (Vector3.Distance(moustacheBoi.transform.position, flyInOutPoint) > 0.1f) {
 			moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyInOutPoint, flyingSpeed * Time.deltaTime);
 			yield return null;
 		}
 
+		MoustacheBoiAudio.StopFlaps();
 		moustacheBoi.gameObject.SetActive(false);
 		WAARISDIEKUTCREATURE.HIER = null;
 		flyingRoutineRunning = false;
