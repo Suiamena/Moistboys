@@ -388,6 +388,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
     public void EnablePlayer()
     {
+        enabled = true;
         cameraYAngle = transform.rotation.y;
     }
 
