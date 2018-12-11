@@ -104,7 +104,7 @@ public class WallMechanic : MonoBehaviour
 					camAnchor.SetActive(true);
 					playerCam.SetActive(false);
 
-                    playerScript.ResetPlayer();
+                    playerScript.DisablePlayer();
 				}
 			}
 		}

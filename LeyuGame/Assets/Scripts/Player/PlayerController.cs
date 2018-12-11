@@ -372,7 +372,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		}
 	}
 
-    public void ResetPlayer()
+    public void DisablePlayer()
     {
         //DISABLE PLAYER ANIMATION
         animator.SetBool("IsBouncing", false);
@@ -383,8 +383,12 @@ public class PlayerController : MonoBehaviour, ISnowTornado
         velocity = new Vector3(0, 0, 0);
         transform.rotation = Quaternion.Euler(0, 0, 0);
         rig.velocity = velocity;
-        Debug.Log("stop!");
         enabled = false;
+    }
+
+    public void EnablePlayer()
+    {
+        cameraYAngle = transform.rotation.y;
     }
 
 	//COROUTINES
