@@ -233,6 +233,10 @@ public class NewWallMechanic : MonoBehaviour
 			yield return null;
 		}
 		moustacheBoi.transform.rotation = defaultCreatureRot;
+
+		for (float t = 0; t < .6f; t += Time.deltaTime)
+			yield return null;
+
 		currentCreatureLocation = gameObject.GetInstanceID();
         flyingRoutineRunning = false;
 	}
@@ -250,6 +254,10 @@ public class NewWallMechanic : MonoBehaviour
 
 		MoustacheBoiAudio.StopFlaps();
 		moustacheBoi.gameObject.SetActive(false);
+
+		for (float t = 0; t < .6f; t += Time.deltaTime)
+			yield return null;
+
 		currentCreatureLocation = 0;
 		flyingRoutineRunning = false;
 	}

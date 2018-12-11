@@ -100,11 +100,13 @@ public class PlayerAudio : MonoBehaviour {
             if (!playBounceOnce)
             {
                 groundStage = playerScript.groundType;
-                heightStage = 0f;
+                heightStage = playerScript.jumpHeight;
                 HeightParameter.setValue(heightStage);
                 GroundParameter.setValue(groundStage);
                 Bounce.start();
                 playBounceOnce = true;
+                heightStage = 0;
+                playerScript.jumpHeight = 0;
             }
         }
         else
