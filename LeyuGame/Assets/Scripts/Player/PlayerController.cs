@@ -426,9 +426,11 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		isBuildingLaunch = false;
 
 		if (!stageTwoReached) {
+            //stage 1
 			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageOneForce.z;
 			velocity.y = launchStageOneForce.y;
 		} else {
+            //stage 2
 			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageTwoForce.z;
 			velocity.y = launchStageTwoForce.y;
 		}

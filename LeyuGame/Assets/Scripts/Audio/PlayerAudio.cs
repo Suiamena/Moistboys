@@ -44,6 +44,7 @@ public class PlayerAudio : MonoBehaviour {
     static float groundStage;
 
     public GameObject launchParticles;
+    public GameObject littleParticles;
 
     private void Awake()
     {
