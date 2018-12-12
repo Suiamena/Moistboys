@@ -19,7 +19,8 @@ public class CreatureEncounter : MonoBehaviour {
 
     Animator creatureAnim;
 
-    bool camOnCreature = false; 
+    bool camOnCreature = false;
+    bool dragonMoveToWaypoing = false;
 
     void Start ()
     {
@@ -57,27 +58,34 @@ public class CreatureEncounter : MonoBehaviour {
     void OnTriggerStay()
     {
         //Move to position on cutscene start:
-        player.transform.position = Vector3.MoveTowards(player.transform.position, wayPointDraak.transform.position, 10*Time.deltaTime);
-        distanceToWaypointDraak = player.transform.position - wayPointDraak.transform.position;
-        distanceToWaypointDraak = new Vector3(Mathf.Abs(distanceToWaypointDraak.x), distanceToWaypointDraak.y, distanceToWaypointDraak.z);
-        if (distanceToWaypointDraak.x < 0.5f)
+        if (dragonMoveToWaypoing == true)
         {
-            playerAnim.SetBool("IsBouncing", false);
+            player.transform.position = Vector3.MoveTowards(player.transform.position, wayPointDraak.transform.position, 4f*Time.deltaTime);
+            distanceToWaypointDraak = player.transform.position - wayPointDraak.transform.position;
+            distanceToWaypointDraak = new Vector3(Mathf.Abs(distanceToWaypointDraak.x), distanceToWaypointDraak.y, distanceToWaypointDraak.z);
+            if (distanceToWaypointDraak.x < 0.5f)
+            {
+                playerAnim.SetBool("IsBouncing", false);
+            }
+            else
+            {
+                player.transform.LookAt(creature.transform.position);
+            }
         }
-        else
-        {
-            player.transform.LookAt(creature.transform.position);
-        }
+
     }
 
     IEnumerator CutsceneTime()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
+        dragonMoveToWaypoing = true;
+
+        yield return new WaitForSeconds(6f);
+        creatureAnim.SetBool("IsPlaying", true);
         ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
         snowExplosion.transform.position = creature.transform.position;
-        Destroy(snowExplosion.gameObject, 1);
+        Destroy(snowExplosion.gameObject, 2);
         Destroy(destructibleBoi);
-        creatureAnim.SetBool("IsPlaying", true);
 
         yield return new WaitForSeconds(1.5f);
         camOnCreature = true;
