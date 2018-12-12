@@ -201,9 +201,8 @@ public class ChoiceMechanic : MonoBehaviour {
     {
         secondCutsceneCamera.SetActive(true);
         player.transform.position = playerTransformTargetTwo.transform.position;
-        player.transform.rotation = Quaternion.Euler(-10, 0, 0);
+        player.transform.rotation = Quaternion.Euler(0, -10, 0);
         yield return new WaitForSeconds(1F);
-
         //Ability moves
         playerabilityMoves = true;
         yield return new WaitForSeconds(2F);
