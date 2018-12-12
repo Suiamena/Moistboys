@@ -2605,7 +2605,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1761822066758996}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -82.835754, y: 3.0078864, z: -14.000011}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4868518970651552}
@@ -3692,13 +3692,13 @@ MonoBehaviour:
   launchStageTwoTime: 0.7
   launchStageOneForce: {x: 0, y: 35, z: 10}
   launchStageTwoForce: {x: 0, y: 50, z: 22}
-  launchStageOneColor: {r: 0.05271244, g: 1, b: 0, a: 1}
-  launchStageTwoColor: {r: 1, g: 0, b: 0.13333334, a: 1}
+  launchStageOneColor: {r: 1, g: 0.86833215, b: 0, a: 1}
+  launchStageTwoColor: {r: 1, g: 0.23116162, b: 0, a: 1}
   launchRenderer: {fileID: 137529675071899428}
   creatureWallsEnabled: 1
   creatureWallJumpSpeed: 40
-  modelRotationLerpFactor: 0.24
-  modelRotationMaximumXAngle: 40
+  modelRotationLerpFactor: 0.12
+  modelRotationMaximumXAngle: 20
   modelRotationMinimumXAngle: -40
   leapingVelocity: {x: 0, y: 12.5, z: 18}
   snowLeapingVelocity: {x: 0, y: 8, z: 14}
@@ -3708,6 +3708,7 @@ MonoBehaviour:
   airborneDecceleration: 56
   walkingBouncingThreshold: 0.8
   groundType: 0
+  jumpHeight: 0
   canHop: 1
   hopVelocity: 11.5
   gravityStrength: 48
