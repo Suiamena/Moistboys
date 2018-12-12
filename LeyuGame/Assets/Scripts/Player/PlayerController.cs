@@ -101,6 +101,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 		animationModel = GameObject.Find("MOD_Draak");
 		animator = animationModel.GetComponent<Animator>();
+		launchBaseColor = launchRenderer.materials[launchMaterialIndexes[0]].color;
 
 		GamePad.SetVibration(0, 0, 0);
 	}
