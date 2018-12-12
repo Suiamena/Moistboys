@@ -7,6 +7,13 @@ public class NewWallMechanic : MonoBehaviour
 {
 	public static int currentCreatureLocation = 0;
 
+	public enum PreSequenceActivities { Waggle, Sneeze, WelcomeBack, None };
+	public PreSequenceActivities preSequenceActivity = PreSequenceActivities.None;
+	public enum SequenceActivities { Flop, Superflop, None };
+	public SequenceActivities sequenceActivity = SequenceActivities.None;
+	public enum PostSequenceActivities { TotZo, None };
+	public PostSequenceActivities postSequenceActivity = PostSequenceActivities.None;
+
 	GameObject player;
 	GameObject playerModel;
 	PlayerController playerScript;
@@ -28,18 +35,18 @@ public class NewWallMechanic : MonoBehaviour
 	[Header("Flying Settings")]
 	public Vector3 flyInOutPoint = new Vector3(0, 40, -7);
 	public float flyingSpeed = 50, flyInOutRange = 25;
-	Vector3 defaultCreaturePos;
+	Vector3 defaultCreaturePos, flyInPosition;
 	Quaternion defaultCreatureRot;
 	bool flyingRoutineRunning = false;
 
 	[Header("Social Events")]
-	public GameObject beforeSequenceSocialPrefab;
-	public GameObject afterSequenceSocialPrefab;
-	bool beforeSequenceEventPlayed = false, afterSequenceEventPlayed = false;
+	public GameObject wagglePrefab;
+	public GameObject sneezePrefab, welcomeBackPrefab, flopPrefab, superflopPrefab, totZoPrefab;
+	bool readyForSequence = false, afterSequenceEventPlayed = false;
 
 	[Header("Other Settings")]
-	public const float triggerAbilityRange = 10;
 	public float cameraMovementSpeed = 40;
+	public const float triggerAbilityRange = 10;
 
 	//CREATURE
 	Animator moustacheAnim;
@@ -75,17 +82,10 @@ public class NewWallMechanic : MonoBehaviour
 			platformTransforms[i].position += platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
 		}
 
-		if (beforeSequenceSocialPrefab != null && currentCreatureLocation == gameObject.GetInstanceID()) {
-			beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
-				beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Execute(() => {
-					beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().End(() => { beforeSequenceEventPlayed = true; });
-				});
-			});
+		if (preSequenceActivity == PreSequenceActivities.Waggle) {
+			flyInPosition = wagglePrefab.transform.GetChild(0).position;
 		} else {
-			beforeSequenceEventPlayed = true;
-		}
-		if (afterSequenceSocialPrefab == null) {
-			afterSequenceEventPlayed = true;
+			flyInPosition = defaultCreaturePos;
 		}
 	}
 
@@ -119,7 +119,7 @@ public class NewWallMechanic : MonoBehaviour
 
 	void TriggerSequence ()
 	{
-		if (beforeSequenceEventPlayed && currentCreatureLocation == gameObject.GetInstanceID()) {
+		if (readyForSequence && currentCreatureLocation == gameObject.GetInstanceID()) {
 			if (Vector3.Distance(defaultCreaturePos, player.transform.position) < triggerAbilityRange) {
 				if (!creatureSpawnsPlatforms) {
 					pressButtonPopup.SetActive(true);
@@ -161,8 +161,8 @@ public class NewWallMechanic : MonoBehaviour
 	void StartJump ()
 	{
 		if (Input.GetButtonDown("A Button") && sequenceIsRunning && !playerIsJumping) {
-            PlayerAudio.PlayWallJump();
-            playerIsJumping = true;
+			PlayerAudio.PlayWallJump();
+			playerIsJumping = true;
 		}
 	}
 
@@ -192,15 +192,15 @@ public class NewWallMechanic : MonoBehaviour
 		player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
 		playerScript.enabled = true;
 		playerRig.velocity = new Vector3(0, 0, 0);
-		
+
 		sequenceCamera.SetActive(false);
 		creatureSpawnsPlatforms = false;
 		activePlatform = 0;
 
-		if (!afterSequenceEventPlayed) {
-			afterSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
-				afterSequenceSocialPrefab.GetComponent<ISocialEncounter>().Execute(() => {
-					afterSequenceSocialPrefab.GetComponent<ISocialEncounter>().End(() => { afterSequenceEventPlayed = true; });
+		if (postSequenceActivity == PostSequenceActivities.TotZo) {
+			totZoPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+				totZoPrefab.GetComponent<ISocialEncounter>().Execute(() => {
+					totZoPrefab.GetComponent<ISocialEncounter>().End(() => { afterSequenceEventPlayed = true; });
 				});
 			});
 		}
@@ -211,7 +211,7 @@ public class NewWallMechanic : MonoBehaviour
 			}
 			yield return null;
 		}
-		for (int i=0; i<platformTransforms.Count; i++) {
+		for (int i = 0; i < platformTransforms.Count; i++) {
 			platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
 		}
 
@@ -220,7 +220,34 @@ public class NewWallMechanic : MonoBehaviour
 
 	IEnumerator CreatureDoesTrick ()
 	{
-        MoustacheBoiAudio.PlayRumble();
+		bool readyToAdvance = false;
+		switch (sequenceActivity) {
+			case SequenceActivities.None:
+				readyToAdvance = true;
+				break;
+			case SequenceActivities.Flop:
+				flopPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+					flopPrefab.GetComponent<ISocialEncounter>().Execute(() => {
+						flopPrefab.GetComponent<ISocialEncounter>().End(() => {
+							readyToAdvance = true;
+						});
+					});
+				});
+				break;
+			case SequenceActivities.Superflop:
+				superflopPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+					superflopPrefab.GetComponent<ISocialEncounter>().Execute(() => {
+						superflopPrefab.GetComponent<ISocialEncounter>().End(() => {
+							readyToAdvance = true;
+						});
+					});
+				});
+				break;
+		}
+		while (!readyToAdvance)
+			yield return null;
+
+		MoustacheBoiAudio.PlayRumble();
 		moustacheAnim.SetBool("UseAbility", true);
 		pressButtonPopup.SetActive(false);
 
@@ -246,14 +273,14 @@ public class NewWallMechanic : MonoBehaviour
 
 	IEnumerator FlyIn ()
 	{
-		moustacheBoi.transform.position = defaultCreaturePos + defaultCreatureRot * flyInOutPoint;
-		moustacheBoi.transform.LookAt(defaultCreaturePos);
+		moustacheBoi.transform.position = flyInPosition + defaultCreatureRot * flyInOutPoint;
+		moustacheBoi.transform.LookAt(flyInPosition);
 		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
 		moustacheBoi.SetActive(true);
-        MoustacheBoiAudio.PlayFlaps();
+		MoustacheBoiAudio.PlayFlaps();
 
-        while (Vector3.Distance(moustacheBoi.transform.position, defaultCreaturePos) > .1f) {
-            moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos, flyingSpeed * Time.deltaTime);
+		while (Vector3.Distance(moustacheBoi.transform.position, flyInPosition) > .1f) {
+			moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyInPosition, flyingSpeed * Time.deltaTime);
 			yield return null;
 		}
 
@@ -267,7 +294,41 @@ public class NewWallMechanic : MonoBehaviour
 			yield return null;
 
 		currentCreatureLocation = gameObject.GetInstanceID();
-        flyingRoutineRunning = false;
+		flyingRoutineRunning = false;
+
+		switch (preSequenceActivity) {
+			case PreSequenceActivities.None:
+				//SET IDLE ANIM TO PLAY
+				readyForSequence = true;
+				break;
+			case PreSequenceActivities.Waggle:
+				wagglePrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+					wagglePrefab.GetComponent<ISocialEncounter>().Execute(() => {
+						wagglePrefab.GetComponent<ISocialEncounter>().End(() => {
+							//SET IDLE ANIM TO PLAY
+							readyForSequence = true; });
+					});
+				});
+				break;
+			case PreSequenceActivities.Sneeze:
+				sneezePrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+					sneezePrefab.GetComponent<ISocialEncounter>().Execute(() => {
+						sneezePrefab.GetComponent<ISocialEncounter>().End(() => {
+							//SET IDLE ANIM TO PLAY
+							readyForSequence = true; });
+					});
+				});
+				break;
+			case PreSequenceActivities.WelcomeBack:
+				welcomeBackPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+					welcomeBackPrefab.GetComponent<ISocialEncounter>().Execute(() => {
+						welcomeBackPrefab.GetComponent<ISocialEncounter>().End(() => {
+							//SET IDLE ANIM TO PLAY
+							readyForSequence = true; });
+					});
+				});
+				break;
+		}
 	}
 
 	IEnumerator FlyOut ()
