@@ -29,18 +29,25 @@ public class ChoiceMechanic : MonoBehaviour {
 
     //Cutscene Settings
     public GameObject cutsceneCamera, secondCutsceneCamera, thirdCutsceneCamera;
+    GameObject cutsceneCameraOneTransformTarget;
 
     //cutscene 1 (creature gives ability)
-    bool creatureMoves, abilityMoves, cutsceneFinished;
+    bool creatureToSource, abilityCreatureMoves, firstCutsceneFinished;
+    GameObject playerTransformTarget;
+    GameObject cutsceneCameraTwoTransformTarget;
 
-    //cutscene 2
-    bool abilityFoundPlayer, playerAbilityMoves, secondCutsceneFinished;
+    //cutscene 2 (player gives ability)
+    bool abilityFoundPlayer, playerabilityMoves, secondCutsceneFinished;
     public GameObject socialChoiceTrigger, competenceChoiceTrigger;
+    GameObject playerTransformTargetTwo;
+    Vector3 cameraTwoSecondPosition;
+    Quaternion cameraTwoSecondRotation;
 
     //Decision resolution
-    bool decisionIsResolving, runFinalCoroutineOnce;
+    bool returnAbility, sacrificeAbility, runFinalCoroutineOnce;
     CompetenceChoice competentScript;
     SocialChoice socialScript;
+    GameObject cutsceneCameraThreeTransformTarget;
 
     public GameObject moustacheBoiEnding;
 
@@ -62,33 +69,54 @@ public class ChoiceMechanic : MonoBehaviour {
 
         competentScript = competenceChoiceTrigger.GetComponent<CompetenceChoice>();
         socialScript = socialChoiceTrigger.GetComponent<SocialChoice>();
+
+        playerTransformTarget = GameObject.Find("PlayerTarget");
+        playerTransformTargetTwo = GameObject.Find("PlayerTargetTwo");
+
+        cutsceneCameraOneTransformTarget = GameObject.Find("CameraTarget");
+        cutsceneCameraTwoTransformTarget = GameObject.Find("CameraTargetTwo");
+        cutsceneCameraThreeTransformTarget = GameObject.Find("CameraTargetThree");
     }
 
     private void FixedUpdate()
     {
-        if (creatureMoves)
+        //FIRST CUTSCENE
+        if (creatureToSource)
         {
-            CreatureMoves();
+            creatureMoves();
         }
-        if (abilityMoves)
+        if (abilityCreatureMoves)
         {
             CreatureAbilityMoves();
         }
-        if (playerAbilityMoves)
+        if (playerabilityMoves)
         {
-            PlayerAbilityMovesToSource();
+            PlayerabilityMovesToSource();
         }
 
-        //ODD
-        //After cutscene
-        TakePlayerAbility();
+        //SECOND CUTSCENE
+        if (Vector3.Distance(warmthSource.transform.position, player.transform.position) < takeAbilityRange)
+        {
+            TakePlayerAbility();
+        }
 
         //Choice made
         if (socialScript.playerChooseSocial || competentScript.playerChooseCompetence)
         {
-            if (!decisionIsResolving)
+            if (!runFinalCoroutineOnce)
             {
-                ResolveDecision();
+                StartCoroutine(ActivateWarmthSource());
+                runFinalCoroutineOnce = true;
+            }
+
+            if (returnAbility)
+            {
+                RunReturnAbility();
+            }
+
+            if (sacrificeAbility)
+            {
+                RunSacrificeAbility();
             }
         }
     }
@@ -98,7 +126,7 @@ public class ChoiceMechanic : MonoBehaviour {
     {
         if (collider.tag == "Player")
         {
-            if (!cutsceneFinished)
+            if (!firstCutsceneFinished)
             {
                 playerScript.DisablePlayer();
                 cutsceneCamera.SetActive(true);
@@ -109,22 +137,31 @@ public class ChoiceMechanic : MonoBehaviour {
 
     IEnumerator CreatureApproachesSource()
     {
+        //SUPERFLOP HIERIN!
+
+        player.transform.position = playerTransformTarget.transform.position;
+        player.transform.rotation = Quaternion.Euler(-10, 20, 0);
+        yield return new WaitForSeconds(1F);
+
         //Creature Moves
-        creatureMoves = true;
+        creatureToSource = true;
         yield return new WaitForSeconds(3F);
-        creatureMoves = false;
+        creatureToSource = false;
 
         //Ability is Lost
+        //ANIMATIE USE ABILITY
+        cutsceneCamera.transform.position = cutsceneCameraOneTransformTarget.transform.position;
+        cutsceneCamera.transform.rotation = cutsceneCameraOneTransformTarget.transform.rotation;
         moustacheBoiAbility.SetActive(true);
-        abilityMoves = true;
+        abilityCreatureMoves = true;
         yield return new WaitForSeconds(2F);
-        abilityMoves = false;
+        abilityCreatureMoves = false;
         yield return new WaitForSeconds(2F);
 
-        StopCutscene();
+        StopFirstCutscene();
     }
 
-    void CreatureMoves()
+    void creatureMoves()
     {
         moustacheBoiCutscene.transform.position = Vector3.MoveTowards(moustacheBoiCutscene.transform.position, moustacheBoiTarget.transform.position, moustacheBoiSpeed * Time.deltaTime);
     }
@@ -134,44 +171,56 @@ public class ChoiceMechanic : MonoBehaviour {
         moustacheBoiAbility.transform.position = Vector3.MoveTowards(moustacheBoiAbility.transform.position, new Vector3(moustacheBoiAbility.transform.position.x, moustacheBoiAbility.transform.position.y + 3, moustacheBoiAbility.transform.position.z), abilitySpeed * Time.deltaTime);
     }
 
-    void StopCutscene()
+    void StopFirstCutscene()
     {
         playerScript.EnablePlayer();
         cutsceneCamera.SetActive(false);
-        cutsceneFinished = true;
+        firstCutsceneFinished = true;
     }
 
+    //SETUP CUTSCENE TWO
     void TakePlayerAbility()
     {
-        if (Vector3.Distance(warmthSource.transform.position, player.transform.position) < takeAbilityRange)
+        if (!secondCutsceneFinished)
         {
-            if (!secondCutsceneFinished)
-            {
-                playerScript.DisablePlayer();
-                secondCutsceneCamera.SetActive(true);
-                StartCoroutine(PlayerLosesAbility());
-            }
+            playerScript.DisablePlayer();
+            secondCutsceneCamera.SetActive(true);
+            cameraTwoSecondPosition = secondCutsceneCamera.transform.position;
+            cameraTwoSecondRotation = secondCutsceneCamera.transform.rotation;
+            secondCutsceneCamera.transform.position = cutsceneCameraTwoTransformTarget.transform.position;
+            secondCutsceneCamera.transform.rotation = cutsceneCameraTwoTransformTarget.transform.rotation;
+            StartCoroutine(PlayerLosesAbility());
         }
     }
 
     IEnumerator PlayerLosesAbility()
     {
+        player.transform.position = playerTransformTargetTwo.transform.position;
+        player.transform.rotation = Quaternion.Euler(-10, 0, 0);
+        yield return new WaitForSeconds(1F);
+
         //Ability moves
-        playerAbility.SetActive(true);
-        playerAbilityMoves = true;
-        yield return new WaitForSeconds(4F);
-        playerAbilityMoves = false;
+        playerabilityMoves = true;
+        yield return new WaitForSeconds(2F);
+        secondCutsceneCamera.transform.position = cameraTwoSecondPosition;
+        secondCutsceneCamera.transform.rotation = cameraTwoSecondRotation;
+        yield return new WaitForSeconds(2F);
+        playerabilityMoves = false;
         yield return new WaitForSeconds(2F);
         //player loses ability
         playerScript.canLaunch = false;
+
+        //CREAUTRE NADENKEN ANIMAITE
+
         StopSecondCutscene();
     }
 
-    void PlayerAbilityMovesToSource()
+    void PlayerabilityMovesToSource()
     {
         if (!abilityFoundPlayer)
         {
             playerAbility.transform.position = player.transform.position;
+            playerAbility.SetActive(true);
             abilityFoundPlayer = true;
         }
         playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, playerAbilityTarget.transform.position, playerAbilitySpeed * Time.deltaTime);
@@ -189,33 +238,68 @@ public class ChoiceMechanic : MonoBehaviour {
     }
 
     //END OF THE MECHANIC
-    void ResolveDecision()
+    void RunReturnAbility()
     {
-        playerScript.DisablePlayer();
         if (socialScript.playerChooseSocial)
         {
             moustacheBoiAbility.transform.position = Vector3.MoveTowards(moustacheBoiAbility.transform.position, moustacheBoiCutscene.transform.position, abilitySpeed * Time.deltaTime);
+        }
+        if (competentScript.playerChooseCompetence)
+        {
+            playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, player.transform.position, abilitySpeed * Time.deltaTime);    }
+    }
+
+    void RunSacrificeAbility()
+    {
+        if (socialScript.playerChooseSocial)
+        {
             playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, warmthSourceTarget.transform.position, 15 * Time.deltaTime);
         }
         if (competentScript.playerChooseCompetence)
         {
-            playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, player.transform.position, abilitySpeed * Time.deltaTime);
             moustacheBoiAbility.transform.position = Vector3.MoveTowards(moustacheBoiAbility.transform.position, warmthSourceTarget.transform.position, 15 * Time.deltaTime);
-        }
-        if (!runFinalCoroutineOnce)
-        {
-            StartCoroutine(ActivateWarmthSource());
-            runFinalCoroutineOnce = true;
         }
     }
 
     IEnumerator ActivateWarmthSource()
     {
-        //DisablePlayer();
-        thirdCutsceneCamera.SetActive(true);
+        playerScript.DisablePlayer();
 
-        yield return new WaitForSeconds(5F);
-        decisionIsResolving = true;
+        //EERST ANIMATIE CREATURE, DAN PAS ABILITIES BEWEGEN
+        thirdCutsceneCamera.SetActive(true);
+        yield return new WaitForSeconds(3F);
+
+        thirdCutsceneCamera.transform.position = cutsceneCameraThreeTransformTarget.transform.position;
+        thirdCutsceneCamera.transform.rotation = cutsceneCameraThreeTransformTarget.transform.rotation;
+
+        if (socialScript.playerChooseSocial)
+        {
+            thirdCutsceneCamera.transform.LookAt(moustacheBoiCutscene.transform);
+            returnAbility = true;
+        }
+        else
+        {
+            thirdCutsceneCamera.transform.LookAt(player.transform);
+            returnAbility = true;
+        }
+
+        yield return new WaitForSeconds(3F);
+        returnAbility = false;
+
+        if (socialScript.playerChooseSocial)
+        {
+            thirdCutsceneCamera.transform.LookAt(moustacheBoiCutscene.transform);
+            sacrificeAbility = true;
+        }
+        else
+        {
+            thirdCutsceneCamera.transform.LookAt(player.transform);
+            sacrificeAbility = true;
+        }
+
+        yield return new WaitForSeconds(3F);
+        sacrificeAbility = false;
+
         playerAbility.SetActive(false);
         moustacheBoiAbility.SetActive(false);
         socialChoiceTrigger.SetActive(false);
