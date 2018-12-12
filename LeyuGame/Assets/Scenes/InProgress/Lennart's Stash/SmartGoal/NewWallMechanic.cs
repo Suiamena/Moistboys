@@ -20,7 +20,7 @@ public class NewWallMechanic : MonoBehaviour
 	Rigidbody playerRig;
 	Animator playerAnim;
 
-	float jumpingSpeed = 40;
+	float jumpingSpeed = 40, jumpHeight = 3;
 	float playerPlatformOffset = .7f;
 
 	public GameObject moustacheBoi;
@@ -95,7 +95,6 @@ public class NewWallMechanic : MonoBehaviour
 		TriggerSequence();
 		StartSequence();
 		StartJump();
-		MakeJump();
 	}
 
 	void CheckForFlying ()
@@ -143,7 +142,7 @@ public class NewWallMechanic : MonoBehaviour
 
 				//DISABLE PLAYER MOVEMENT
 				player.transform.position = new Vector3(player.transform.position.x, moustacheBoi.transform.position.y, player.transform.position.z);
-				playerScript.enabled = false;
+				playerScript.DisablePlayer();
 				playerRig.velocity = Vector3.zero;
 
 				//SHOW CAMERA
@@ -163,26 +162,33 @@ public class NewWallMechanic : MonoBehaviour
 		if (Input.GetButtonDown("A Button") && sequenceIsRunning && !playerIsJumping) {
 			PlayerAudio.PlayWallJump();
 			playerIsJumping = true;
+			StartCoroutine(MakeJump(() => { playerIsJumping = false; }));
 		}
 	}
 
-	void MakeJump ()
+	IEnumerator MakeJump (System.Action callback)
 	{
-		if (playerIsJumping) {
+
+		while (true) {
 			sequenceCamera.transform.position = Vector3.MoveTowards(sequenceCamera.transform.position, platformTransforms[activePlatform].transform.GetChild(0).position, cameraMovementSpeed * Time.deltaTime);
-			sequenceCamera.transform.LookAt(player.transform);
 
 			Vector3 targetPosition = platformTransforms[activePlatform].position + new Vector3(0, playerPlatformOffset, 0);
 			player.transform.position = Vector3.MoveTowards(player.transform.position, targetPosition, jumpingSpeed * Time.deltaTime);
 
-			if (Vector3.Distance(player.transform.position, targetPosition) < .1f) {
+			
+
+			sequenceCamera.transform.LookAt(player.transform);
+
+			if (player.transform.position == targetPosition) {
 				playerRig.velocity = new Vector3(0, 0, 0);
 				++activePlatform;
 				if (activePlatform == platformTransforms.Count) {
 					StartCoroutine(EndSequence());
 				}
-				playerIsJumping = false;
+				callback();
+				yield break;
 			}
+			yield return null;
 		}
 	}
 
@@ -190,8 +196,8 @@ public class NewWallMechanic : MonoBehaviour
 	{
 		player.transform.rotation = platformTransforms[platformTransforms.Count - 1].rotation;
 		player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
-		playerScript.enabled = true;
 		playerRig.velocity = new Vector3(0, 0, 0);
+		playerScript.EnablePlayer();
 
 		sequenceCamera.SetActive(false);
 		creatureSpawnsPlatforms = false;
