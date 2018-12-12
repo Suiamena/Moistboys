@@ -16,6 +16,7 @@ public class ChoiceMechanic : MonoBehaviour {
     //MoustacheBoi Settings
     GameObject moustacheBoiCutscene;
     GameObject moustacheBoiTarget;
+    Animator moustacheBoiAnim;
 
     int moustacheBoiSpeed = 10, abilitySpeed = 3, playerAbilitySpeed = 6;
 
@@ -61,8 +62,9 @@ public class ChoiceMechanic : MonoBehaviour {
         playerAnim = playerModel.GetComponent<Animator>();
         playerCamera = GameObject.Find("Main Camera");
 
-        moustacheBoiCutscene = GameObject.Find("MoustacheBoiCutscene");
+        moustacheBoiCutscene = GameObject.Find("Mod_Creature");
         moustacheBoiTarget = GameObject.Find("MoustacheBoiTarget");
+        moustacheBoiAnim = moustacheBoiCutscene.GetComponent<Animator>();
 
         warmthSource = GameObject.Find("WarmthSourceCutscene");
         playerAbilityTarget = GameObject.Find("PlayerAbilityTarget");
@@ -142,20 +144,26 @@ public class ChoiceMechanic : MonoBehaviour {
         cutsceneCamera.SetActive(true);
         player.transform.position = playerTransformTarget.transform.position;
         player.transform.rotation = Quaternion.Euler(-10, 20, 0);
-        yield return new WaitForSeconds(1F);
+        moustacheBoiAnim.SetBool("isFlying", true);
+        yield return new WaitForSeconds(1.5F);
 
         //Creature Moves
         creatureToSource = true;
-        yield return new WaitForSeconds(3F);
+        yield return new WaitForSeconds(1.5F);
+        moustacheBoiAnim.SetBool("isFlying", false);
+        yield return new WaitForSeconds(1F);
         creatureToSource = false;
 
         //Ability is Lost
         //ANIMATIE USE ABILITY
         cutsceneCamera.transform.position = cutsceneCameraOneTransformTarget.transform.position;
         cutsceneCamera.transform.rotation = cutsceneCameraOneTransformTarget.transform.rotation;
+        moustacheBoiAnim.SetBool("isUsingAbility", true);
+        yield return new WaitForSeconds(1F);
         moustacheBoiAbility.SetActive(true);
         abilityCreatureMoves = true;
         yield return new WaitForSeconds(2F);
+        moustacheBoiAnim.SetBool("isUsingAbility", false);
         abilityCreatureMoves = false;
         yield return new WaitForSeconds(2F);
 
@@ -272,6 +280,14 @@ public class ChoiceMechanic : MonoBehaviour {
 
         //EERST ANIMATIE CREATURE, DAN PAS ABILITIES BEWEGEN
         thirdCutsceneCamera.SetActive(true);
+        if (socialScript.playerChooseSocial)
+        {
+            moustacheBoiAnim.SetBool("isSuperFlop", true);
+        }
+        else
+        {
+            moustacheBoiAnim.SetBool("goodBye", true);
+        }
         yield return new WaitForSeconds(3F);
 
         thirdCutsceneCamera.transform.position = cutsceneCameraThreeTransformTarget.transform.position;
@@ -289,6 +305,8 @@ public class ChoiceMechanic : MonoBehaviour {
         }
 
         yield return new WaitForSeconds(2.5F);
+        moustacheBoiAnim.SetBool("isSuperFlop", false);
+        moustacheBoiAnim.SetBool("goodBye", false);
         if (socialScript.playerChooseSocial)
         {
             moustacheBoiAbility.SetActive(false);
