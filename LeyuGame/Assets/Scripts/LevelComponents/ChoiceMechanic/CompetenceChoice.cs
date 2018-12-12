@@ -47,6 +47,7 @@ public class CompetenceChoice : MonoBehaviour
     {
         if (Input.GetButtonDown("A Button"))
         {
+            Level5Music.musicStage = 12.5f;
             playerChooseCompetence = true;
             choiceMessage.SetActive(false);
         }

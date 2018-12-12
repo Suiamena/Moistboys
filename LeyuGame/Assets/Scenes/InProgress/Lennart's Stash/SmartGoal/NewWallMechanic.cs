@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XInputDotNetPure;
 
 public class NewWallMechanic : MonoBehaviour
 {
+	public static int currentCreatureLocation = 0;
+
 	GameObject player;
 	GameObject playerModel;
 	PlayerController playerScript;
@@ -13,25 +16,36 @@ public class NewWallMechanic : MonoBehaviour
 	float jumpingSpeed = 40;
 	float playerPlatformOffset = .7f;
 
+	public GameObject moustacheBoi;
+
 	[Header("Platform Settings")]
 	public GameObject platformsObject;
+	public GameObject initialCameraPoint, initialCameraTarget;
+	public float platformCreationTime = .5f, platformCreationDistance = 5f;
 	List<Transform> platformTransforms = new List<Transform>();
+	List<Vector3> platformDefaultPositions = new List<Vector3>();
+
+	[Header("Flying Settings")]
+	public Vector3 flyInOutPoint = new Vector3(0, 40, -7);
+	public float flyingSpeed = 50, flyInOutRange = 25;
+	Vector3 defaultCreaturePos;
+	Quaternion defaultCreatureRot;
+	bool flyingRoutineRunning = false;
+
+	[Header("Social Events")]
+	public GameObject beforeSequenceSocialPrefab;
+	public GameObject afterSequenceSocialPrefab;
+	bool beforeSequenceEventPlayed = false, afterSequenceEventPlayed = false;
 
 	[Header("Other Settings")]
 	public const float triggerAbilityRange = 10;
 	public float cameraMovementSpeed = 40;
 
-	[Header("Social Events")]
-	public GameObject beforeSequenceSocialPrefab;
-	public GameObject duringSequenceSocialPrefab, afterSequenceSocialPrefab;
-	bool beforeSequenceEventPlayed = false, duringSequenceEventPlayed = false, afterSequenceEventPlayed = false;
-
-	[Header("")]
 	//CREATURE
-	public GameObject moustacheBoi;
 	Animator moustacheAnim;
 
 	//UI
+	[Header("")]
 	public GameObject pressButtonPopup;
 	public GameObject sequenceCamera;
 
@@ -46,16 +60,22 @@ public class NewWallMechanic : MonoBehaviour
 		playerScript = player.GetComponent<PlayerController>();
 		playerRig = player.GetComponent<Rigidbody>();
 		playerAnim = playerModel.GetComponent<Animator>();
+		defaultCreaturePos = moustacheBoi.transform.position;
+		defaultCreatureRot = moustacheBoi.transform.rotation;
+		moustacheBoi.SetActive(false);
 
 		moustacheAnim = moustacheBoi.GetComponent<Animator>();
 
 		jumpingSpeed = playerScript.creatureWallJumpSpeed;
 		Transform platformsParent;
 		platformsParent = transform.parent.GetChild(1);
-		for (int i = 0; i < platformsParent.childCount; i++)
+		for (int i = 0; i < platformsParent.childCount; i++) {
 			platformTransforms.Add(platformsParent.GetChild(i));
+			platformDefaultPositions.Add(platformTransforms[i].position);
+			platformTransforms[i].position += platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
+		}
 
-		if (beforeSequenceSocialPrefab != null) {
+		if (beforeSequenceSocialPrefab != null && currentCreatureLocation == gameObject.GetInstanceID()) {
 			beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
 				beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Execute(() => {
 					beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().End(() => { beforeSequenceEventPlayed = true; });
@@ -64,35 +84,47 @@ public class NewWallMechanic : MonoBehaviour
 		} else {
 			beforeSequenceEventPlayed = true;
 		}
+		if (afterSequenceSocialPrefab == null) {
+			afterSequenceEventPlayed = true;
+		}
 	}
 
-	private void FixedUpdate ()
+	private void Update ()
 	{
+		CheckForFlying();
 		TriggerSequence();
 		StartSequence();
 		StartJump();
 		MakeJump();
 	}
 
+	void CheckForFlying ()
+	{
+		if (currentCreatureLocation == 0) {
+			if (Vector3.Distance(defaultCreaturePos, player.transform.position) < flyInOutRange) {
+				if (!flyingRoutineRunning) {
+					flyingRoutineRunning = true;
+					StartCoroutine(FlyIn());
+				}
+			}
+		} else if (currentCreatureLocation == gameObject.GetInstanceID() && afterSequenceEventPlayed) {
+			if (Vector3.Distance(defaultCreaturePos, player.transform.position) > flyInOutRange) {
+				if (!flyingRoutineRunning) {
+					flyingRoutineRunning = true;
+					StartCoroutine(FlyOut());
+				}
+			}
+		}
+	}
 
 	void TriggerSequence ()
 	{
-		if (beforeSequenceEventPlayed) {
-			if (Vector3.Distance(moustacheBoi.transform.position, player.transform.position) < triggerAbilityRange) {
+		if (beforeSequenceEventPlayed && currentCreatureLocation == gameObject.GetInstanceID()) {
+			if (Vector3.Distance(defaultCreaturePos, player.transform.position) < triggerAbilityRange) {
 				if (!creatureSpawnsPlatforms) {
 					pressButtonPopup.SetActive(true);
 				}
 				enableSequence = true;
-
-				if (duringSequenceSocialPrefab != null) {
-					duringSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
-						duringSequenceSocialPrefab.GetComponent<ISocialEncounter>().Execute(() => {
-							duringSequenceSocialPrefab.GetComponent<ISocialEncounter>().End(() => { duringSequenceEventPlayed = true; });
-						});
-					});
-				} else {
-					duringSequenceEventPlayed = true;
-				}
 			} else {
 				pressButtonPopup.SetActive(false);
 				enableSequence = false;
@@ -115,9 +147,9 @@ public class NewWallMechanic : MonoBehaviour
 				playerRig.velocity = Vector3.zero;
 
 				//SHOW CAMERA
+				sequenceCamera.transform.position = initialCameraPoint.transform.position;
+				sequenceCamera.transform.LookAt(initialCameraTarget.transform);
 				sequenceCamera.SetActive(true);
-				sequenceCamera.transform.position = platformTransforms[0].GetChild(0).position;
-				sequenceCamera.transform.LookAt(player.transform.position);
 
 				//SPAWN OBJECTS
 				creatureSpawnsPlatforms = true;
@@ -129,7 +161,8 @@ public class NewWallMechanic : MonoBehaviour
 	void StartJump ()
 	{
 		if (Input.GetButtonDown("A Button") && sequenceIsRunning && !playerIsJumping) {
-			playerIsJumping = true;
+            PlayerAudio.PlayWallJump();
+            playerIsJumping = true;
 		}
 	}
 
@@ -139,17 +172,6 @@ public class NewWallMechanic : MonoBehaviour
 			sequenceCamera.transform.position = Vector3.MoveTowards(sequenceCamera.transform.position, platformTransforms[activePlatform].transform.GetChild(0).position, cameraMovementSpeed * Time.deltaTime);
 			sequenceCamera.transform.LookAt(player.transform);
 
-			//HIER GING IETS FOUT
-			//playerMovementTarget = platforms[activePlatform].transform.position;
-
-			//playerPositionLerp = new Vector3(player.transform.position.x,
-			//	Mathf.Lerp(player.transform.position.y, playerMovementTarget.y, playerLerpSpeed * Time.deltaTime),
-			//	player.transform.position.z);
-			//player.transform.position = Vector3.MoveTowards(playerPositionLerp, playerMovementTarget, playerJumpSpeed * Time.deltaTime);
-
-			//playerDistanceToPlatform = player.transform.position - playerMovementTarget;
-			//playerDistanceToPlatform = new Vector3(Mathf.Abs(playerDistanceToPlatform.x), playerDistanceToPlatform.y, playerDistanceToPlatform.z);
-
 			Vector3 targetPosition = platformTransforms[activePlatform].position + new Vector3(0, playerPlatformOffset, 0);
 			player.transform.position = Vector3.MoveTowards(player.transform.position, targetPosition, jumpingSpeed * Time.deltaTime);
 
@@ -157,47 +179,115 @@ public class NewWallMechanic : MonoBehaviour
 				playerRig.velocity = new Vector3(0, 0, 0);
 				++activePlatform;
 				if (activePlatform == platformTransforms.Count) {
-					EndSequence();
+					StartCoroutine(EndSequence());
 				}
 				playerIsJumping = false;
 			}
 		}
 	}
 
-	void EndSequence ()
+	IEnumerator EndSequence ()
 	{
 		player.transform.rotation = platformTransforms[platformTransforms.Count - 1].rotation;
 		player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
 		playerScript.enabled = true;
 		playerRig.velocity = new Vector3(0, 0, 0);
-
-		platformsObject.SetActive(false);
+		
 		sequenceCamera.SetActive(false);
 		creatureSpawnsPlatforms = false;
-		sequenceIsRunning = false;
 		activePlatform = 0;
 
-		if (afterSequenceSocialPrefab != null && duringSequenceEventPlayed) {
+		if (!afterSequenceEventPlayed) {
 			afterSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
 				afterSequenceSocialPrefab.GetComponent<ISocialEncounter>().Execute(() => {
 					afterSequenceSocialPrefab.GetComponent<ISocialEncounter>().End(() => { afterSequenceEventPlayed = true; });
 				});
 			});
-		} else {
-			duringSequenceEventPlayed = true;
 		}
+
+		for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
+			foreach (Transform trans in platformTransforms) {
+				trans.position += trans.rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
+			}
+			yield return null;
+		}
+		for (int i=0; i<platformTransforms.Count; i++) {
+			platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
+		}
+
+		sequenceIsRunning = false;
 	}
 
 	IEnumerator CreatureDoesTrick ()
 	{
+        MoustacheBoiAudio.PlayRumble();
 		moustacheAnim.SetBool("UseAbility", true);
 		pressButtonPopup.SetActive(false);
-		yield return new WaitForSeconds(1F);
+
+		GamePad.SetVibration(0, .6f, .6f);
+		yield return new WaitForSeconds(.2f);
+
+		for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
+			foreach (Transform trans in platformTransforms) {
+				trans.position -= trans.rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
+			}
+			yield return null;
+		}
+		for (int i = 0; i < platformTransforms.Count; i++) {
+			platformTransforms[i].position = platformDefaultPositions[i];
+		}
+		GamePad.SetVibration(0, .6f, .6f);
 		moustacheAnim.SetBool("UseAbility", false);
-		platformsObject.SetActive(true);
-		yield return new WaitForSeconds(0.5F);
 		pressButtonPopup.SetActive(true);
 		sequenceIsRunning = true;
+		yield return new WaitForSeconds(.2f);
+		GamePad.SetVibration(0, 0, 0);
 	}
 
+	IEnumerator FlyIn ()
+	{
+		moustacheBoi.transform.position = defaultCreaturePos + defaultCreatureRot * flyInOutPoint;
+		moustacheBoi.transform.LookAt(defaultCreaturePos);
+		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
+		moustacheBoi.SetActive(true);
+        MoustacheBoiAudio.PlayFlaps();
+
+        while (Vector3.Distance(moustacheBoi.transform.position, defaultCreaturePos) > .1f) {
+            moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos, flyingSpeed * Time.deltaTime);
+			yield return null;
+		}
+
+		while (Quaternion.Angle(moustacheBoi.transform.rotation, defaultCreatureRot) > .1f) {
+			moustacheBoi.transform.rotation = Quaternion.RotateTowards(moustacheBoi.transform.rotation, defaultCreatureRot, 260 * Time.deltaTime);
+			yield return null;
+		}
+		moustacheBoi.transform.rotation = defaultCreatureRot;
+
+		for (float t = 0; t < .6f; t += Time.deltaTime)
+			yield return null;
+
+		currentCreatureLocation = gameObject.GetInstanceID();
+        flyingRoutineRunning = false;
+	}
+
+	IEnumerator FlyOut ()
+	{
+		moustacheBoi.transform.LookAt(defaultCreaturePos + defaultCreatureRot * flyInOutPoint);
+		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
+
+		MoustacheBoiAudio.PlayFlaps();
+		while (Vector3.Distance(moustacheBoi.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > 0.1f) {
+			moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint, flyingSpeed * Time.deltaTime);
+			yield return null;
+		}
+
+		MoustacheBoiAudio.StopFlaps();
+		moustacheBoi.gameObject.SetActive(false);
+
+		for (float t = 0; t < .6f; t += Time.deltaTime)
+			yield return null;
+
+		currentCreatureLocation = 0;
+		flyingRoutineRunning = false;
+	}
 }

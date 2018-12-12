@@ -44,10 +44,11 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 
 			shiverTimer += Time.deltaTime;
 			if (shiverTimer >= timePerShiver) {
+				moustacheBoy.rotation = defaultRot * Quaternion.Euler(new Vector3(0, shiverYAngle * (-1 + shiverDirection.ToInt() * 2)));
 				shiverDirection = !shiverDirection;
 				shiverTimer = 0;
 			}
-			Debug.Log(Vector3.Distance(player.transform.position, moustacheBoy.position));
+
 			if (IsPlayerInRange()) {
 				pressButtonPopup.SetActive(true);
 				sneezeTimer += Time.deltaTime;

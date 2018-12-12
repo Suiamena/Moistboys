@@ -4,48 +4,32 @@ using UnityEngine;
 
 public class Level1Music : MonoBehaviour {
 
-    //MUSIC AND SOUND MANAGEMENT
-    [Header("Management")]
-    public int countMusicStage;
-    bool playTutorialSound, playCreatureSound;
+    [FMODUnity.EventRef]
+    public string music = "event:/Music";
+    public static FMOD.Studio.EventInstance Music;
+    public static FMOD.Studio.ParameterInstance MusicParameter;
 
-    //PLAYER
-    GameObject player;
-    GameObject launchParticleTransform;
-    PlayerController playerScript;
+    public static float musicStage;
 
     private void Awake()
     {
-        //PLAYER
-        player = GameObject.Find("Character");
-        launchParticleTransform = GameObject.Find("LandingIndicator");
-        playerScript = player.GetComponent<PlayerController>();
+        Music = FMODUnity.RuntimeManager.CreateInstance(music);
+        Music.getParameter("Music", out MusicParameter);
+        musicStage = 1.5f;
 
-        //WAKE UP
-        PlaySound.musicStage = 0.5f;
+        AmbienceManager.windStage = 0.40f;
+        AmbienceManager.insideStage = 0f;
+
+        //AmbienceManager.amethystStage = 0f;
+        //AmbienceManager.amethystStage = 0.5f;
+        //AmbienceManager.amethystStage = 1f;
+
+        Music.start();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        RegulateMusic();
-    }
-
-    void RegulateMusic()
-    {
-        //BOUNCE TUTORIAL
-        if (countMusicStage == 1) {
-            if (!playTutorialSound) {
-                PlaySound.musicStage = 2.5f;
-                playTutorialSound = true;
-            }
-        }
-        //MEET CREATURE
-        if (countMusicStage == 2) {
-            if (!playCreatureSound) {
-                PlaySound.musicStage = 3.5f;
-                playCreatureSound = true;
-            }
-        }
+        MusicParameter.setValue(musicStage);
     }
 
 }
