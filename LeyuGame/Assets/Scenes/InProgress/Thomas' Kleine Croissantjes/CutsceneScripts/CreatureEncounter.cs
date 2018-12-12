@@ -35,7 +35,7 @@ public class CreatureEncounter : MonoBehaviour {
         playerAnim = playerModel.GetComponent<Animator>();
         wayPointDraak = GameObject.Find("WaypointDraak");
         creatureAnim = creature.GetComponent<Animator>();
-        creatureAnim.SetBool("IsPlaying", false);
+        creatureAnim.SetBool("isFlying", false);
         creatureBewegingAnim = creature.GetComponent<Animator>();
         creatureBewegingAnim.SetBool("IsPlaying", false);
     }
@@ -86,8 +86,7 @@ public class CreatureEncounter : MonoBehaviour {
         dragonMoveToWaypoing = true;
 
         yield return new WaitForSeconds(6f);
-        print("dikke lolllll");
-        creatureAnim.SetBool("IsPlaying", true);
+        creatureAnim.SetBool("isFlying", true);
         ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
         snowExplosion.transform.position = creature.transform.position;
         Destroy(snowExplosion.gameObject, 2);
