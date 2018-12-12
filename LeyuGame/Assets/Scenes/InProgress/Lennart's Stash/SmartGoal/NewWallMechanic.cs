@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XInputDotNetPure;
 
 public class NewWallMechanic : MonoBehaviour
 {
@@ -20,7 +21,9 @@ public class NewWallMechanic : MonoBehaviour
 	[Header("Platform Settings")]
 	public GameObject platformsObject;
 	public GameObject initialCameraPoint, initialCameraTarget;
+	public float platformCreationTime = .5f, platformCreationDistance = 5f;
 	List<Transform> platformTransforms = new List<Transform>();
+	List<Vector3> platformDefaultPositions = new List<Vector3>();
 
 	[Header("Flying Settings")]
 	public Vector3 flyInOutPoint = new Vector3(0, 40, -7);
@@ -66,8 +69,11 @@ public class NewWallMechanic : MonoBehaviour
 		jumpingSpeed = playerScript.creatureWallJumpSpeed;
 		Transform platformsParent;
 		platformsParent = transform.parent.GetChild(1);
-		for (int i = 0; i < platformsParent.childCount; i++)
+		for (int i = 0; i < platformsParent.childCount; i++) {
 			platformTransforms.Add(platformsParent.GetChild(i));
+			platformDefaultPositions.Add(platformTransforms[i].position);
+			platformTransforms[i].position += platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
+		}
 
 		if (beforeSequenceSocialPrefab != null && currentCreatureLocation == gameObject.GetInstanceID()) {
 			beforeSequenceSocialPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
@@ -173,24 +179,22 @@ public class NewWallMechanic : MonoBehaviour
 				playerRig.velocity = new Vector3(0, 0, 0);
 				++activePlatform;
 				if (activePlatform == platformTransforms.Count) {
-					EndSequence();
+					StartCoroutine(EndSequence());
 				}
 				playerIsJumping = false;
 			}
 		}
 	}
 
-	void EndSequence ()
+	IEnumerator EndSequence ()
 	{
 		player.transform.rotation = platformTransforms[platformTransforms.Count - 1].rotation;
 		player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
 		playerScript.enabled = true;
 		playerRig.velocity = new Vector3(0, 0, 0);
-
-		platformsObject.SetActive(false);
+		
 		sequenceCamera.SetActive(false);
 		creatureSpawnsPlatforms = false;
-		sequenceIsRunning = false;
 		activePlatform = 0;
 
 		if (!afterSequenceEventPlayed) {
@@ -200,6 +204,18 @@ public class NewWallMechanic : MonoBehaviour
 				});
 			});
 		}
+
+		for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
+			foreach (Transform trans in platformTransforms) {
+				trans.position += trans.rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
+			}
+			yield return null;
+		}
+		for (int i=0; i<platformTransforms.Count; i++) {
+			platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
+		}
+
+		sequenceIsRunning = false;
 	}
 
 	IEnumerator CreatureDoesTrick ()
@@ -207,12 +223,25 @@ public class NewWallMechanic : MonoBehaviour
         MoustacheBoiAudio.PlayRumble();
 		moustacheAnim.SetBool("UseAbility", true);
 		pressButtonPopup.SetActive(false);
-		yield return new WaitForSeconds(1F);
+
+		GamePad.SetVibration(0, .6f, .6f);
+		yield return new WaitForSeconds(.2f);
+
+		for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
+			foreach (Transform trans in platformTransforms) {
+				trans.position -= trans.rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
+			}
+			yield return null;
+		}
+		for (int i = 0; i < platformTransforms.Count; i++) {
+			platformTransforms[i].position = platformDefaultPositions[i];
+		}
+		GamePad.SetVibration(0, .6f, .6f);
 		moustacheAnim.SetBool("UseAbility", false);
-		platformsObject.SetActive(true);
-		yield return new WaitForSeconds(0.5F);
 		pressButtonPopup.SetActive(true);
 		sequenceIsRunning = true;
+		yield return new WaitForSeconds(.2f);
+		GamePad.SetVibration(0, 0, 0);
 	}
 
 	IEnumerator FlyIn ()
