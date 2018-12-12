@@ -13,18 +13,22 @@ public class CreatureEncounter : MonoBehaviour {
     public GameObject cutsceneCamera;
     GameObject wayPointDraak;
     GameObject creature;
+    GameObject creatureBeweging;
     Vector3 distanceToWaypointDraak;
 
     public ParticleSystem snowExplosionPrefab;
 
     Animator creatureAnim;
+    Animator creatureBewegingAnim;
 
-    bool camOnCreature = false; 
+    bool camOnCreature = false;
+    bool dragonMoveToWaypoing = false;
 
     void Start ()
     {
         player = GameObject.Find("Character");
-        creature = GameObject.Find("MOD_Moustacheboi_ANIM_IDLE");
+        creature = GameObject.Find("Mod_Creature");
+        creatureBeweging = GameObject.Find("BewegingCreature");
         controllerSwitch = player.GetComponent<PlayerController>();
         playerBody = player.GetComponent<Rigidbody>();
         playerModel = GameObject.Find("MOD_Draak");
@@ -32,6 +36,8 @@ public class CreatureEncounter : MonoBehaviour {
         wayPointDraak = GameObject.Find("WaypointDraak");
         creatureAnim = creature.GetComponent<Animator>();
         creatureAnim.SetBool("IsPlaying", false);
+        creatureBewegingAnim = creature.GetComponent<Animator>();
+        creatureBewegingAnim.SetBool("IsPlaying", false);
     }
 	
     void OnTriggerEnter()
@@ -57,27 +63,35 @@ public class CreatureEncounter : MonoBehaviour {
     void OnTriggerStay()
     {
         //Move to position on cutscene start:
-        player.transform.position = Vector3.MoveTowards(player.transform.position, wayPointDraak.transform.position, 10*Time.deltaTime);
-        distanceToWaypointDraak = player.transform.position - wayPointDraak.transform.position;
-        distanceToWaypointDraak = new Vector3(Mathf.Abs(distanceToWaypointDraak.x), distanceToWaypointDraak.y, distanceToWaypointDraak.z);
-        if (distanceToWaypointDraak.x < 0.5f)
+        if (dragonMoveToWaypoing == true)
         {
-            playerAnim.SetBool("IsBouncing", false);
+            player.transform.position = Vector3.MoveTowards(player.transform.position, wayPointDraak.transform.position, 4f*Time.deltaTime);
+            distanceToWaypointDraak = player.transform.position - wayPointDraak.transform.position;
+            distanceToWaypointDraak = new Vector3(Mathf.Abs(distanceToWaypointDraak.x), distanceToWaypointDraak.y, distanceToWaypointDraak.z);
+            if (distanceToWaypointDraak.x < 0.5f)
+            {
+                playerAnim.SetBool("IsBouncing", false);
+            }
+            else
+            {
+                player.transform.LookAt(creature.transform.position);
+            }
         }
-        else
-        {
-            player.transform.LookAt(creature.transform.position);
-        }
+
     }
 
     IEnumerator CutsceneTime()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
+        dragonMoveToWaypoing = true;
+
+        yield return new WaitForSeconds(6f);
+        print("dikke lolllll");
+        creatureAnim.SetBool("IsPlaying", true);
         ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
         snowExplosion.transform.position = creature.transform.position;
-        Destroy(snowExplosion.gameObject, 1);
+        Destroy(snowExplosion.gameObject, 2);
         Destroy(destructibleBoi);
-        creatureAnim.SetBool("IsPlaying", true);
 
         yield return new WaitForSeconds(1.5f);
         camOnCreature = true;
