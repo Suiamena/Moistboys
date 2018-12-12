@@ -18,7 +18,7 @@ public class Level5Music : MonoBehaviour
         Music.getParameter("Music", out MusicParameter);
         musicStage = 10.5f;
 
-        //AmbienceManager.windStage = 0.40f;
+        AmbienceManager.windStage = 0.20f;
         AmbienceManager.insideStage = 0f;
 
         //AmbienceManager.amethystStage = 0f;
@@ -30,7 +30,6 @@ public class Level5Music : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(musicStage);
         MusicParameter.setValue(musicStage);
     }
 

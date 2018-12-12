@@ -13,11 +13,13 @@ public class CreatureEncounter : MonoBehaviour {
     public GameObject cutsceneCamera;
     GameObject wayPointDraak;
     GameObject creature;
+    GameObject creatureBeweging;
     Vector3 distanceToWaypointDraak;
 
     public ParticleSystem snowExplosionPrefab;
 
     Animator creatureAnim;
+    Animator creatureBewegingAnim;
 
     bool camOnCreature = false;
     bool dragonMoveToWaypoing = false;
@@ -25,14 +27,17 @@ public class CreatureEncounter : MonoBehaviour {
     void Start ()
     {
         player = GameObject.Find("Character");
-        creature = GameObject.Find("MOD_Moustacheboi_ANIM_IDLE");
+        creature = GameObject.Find("Mod_Creature");
+        creatureBeweging = GameObject.Find("BewegingCreature");
         controllerSwitch = player.GetComponent<PlayerController>();
         playerBody = player.GetComponent<Rigidbody>();
         playerModel = GameObject.Find("MOD_Draak");
         playerAnim = playerModel.GetComponent<Animator>();
         wayPointDraak = GameObject.Find("WaypointDraak");
         creatureAnim = creature.GetComponent<Animator>();
-        creatureAnim.SetBool("IsPlaying", false);
+        creatureAnim.SetBool("isFlying", false);
+        creatureBewegingAnim = creature.GetComponent<Animator>();
+        creatureBewegingAnim.SetBool("IsPlaying", false);
     }
 	
     void OnTriggerEnter()
@@ -81,7 +86,7 @@ public class CreatureEncounter : MonoBehaviour {
         dragonMoveToWaypoing = true;
 
         yield return new WaitForSeconds(6f);
-        creatureAnim.SetBool("IsPlaying", true);
+        creatureAnim.SetBool("isFlying", true);
         ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
         snowExplosion.transform.position = creature.transform.position;
         Destroy(snowExplosion.gameObject, 2);
