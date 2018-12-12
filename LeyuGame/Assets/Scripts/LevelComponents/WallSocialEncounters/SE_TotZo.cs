@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class SE_Ciao : MonoBehaviour, ISocialEncounter
+public class SE_TotZo : MonoBehaviour, ISocialEncounter
 {
 	public Transform moustacheBoy;
 	GameObject player;
@@ -17,7 +17,6 @@ public class SE_Ciao : MonoBehaviour, ISocialEncounter
 	//INITIAL BLOCK
 	public void Initialize (Action proceedToExecute)
 	{
-		Debug.Log("Initialize");
 		defaultCreaturePos = moustacheBoy.transform.position;
 		defaultCreatureRot = moustacheBoy.transform.rotation;
 		moustacheBoy.gameObject.SetActive(false);
@@ -48,11 +47,12 @@ public class SE_Ciao : MonoBehaviour, ISocialEncounter
 	public void Execute (Action proceedToEnd)
 	{
 		StartCoroutine(Wave(proceedToEnd));
-		Debug.Log("Execute");
 	}
 
 	IEnumerator Wave (Action proceedToEnd)
 	{
+		yield return new WaitForSeconds(.8f);
+
 		MoustacheBoiAudio.PlayScreeches();
 		//PLAY ZWAAI ANIMATION
 
@@ -72,7 +72,6 @@ public class SE_Ciao : MonoBehaviour, ISocialEncounter
 	//END BLOCK
 	public void End (Action endEncounter)
 	{
-		Debug.Log("End");
 		StartCoroutine(FlyAway(endEncounter));
 		endEncounter();
 	}
@@ -93,7 +92,5 @@ public class SE_Ciao : MonoBehaviour, ISocialEncounter
 		}
 		moustacheBoy.gameObject.SetActive(false);
 		MoustacheBoiAudio.StopFlaps();
-
-		endEncounter();
 	}
 }
