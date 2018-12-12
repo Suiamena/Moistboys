@@ -30,7 +30,7 @@ public class ChoiceMechanic : MonoBehaviour {
     //Cutscene Settings
     public GameObject cutsceneCamera, secondCutsceneCamera, thirdCutsceneCamera;
 
-    //cutscene 1
+    //cutscene 1 (creature gives ability)
     bool creatureMoves, abilityMoves, cutsceneFinished;
 
     //cutscene 2
@@ -79,6 +79,7 @@ public class ChoiceMechanic : MonoBehaviour {
             PlayerAbilityMovesToSource();
         }
 
+        //ODD
         //After cutscene
         TakePlayerAbility();
 
@@ -92,7 +93,7 @@ public class ChoiceMechanic : MonoBehaviour {
         }
     }
 
-    //SETUP CUTSCENE
+    //SETUP FIRST CUTSCENE - CREATURE GIVES ABILITY
     void OnTriggerEnter(Collider collider)
     {
         if (collider.tag == "Player")
