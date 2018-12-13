@@ -6,6 +6,7 @@ using System;
 public class SE_TotZo : MonoBehaviour, ISocialEncounter
 {
 	public Transform moustacheBoy;
+	Animator moustacheAnimator;
 	GameObject player;
 
 	[Header("Animation Settings")]
@@ -22,6 +23,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 		moustacheBoy.gameObject.SetActive(false);
 
 		player = GameObject.FindGameObjectWithTag("Player");
+		moustacheAnimator = moustacheBoy.GetComponent<Animator>();
 
 		StartCoroutine(FlyIn(proceedToExecute));
 	}
@@ -31,6 +33,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 		moustacheBoy.LookAt(defaultCreaturePos);
 		moustacheBoy.Rotate(new Vector3(-moustacheBoy.transform.eulerAngles.x, 0, -moustacheBoy.transform.eulerAngles.z));
 		moustacheBoy.gameObject.SetActive(true);
+		moustacheAnimator.SetBool("isFlying", true);
 		MoustacheBoiAudio.PlayFlaps();
 
 		while (Vector3.Distance(moustacheBoy.transform.position, defaultCreaturePos) > .1f) {
@@ -38,6 +41,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 			yield return null;
 		}
 		moustacheBoy.position = defaultCreaturePos;
+		moustacheAnimator.SetBool("isFlying", false);
 
 		proceedToExecute();
 	}
@@ -54,7 +58,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 		yield return new WaitForSeconds(.8f);
 
 		MoustacheBoiAudio.PlayScreeches();
-		//PLAY ZWAAI ANIMATION
+		moustacheAnimator.SetBool("isWaving", true);
 
 		float t = 0;
 		while (Vector3.Distance(moustacheBoy.position, player.transform.position) < NewWallMechanic.triggerAbilityRange && t < timeBeforeDeparture) {
@@ -64,6 +68,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 			yield return null;
 		}
 		MoustacheBoiAudio.StopFlaps();
+		moustacheAnimator.SetBool("isWaving", false);
 
 		proceedToEnd();
 	}
@@ -79,11 +84,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 	{
 		moustacheBoy.LookAt(flyInOutPoint);
 		moustacheBoy.Rotate(new Vector3(-moustacheBoy.transform.eulerAngles.x, 0, -moustacheBoy.transform.eulerAngles.z));
-		//LIFT ANIMATIE
-		for (float t = 0; t < 0.6f; t += Time.deltaTime) {
-			yield return null;
-		}
-		//FLY ANIMATIE
+		moustacheAnimator.SetBool("isFlying", true);
 		MoustacheBoiAudio.PlayFlaps();
 
 		while (Vector3.Distance(moustacheBoy.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > .1f) {
@@ -91,6 +92,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 			yield return null;
 		}
 		moustacheBoy.gameObject.SetActive(false);
+		moustacheAnimator.SetBool("isFlying", false);
 		MoustacheBoiAudio.StopFlaps();
 	}
 }
