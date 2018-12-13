@@ -171,6 +171,7 @@ public class NewWallMechanic : MonoBehaviour
 
 			Vector3 targetPosition = platformTransforms[activePlatform].position + new Vector3(0, playerPlatformOffset, 0);
 			player.transform.position = Vector3.MoveTowards(player.transform.position, targetPosition, jumpingSpeed * Time.deltaTime);
+            Debug.Log(platformTransforms[activePlatform].position);
 
 			
 
