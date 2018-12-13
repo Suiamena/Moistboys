@@ -24,6 +24,7 @@ public class NewWallMechanic : MonoBehaviour
 	float playerPlatformOffset = .7f;
 
 	public GameObject moustacheBoi;
+	Animator moustacheAnimator;
 
 	[Header("Platform Settings")]
 	public GameObject platformsObject;
@@ -48,9 +49,6 @@ public class NewWallMechanic : MonoBehaviour
 	public float cameraMovementSpeed = 40;
 	public const float triggerAbilityRange = 10;
 
-	//CREATURE
-	Animator moustacheAnim;
-
 	//UI
 	[Header("")]
 	public GameObject pressButtonPopup;
@@ -71,7 +69,7 @@ public class NewWallMechanic : MonoBehaviour
 		defaultCreatureRot = moustacheBoi.transform.rotation;
 		moustacheBoi.SetActive(false);
 
-		moustacheAnim = moustacheBoi.GetComponent<Animator>();
+		moustacheAnimator = moustacheBoi.GetComponent<Animator>();
 
 		jumpingSpeed = playerScript.creatureWallJumpSpeed;
 		Transform platformsParent;
@@ -106,7 +104,7 @@ public class NewWallMechanic : MonoBehaviour
 					StartCoroutine(FlyIn());
 				}
 			}
-		} else if (currentCreatureLocation == gameObject.GetInstanceID() && afterSequenceEventPlayed) {
+		} else if (currentCreatureLocation == gameObject.GetInstanceID()) {
 			if (Vector3.Distance(defaultCreaturePos, player.transform.position) > flyInOutRange) {
 				if (!flyingRoutineRunning) {
 					flyingRoutineRunning = true;
@@ -168,7 +166,6 @@ public class NewWallMechanic : MonoBehaviour
 
 	IEnumerator MakeJump (System.Action callback)
 	{
-
 		while (true) {
 			sequenceCamera.transform.position = Vector3.MoveTowards(sequenceCamera.transform.position, platformTransforms[activePlatform].transform.GetChild(0).position, cameraMovementSpeed * Time.deltaTime);
 
@@ -209,6 +206,8 @@ public class NewWallMechanic : MonoBehaviour
 					totZoPrefab.GetComponent<ISocialEncounter>().End(() => { afterSequenceEventPlayed = true; });
 				});
 			});
+		} else {
+			afterSequenceEventPlayed = true;
 		}
 
 		for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
@@ -254,7 +253,7 @@ public class NewWallMechanic : MonoBehaviour
 			yield return null;
 
 		MoustacheBoiAudio.PlayRumble();
-		moustacheAnim.SetBool("UseAbility", true);
+		moustacheAnimator.SetBool("isUsingAbility", true);
 		pressButtonPopup.SetActive(false);
 
 		GamePad.SetVibration(0, .6f, .6f);
@@ -270,7 +269,7 @@ public class NewWallMechanic : MonoBehaviour
 			platformTransforms[i].position = platformDefaultPositions[i];
 		}
 		GamePad.SetVibration(0, .6f, .6f);
-		moustacheAnim.SetBool("UseAbility", false);
+		moustacheAnimator.SetBool("isUsingAbility", false);
 		pressButtonPopup.SetActive(true);
 		sequenceIsRunning = true;
 		yield return new WaitForSeconds(.2f);
@@ -284,11 +283,15 @@ public class NewWallMechanic : MonoBehaviour
 		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
 		moustacheBoi.SetActive(true);
 		MoustacheBoiAudio.PlayFlaps();
+		moustacheAnimator.SetBool("isFlying", true);
 
 		while (Vector3.Distance(moustacheBoi.transform.position, flyInPosition) > .1f) {
 			moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyInPosition, flyingSpeed * Time.deltaTime);
 			yield return null;
 		}
+
+		MoustacheBoiAudio.StopFlaps();
+		moustacheAnimator.SetBool("isFlying", false);
 
 		while (Quaternion.Angle(moustacheBoi.transform.rotation, defaultCreatureRot) > .1f) {
 			moustacheBoi.transform.rotation = Quaternion.RotateTowards(moustacheBoi.transform.rotation, defaultCreatureRot, 260 * Time.deltaTime);
@@ -296,8 +299,7 @@ public class NewWallMechanic : MonoBehaviour
 		}
 		moustacheBoi.transform.rotation = defaultCreatureRot;
 
-		for (float t = 0; t < .6f; t += Time.deltaTime)
-			yield return null;
+		yield return new WaitForSeconds(.6f);
 
 		currentCreatureLocation = gameObject.GetInstanceID();
 		flyingRoutineRunning = false;
