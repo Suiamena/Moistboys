@@ -299,7 +299,7 @@ public class NewWallMechanic : MonoBehaviour
 		}
 		moustacheBoi.transform.rotation = defaultCreatureRot;
 
-		yield return new WaitForSeconds(.6f);
+		yield return new WaitForSeconds(.8f);
 
 		currentCreatureLocation = gameObject.GetInstanceID();
 		flyingRoutineRunning = false;
@@ -345,16 +345,17 @@ public class NewWallMechanic : MonoBehaviour
 		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
 
 		MoustacheBoiAudio.PlayFlaps();
+		moustacheAnimator.SetBool("isFlying", true);
 		while (Vector3.Distance(moustacheBoi.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > 0.1f) {
 			moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint, flyingSpeed * Time.deltaTime);
 			yield return null;
 		}
 
 		MoustacheBoiAudio.StopFlaps();
+		moustacheAnimator.SetBool("isFlying", false);
 		moustacheBoi.gameObject.SetActive(false);
 
-		for (float t = 0; t < .6f; t += Time.deltaTime)
-			yield return null;
+		yield return new WaitForSeconds(.6f);
 
 		currentCreatureLocation = 0;
 		flyingRoutineRunning = false;
