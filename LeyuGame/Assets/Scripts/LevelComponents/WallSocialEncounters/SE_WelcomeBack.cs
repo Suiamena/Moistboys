@@ -6,6 +6,7 @@ using System;
 public class SE_WelcomeBack : MonoBehaviour, ISocialEncounter
 {
 	public Transform moustacheBoy;
+	Animator moustacheAnimator;
 	GameObject player;
 
 	[Header("Animation Settings")]
@@ -15,6 +16,7 @@ public class SE_WelcomeBack : MonoBehaviour, ISocialEncounter
 	public void Initialize (Action proceedToExecute)
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
+		moustacheAnimator = moustacheBoy.GetComponent<Animator>();
 
 		proceedToExecute();
 	}
@@ -29,7 +31,7 @@ public class SE_WelcomeBack : MonoBehaviour, ISocialEncounter
 	IEnumerator Wave (Action proceedToEnd)
 	{
 		MoustacheBoiAudio.PlayScreeches();
-		//PLAY ZWAAI ANIMATION
+		moustacheAnimator.SetBool("isWaving", true);
 
 		float t = 0;
 		while (!Input.GetButtonDown("A Button") && t < timeBeforeAdvancing) {
@@ -38,7 +40,7 @@ public class SE_WelcomeBack : MonoBehaviour, ISocialEncounter
 			t += Time.deltaTime;
 			yield return null;
 		}
-		MoustacheBoiAudio.StopFlaps();
+		moustacheAnimator.SetBool("isWaving", false);
 
 		proceedToEnd();
 	}
