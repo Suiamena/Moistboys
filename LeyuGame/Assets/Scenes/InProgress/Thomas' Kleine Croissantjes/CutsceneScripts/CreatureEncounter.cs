@@ -16,7 +16,7 @@ public class CreatureEncounter : MonoBehaviour {
     GameObject creatureBeweging;
     Vector3 distanceToWaypointDraak;
 
-    public ParticleSystem snowExplosionPrefab;
+    public GameObject snowExplosionPrefab;
 
     Animator creatureAnim;
     Animator creatureBewegingAnim;
@@ -36,8 +36,8 @@ public class CreatureEncounter : MonoBehaviour {
         wayPointDraak = GameObject.Find("WaypointDraak");
         creatureAnim = creature.GetComponent<Animator>();
         creatureAnim.SetBool("isFlying", false);
-        creatureBewegingAnim = creature.GetComponent<Animator>();
-        creatureBewegingAnim.SetBool("IsPlaying", false);
+        creatureBewegingAnim = creatureBeweging.GetComponent<Animator>();
+        creatureBewegingAnim.SetBool("isPlaying", false);
     }
 	
     void OnTriggerEnter()
@@ -86,17 +86,31 @@ public class CreatureEncounter : MonoBehaviour {
         dragonMoveToWaypoing = true;
 
         yield return new WaitForSeconds(6f);
-        creatureAnim.SetBool("isFlying", true);
-        ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
-        snowExplosion.transform.position = creature.transform.position;
-        Destroy(snowExplosion.gameObject, 2);
+
+        creatureBewegingAnim.SetBool("isPlaying", true); //2.04 seconden voor dat de keyframes het creature omhoog uit de sneeuw verplaatsen
+        creatureAnim.SetBool("isFlying", true); // op seconde 2.04 moet het creature uit e sneeuw bewegen.
+
+        // pas na 2.04 seconde moet dus alles gebeuren.
+        yield return new WaitForSeconds(1f); // 8sec into cutscene
+
+        //GameObject snowExplosion = Instantiate(snowExplosionPrefab, destructibleBoi.transform.position, Quaternion.identity);
+        //snowExplosion.transform.position = destructibleBoi.transform.position;
+        //Destroy(snowExplosion.gameObject, 2);
+        snowExplosionPrefab.SetActive(true);
         Destroy(destructibleBoi);
+        creatureAnim.SetBool("isFlying", false);
+        creatureAnim.SetBool("isFlop", true);
 
-        yield return new WaitForSeconds(1.5f);
-        camOnCreature = true;
+        yield return new WaitForSeconds(3f); // 11 sec into cutscene
+        creatureAnim.SetBool("isFlop", false);
 
-        yield return new WaitForSeconds(3f);
+        //11.45 seconden (5.45 seconden na creatureBewegingAnim) na aanvang van de cutscene begint het creature te bewegen.
+        yield return new WaitForSeconds(0.5f); // 13 sec into cutscene
+        creatureAnim.SetBool("isFlying", true);
+        //camOnCreature = true;
 
+        yield return new WaitForSeconds(4.5f);
+        creatureAnim.SetBool("isFlying", false);
         cutsceneCamera.SetActive(false);
         controllerSwitch.enabled = true;
 
@@ -107,6 +121,7 @@ public class CreatureEncounter : MonoBehaviour {
         Destroy(gameObject);
     }
 
+    /*
 	void Update ()
     {
 		if (camOnCreature == true)
@@ -114,10 +129,10 @@ public class CreatureEncounter : MonoBehaviour {
             cutsceneCamera.transform.LookAt(creature.transform.position);
         }
 	}
+    */
 }
 
 
-//ParticleSystem breakParticles = Instantiate(breakParticlesPrefab) as ParticleSystem;
-//breakParticles.transform.position = transform.position;
-       // breakParticles.Emit(100);
-       // Destroy(breakParticles.gameObject, breakParticles.main.duration);
+// op 13 seconden moet camera op de creature die om de draak beweegt staan
+// 13 en een kwart/derde/halve seconden draait de camera verder de cave in
+//15 seconden einde cutscene
