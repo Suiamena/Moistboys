@@ -6,11 +6,13 @@ using System;
 public class SE_Flop : MonoBehaviour, ISocialEncounter
 {
 	public Transform moustacheBoy;
+	Animator moustacheAnimator;
 	GameObject player;
 
 	public void Initialize (Action proceedToExecute)
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
+		moustacheAnimator = moustacheBoy.GetComponent<Animator>();
 
 		proceedToExecute();
 	}
@@ -23,16 +25,12 @@ public class SE_Flop : MonoBehaviour, ISocialEncounter
 	{
 		//SPEEL AUDIO
 
-		//VERVANG MET ANIMATIE
-		moustacheBoy.LookAt(player.transform);
-		for (float t = 0; t < .3f; t += Time.deltaTime) {
-			moustacheBoy.position += Vector3.up * 5 * Time.deltaTime;
-			yield return null;
-		}
-		for (float t = 0; t < .3f; t += Time.deltaTime) {
-			moustacheBoy.position -= Vector3.up * 5 * Time.deltaTime;
-			yield return null;
-		}
+		moustacheAnimator.SetBool("isFlop", true);
+
+		yield return new WaitForSeconds(1);
+
+		moustacheAnimator.SetBool("isFlop", false);
+		
 		proceedToEnd();
 	}
 	
