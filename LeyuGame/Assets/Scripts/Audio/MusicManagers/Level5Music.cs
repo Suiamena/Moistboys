@@ -21,14 +21,15 @@ public class Level5Music : MonoBehaviour
         AmbienceManager.windStage = 0.20f;
         AmbienceManager.insideStage = 0f;
 
-        AmbienceManager.amethystStage = 0f;
+        //AmbienceManager.amethystStage = 0f;
+        //AmbienceManager.amethystStage = 0.5f;
+        //AmbienceManager.amethystStage = 1f;
 
         Music.start();
     }
 
     private void Update()
     {
-        Debug.Log(musicStage);
         MusicParameter.setValue(musicStage);
     }
 

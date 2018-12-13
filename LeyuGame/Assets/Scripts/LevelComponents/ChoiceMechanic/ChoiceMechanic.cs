@@ -344,6 +344,8 @@ public class ChoiceMechanic : MonoBehaviour {
         yield return new WaitForSeconds(2F);
 
         thirdCutsceneCamera.SetActive(false);
+        fourthCutsceneCamera.SetActive(true);
+        yield return new WaitForSeconds(2F);
 
         //set player settings
         playerScript.EnablePlayer();
