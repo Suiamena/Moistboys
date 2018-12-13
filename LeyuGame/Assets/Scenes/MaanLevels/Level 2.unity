@@ -1622,15 +1622,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097c8f68fcb0a034480f9184395bd122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  preSequenceActivity: 3
+  sequenceActivity: 2
+  postSequenceActivity: 1
   moustacheBoi: {fileID: 375604778}
   platformsObject: {fileID: 930840243}
   initialCameraPoint: {fileID: 0}
   initialCameraTarget: {fileID: 0}
+  platformCreationTime: 0.5
+  platformCreationDistance: 5
   flyInOutPoint: {x: 0, y: 40, z: -7}
   flyingSpeed: 50
   flyInOutRange: 25
-  beforeSequenceSocialPrefab: {fileID: 0}
-  afterSequenceSocialPrefab: {fileID: 0}
+  wagglePrefab: {fileID: 0}
+  sneezePrefab: {fileID: 0}
+  welcomeBackPrefab: {fileID: 0}
+  flopPrefab: {fileID: 0}
+  superflopPrefab: {fileID: 0}
+  totZoPrefab: {fileID: 0}
   cameraMovementSpeed: 40
   pressButtonPopup: {fileID: 414982224}
   sequenceCamera: {fileID: 766761567}
@@ -2024,7 +2033,7 @@ Transform:
   - {fileID: 589702963}
   - {fileID: 1770448082}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &111574459
 GameObject:
@@ -2265,15 +2274,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097c8f68fcb0a034480f9184395bd122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  preSequenceActivity: 3
+  sequenceActivity: 2
+  postSequenceActivity: 1
   moustacheBoi: {fileID: 678767516}
   platformsObject: {fileID: 944054628}
   initialCameraPoint: {fileID: 0}
   initialCameraTarget: {fileID: 0}
+  platformCreationTime: 0.5
+  platformCreationDistance: 5
   flyInOutPoint: {x: 0, y: 40, z: -7}
   flyingSpeed: 50
   flyInOutRange: 25
-  beforeSequenceSocialPrefab: {fileID: 0}
-  afterSequenceSocialPrefab: {fileID: 0}
+  wagglePrefab: {fileID: 0}
+  sneezePrefab: {fileID: 0}
+  welcomeBackPrefab: {fileID: 0}
+  flopPrefab: {fileID: 0}
+  superflopPrefab: {fileID: 0}
+  totZoPrefab: {fileID: 0}
   cameraMovementSpeed: 40
   pressButtonPopup: {fileID: 1990185528}
   sequenceCamera: {fileID: 1193625963}
@@ -2321,15 +2339,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097c8f68fcb0a034480f9184395bd122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  preSequenceActivity: 3
+  sequenceActivity: 2
+  postSequenceActivity: 1
   moustacheBoi: {fileID: 324482470}
   platformsObject: {fileID: 1348451084}
   initialCameraPoint: {fileID: 0}
   initialCameraTarget: {fileID: 0}
+  platformCreationTime: 0.5
+  platformCreationDistance: 5
   flyInOutPoint: {x: 0, y: 40, z: -7}
   flyingSpeed: 50
   flyInOutRange: 25
-  beforeSequenceSocialPrefab: {fileID: 0}
-  afterSequenceSocialPrefab: {fileID: 0}
+  wagglePrefab: {fileID: 0}
+  sneezePrefab: {fileID: 0}
+  welcomeBackPrefab: {fileID: 0}
+  flopPrefab: {fileID: 0}
+  superflopPrefab: {fileID: 0}
+  totZoPrefab: {fileID: 0}
   cameraMovementSpeed: 40
   pressButtonPopup: {fileID: 1786443968}
   sequenceCamera: {fileID: 1979265076}
@@ -4740,15 +4767,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097c8f68fcb0a034480f9184395bd122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  preSequenceActivity: 3
+  sequenceActivity: 2
+  postSequenceActivity: 1
   moustacheBoi: {fileID: 492852801}
   platformsObject: {fileID: 1008725769}
   initialCameraPoint: {fileID: 0}
   initialCameraTarget: {fileID: 0}
+  platformCreationTime: 0.5
+  platformCreationDistance: 5
   flyInOutPoint: {x: 0, y: 40, z: -7}
   flyingSpeed: 50
   flyInOutRange: 25
-  beforeSequenceSocialPrefab: {fileID: 0}
-  afterSequenceSocialPrefab: {fileID: 0}
+  wagglePrefab: {fileID: 0}
+  sneezePrefab: {fileID: 0}
+  welcomeBackPrefab: {fileID: 0}
+  flopPrefab: {fileID: 0}
+  superflopPrefab: {fileID: 0}
+  totZoPrefab: {fileID: 0}
   cameraMovementSpeed: 40
   pressButtonPopup: {fileID: 2066402577}
   sequenceCamera: {fileID: 38986575}
@@ -6007,7 +6043,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &446914654
 GameObject:
@@ -6085,11 +6121,10 @@ Transform:
   - {fileID: 2096714571}
   - {fileID: 1455157368}
   - {fileID: 1679789034}
-  - {fileID: 1785586984}
   - {fileID: 2118685593}
   - {fileID: 958970066}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &449315382
 Prefab:
@@ -11207,7 +11242,7 @@ Transform:
   - {fileID: 1945940369}
   - {fileID: 1812340640}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &856885604
 GameObject:
@@ -11517,7 +11552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &881277411
 Transform:
   m_ObjectHideFlags: 0
@@ -12735,7 +12770,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d4ed10f8a3bb214469d31e03364a51ca, type: 3}
       propertyPath: m_RootOrder
-      value: 22
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d4ed10f8a3bb214469d31e03364a51ca, type: 3}
       propertyPath: m_LocalScale.x
@@ -16164,7 +16199,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1184384368
 Transform:
   m_ObjectHideFlags: 0
@@ -16971,7 +17006,7 @@ Transform:
   - {fileID: 440293760}
   - {fileID: 258604395}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1236973695
 GameObject:
@@ -17983,15 +18018,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097c8f68fcb0a034480f9184395bd122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  preSequenceActivity: 3
+  sequenceActivity: 2
+  postSequenceActivity: 1
   moustacheBoi: {fileID: 1123480138}
   platformsObject: {fileID: 900741718}
   initialCameraPoint: {fileID: 0}
   initialCameraTarget: {fileID: 0}
+  platformCreationTime: 0.5
+  platformCreationDistance: 5
   flyInOutPoint: {x: 0, y: 40, z: -7}
   flyingSpeed: 50
   flyInOutRange: 25
-  beforeSequenceSocialPrefab: {fileID: 0}
-  afterSequenceSocialPrefab: {fileID: 0}
+  wagglePrefab: {fileID: 0}
+  sneezePrefab: {fileID: 0}
+  welcomeBackPrefab: {fileID: 0}
+  flopPrefab: {fileID: 0}
+  superflopPrefab: {fileID: 0}
+  totZoPrefab: {fileID: 0}
   cameraMovementSpeed: 40
   pressButtonPopup: {fileID: 1900924799}
   sequenceCamera: {fileID: 1591969312}
@@ -19980,68 +20024,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4052405374465002, guid: e7c167a47b03a184f98114bdd44c0a86,
     type: 2}
   m_PrefabInternal: {fileID: 1448653286}
---- !u!1 &1455047519
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1455047522}
-  - component: {fileID: 1455047521}
-  - component: {fileID: 1455047520}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1455047520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1455047519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &1455047521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1455047519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &1455047522
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1455047519}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1455157367
 Prefab:
   m_ObjectHideFlags: 0
@@ -21925,7 +21907,7 @@ Transform:
   - {fileID: 881149431}
   - {fileID: 1216341438}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1591969312
 GameObject:
@@ -24265,7 +24247,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4690728256855992, guid: 63c773ca93ec8884abb7206c10bed957, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4690728256855992, guid: 63c773ca93ec8884abb7206c10bed957, type: 2}
       propertyPath: m_LocalScale.y
@@ -24585,7 +24567,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4690728256855992, guid: 63c773ca93ec8884abb7206c10bed957, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4690728256855992, guid: 63c773ca93ec8884abb7206c10bed957, type: 2}
       propertyPath: m_LocalScale.y
@@ -25112,68 +25094,6 @@ Transform:
   m_Father: {fileID: 1942414358}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1785586983
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1785586984}
-  - component: {fileID: 1785586986}
-  - component: {fileID: 1785586985}
-  m_Layer: 0
-  m_Name: EventSystem (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1785586984
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1785586983}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1096.2463, y: -85.03363, z: 21.77256}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 447469610}
-  m_RootOrder: 20
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1785586985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1785586983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &1785586986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1785586983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
 --- !u!1 &1786443968
 GameObject:
   m_ObjectHideFlags: 0
@@ -26506,15 +26426,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097c8f68fcb0a034480f9184395bd122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  preSequenceActivity: 3
+  sequenceActivity: 2
+  postSequenceActivity: 1
   moustacheBoi: {fileID: 437368882}
   platformsObject: {fileID: 1047315988}
   initialCameraPoint: {fileID: 0}
   initialCameraTarget: {fileID: 0}
+  platformCreationTime: 0.5
+  platformCreationDistance: 5
   flyInOutPoint: {x: 0, y: 40, z: -7}
   flyingSpeed: 50
   flyInOutRange: 25
-  beforeSequenceSocialPrefab: {fileID: 0}
-  afterSequenceSocialPrefab: {fileID: 0}
+  wagglePrefab: {fileID: 0}
+  sneezePrefab: {fileID: 0}
+  welcomeBackPrefab: {fileID: 0}
+  flopPrefab: {fileID: 0}
+  superflopPrefab: {fileID: 0}
+  totZoPrefab: {fileID: 0}
   cameraMovementSpeed: 40
   pressButtonPopup: {fileID: 1949191143}
   sequenceCamera: {fileID: 1273936078}
@@ -26969,7 +26898,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 98e47cf70e24f7d4cafef6f5cf9e25f4, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 98e47cf70e24f7d4cafef6f5cf9e25f4, type: 3}
       propertyPath: m_Materials.Array.data[1]
@@ -28091,7 +28020,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2081361535
 GameObject:
@@ -28541,7 +28470,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d4ed10f8a3bb214469d31e03364a51ca, type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d4ed10f8a3bb214469d31e03364a51ca, type: 3}
       propertyPath: m_LocalScale.x
