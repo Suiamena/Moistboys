@@ -21,8 +21,14 @@ public class CreatureEncounter : MonoBehaviour {
     Animator creatureAnim;
     Animator creatureBewegingAnim;
 
-    bool camOnCreature = false;
+    GameObject playerCamera;
+    Animator cameraAnim;
+    Vector3 distanceToPlayerCam;
+
     bool dragonMoveToWaypoing = false;
+    bool cameraMoving = false;
+
+    float cameraSpeed = 0;
 
     void Start ()
     {
@@ -38,6 +44,8 @@ public class CreatureEncounter : MonoBehaviour {
         creatureAnim.SetBool("isFlying", false);
         creatureBewegingAnim = creatureBeweging.GetComponent<Animator>();
         creatureBewegingAnim.SetBool("isPlaying", false);
+        playerCamera = GameObject.Find("Main Camera");
+        cameraAnim = cutsceneCamera.GetComponent<Animator>();
     }
 	
     void OnTriggerEnter()
@@ -85,7 +93,7 @@ public class CreatureEncounter : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         dragonMoveToWaypoing = true;
 
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(4f);
 
         creatureBewegingAnim.SetBool("isPlaying", true); //2.04 seconden voor dat de keyframes het creature omhoog uit de sneeuw verplaatsen
         creatureAnim.SetBool("isFlying", true); // op seconde 2.04 moet het creature uit e sneeuw bewegen.
@@ -110,26 +118,37 @@ public class CreatureEncounter : MonoBehaviour {
         //camOnCreature = true;
 
         yield return new WaitForSeconds(4.5f);
+        cameraMoving = true;
         creatureAnim.SetBool("isFlying", false);
-        cutsceneCamera.SetActive(false);
+        //cutsceneCamera.SetActive(false);
+        cameraAnim.enabled = false;
         controllerSwitch.enabled = true;
 
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         playerBody.velocity = new Vector3(0, 0, 0);
         //
 
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
-    /*
 	void Update ()
     {
-		if (camOnCreature == true)
+        distanceToPlayerCam = cutsceneCamera.transform.position - playerCamera.transform.position;
+        distanceToPlayerCam = new Vector3(Mathf.Abs(distanceToPlayerCam.x), distanceToPlayerCam.y, distanceToPlayerCam.z);
+
+        if (cameraMoving == true)
         {
-            cutsceneCamera.transform.LookAt(creature.transform.position);
+            cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed* Time.deltaTime);
+            cameraSpeed += 0.5f;
         }
-	}
-    */
+
+        if (distanceToPlayerCam.x < 0.3f && distanceToPlayerCam.y < 0.3f && distanceToPlayerCam.z < 0.3f)
+        {
+            cutsceneCamera.SetActive(false);
+            cameraMoving = false;
+            Destroy(gameObject);
+        }
+    }
 }
 
 
