@@ -285,13 +285,15 @@ public class ChoiceMechanic : MonoBehaviour {
         if (socialScript.playerChooseSocial)
         {
             moustacheBoiAnim.SetBool("isSuperFlop", true);
+            yield return new WaitForSeconds(3.5F);
         }
         else
         {
-            moustacheBoiAnim.SetBool("goodBye", true);
+            moustacheBoiAnim.SetBool("isRejected", true);
+            yield return new WaitForSeconds(12F);
         }
 
-        yield return new WaitForSeconds(3F);
+        moustacheBoiAnim.SetBool("isRejected", false);
 
         thirdCutsceneCamera.transform.position = cutsceneCameraThreeTransformTarget.transform.position;
         thirdCutsceneCamera.transform.rotation = cutsceneCameraThreeTransformTarget.transform.rotation;
@@ -310,7 +312,6 @@ public class ChoiceMechanic : MonoBehaviour {
         yield return new WaitForSeconds(2.5F);
 
         moustacheBoiAnim.SetBool("isSuperFlop", false);
-        moustacheBoiAnim.SetBool("goodBye", false);
 
         if (socialScript.playerChooseSocial)
         {
@@ -352,6 +353,7 @@ public class ChoiceMechanic : MonoBehaviour {
         //RESOLVE
         if (competentScript.playerChooseCompetence)
         {
+            moustacheBoiAnim.SetBool("goodBye", false);
             playerScript.canLaunch = true;
         }
         else
