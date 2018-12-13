@@ -6,11 +6,13 @@ using System;
 public class SE_Superflop : MonoBehaviour, ISocialEncounter
 {
 	public Transform moustacheBoy;
+	Animator moustacheAnimator;
 	GameObject player;
 
 	public void Initialize (Action proceedToExecute)
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
+		moustacheAnimator = moustacheBoy.GetComponent<Animator>();
 
 		proceedToExecute();
 	}
@@ -21,18 +23,13 @@ public class SE_Superflop : MonoBehaviour, ISocialEncounter
 	}
 	IEnumerator Sneeze (Action proceedToEnd)
 	{
-		//SPEEL AUDIO
-
-		//VERVANG MET ANIMATIE
 		moustacheBoy.LookAt(player.transform);
-		for (float t = 0; t < .3f; t += Time.deltaTime) {
-			moustacheBoy.position += Vector3.up * 5 * Time.deltaTime;
-			yield return null;
-		}
-		for (float t = 0; t < .3f; t += Time.deltaTime) {
-			moustacheBoy.position -= Vector3.up * 5 * Time.deltaTime;
-			yield return null;
-		}
+
+		MoustacheBoiAudio.PlayScreeches();
+		moustacheAnimator.SetBool("isSuperFlop", true);
+		yield return new WaitForSeconds(1.5f);
+
+		moustacheAnimator.SetBool("isSuperFlop", false);
 		proceedToEnd();
 	}
 

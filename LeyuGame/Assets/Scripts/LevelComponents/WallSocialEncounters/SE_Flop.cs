@@ -27,7 +27,7 @@ public class SE_Flop : MonoBehaviour, ISocialEncounter
 
 		moustacheAnimator.SetBool("isFlop", true);
 
-		yield return new WaitForSeconds(2);
+		yield return new WaitForSeconds(1);
 
 		moustacheAnimator.SetBool("isFlop", false);
 		
