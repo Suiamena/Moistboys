@@ -122,7 +122,9 @@ public class PlayerAudio : MonoBehaviour {
             if (!playJumpOnce)
             {
                 Airjump.start();
+                Debug.Log("ey");
                 playJumpOnce = true;
+                playerScript.isHopping = false;
             }
         }
         else
