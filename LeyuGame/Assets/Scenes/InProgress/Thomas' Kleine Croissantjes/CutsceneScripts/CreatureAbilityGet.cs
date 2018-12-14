@@ -25,8 +25,8 @@ public class CreatureAbilityGet : MonoBehaviour {
     void Start()
     {
         player = GameObject.Find("Character");
-        creature = GameObject.Find("MOD_Moustacheboi_ANIM_IDLE");
-        abilityPickUp = GameObject.Find("VFX_Ability_Pickup");
+        creature = GameObject.Find("Mod_Creature");
+        abilityPickUp = GameObject.Find("VFX_AbilityPickup_Blue");
 
         controllerSwitch = player.GetComponent<PlayerController>();
         playerBody = player.GetComponent<Rigidbody>();
@@ -34,7 +34,7 @@ public class CreatureAbilityGet : MonoBehaviour {
         playerAnim = playerModel.GetComponent<Animator>();
         wayPointDraak = GameObject.Find("WaypointDraak2");
         creatureAnim = creature.GetComponent<Animator>();
-        creatureAnim.SetBool("IsPlaying", false);
+        //creatureAnim.SetBool("IsPlaying", false);
 
         abilityAnim = abilityPickUp.GetComponent<Animator>();
         abilityAnim.SetBool("IsPlaying", false);
@@ -80,7 +80,7 @@ public class CreatureAbilityGet : MonoBehaviour {
         {
             Debug.Log("lol");
         abilityPickUp.transform.position = Vector3.MoveTowards(abilityPickUp.transform.position, creature.transform.position, 5 * Time.deltaTime);
-        abilityPickUp.transform.localScale -= new Vector3(0.008f, 0.008f, 0.008f);
+        abilityPickUp.transform.localScale -= new Vector3(0.02f, 0.02f, 0.02f);
         abilityPickUp.transform.localScale = new Vector3(Mathf.Clamp(abilityPickUp.transform.localScale.x,0,5), Mathf.Clamp(abilityPickUp.transform.localScale.y, 0, 5), Mathf.Clamp(abilityPickUp.transform.localScale.z, 0, 5));
         }
     }
