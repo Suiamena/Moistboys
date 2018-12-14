@@ -6,8 +6,8 @@ using XInputDotNetPure;
 public class NewWallMechanic : MonoBehaviour
 {
 
-    //DEBUG STUFF
-    float distanceToNextPlatform;
+	//DEBUG STUFF
+	float distanceToNextPlatform;
 
 	public static int currentCreatureLocation = 0;
 
@@ -170,28 +170,73 @@ public class NewWallMechanic : MonoBehaviour
 
 	IEnumerator MakeJump (System.Action callback)
 	{
+		player.transform.LookAt(platformTransforms[activePlatform]);
+		playerAnim.SetBool("IsBouncing", true);
+
+		Vector3 currentPos = player.transform.position,
+			nextPos = platformTransforms[activePlatform].position + new Vector3(0, playerPlatformOffset, 0);
+
+		float heightDif = nextPos.y - currentPos.y;
+		float apexModifier = -.2f;
+		if (heightDif > -4) {
+			apexModifier = -.13f;
+			if (heightDif > -2.5) {
+				apexModifier = -.06f;
+				if (heightDif <= -.5) {
+					apexModifier = 0;
+					if (heightDif > .5) {
+						apexModifier = .06f;
+						if (heightDif > 2.5) {
+							apexModifier = .13f;
+							if (heightDif > 4)
+								apexModifier = .2f;
+						}
+					}
+				}
+			}
+		}
+		Debug.Log(apexModifier);
+
+		Vector3[] points = new Vector3[] {
+			Vector3.Lerp(currentPos, nextPos, .32f + apexModifier) + Vector3.up * 3.8f,
+			Vector3.Lerp(currentPos, nextPos, .38f + apexModifier) + Vector3.up * 4.5f,
+			Vector3.Lerp(currentPos,nextPos, .5f + apexModifier) + Vector3.up * 4.8f,
+			Vector3.Lerp(currentPos, nextPos, .62f + apexModifier) + Vector3.up * 4.5f,
+			Vector3.Lerp(currentPos, nextPos, .68f+ apexModifier) + Vector3.up * 3.8f,
+			nextPos
+		};
+
+		int pointIndex = 0;
+
 		while (true) {
 			sequenceCamera.transform.position = Vector3.MoveTowards(sequenceCamera.transform.position, platformTransforms[activePlatform].transform.GetChild(0).position, cameraMovementSpeed * Time.deltaTime);
 
-			Vector3 targetPosition = platformTransforms[activePlatform].position + new Vector3(0, playerPlatformOffset, 0);
-			player.transform.position = Vector3.MoveTowards(player.transform.position, targetPosition, jumpingSpeed * Time.deltaTime);
+			player.transform.position = Vector3.MoveTowards(player.transform.position, points[pointIndex], jumpingSpeed * Time.deltaTime);
+			Quaternion oldRot = player.transform.rotation;
+			player.transform.LookAt(points[pointIndex]);
+			player.transform.rotation = Quaternion.Lerp(oldRot, player.transform.rotation, 0.18f);
+			player.transform.Rotate(-player.transform.eulerAngles.x, 0, 0);
+
+			if (Vector3.Distance(player.transform.position, points[pointIndex]) < .1f) {
+				++pointIndex;
+				if (pointIndex >= points.Length) {
+					break;
+				}
+			}
 
 			sequenceCamera.transform.LookAt(player.transform);
 
-            distanceToNextPlatform = targetPosition.x - player.transform.position.x;
-            distanceToNextPlatform = Mathf.Abs(distanceToNextPlatform);
-
-            if (distanceToNextPlatform <= 0.1) { 
-                playerRig.velocity = new Vector3(0, 0, 0);
-				++activePlatform;
-				if (activePlatform == platformTransforms.Count) {
-					StartCoroutine(EndSequence());
-				}
-				callback();
-				yield break;
-			}
 			yield return null;
 		}
+
+		playerAnim.SetBool("IsBouncing", false);
+		playerRig.velocity = new Vector3(0, 0, 0);
+		player.transform.Rotate(new Vector3(-player.transform.eulerAngles.x, 0, -player.transform.eulerAngles.z));
+		++activePlatform;
+		if (activePlatform >= platformTransforms.Count) {
+			StartCoroutine(EndSequence());
+		}
+		callback();
 	}
 
 	IEnumerator EndSequence ()
