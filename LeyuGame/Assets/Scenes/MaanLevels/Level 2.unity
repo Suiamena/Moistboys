@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.84705883, g: 0.9098039, b: 1.0352942, a: 1}
+  m_AmbientSkyColor: {r: 0.85490197, g: 0.9098039, b: 1.0352942, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -35,10 +35,10 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 1
+  m_ReflectionIntensity: 0
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10989,6 +10989,25 @@ Transform:
   m_Father: {fileID: 891712229}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &732259477 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100006, guid: 98e47cf70e24f7d4cafef6f5cf9e25f4,
+    type: 3}
+  m_PrefabInternal: {fileID: 1981406221}
+--- !u!64 &732259481
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 732259477}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300006, guid: 98e47cf70e24f7d4cafef6f5cf9e25f4, type: 3}
 --- !u!1 &733590337
 GameObject:
   m_ObjectHideFlags: 0
@@ -14350,6 +14369,11 @@ Prefab:
     - target: {fileID: 4605448169065974, guid: 4223eb64242ceeb44a4764032634c641, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 177.45801
+      objectReference: {fileID: 0}
+    - target: {fileID: 114035819367820900, guid: 4223eb64242ceeb44a4764032634c641,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4223eb64242ceeb44a4764032634c641, type: 2}
@@ -19917,7 +19941,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.31
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -21541,19 +21565,19 @@ Transform:
   - {fileID: 267190038}
   - {fileID: 552753325}
   - {fileID: 634775668}
-  - {fileID: 67848151}
   - {fileID: 249834150}
   - {fileID: 701865700}
-  - {fileID: 1660449013}
-  - {fileID: 1328064951}
   - {fileID: 1617489868}
   - {fileID: 1757701197}
   - {fileID: 102067483}
   - {fileID: 662769110}
+  - {fileID: 67848151}
   - {fileID: 653646382}
   - {fileID: 1057629859}
+  - {fileID: 1660449013}
   - {fileID: 1421783423}
   - {fileID: 684008961}
+  - {fileID: 1328064951}
   - {fileID: 1439274468}
   - {fileID: 923503242}
   - {fileID: 476847460}
@@ -30562,6 +30586,10 @@ Prefab:
       propertyPath: m_Name
       value: MOD_Level2
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 98e47cf70e24f7d4cafef6f5cf9e25f4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b2b1efd5c01d2a04e975a4b2fa45450b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98e47cf70e24f7d4cafef6f5cf9e25f4, type: 3}
   m_IsPrefabAsset: 0
