@@ -7,19 +7,18 @@ public class TitleScreen : MonoBehaviour {
     [Header("UI Objects")]
     public GameObject buttons;
     public GameObject instruction;
-    public GameObject icon;
-
-    GameObject positionUp;
-    GameObject positionDown;
+    public GameObject pointer;
+    public GameObject positionUp;
+    public GameObject positionDown;
+    public GameObject controlsInstruction;
 
     int iconPosition;
 
-    bool menuStarted;
+    bool menuStarted, titleScreenDone;
 
     private void Awake()
     {
-        positionUp = GameObject.Find("IconTransformUp");
-        positionDown = GameObject.Find("IconTransformDown");
+        iconPosition = 1;
     }
 
     void Update ()
@@ -28,9 +27,13 @@ public class TitleScreen : MonoBehaviour {
         {
             if (Input.anyKey)
             {
-                buttons.SetActive(true);
-                instruction.SetActive(false);
-                menuStarted = true;
+                if (!titleScreenDone)
+                {
+                    buttons.SetActive(true);
+                    instruction.SetActive(false);
+                    menuStarted = true;
+                    titleScreenDone = true;
+                }
             }
         }
 
@@ -42,22 +45,36 @@ public class TitleScreen : MonoBehaviour {
 
     void RunMenu()
     {
-
+        Debug.Log(menuStarted);
         if (Input.GetAxis("Left Stick Y") > 0)
         {
-            if (iconPosition == 2)
+            if (iconPosition != 1)
             {
-                icon.transform.position = positionUp.transform.position;
+                pointer.transform.position = positionUp.transform.position;
                 iconPosition = 1;
             }
         }
 
         if (Input.GetAxis("Left Stick Y") < 0)
         {
+            if (iconPosition != 2)
+            {
+                pointer.transform.position = positionDown.transform.position;
+                iconPosition = 2;
+            }
+        }
+
+        if (Input.GetButtonDown("A Button"))
+        {
             if (iconPosition == 1)
             {
-                icon.transform.position = positionDown.transform.position;
-                iconPosition = 2;
+                Debug.Log("next scene");
+            }
+            if (iconPosition == 2)
+            { 
+                menuStarted = false;
+                controlsInstruction.SetActive(true);
+                buttons.SetActive(false);
             }
         }
 
