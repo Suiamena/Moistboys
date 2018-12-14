@@ -58,7 +58,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 		yield return new WaitForSeconds(.8f);
 
 		MoustacheBoiAudio.PlayScreeches();
-		moustacheAnimator.SetBool("isWaving", true);
+		moustacheAnimator.SetBool("goodBye", true);
 
 		float t = 0;
 		while (Vector3.Distance(moustacheBoy.position, player.transform.position) < NewWallMechanic.triggerAbilityRange && t < timeBeforeDeparture) {
@@ -68,7 +68,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 			yield return null;
 		}
 		MoustacheBoiAudio.StopFlaps();
-		moustacheAnimator.SetBool("isWaving", false);
+		moustacheAnimator.SetBool("goodBye", false);
 
 		proceedToEnd();
 	}
@@ -82,6 +82,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 	}
 	IEnumerator FlyAway (Action endEncounter)
 	{
+		yield return new WaitForSeconds(.7f);
 		moustacheBoy.LookAt(flyInOutPoint);
 		moustacheBoy.Rotate(new Vector3(-moustacheBoy.transform.eulerAngles.x, 0, -moustacheBoy.transform.eulerAngles.z));
 		moustacheAnimator.SetBool("isFlying", true);

@@ -30,6 +30,8 @@ public class CreatureEncounter : MonoBehaviour {
 
     float cameraSpeed = 0;
 
+    BoxCollider triggerCollider;
+
     void Start ()
     {
         player = GameObject.Find("Character");
@@ -46,6 +48,7 @@ public class CreatureEncounter : MonoBehaviour {
         creatureBewegingAnim.SetBool("isPlaying", false);
         playerCamera = GameObject.Find("Main Camera");
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
+        triggerCollider = gameObject.GetComponent<BoxCollider>();
     }
 	
     void OnTriggerEnter()
@@ -119,8 +122,8 @@ public class CreatureEncounter : MonoBehaviour {
 
         yield return new WaitForSeconds(4.5f);
         cameraMoving = true;
-        creatureAnim.SetBool("isFlying", false);
         //cutsceneCamera.SetActive(false);
+        triggerCollider.enabled = false;
         cameraAnim.enabled = false;
         controllerSwitch.enabled = true;
 
@@ -135,15 +138,22 @@ public class CreatureEncounter : MonoBehaviour {
     {
         distanceToPlayerCam = cutsceneCamera.transform.position - playerCamera.transform.position;
         distanceToPlayerCam = new Vector3(Mathf.Abs(distanceToPlayerCam.x), distanceToPlayerCam.y, distanceToPlayerCam.z);
+        distanceToPlayerCam.x = Mathf.Abs(distanceToPlayerCam.x);
+        distanceToPlayerCam.y = Mathf.Abs(distanceToPlayerCam.y);
+        distanceToPlayerCam.z = Mathf.Abs(distanceToPlayerCam.z);
+        print(distanceToPlayerCam);
 
         if (cameraMoving == true)
         {
             cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed* Time.deltaTime);
-            cameraSpeed += 0.5f;
+            cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, cameraSpeed * Time.deltaTime);
+            cameraSpeed += 1f;
         }
 
-        if (distanceToPlayerCam.x < 0.3f && distanceToPlayerCam.y < 0.3f && distanceToPlayerCam.z < 0.3f)
+        if (distanceToPlayerCam.x < 0.7f && distanceToPlayerCam.y < 0.7f && distanceToPlayerCam.z < 0.7f)
         {
+            print("loooooooolll");
+            //creatureAnim.SetBool("isFlying", false);
             cutsceneCamera.SetActive(false);
             cameraMoving = false;
             Destroy(gameObject);

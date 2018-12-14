@@ -152,7 +152,6 @@ public class FinalBoundary : MonoBehaviour {
     {
         snowParticlesWindObject.SetActive(true);
         yield return new WaitForSeconds(1F);
-        snowParticlesWindObject.SetActive(false);
     }
 
 }

@@ -22,6 +22,9 @@ public class CreatureAbilityGet : MonoBehaviour {
 
     bool camOnCreature = false;
 
+    GameObject abilityLight;
+    Light abilityLightIntensity;
+
     void Start()
     {
         player = GameObject.Find("Character");
@@ -38,6 +41,9 @@ public class CreatureAbilityGet : MonoBehaviour {
 
         abilityAnim = abilityPickUp.GetComponent<Animator>();
         abilityAnim.SetBool("IsPlaying", false);
+
+        abilityLight = GameObject.Find("BlueLight");
+        abilityLightIntensity = abilityLight.GetComponent<Light>();
     }
 
     void OnTriggerEnter()
@@ -53,6 +59,8 @@ public class CreatureAbilityGet : MonoBehaviour {
         playerAnim.SetBool("IsLaunching", false);
         //playerAnim.SetBool("IsBouncing", false);
         playerAnim.SetBool("IsAirborne", false);
+
+        creatureAnim.SetBool("isFlying", false);
 
         //Teleport to position on cutscene start:
         //player.transform.position = wayPointDraak.transform.position;
@@ -78,10 +86,10 @@ public class CreatureAbilityGet : MonoBehaviour {
 
         if (movingToCreature == true)
         {
-            Debug.Log("lol");
-        abilityPickUp.transform.position = Vector3.MoveTowards(abilityPickUp.transform.position, creature.transform.position, 5 * Time.deltaTime);
+        abilityPickUp.transform.position = Vector3.MoveTowards(abilityPickUp.transform.position, creature.transform.position, 3 * Time.deltaTime);
         abilityPickUp.transform.localScale -= new Vector3(0.02f, 0.02f, 0.02f);
         abilityPickUp.transform.localScale = new Vector3(Mathf.Clamp(abilityPickUp.transform.localScale.x,0,5), Mathf.Clamp(abilityPickUp.transform.localScale.y, 0, 5), Mathf.Clamp(abilityPickUp.transform.localScale.z, 0, 5));
+            abilityLightIntensity.intensity -= 0.02f;
         }
     }
 
@@ -89,23 +97,36 @@ public class CreatureAbilityGet : MonoBehaviour {
     {
         //creatureAnim.SetBool("IsPlaying", true);
         //camOnCreature = true;
+
         yield return new WaitForSeconds(1f);
         abilityAnim.SetBool("IsPlaying", true);
+        creatureAnim.SetBool("isFlying", false);
+        creatureAnim.SetBool("isFlop", true);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.3f);
+        creatureAnim.SetBool("isFlop", false);
+
+        yield return new WaitForSeconds(1.7f);
         abilityAnim.enabled = false;
+        print("lol");
+        creatureAnim.SetBool("isUsingAbility", true);
         movingToCreature = true;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
+        creatureAnim.SetBool("isUsingAbility", false);
 
+        yield return new WaitForSeconds(1f);
         cutsceneCamera.SetActive(false);
         controllerSwitch.enabled = true;
-
+        cutsceneCamera.SetActive(false);
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         playerBody.velocity = new Vector3(0, 0, 0);
         //
+
         Destroy(abilityPickUp);
         Destroy(gameObject);
+
+        //Cutscene duration = 7seconden
     }
 
     void Update()
