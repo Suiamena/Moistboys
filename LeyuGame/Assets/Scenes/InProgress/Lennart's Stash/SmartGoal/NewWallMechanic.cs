@@ -148,8 +148,8 @@ public class NewWallMechanic : MonoBehaviour
 				playerRig.velocity = Vector3.zero;
 
 				//SHOW CAMERA
-				sequenceCamera.transform.position = initialCameraTarget.transform.position;
-				sequenceCamera.transform.LookAt(initialCameraPoint.transform);
+				sequenceCamera.transform.position = initialCameraPoint.transform.position;
+				sequenceCamera.transform.LookAt(initialCameraTarget.transform);
 				sequenceCamera.SetActive(true);
 
 				//SPAWN OBJECTS
