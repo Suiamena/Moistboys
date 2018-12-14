@@ -39,7 +39,7 @@ public class NewWallMechanic : MonoBehaviour
 
 	[Header("Flying Settings")]
 	public Vector3 flyInOutPoint = new Vector3(0, 40, -7);
-	public float flyingSpeed = 50, flyInOutRange = 70;
+	public float flyingSpeed = 50, flyInOutRange = 45;
 	Vector3 defaultCreaturePos, flyInPosition;
 	Quaternion defaultCreatureRot;
 	bool flyingRoutineRunning = false;
@@ -318,8 +318,8 @@ public class NewWallMechanic : MonoBehaviour
 				wagglePrefab.GetComponent<ISocialEncounter>().Initialize(() => {
 					wagglePrefab.GetComponent<ISocialEncounter>().Execute(() => {
 						wagglePrefab.GetComponent<ISocialEncounter>().End(() => {
-							//SET IDLE ANIM TO PLAY
-							readyForSequence = true; });
+							readyForSequence = true;
+						});
 					});
 				});
 				break;
@@ -327,8 +327,8 @@ public class NewWallMechanic : MonoBehaviour
 				sneezePrefab.GetComponent<ISocialEncounter>().Initialize(() => {
 					sneezePrefab.GetComponent<ISocialEncounter>().Execute(() => {
 						sneezePrefab.GetComponent<ISocialEncounter>().End(() => {
-							//SET IDLE ANIM TO PLAY
-							readyForSequence = true; });
+							readyForSequence = true;
+						});
 					});
 				});
 				break;
@@ -336,8 +336,8 @@ public class NewWallMechanic : MonoBehaviour
 				welcomeBackPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
 					welcomeBackPrefab.GetComponent<ISocialEncounter>().Execute(() => {
 						welcomeBackPrefab.GetComponent<ISocialEncounter>().End(() => {
-							//SET IDLE ANIM TO PLAY
-							readyForSequence = true; });
+							readyForSequence = true;
+						});
 					});
 				});
 				break;
