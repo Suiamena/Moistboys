@@ -29,7 +29,6 @@ public class Level3Music : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(musicStage);
         MusicParameter.setValue(musicStage);
 
         if (!runCoroutineOnce)
