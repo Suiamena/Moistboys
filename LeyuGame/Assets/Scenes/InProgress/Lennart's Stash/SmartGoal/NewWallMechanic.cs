@@ -39,7 +39,8 @@ public class NewWallMechanic : MonoBehaviour
 
 	[Header("Flying Settings")]
 	public Vector3 flyInOutPoint = new Vector3(0, 40, -7);
-	public float flyingSpeed = 50, flyInOutRange = 70;
+	public float flyingSpeed = 50;
+	float flyInOutRange = 45;
 	Vector3 defaultCreaturePos, flyInPosition;
 	Quaternion defaultCreatureRot;
 	bool flyingRoutineRunning = false;
@@ -101,6 +102,7 @@ public class NewWallMechanic : MonoBehaviour
 
 	void CheckForFlying ()
 	{
+		Debug.Log(Vector3.Distance(defaultCreaturePos, player.transform.position));
 		if (currentCreatureLocation == 0) {
 			if (Vector3.Distance(defaultCreaturePos, player.transform.position) < flyInOutRange) {
 				if (!flyingRoutineRunning) {
