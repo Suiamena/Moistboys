@@ -30,6 +30,8 @@ public class Level4Music : MonoBehaviour
 
     private void Update()
     {
+        //musicStage = 8.5f for find CREATURE!
+
         MusicParameter.setValue(musicStage);
     }
 
