@@ -58,8 +58,6 @@ public class AmbienceManager : MonoBehaviour {
     {
         windStage += windGrowthSpeed;
         windStage = Mathf.Clamp(windStage, 0.4f, 0.7f);
-        //windStage = 0.7f;
-        Debug.Log(windStage);
     }
 
     public static void DecreaseWindSound()

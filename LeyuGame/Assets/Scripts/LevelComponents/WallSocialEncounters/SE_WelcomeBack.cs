@@ -31,7 +31,7 @@ public class SE_WelcomeBack : MonoBehaviour, ISocialEncounter
 	IEnumerator Wave (Action proceedToEnd)
 	{
 		MoustacheBoiAudio.PlayScreeches();
-		moustacheAnimator.SetBool("isWaving", true);
+		moustacheAnimator.SetBool("goodBye", true);
 
 		float t = 0;
 		while (!Input.GetButtonDown("A Button") && t < timeBeforeAdvancing) {
@@ -40,7 +40,7 @@ public class SE_WelcomeBack : MonoBehaviour, ISocialEncounter
 			t += Time.deltaTime;
 			yield return null;
 		}
-		moustacheAnimator.SetBool("isWaving", false);
+		moustacheAnimator.SetBool("goodBye", false);
 
 		proceedToEnd();
 	}

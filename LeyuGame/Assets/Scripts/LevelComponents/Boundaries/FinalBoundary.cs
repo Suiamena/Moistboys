@@ -9,7 +9,6 @@ public class FinalBoundary : MonoBehaviour {
     public GameObject objectB;
 
     [Header("Particle Settings")]
-    public GameObject snowParticlesObject;
     public GameObject snowParticlesWindObject;
     ParticleSystem snowParticlesSystem;
     ParticleSystem.EmissionModule emissionModule;
@@ -137,7 +136,6 @@ public class FinalBoundary : MonoBehaviour {
             emissionModule.rateOverTime = particlesAmount;
             if (particlesAmount < 500)
             {
-                snowParticlesObject.SetActive(true);
             }
             if (particlesAmount < 1)
             {
@@ -154,7 +152,7 @@ public class FinalBoundary : MonoBehaviour {
     {
         snowParticlesWindObject.SetActive(true);
         yield return new WaitForSeconds(1F);
-        snowParticlesObject.SetActive(false);
+        snowParticlesWindObject.SetActive(false);
     }
 
 }

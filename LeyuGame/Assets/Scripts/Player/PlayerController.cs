@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using XInputDotNetPure;
 
-public class PlayerController : MonoBehaviour, ISnowTornado
+public class PlayerController : MonoBehaviour
 {
 	Rigidbody rig;
 	Vector3 velocity;
@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	Animator animator;
 	[HideInInspector]
 	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch, isHopping, isLaunchingSuperSaiyan;
+	public GameObject dragonModel;
 
 	[Header("Camera Settings")]
 	public Transform cameraTrans;
@@ -56,9 +57,9 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	public float airborneMovementSpeed = 25, snowAirborneMovementSpeed = 14, airborneMovementAcceleration = 50, airborneDecceleration = 56;
 	[Range(0.0f, 1.0f)]
 	public float walkingBouncingThreshold = .8f;
-    bool inSnow = false;
-    public float groundType, jumpHeight;
-    bool checkCurrentHeight;
+	bool inSnow = false;
+	public float groundType, jumpHeight;
+	bool checkCurrentHeight;
 
 	[Header("Hop Settings")]
 	public bool canHop = true;
@@ -69,20 +70,11 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	public float gravityStrength = 48;
 	public float maximumFallingSpeed = 112;
 
-	//[Header("SnowTornado Settings")]
-	bool inTornado = false, canBeisSpinning = true;
-	Vector3 snowTornadoDesiredPlayerPosition;
-
 	//Boundary Settings
 	[HideInInspector]
 	public bool playerIsAirborne, enablePlayerPushBack;
 	[HideInInspector]
 	public Vector3 boundaryPushingDirection;
-
-	[Header("Twirl Settings")]
-	public GameObject dragonModel;
-	public bool enableTwirl = true;
-	public float twirlTime = .18f;
 
 	[Header("Landing Indicator Settings")]
 	public Transform landingIndicatorTrans;
@@ -119,27 +111,23 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		ModelRotation();
 	}
 
-    private void FixedUpdate()
-    { 
-        if (!inTornado)
-        {
-            Gravity();
-            RunAnimation();
-            Movement();
-            CheckHeight();
+	private void FixedUpdate ()
+	{
+		Gravity();
+		RunAnimation();
+		Movement();
+		CheckHeight();
 
-            rig.velocity = transform.rotation * velocity;
-            //APPLY BOUNDARY PUSHBACK FORCE
-            if (enablePlayerPushBack)
-            {
-                rig.velocity += boundaryPushingDirection;
-            }
-        }
-    }
+		rig.velocity = transform.rotation * velocity;
+		//APPLY BOUNDARY PUSHBACK FORCE
+		if (enablePlayerPushBack) {
+			rig.velocity += boundaryPushingDirection;
+		}
+	}
 
 
-    //UPDATE FUNCTIONS
-    void ProcessInputs ()
+	//UPDATE FUNCTIONS
+	void ProcessInputs ()
 	{
 		leftStickInput = new Vector2(Input.GetAxis("Left Stick X"), Input.GetAxis("Left Stick Y"));
 	}
@@ -258,23 +246,22 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 
 	void Hop ()
 	{
-        if (canHop) {
-            if (Input.GetButtonDown("A Button")) {
-                isHopping = true;
-                canHop = false;
-                if (velocity.y < 0)
-                    velocity.y = 0;
-                velocity.y += hopVelocity;
-                GamePad.SetVibration(0, .2f, .2f);
-                KillVibration();
-                StartCoroutine(SuspendGroundedCheck());
-            }
-        } else {
-            if (Grounded())
-            {
-                isHopping = false;
-                canHop = true;
-            }
+		if (canHop) {
+			if (Input.GetButtonDown("A Button")) {
+				isHopping = true;
+				canHop = false;
+				if (velocity.y < 0)
+					velocity.y = 0;
+				velocity.y += hopVelocity;
+				GamePad.SetVibration(0, .2f, .2f);
+				KillVibration();
+				StartCoroutine(SuspendGroundedCheck());
+			}
+		} else {
+			if (Grounded()) {
+				isHopping = false;
+				canHop = true;
+			}
 		}
 	}
 
@@ -319,47 +306,39 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		if (Physics.SphereCast(groundedRay, .42f, out groundedRayHit, .1f)) {
 			playerIsAirborne = false;
 
-            //CHECK GROUND TYPE
-			if (groundedRayHit.transform.tag == "Snow")
-            {
-                inSnow = true;
-                groundType = 1.5f;
-            }
-			else
-            {
-                inSnow = false;
-            }
-            if (groundedRayHit.transform.tag == "Rock")
-                groundType = 0;
-            if (groundedRayHit.transform.tag == "Amethyst")
-                groundType = 3;
+			//CHECK GROUND TYPE
+			if (groundedRayHit.transform.tag == "Snow") {
+				inSnow = true;
+				groundType = 1.5f;
+			} else {
+				inSnow = false;
+			}
+			if (groundedRayHit.transform.tag == "Rock")
+				groundType = 0;
+			if (groundedRayHit.transform.tag == "Amethyst")
+				groundType = 3;
 
-            return true;
+			return true;
 		} else {
 			playerIsAirborne = true;
 			return false;
 		}
 	}
 
-    void CheckHeight()
-    {
-        if (velocity.y < 0)
-        {
-            if (!checkCurrentHeight)
-            {
-                Ray checkHeightRay = new Ray(transform.position, Vector3.up * -1);
-                if (Physics.Raycast(checkHeightRay, 10f))
-                {
-                }
-                else
-                {
-                    jumpHeight = 1;
-                }
-                checkCurrentHeight = true;
-            }
-        }
-        checkCurrentHeight = false;
-    }
+	void CheckHeight ()
+	{
+		if (velocity.y < 0) {
+			if (!checkCurrentHeight) {
+				Ray checkHeightRay = new Ray(transform.position, Vector3.up * -1);
+				if (Physics.Raycast(checkHeightRay, 10f)) {
+				} else {
+					jumpHeight = 1;
+				}
+				checkCurrentHeight = true;
+			}
+		}
+		checkCurrentHeight = false;
+	}
 
 	void KillVibration (float timeBeforeKill = .1f)
 	{
@@ -408,25 +387,25 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		}
 	}
 
-    public void DisablePlayer()
-    {
-        //DISABLE PLAYER ANIMATION
-        animator.SetBool("IsBouncing", false);
-        animator.SetBool("IsLaunching", false);
-        animator.SetBool("IsAirborne", false);
+	public void DisablePlayer ()
+	{
+		//DISABLE PLAYER ANIMATION
+		animator.SetBool("IsBouncing", false);
+		animator.SetBool("IsLaunching", false);
+		animator.SetBool("IsAirborne", false);
 
-        //DISABLE PLAYER MOVEMENT
-        velocity = new Vector3(0, 0, 0);
-        transform.rotation = Quaternion.Euler(0, 0, 0);
-        rig.velocity = velocity;
-        enabled = false;
-    }
+		//DISABLE PLAYER MOVEMENT
+		velocity = new Vector3(0, 0, 0);
+		transform.rotation = Quaternion.Euler(0, 0, 0);
+		rig.velocity = velocity;
+		enabled = false;
+	}
 
-    public void EnablePlayer()
-    {
-        enabled = true;
-        cameraYAngle = transform.rotation.y;
-    }
+	public void EnablePlayer ()
+	{
+		enabled = true;
+		cameraYAngle = transform.rotation.y;
+	}
 
 	//COROUTINES
 	IEnumerator LaunchRoutine ()
@@ -462,14 +441,14 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		isBuildingLaunch = false;
 
 		if (!stageTwoReached) {
-            //stage 1
-            isLaunchingSuperSaiyan = true;
-            velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageOneForce.z;
+			//stage 1
+			isLaunchingSuperSaiyan = true;
+			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageOneForce.z;
 			velocity.y = launchStageOneForce.y;
 		} else {
-            //stage 2
-            isLaunchingSuperSaiyan = false;
-            velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageTwoForce.z;
+			//stage 2
+			isLaunchingSuperSaiyan = false;
+			velocity = new Vector3(velocity.x, 0, velocity.z).normalized * launchStageTwoForce.z;
 			velocity.y = launchStageTwoForce.y;
 		}
 		canHop = true;
@@ -477,15 +456,11 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 		StartCoroutine(PreLaunchRoutine());
 		StopCoroutine(SuspendGroundedCheck());
 		StartCoroutine(SuspendGroundedCheck());
-		StopCoroutine(Twirl());
-		if (enableTwirl)
-			StartCoroutine(Twirl());
 
 		while (!Grounded()) {
 			yield return null;
 		}
 
-		StopCoroutine(Twirl());
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
 		}
@@ -510,45 +485,5 @@ public class PlayerController : MonoBehaviour, ISnowTornado
 	{
 		yield return new WaitForSeconds(timeBeforeKill);
 		GamePad.SetVibration((PlayerIndex) 0, 0, 0);
-	}
-
-	IEnumerator Twirl ()
-	{
-		if (dragonModel == null)
-			yield break;
-		while (!Grounded()) {
-			dragonModel.transform.Rotate(new Vector3(360 / twirlTime, 0, 0) * Time.deltaTime);
-			yield return null;
-		}
-		dragonModel.transform.localRotation = Quaternion.Euler(Vector3.zero);
-	}
-
-
-
-	//SNOW MECHANICS FUNCTIONS
-	IEnumerator ISnowTornado.HitBySnowTornado (Transform tornadoTrans, Vector3 playerOffsetFromCenter, float spinSpeed, float playerLerpFactor, Vector3 releaseVelocity)
-	{
-		if (inTornado && !canBeisSpinning)
-			yield break;
-
-		inTornado = true;
-		canBeisSpinning = false;
-
-		tornadoTrans.forward = -transform.right;
-
-		while (true) {
-			snowTornadoDesiredPlayerPosition = tornadoTrans.forward + playerOffsetFromCenter;
-			transform.position = Vector3.Lerp(transform.position, tornadoTrans.position + tornadoTrans.rotation * playerOffsetFromCenter, playerLerpFactor);
-			transform.rotation *= Quaternion.Euler(new Vector3(0, spinSpeed * Time.deltaTime, 0));
-
-			if (Input.GetButtonDown("A Button")) {
-				velocity = releaseVelocity;
-				inTornado = false;
-				break;
-			}
-			yield return null;
-		}
-		yield return new WaitForSeconds(2f);
-		canBeisSpinning = true;
 	}
 }
