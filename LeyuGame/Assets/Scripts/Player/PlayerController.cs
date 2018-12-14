@@ -210,6 +210,7 @@ public class PlayerController : MonoBehaviour
 		if (canHop) {
 			if (Input.GetButtonDown("A Button")) {
 				canHop = false;
+                isHopping = true;
 				if (velocity.y < 0)
 					velocity.y = 0;
 				velocity.y += hopVelocity;
@@ -220,7 +221,7 @@ public class PlayerController : MonoBehaviour
 		} else {
 			if (Grounded()) {
 				canHop = true;
-			}
+            }
 		}
 	}
 
