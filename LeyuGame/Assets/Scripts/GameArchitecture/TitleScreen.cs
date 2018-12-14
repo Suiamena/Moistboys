@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class TitleScreen : MonoBehaviour {
@@ -14,12 +15,7 @@ public class TitleScreen : MonoBehaviour {
 
     int iconPosition;
 
-    bool menuStarted, titleScreenDone;
-
-    private void Awake()
-    {
-        iconPosition = 1;
-    }
+    bool menuStarted, titleScreenDone, controlsOpened;
 
     void Update ()
     {
@@ -33,6 +29,7 @@ public class TitleScreen : MonoBehaviour {
                     instruction.SetActive(false);
                     menuStarted = true;
                     titleScreenDone = true;
+                    StartCoroutine(LoadNextMenuDelay());
                 }
             }
         }
@@ -41,11 +38,15 @@ public class TitleScreen : MonoBehaviour {
         {
             RunMenu();
         }
+
+        if (controlsOpened)
+        {
+            BackToMenu();
+        }
 	}
 
     void RunMenu()
     {
-        Debug.Log(menuStarted);
         if (Input.GetAxis("Left Stick Y") > 0)
         {
             if (iconPosition != 1)
@@ -68,16 +69,40 @@ public class TitleScreen : MonoBehaviour {
         {
             if (iconPosition == 1)
             {
-                Debug.Log("next scene");
+                SceneManager.LoadScene("Level 1");
             }
             if (iconPosition == 2)
             { 
                 menuStarted = false;
                 controlsInstruction.SetActive(true);
                 buttons.SetActive(false);
+                StartCoroutine(BackToMenuDelay());
             }
         }
 
+    }
+
+    void BackToMenu()
+    {
+        if (Input.GetButtonDown("A Button"))
+        {
+            controlsInstruction.SetActive(false);
+            controlsOpened = false;
+            buttons.SetActive(true);
+            menuStarted = true;
+        }
+    }
+
+    IEnumerator LoadNextMenuDelay()
+    {
+        yield return new WaitForSeconds(0.1f);
+        iconPosition = 1;
+    }
+
+    IEnumerator BackToMenuDelay()
+    {
+        yield return new WaitForSeconds(0.1f);
+        controlsOpened = true;
     }
 
 }

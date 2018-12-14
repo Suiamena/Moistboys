@@ -48,5 +48,12 @@ public class ResetGame : MonoBehaviour {
             Level6Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             SceneManager.LoadScene("Level 6");
         }
+
+        if (Input.GetKeyDown("7"))
+        {
+            AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            Level6Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            SceneManager.LoadScene("TitleScreen");
+        }
     }
 }
