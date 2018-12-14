@@ -306,15 +306,21 @@ public class PlayerController : MonoBehaviour
 
 			//CHECK GROUND TYPE
 			if (groundedRayHit.transform.tag == "Snow") {
+                Debug.Log("snow");
 				inSnow = true;
 				groundType = 1.5f;
 			} else {
 				inSnow = false;
 			}
 			if (groundedRayHit.transform.tag == "Rock")
-				groundType = 0;
+            {
+                Debug.Log("rock");
+                groundType = 0;
+            }
 			if (groundedRayHit.transform.tag == "Amethyst")
-				groundType = 3;
+            {
+                groundType = 3;
+            }
 
 			//beetje lelijk dit
 			canHop = true;
