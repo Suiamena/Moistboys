@@ -5,6 +5,10 @@ using XInputDotNetPure;
 
 public class NewWallMechanic : MonoBehaviour
 {
+
+    //DEBUG STUFF
+    float distanceToNextPlatform;
+
 	public static int currentCreatureLocation = 0;
 
 	public enum PreSequenceActivities { Waggle, Sneeze, WelcomeBack, None };
@@ -171,14 +175,14 @@ public class NewWallMechanic : MonoBehaviour
 
 			Vector3 targetPosition = platformTransforms[activePlatform].position + new Vector3(0, playerPlatformOffset, 0);
 			player.transform.position = Vector3.MoveTowards(player.transform.position, targetPosition, jumpingSpeed * Time.deltaTime);
-            Debug.Log(platformTransforms[activePlatform].position);
-
-			
 
 			sequenceCamera.transform.LookAt(player.transform);
 
-			if (player.transform.position == targetPosition) {
-				playerRig.velocity = new Vector3(0, 0, 0);
+            distanceToNextPlatform = targetPosition.x - player.transform.position.x;
+            distanceToNextPlatform = Mathf.Abs(distanceToNextPlatform);
+
+            if (distanceToNextPlatform <= 0.1) { 
+                playerRig.velocity = new Vector3(0, 0, 0);
 				++activePlatform;
 				if (activePlatform == platformTransforms.Count) {
 					StartCoroutine(EndSequence());

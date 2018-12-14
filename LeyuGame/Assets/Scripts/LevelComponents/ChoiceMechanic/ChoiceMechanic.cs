@@ -351,12 +351,13 @@ public class ChoiceMechanic : MonoBehaviour {
         //RESOLVE
         if (competentScript.playerChooseCompetence)
         {
-            moustacheBoiAnim.SetBool("goodBye", false);
+            moustacheBoiAnim.SetBool("goodBye", true);
             playerScript.canLaunch = true;
         }
         else
         {
             moustacheBoiEnding.SetActive(true);
+            moustacheBoiCutscene.SetActive(false);
         }
     }
 
