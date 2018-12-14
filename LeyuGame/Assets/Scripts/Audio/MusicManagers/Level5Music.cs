@@ -28,7 +28,6 @@ public class Level5Music : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(musicStage);
         MusicParameter.setValue(musicStage);
     }
 
