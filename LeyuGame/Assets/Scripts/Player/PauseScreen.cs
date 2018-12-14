@@ -76,8 +76,10 @@ public class PauseScreen : MonoBehaviour
 					}
 					if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Start Button")) {
 						if (exitOption == 0) {
-							//SceneManager.LoadScene(0);
-							Debug.Log("EXITING GAME");
+                            AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                            Level6Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                            SceneManager.LoadScene("TitleScreen");
+                            Debug.Log("EXITING GAME");
 						} else {
 							DeactivateExitScreen();
 						}
