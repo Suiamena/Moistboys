@@ -195,7 +195,6 @@ public class NewWallMechanic : MonoBehaviour
 				}
 			}
 		}
-		Debug.Log(apexModifier);
 
 		Vector3[] points = new Vector3[] {
 			Vector3.Lerp(currentPos, nextPos, .32f + apexModifier) + Vector3.up * 3.8f,
