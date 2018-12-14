@@ -16,6 +16,8 @@ public class DragonAbilityGetScript : MonoBehaviour {
     Animator abilityAnim;
     bool movingToCreature = false;
 
+    public GameObject musicLevelThree;
+
     void Start ()
     {
         player = GameObject.Find("Character");
@@ -74,9 +76,11 @@ public class DragonAbilityGetScript : MonoBehaviour {
         yield return new WaitForSeconds(1.8f);
         abilityAnim.enabled = false;
         movingToCreature = true;
+        musicLevelThree.SetActive(true);
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(3f);
         controllerSwitch.enabled = true;
+        controllerSwitch.canLaunch = true;
 
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         //playerBody.velocity = new Vector3(0, 0, 0);

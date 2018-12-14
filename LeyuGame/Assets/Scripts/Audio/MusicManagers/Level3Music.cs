@@ -19,12 +19,10 @@ public class Level3Music : MonoBehaviour
         Music = FMODUnity.RuntimeManager.CreateInstance(music);
         Music.getParameter("Music", out MusicParameter);
 
-        AmbienceManager.windStage = 0.45f;
+        AmbienceManager.windStage = 0.40f;
         AmbienceManager.insideStage = 0f;
 
-        //AmbienceManager.amethystStage = 0f;
-        //AmbienceManager.amethystStage = 0.5f;
-        //AmbienceManager.amethystStage = 1f;
+        AmbienceManager.amethystStage = 1f;
 
         Music.start();
     }
@@ -45,8 +43,6 @@ public class Level3Music : MonoBehaviour
         musicStage = 6.5f;
         yield return new WaitForSeconds(3F);
         musicStage = 7.5f;
-
-        //musicStage = 8.5f for find CREATURE!
     }
 
 }

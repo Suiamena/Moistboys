@@ -210,6 +210,7 @@ public class PlayerController : MonoBehaviour
 		if (canHop) {
 			if (Input.GetButtonDown("A Button")) {
 				canHop = false;
+                isHopping = true;
 				if (velocity.y < 0)
 					velocity.y = 0;
 				velocity.y += hopVelocity;
@@ -220,7 +221,7 @@ public class PlayerController : MonoBehaviour
 		} else {
 			if (Grounded()) {
 				canHop = true;
-			}
+            }
 		}
 	}
 
@@ -311,9 +312,13 @@ public class PlayerController : MonoBehaviour
 				inSnow = false;
 			}
 			if (groundedRayHit.transform.tag == "Rock")
-				groundType = 0;
+            {
+                groundType = 0;
+            }
 			if (groundedRayHit.transform.tag == "Amethyst")
-				groundType = 3;
+            {
+                groundType = 3;
+            }
 
 			//beetje lelijk dit
 			canHop = true;
