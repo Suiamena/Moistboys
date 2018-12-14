@@ -306,7 +306,6 @@ public class PlayerController : MonoBehaviour
 
 			//CHECK GROUND TYPE
 			if (groundedRayHit.transform.tag == "Snow") {
-                Debug.Log("snow");
 				inSnow = true;
 				groundType = 1.5f;
 			} else {
@@ -314,7 +313,6 @@ public class PlayerController : MonoBehaviour
 			}
 			if (groundedRayHit.transform.tag == "Rock")
             {
-                Debug.Log("rock");
                 groundType = 0;
             }
 			if (groundedRayHit.transform.tag == "Amethyst")
