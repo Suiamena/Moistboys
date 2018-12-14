@@ -51,7 +51,7 @@ public class NewWallMechanic : MonoBehaviour
 
 	[Header("Other Settings")]
 	public float cameraMovementSpeed = 40;
-	public const float triggerAbilityRange = 10;
+	public const float triggerAbilityRange = 16;
 
 	//UI
 	[Header("")]

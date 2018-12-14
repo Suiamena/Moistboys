@@ -203,6 +203,7 @@ public class PlayerController : MonoBehaviour
 			modelRotationYAngle = Mathf.Abs(modelRotationYAngle) * -1;
 		modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelRotationXAngle, modelRotationYAngle, 0);
 		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
+		dragonModel.transform.Rotate(0, 0, -dragonModel.transform.eulerAngles.z);
 	}
 
 	void Hop ()
@@ -210,7 +211,7 @@ public class PlayerController : MonoBehaviour
 		if (canHop) {
 			if (Input.GetButtonDown("A Button")) {
 				canHop = false;
-                isHopping = true;
+				isHopping = true;
 				if (velocity.y < 0)
 					velocity.y = 0;
 				velocity.y += hopVelocity;
@@ -221,7 +222,7 @@ public class PlayerController : MonoBehaviour
 		} else {
 			if (Grounded()) {
 				canHop = true;
-            }
+			}
 		}
 	}
 
@@ -311,14 +312,12 @@ public class PlayerController : MonoBehaviour
 			} else {
 				inSnow = false;
 			}
-			if (groundedRayHit.transform.tag == "Rock")
-            {
-                groundType = 0;
-            }
-			if (groundedRayHit.transform.tag == "Amethyst")
-            {
-                groundType = 3;
-            }
+			if (groundedRayHit.transform.tag == "Rock") {
+				groundType = 0;
+			}
+			if (groundedRayHit.transform.tag == "Amethyst") {
+				groundType = 3;
+			}
 
 			//beetje lelijk dit
 			canHop = true;
@@ -405,14 +404,14 @@ public class PlayerController : MonoBehaviour
 		//DISABLE PLAYER MOVEMENT
 		velocity = new Vector3(0, 0, 0);
 		transform.rotation = Quaternion.Euler(0, 0, 0);
-		rig.velocity = velocity;
+		rig.velocity = Vector3.zero;
 		enabled = false;
 	}
 
 	public void EnablePlayer ()
 	{
 		enabled = true;
-		cameraYAngle = transform.rotation.y;
+		cameraYAngle = 0;
 	}
 
 	//COROUTINES
