@@ -39,7 +39,7 @@ public class NewWallMechanic : MonoBehaviour
 
 	[Header("Flying Settings")]
 	public Vector3 flyInOutPoint = new Vector3(0, 40, -7);
-	public float flyingSpeed = 50, flyInOutRange = 25;
+	public float flyingSpeed = 50, flyInOutRange = 42;
 	Vector3 defaultCreaturePos, flyInPosition;
 	Quaternion defaultCreatureRot;
 	bool flyingRoutineRunning = false;
