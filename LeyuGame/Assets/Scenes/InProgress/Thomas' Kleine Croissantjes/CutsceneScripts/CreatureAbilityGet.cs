@@ -54,6 +54,8 @@ public class CreatureAbilityGet : MonoBehaviour {
         //playerAnim.SetBool("IsBouncing", false);
         playerAnim.SetBool("IsAirborne", false);
 
+        creatureAnim.SetBool("isFlying", false);
+
         //Teleport to position on cutscene start:
         //player.transform.position = wayPointDraak.transform.position;
         //player.transform.rotation = Quaternion.Euler(10, wayPointDraak.transform.rotation.y, wayPointDraak.transform.rotation.y);
@@ -78,8 +80,7 @@ public class CreatureAbilityGet : MonoBehaviour {
 
         if (movingToCreature == true)
         {
-            Debug.Log("lol");
-        abilityPickUp.transform.position = Vector3.MoveTowards(abilityPickUp.transform.position, creature.transform.position, 5 * Time.deltaTime);
+        abilityPickUp.transform.position = Vector3.MoveTowards(abilityPickUp.transform.position, creature.transform.position, 3 * Time.deltaTime);
         abilityPickUp.transform.localScale -= new Vector3(0.02f, 0.02f, 0.02f);
         abilityPickUp.transform.localScale = new Vector3(Mathf.Clamp(abilityPickUp.transform.localScale.x,0,5), Mathf.Clamp(abilityPickUp.transform.localScale.y, 0, 5), Mathf.Clamp(abilityPickUp.transform.localScale.z, 0, 5));
         }
@@ -89,15 +90,25 @@ public class CreatureAbilityGet : MonoBehaviour {
     {
         //creatureAnim.SetBool("IsPlaying", true);
         //camOnCreature = true;
+
         yield return new WaitForSeconds(1f);
         abilityAnim.SetBool("IsPlaying", true);
+        creatureAnim.SetBool("isFlying", false);
+        creatureAnim.SetBool("isFlop", true);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.3f);
+        creatureAnim.SetBool("isFlop", false);
+
+        yield return new WaitForSeconds(1.7f);
         abilityAnim.enabled = false;
+        print("lol");
+        creatureAnim.SetBool("isUsingAbility", true);
         movingToCreature = true;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
+        creatureAnim.SetBool("isUsingAbility", false);
 
+        yield return new WaitForSeconds(1f);
         cutsceneCamera.SetActive(false);
         controllerSwitch.enabled = true;
 
@@ -106,6 +117,8 @@ public class CreatureAbilityGet : MonoBehaviour {
         //
         Destroy(abilityPickUp);
         Destroy(gameObject);
+
+        //Cutscene duration = 7seconden
     }
 
     void Update()
