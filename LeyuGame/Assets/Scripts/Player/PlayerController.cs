@@ -205,6 +205,25 @@ public class PlayerController : MonoBehaviour
 		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
 	}
 
+	void Hop ()
+	{
+		if (canHop) {
+			if (Input.GetButtonDown("A Button")) {
+				canHop = false;
+				if (velocity.y < 0)
+					velocity.y = 0;
+				velocity.y += hopVelocity;
+				GamePad.SetVibration(0, .2f, .2f);
+				KillVibration();
+				StartCoroutine(SuspendGroundedCheck());
+			}
+		} else {
+			if (Grounded()) {
+				canHop = true;
+			}
+		}
+	}
+
 	//FIXED UPDATE FUNCTIONS
 	void Movement ()
 	{
@@ -212,7 +231,6 @@ public class PlayerController : MonoBehaviour
 			if (leftStickInput.magnitude == 0) {
 				velocity.x = velocity.z = 0;
 			} else {
-				//BOUNCE VELOCITY
 				velocity = new Vector3(leftStickInput.x, 0, leftStickInput.y) * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
 				StartCoroutine(SuspendGroundedCheck());
 			}
@@ -241,27 +259,6 @@ public class PlayerController : MonoBehaviour
 
 			velocity.x = lateralSpeed.x;
 			velocity.z = lateralSpeed.y;
-		}
-	}
-
-	void Hop ()
-	{
-		if (canHop) {
-			if (Input.GetButtonDown("A Button")) {
-				isHopping = true;
-				canHop = false;
-				if (velocity.y < 0)
-					velocity.y = 0;
-				velocity.y += hopVelocity;
-				GamePad.SetVibration(0, .2f, .2f);
-				KillVibration();
-				StartCoroutine(SuspendGroundedCheck());
-			}
-		} else {
-			if (Grounded()) {
-				isHopping = false;
-				canHop = true;
-			}
 		}
 	}
 
@@ -317,6 +314,12 @@ public class PlayerController : MonoBehaviour
 				groundType = 0;
 			if (groundedRayHit.transform.tag == "Amethyst")
 				groundType = 3;
+
+			//beetje lelijk dit
+			canHop = true;
+			for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+				launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
+			}
 
 			return true;
 		} else {
