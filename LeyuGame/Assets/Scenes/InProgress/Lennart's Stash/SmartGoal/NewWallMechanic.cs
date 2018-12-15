@@ -101,21 +101,21 @@ public class NewWallMechanic : MonoBehaviour
 
 	void CheckForFlying ()
 	{
-		if (currentCreatureLocation == 0) {
-			if (Vector3.Distance(defaultCreaturePos, player.transform.position) < flyInOutRange) {
-				if (!flyingRoutineRunning) {
-					flyingRoutineRunning = true;
-					StartCoroutine(FlyIn());
+			if (currentCreatureLocation == 0) {
+				if (Vector3.Distance(defaultCreaturePos, player.transform.position) < flyInOutRange) {
+					if (!flyingRoutineRunning) {
+						flyingRoutineRunning = true;
+						StartCoroutine(FlyIn());
+					}
+				}
+			} else if (currentCreatureLocation == gameObject.GetInstanceID()) {
+				if (Vector3.Distance(defaultCreaturePos, player.transform.position) > flyInOutRange) {
+					if (!flyingRoutineRunning) {
+						flyingRoutineRunning = true;
+						StartCoroutine(FlyOut());
+					}
 				}
 			}
-		} else if (currentCreatureLocation == gameObject.GetInstanceID()) {
-			if (Vector3.Distance(defaultCreaturePos, player.transform.position) > flyInOutRange) {
-				if (!flyingRoutineRunning) {
-					flyingRoutineRunning = true;
-					StartCoroutine(FlyOut());
-				}
-			}
-		}
 	}
 
 	void TriggerSequence ()
@@ -154,6 +154,8 @@ public class NewWallMechanic : MonoBehaviour
 
 				//SPAWN OBJECTS
 				creatureSpawnsPlatforms = true;
+				readyForSequence = false;
+				enableSequence = false;
 				StartCoroutine(CreatureDoesTrick());
 			}
 		}
@@ -162,7 +164,7 @@ public class NewWallMechanic : MonoBehaviour
 	void StartJump ()
 	{
 		if (Input.GetButtonDown("A Button") && sequenceIsRunning && !playerIsJumping) {
-			PlayerAudio.PlayWallJump();
+			
 			playerIsJumping = true;
 			StartCoroutine(MakeJump(() => { playerIsJumping = false; }));
 		}
@@ -170,12 +172,16 @@ public class NewWallMechanic : MonoBehaviour
 
 	IEnumerator MakeJump (System.Action callback)
 	{
+		pressButtonPopup.SetActive(false);
 		player.transform.LookAt(platformTransforms[activePlatform]);
 		playerAnim.SetBool("IsBouncing", true);
+		PlayerAudio.PlayWallJump();
 
+		//Set current and target positions for calculations
 		Vector3 currentPos = player.transform.position,
 			nextPos = platformTransforms[activePlatform].position + new Vector3(0, playerPlatformOffset, 0);
 
+		//apexModifier moves the apex of the player's jump towards the higher of either the starting or target platform to create a better arc
 		float heightDif = nextPos.y - currentPos.y;
 		float apexModifier = -.2f;
 		if (heightDif > -4) {
@@ -196,6 +202,7 @@ public class NewWallMechanic : MonoBehaviour
 			}
 		}
 
+		//5 points are set at different stages of the jump with a y-axis offset to create an arc
 		Vector3[] points = new Vector3[] {
 			Vector3.Lerp(currentPos, nextPos, .32f + apexModifier) + Vector3.up * 3.8f,
 			Vector3.Lerp(currentPos, nextPos, .38f + apexModifier) + Vector3.up * 4.5f,
@@ -205,8 +212,8 @@ public class NewWallMechanic : MonoBehaviour
 			nextPos
 		};
 
+		//Do da move
 		int pointIndex = 0;
-
 		while (true) {
 			sequenceCamera.transform.position = Vector3.MoveTowards(sequenceCamera.transform.position, platformTransforms[activePlatform].transform.GetChild(0).position, cameraMovementSpeed * Time.deltaTime);
 
@@ -228,18 +235,22 @@ public class NewWallMechanic : MonoBehaviour
 			yield return null;
 		}
 
+		//Finalize the jump
 		playerAnim.SetBool("IsBouncing", false);
 		playerRig.velocity = new Vector3(0, 0, 0);
 		player.transform.Rotate(new Vector3(-player.transform.eulerAngles.x, 0, -player.transform.eulerAngles.z));
 		++activePlatform;
 		if (activePlatform >= platformTransforms.Count) {
 			StartCoroutine(EndSequence());
+		} else {
+			pressButtonPopup.SetActive(true);
 		}
 		callback();
 	}
 
 	IEnumerator EndSequence ()
 	{
+		sequenceIsRunning = false;
 		player.transform.rotation = platformTransforms[platformTransforms.Count - 1].rotation;
 		player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
 		playerRig.velocity = new Vector3(0, 0, 0);
@@ -269,7 +280,7 @@ public class NewWallMechanic : MonoBehaviour
 			platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
 		}
 
-		sequenceIsRunning = false;
+		readyForSequence = true;
 	}
 
 	IEnumerator CreatureDoesTrick ()
@@ -331,6 +342,7 @@ public class NewWallMechanic : MonoBehaviour
 		moustacheBoi.transform.LookAt(flyInPosition);
 		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
 		moustacheBoi.SetActive(true);
+
 		MoustacheBoiAudio.PlayFlaps();
 		moustacheAnimator.SetBool("isFlying", true);
 
@@ -355,7 +367,6 @@ public class NewWallMechanic : MonoBehaviour
 
 		switch (preSequenceActivity) {
 			case PreSequenceActivities.None:
-				//SET IDLE ANIM TO PLAY
 				readyForSequence = true;
 				break;
 			case PreSequenceActivities.Waggle:

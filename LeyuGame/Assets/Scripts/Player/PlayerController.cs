@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 	public float modelRotationLerpFactor = .24f;
 	public float modelRotationMaximumXAngle = 40, modelRotationMinimumXAngle = -40;
 	Quaternion modelRotationDesiredRotation;
-	float modelRotationXAngle, modelRotationYAngle;
+	float modelXRotation, modelYRotation;
 
 	[Header("Movement Settings")]
 	public Vector3 leapingVelocity = new Vector3(0, 12.5f, 18);
@@ -192,16 +192,24 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	//HIER HEB IK DINGEN KAPOT GEMAAKT
 	void ModelRotation ()
 	{
-		modelRotationXAngle = Vector3.Angle(Vector3.forward, new Vector3(0, velocity.y, velocity.z));
+		modelXRotation = Vector3.Angle(Vector3.forward, new Vector3(0, velocity.y, velocity.z));
 		if (velocity.y > 0)
-			modelRotationXAngle = Mathf.Abs(modelRotationXAngle) * -1;
-		modelRotationXAngle = Mathf.Clamp(modelRotationXAngle, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
-		modelRotationYAngle = Vector3.Angle(Vector3.forward, new Vector3(velocity.x, 0, velocity.z));
-		if (velocity.x < 0)
-			modelRotationYAngle = Mathf.Abs(modelRotationYAngle) * -1;
-		modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelRotationXAngle, modelRotationYAngle, 0);
+			modelXRotation = Mathf.Abs(modelXRotation) * -1;
+		modelXRotation = Mathf.Clamp(modelXRotation, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
+
+		Vector3 lateralVelocity = new Vector3(velocity.x, 0, velocity.z);
+		if (lateralVelocity.magnitude > .1f) {
+			modelYRotation = Vector3.Angle(Vector3.forward, lateralVelocity);
+			if (velocity.x < 0)
+				modelYRotation = Mathf.Abs(modelYRotation) * -1;
+		}
+		if (Grounded()) {
+			modelYRotation -= Input.GetAxis("Right Stick X") * Time.deltaTime * cameraHorizontalSensitivity;
+		}
+		modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
 		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
 		dragonModel.transform.Rotate(0, 0, -dragonModel.transform.eulerAngles.z);
 	}
@@ -321,8 +329,10 @@ public class PlayerController : MonoBehaviour
 
 			//beetje lelijk dit
 			canHop = true;
-			for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-				launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
+			if (!isBuildingLaunch) {
+				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+					launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
+				}
 			}
 
 			return true;
