@@ -80,7 +80,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
         yield return new WaitForSeconds(3f);
         controllerSwitch.enabled = true;
-        controllerSwitch.canLaunch = true;
+        controllerSwitch.launchEnabled = true;
 
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         //playerBody.velocity = new Vector3(0, 0, 0);

@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 	RaycastHit cameraRayHit;
 
 	[Header("Launch Settings")]
-	public bool canLaunch = true;
+	public bool launchEnabled = true;
 	public float launchStageTwoTime = .7f;
 	public Vector3 launchStageOneForce = new Vector3(0, 35, 10), launchStageTwoForce = new Vector3(0, 50, 22);
 	public Color launchStageOneColor = Color.green, launchStageTwoColor = Color.red;
@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour
 
 	void Launch ()
 	{
-		if (canLaunch && Input.GetAxis("Right Trigger") != 0) {
+		if (launchEnabled && Input.GetAxis("Right Trigger") != 0) {
 			if (!launchRoutineRunning) {
 				launchRoutineRunning = true;
 				StartCoroutine(LaunchRoutine());
