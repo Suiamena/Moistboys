@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 	public float modelRotationLerpFactor = .24f;
 	public float modelRotationMaximumXAngle = 40, modelRotationMinimumXAngle = -40;
 	Quaternion modelRotationDesiredRotation;
-	float modelXRotation, modelYRotation;
+	float modelXRotation, modelYRotation, modelZRotation;
 
 	[Header("Movement Settings")]
 	public Vector3 leapingVelocity = new Vector3(0, 12.5f, 18);
@@ -90,6 +90,10 @@ public class PlayerController : MonoBehaviour
 		rig = GetComponent<Rigidbody>();
 
 		cameraYAngle = transform.rotation.eulerAngles.y;
+		cameraDesiredPosition = transform.position + transform.rotation * cameraOffset;
+		cameraTrans.position = cameraDesiredPosition;
+		cameraDesiredTarget = transform.position + transform.rotation * cameraTarget;
+		cameraTrans.LookAt(cameraDesiredTarget);
 
 		animationModel = GameObject.Find("MOD_Draak");
 		animator = animationModel.GetComponent<Animator>();
@@ -207,9 +211,11 @@ public class PlayerController : MonoBehaviour
 		if (Grounded()) {
 			modelYRotation -= Input.GetAxis("Right Stick X") * Time.deltaTime * cameraHorizontalSensitivity;
 		}
+
+
+
 		modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
 		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
-		dragonModel.transform.Rotate(0, 0, -dragonModel.transform.eulerAngles.z);
 	}
 
 	void Hop ()
@@ -410,6 +416,7 @@ public class PlayerController : MonoBehaviour
 		animator.SetBool("IsAirborne", false);
 
 		//DISABLE PLAYER MOVEMENT
+		leftStickInput = Vector3.zero;
 		velocity = new Vector3(0, 0, 0);
 		transform.rotation = Quaternion.Euler(0, 0, 0);
 		rig.velocity = Vector3.zero;
@@ -419,7 +426,10 @@ public class PlayerController : MonoBehaviour
 	public void EnablePlayer ()
 	{
 		enabled = true;
-		cameraYAngle = 0;
+		cameraYAngle = transform.eulerAngles.y;
+		cameraDesiredTarget = transform.position + transform.rotation * cameraTarget;
+		cameraTrans.LookAt(cameraDesiredTarget);
+		modelYRotation = 0;
 	}
 
 	//COROUTINES

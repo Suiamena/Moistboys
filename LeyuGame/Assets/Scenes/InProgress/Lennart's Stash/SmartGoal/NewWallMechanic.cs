@@ -83,6 +83,7 @@ public class NewWallMechanic : MonoBehaviour
 			platformDefaultPositions.Add(platformTransforms[i].position);
 			platformTransforms[i].position += platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
 		}
+		platformTransforms[platformTransforms.Count - 1].gameObject.SetActive(false);
 
 		if (preSequenceActivity == PreSequenceActivities.Waggle) {
 			flyInPosition = wagglePrefab.transform.GetChild(0).position;
@@ -254,6 +255,7 @@ public class NewWallMechanic : MonoBehaviour
 		player.transform.rotation = platformTransforms[platformTransforms.Count - 1].rotation;
 		player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
 		playerRig.velocity = new Vector3(0, 0, 0);
+		playerScript.cameraTrans.position = sequenceCamera.transform.position;
 		playerScript.EnablePlayer();
 
 		sequenceCamera.SetActive(false);
