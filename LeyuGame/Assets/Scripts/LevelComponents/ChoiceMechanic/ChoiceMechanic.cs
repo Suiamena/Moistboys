@@ -220,7 +220,7 @@ public class ChoiceMechanic : MonoBehaviour {
         playerabilityMoves = false;
         yield return new WaitForSeconds(2F);
         //player loses ability
-        playerScript.canLaunch = false;
+        playerScript.launchEnabled = false;
 
         //CREAUTRE NADENKEN ANIMAITE
 
@@ -352,7 +352,7 @@ public class ChoiceMechanic : MonoBehaviour {
         if (competentScript.playerChooseCompetence)
         {
             moustacheBoiAnim.SetBool("goodBye", true);
-            playerScript.canLaunch = true;
+            playerScript.launchEnabled = true;
         }
         else
         {

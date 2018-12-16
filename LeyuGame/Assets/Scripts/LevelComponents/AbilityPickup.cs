@@ -34,7 +34,7 @@ public class AbilityPickup : MonoBehaviour
     IEnumerator GrabAbility()
     {
         yield return new WaitForSeconds(1F);
-        playerScript.canLaunch = true;
+        playerScript.launchEnabled = true;
         //SET UI ACTIVE AS WELL!
         musicManager.SetActive(true);
         Destroy(abilitySphere);
