@@ -24,10 +24,10 @@ public class PlayerController : MonoBehaviour
 	public Vector3 cameraOffset = new Vector3(0, 3, -7.5f), cameraTarget = new Vector3(0, 0, 3);
 	public float cameraHorizontalSensitivity = 130, cameraVerticalSensitivity = 90f, cameraXRotationMaxClamp = 50, cameraXRotationMinClamp = -50;
 	[Range(0.0f, 1.0f)]
-	public float cameraPositionSmooting = .12f;
+	public float cameraPositionSmooting = .12f, cameraTargetSmoothing = .32f;
 	public float cameraVerticalInfluenceThreshold = 14, cameraVerticalInfluenceFactor = .06f;
 	float cameraVerticalInfluence = 0, cameraXAngle = 0, cameraYAngle = 0;
-	Vector3 cameraDesiredPosition;
+	Vector3 cameraDesiredPosition, cameraDesiredTarget;
 	Quaternion cameraRotation;
 	RaycastHit cameraRayHit;
 
@@ -158,7 +158,8 @@ public class PlayerController : MonoBehaviour
 		} else {
 			cameraVerticalInfluence = 0;
 		}
-		cameraTrans.LookAt(transform.position + cameraRotation * (cameraTarget + new Vector3(0, cameraVerticalInfluence, 0)));
+		cameraDesiredTarget = Vector3.Lerp(cameraDesiredTarget, transform.position + cameraRotation * (cameraTarget + new Vector3(0, cameraVerticalInfluence, 0)), cameraTargetSmoothing);
+		cameraTrans.LookAt(cameraDesiredTarget);
 	}
 
 	void LandingIndicator ()
@@ -168,10 +169,8 @@ public class PlayerController : MonoBehaviour
 		landingIndicatorRay = new Ray(transform.position, Vector3.up * -1);
 		if (Physics.Raycast(landingIndicatorRay, out landingIndicatorRayHit)) {
 			landingIndicatorPosition.y = landingIndicatorRayHit.point.y;
+			landingIndicatorTrans.up = landingIndicatorRayHit.normal;
 		}
-
-		landingIndicatorYRotation = transform.eulerAngles.y;
-		landingIndicatorTrans.eulerAngles = new Vector3(0, landingIndicatorYRotation, 0);
 
 		if (useLandingIndicatorOnlyWhenAirborne && Grounded()) {
 			landingIndicatorTrans.gameObject.SetActive(false);
@@ -191,8 +190,7 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 	}
-
-	//HIER HEB IK DINGEN KAPOT GEMAAKT
+	
 	void ModelRotation ()
 	{
 		modelXRotation = Vector3.Angle(Vector3.forward, new Vector3(0, velocity.y, velocity.z));
