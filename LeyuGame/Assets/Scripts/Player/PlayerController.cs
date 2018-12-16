@@ -216,6 +216,10 @@ public class PlayerController : MonoBehaviour
 
 		modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
 		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
+		if (transform.eulerAngles.z < -10 || transform.eulerAngles.z > 10)
+			Debug.Log("Transform");
+		if (dragonModel.transform.eulerAngles.z < -10 || dragonModel.transform.eulerAngles.z > 10)
+			Debug.Log("Dragon");
 	}
 
 	void Hop ()
@@ -287,21 +291,8 @@ public class PlayerController : MonoBehaviour
 				if (velocity.y > 0)
 					velocity.y = 0;
 			}
-
-			//SmoothLanding();
 		} else {
 			velocity.y = 0;
-		}
-	}
-
-	void SmoothLanding ()
-	{
-		float range = 10f;
-		RaycastHit smoothingRayHit;
-		if (velocity.y < 0) {
-			if (Physics.Raycast(transform.position, -Vector3.up, out smoothingRayHit, range)) {
-				velocity.y = Mathf.Clamp(velocity.y, -Vector3.Distance(transform.position, smoothingRayHit.point) - 14, 0);
-			}
 		}
 	}
 

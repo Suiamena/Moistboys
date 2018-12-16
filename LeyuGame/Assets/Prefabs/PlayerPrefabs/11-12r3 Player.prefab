@@ -903,7 +903,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4382218577737314}
   m_Layer: 0
-  m_Name: joint34
+  m_Name: Hair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3031,15 +3031,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1761822066758996}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -82.835754, y: 3.0078864, z: -14.000011}
+  m_LocalRotation: {x: 0.023422109, y: 0.7327067, z: -0.059410572, w: 0.67754155}
+  m_LocalPosition: {x: -500.4, y: 215.47, z: 401.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4868518970651552}
   - {fileID: 4180647625726374}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 94.32101, z: 0}
 --- !u!4 &4618219568519596
 Transform:
   m_ObjectHideFlags: 1
@@ -3861,14 +3861,14 @@ MonoBehaviour:
   m_Root: {fileID: 4618219568519596}
   m_UpdateRate: 60
   m_UpdateMode: 0
-  m_Damping: 0.4
+  m_Damping: 0.6
   m_DampingDistrib:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_Elasticity: 0.1
+  m_Elasticity: 0.24
   m_ElasticityDistrib:
     serializedVersion: 2
     m_Curve: []
@@ -4062,14 +4062,14 @@ MonoBehaviour:
   m_Root: {fileID: 4382218577737314}
   m_UpdateRate: 60
   m_UpdateMode: 0
-  m_Damping: 0.4
+  m_Damping: 0.6
   m_DampingDistrib:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_Elasticity: 0.1
+  m_Elasticity: 0.24
   m_ElasticityDistrib:
     serializedVersion: 2
     m_Curve: []
@@ -4198,14 +4198,14 @@ MonoBehaviour:
   m_Root: {fileID: 4042911098464100}
   m_UpdateRate: 60
   m_UpdateMode: 0
-  m_Damping: 0.4
+  m_Damping: 0.6
   m_DampingDistrib:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_Elasticity: 0.1
+  m_Elasticity: 0.24
   m_ElasticityDistrib:
     serializedVersion: 2
     m_Curve: []
@@ -4292,14 +4292,14 @@ MonoBehaviour:
   m_Root: {fileID: 4453080528563224}
   m_UpdateRate: 60
   m_UpdateMode: 0
-  m_Damping: 0.4
+  m_Damping: 0.6
   m_DampingDistrib:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_Elasticity: 0.1
+  m_Elasticity: 0.24
   m_ElasticityDistrib:
     serializedVersion: 2
     m_Curve: []
@@ -4653,7 +4653,7 @@ MonoBehaviour:
   cameraTargetSmoothing: 0.32
   cameraVerticalInfluenceThreshold: 16
   cameraVerticalInfluenceFactor: 0.05
-  canLaunch: 1
+  launchEnabled: 1
   launchStageTwoTime: 0.7
   launchStageOneForce: {x: 0, y: 35, z: 10}
   launchStageTwoForce: {x: 0, y: 50, z: 22}
@@ -4662,9 +4662,9 @@ MonoBehaviour:
   launchRenderer: {fileID: 137529675071899428}
   creatureWallsEnabled: 1
   creatureWallJumpSpeed: 40
-  modelRotationLerpFactor: 0.12
+  modelRotationLerpFactor: 0.15
   modelRotationMaximumXAngle: 20
-  modelRotationMinimumXAngle: -40
+  modelRotationMinimumXAngle: -25
   leapingVelocity: {x: 0, y: 12.5, z: 18}
   snowLeapingVelocity: {x: 0, y: 8, z: 14}
   airborneMovementSpeed: 25
