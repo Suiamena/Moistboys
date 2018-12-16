@@ -5,10 +5,6 @@ using XInputDotNetPure;
 
 public class NewWallMechanic : MonoBehaviour
 {
-
-	//DEBUG STUFF
-	float distanceToNextPlatform;
-
 	public static int currentCreatureLocation = 0;
 
 	public enum PreSequenceActivities { Waggle, Sneeze, WelcomeBack, None };
@@ -102,6 +98,7 @@ public class NewWallMechanic : MonoBehaviour
 
 	void CheckForFlying ()
 	{
+		if (playerScript.creatureWallsEnabled) {
 			if (currentCreatureLocation == 0) {
 				if (Vector3.Distance(defaultCreaturePos, player.transform.position) < flyInOutRange) {
 					if (!flyingRoutineRunning) {
@@ -117,6 +114,7 @@ public class NewWallMechanic : MonoBehaviour
 					}
 				}
 			}
+		}
 	}
 
 	void TriggerSequence ()
@@ -165,7 +163,7 @@ public class NewWallMechanic : MonoBehaviour
 	void StartJump ()
 	{
 		if (Input.GetButtonDown("A Button") && sequenceIsRunning && !playerIsJumping) {
-			
+
 			playerIsJumping = true;
 			StartCoroutine(MakeJump(() => { playerIsJumping = false; }));
 		}
