@@ -710,6 +710,7 @@ GameObject:
   - component: {fileID: 4109438286441326}
   - component: {fileID: 20414641739275422}
   - component: {fileID: 114229537701440764}
+  - component: {fileID: 114378701594336438}
   m_Layer: 0
   m_Name: SequenceCamera
   m_TagString: Untagged
@@ -3158,15 +3159,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1713883852804446}
-  m_LocalRotation: {x: -0, y: -0.019511893, z: -0, w: -0.9998097}
-  m_LocalPosition: {x: 0.07, y: 20.86, z: 29.55}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 37.5, z: 15.93}
   m_LocalScale: {x: 1.9937, y: 1.9937, z: 1.9937}
   m_Children:
   - {fileID: 4544645996776718}
   - {fileID: 4032180346215780}
   m_Father: {fileID: 4049868745716686}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 362.236, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4641193695660238
 Transform:
   m_ObjectHideFlags: 1
@@ -3968,7 +3969,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1988004661804146}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4629,6 +4630,18 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114378701594336438
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1349004755425030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 5325f7d3a2c9926439c296532c237a32, type: 2}
 --- !u!114 &114439325534039384
 MonoBehaviour:
   m_ObjectHideFlags: 1
