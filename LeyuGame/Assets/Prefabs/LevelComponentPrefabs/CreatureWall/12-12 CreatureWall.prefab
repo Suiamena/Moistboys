@@ -710,6 +710,7 @@ GameObject:
   - component: {fileID: 4109438286441326}
   - component: {fileID: 20414641739275422}
   - component: {fileID: 114229537701440764}
+  - component: {fileID: 114378701594336438}
   m_Layer: 0
   m_Name: SequenceCamera
   m_TagString: Untagged
@@ -2030,7 +2031,6 @@ GameObject:
   - component: {fileID: 4032180346215780}
   - component: {fileID: 33467665419356754}
   - component: {fileID: 23343337446249850}
-  - component: {fileID: 65369419925317284}
   m_Layer: 0
   m_Name: Nose
   m_TagString: Untagged
@@ -2157,7 +2157,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1988004661804146}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.049, y: 0, z: 0.461}
+  m_LocalPosition: {x: 0.049, y: 0, z: 1}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 4640195449199616}
@@ -2893,7 +2893,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1860373618450110}
   m_LocalRotation: {x: -0, y: 0.98869264, z: -0, w: -0.1499568}
-  m_LocalPosition: {x: 0.51, y: 19.66, z: 42.35}
+  m_LocalPosition: {x: 0.51, y: 36.2, z: 42.35}
   m_LocalScale: {x: 0.325, y: 0.325, z: 0.325}
   m_Children:
   - {fileID: 4959728181950572}
@@ -3019,7 +3019,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1091725694149336}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: -6}
+  m_LocalPosition: {x: 0, y: 4, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4640195449199616}
@@ -3160,7 +3160,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1713883852804446}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 24, z: 28}
+  m_LocalPosition: {x: -0, y: 37.5, z: 15.93}
   m_LocalScale: {x: 1.9937, y: 1.9937, z: 1.9937}
   m_Children:
   - {fileID: 4544645996776718}
@@ -4074,7 +4074,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1713883852804446}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4264,18 +4264,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1080605875677786}
   m_Mesh: {fileID: 4300002, guid: b94966b9b66dfa34cbbf007882f3e036, type: 3}
---- !u!65 &65369419925317284
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1988004661804146}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &82131771830940688
 AudioSource:
   m_ObjectHideFlags: 1
@@ -4642,6 +4630,18 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114378701594336438
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1349004755425030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 5325f7d3a2c9926439c296532c237a32, type: 2}
 --- !u!114 &114439325534039384
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4850,8 +4850,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097c8f68fcb0a034480f9184395bd122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  preSequenceActivity: 2
-  sequenceActivity: 0
+  preSequenceActivity: 3
+  sequenceActivity: 2
   postSequenceActivity: 0
   moustacheBoi: {fileID: 1025580193816694}
   platformsObject: {fileID: 1011959572289608}

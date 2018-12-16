@@ -89,7 +89,7 @@ public class CreatureAbilityGet : MonoBehaviour {
         abilityPickUp.transform.position = Vector3.MoveTowards(abilityPickUp.transform.position, creature.transform.position, 3 * Time.deltaTime);
         abilityPickUp.transform.localScale -= new Vector3(0.02f, 0.02f, 0.02f);
         abilityPickUp.transform.localScale = new Vector3(Mathf.Clamp(abilityPickUp.transform.localScale.x,0,5), Mathf.Clamp(abilityPickUp.transform.localScale.y, 0, 5), Mathf.Clamp(abilityPickUp.transform.localScale.z, 0, 5));
-            abilityLightIntensity.intensity -= 0.02f;
+        abilityLightIntensity.intensity -= 0.02f;
         }
     }
 

@@ -16,7 +16,8 @@ public class DragonAbilityGetScript : MonoBehaviour {
     Animator abilityAnim;
     bool movingToCreature = false;
 
-    public GameObject musicLevelThree;
+    GameObject abilityLight;
+    Light abilityLightIntensity;
 
     void Start ()
     {
@@ -32,6 +33,9 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
         abilityAnim = abilityPickUp.GetComponent<Animator>();
         abilityAnim.SetBool("IsPlaying", false);
+
+        abilityLight = GameObject.Find("OrangeLight");
+        abilityLightIntensity = abilityLight.GetComponent<Light>();
     }
 
     void OnTriggerEnter()
@@ -57,6 +61,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
         if (movingToCreature == true)
         {
             //MOGELIJK WAYPOINT VOOR ABILITY IMPLEMENTEREN IN PLAYER CHARACTER
+            abilityLightIntensity.intensity -= 0.02f;
             abilityPickUp.transform.position = Vector3.MoveTowards(abilityPickUp.transform.position, new Vector3(player.transform.position.x, player.transform.position.y +1, player.transform.position.z), 5 * Time.deltaTime);
             abilityPickUp.transform.localScale -= new Vector3(0.015f, 0.015f, 0.015f);
             abilityPickUp.transform.localScale = new Vector3(Mathf.Clamp(abilityPickUp.transform.localScale.x, 0, 5), Mathf.Clamp(abilityPickUp.transform.localScale.y, 0, 5), Mathf.Clamp(abilityPickUp.transform.localScale.z, 0, 5));
@@ -76,11 +81,9 @@ public class DragonAbilityGetScript : MonoBehaviour {
         yield return new WaitForSeconds(1.8f);
         abilityAnim.enabled = false;
         movingToCreature = true;
-        musicLevelThree.SetActive(true);
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4f);
         controllerSwitch.enabled = true;
-        controllerSwitch.canLaunch = true;
 
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         //playerBody.velocity = new Vector3(0, 0, 0);

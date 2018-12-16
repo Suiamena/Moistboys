@@ -24,15 +24,15 @@ public class PlayerController : MonoBehaviour
 	public Vector3 cameraOffset = new Vector3(0, 3, -7.5f), cameraTarget = new Vector3(0, 0, 3);
 	public float cameraHorizontalSensitivity = 130, cameraVerticalSensitivity = 90f, cameraXRotationMaxClamp = 50, cameraXRotationMinClamp = -50;
 	[Range(0.0f, 1.0f)]
-	public float cameraPositionSmooting = .12f;
+	public float cameraPositionSmooting = .12f, cameraTargetSmoothing = .32f;
 	public float cameraVerticalInfluenceThreshold = 14, cameraVerticalInfluenceFactor = .06f;
 	float cameraVerticalInfluence = 0, cameraXAngle = 0, cameraYAngle = 0;
-	Vector3 cameraDesiredPosition;
+	Vector3 cameraDesiredPosition, cameraDesiredTarget;
 	Quaternion cameraRotation;
 	RaycastHit cameraRayHit;
 
 	[Header("Launch Settings")]
-	public bool canLaunch = true;
+	public bool launchEnabled = true;
 	public float launchStageTwoTime = .7f;
 	public Vector3 launchStageOneForce = new Vector3(0, 35, 10), launchStageTwoForce = new Vector3(0, 50, 22);
 	public Color launchStageOneColor = Color.green, launchStageTwoColor = Color.red;
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 	public float modelRotationLerpFactor = .24f;
 	public float modelRotationMaximumXAngle = 40, modelRotationMinimumXAngle = -40;
 	Quaternion modelRotationDesiredRotation;
-	float modelRotationXAngle, modelRotationYAngle;
+	float modelXRotation, modelYRotation, modelZRotation;
 
 	[Header("Movement Settings")]
 	public Vector3 leapingVelocity = new Vector3(0, 12.5f, 18);
@@ -90,6 +90,10 @@ public class PlayerController : MonoBehaviour
 		rig = GetComponent<Rigidbody>();
 
 		cameraYAngle = transform.rotation.eulerAngles.y;
+		cameraDesiredPosition = transform.position + transform.rotation * cameraOffset;
+		cameraTrans.position = cameraDesiredPosition;
+		cameraDesiredTarget = transform.position + transform.rotation * cameraTarget;
+		cameraTrans.LookAt(cameraDesiredTarget);
 
 		animationModel = GameObject.Find("MOD_Draak");
 		animator = animationModel.GetComponent<Animator>();
@@ -158,7 +162,8 @@ public class PlayerController : MonoBehaviour
 		} else {
 			cameraVerticalInfluence = 0;
 		}
-		cameraTrans.LookAt(transform.position + cameraRotation * (cameraTarget + new Vector3(0, cameraVerticalInfluence, 0)));
+		cameraDesiredTarget = Vector3.Lerp(cameraDesiredTarget, transform.position + cameraRotation * (cameraTarget + new Vector3(0, cameraVerticalInfluence, 0)), cameraTargetSmoothing);
+		cameraTrans.LookAt(cameraDesiredTarget);
 	}
 
 	void LandingIndicator ()
@@ -168,10 +173,8 @@ public class PlayerController : MonoBehaviour
 		landingIndicatorRay = new Ray(transform.position, Vector3.up * -1);
 		if (Physics.Raycast(landingIndicatorRay, out landingIndicatorRayHit)) {
 			landingIndicatorPosition.y = landingIndicatorRayHit.point.y;
+			landingIndicatorTrans.up = landingIndicatorRayHit.normal;
 		}
-
-		landingIndicatorYRotation = transform.eulerAngles.y;
-		landingIndicatorTrans.eulerAngles = new Vector3(0, landingIndicatorYRotation, 0);
 
 		if (useLandingIndicatorOnlyWhenAirborne && Grounded()) {
 			landingIndicatorTrans.gameObject.SetActive(false);
@@ -184,25 +187,39 @@ public class PlayerController : MonoBehaviour
 
 	void Launch ()
 	{
-		if (canLaunch && Input.GetAxis("Right Trigger") != 0) {
+		if (launchEnabled && Input.GetAxis("Right Trigger") != 0) {
 			if (!launchRoutineRunning) {
 				launchRoutineRunning = true;
 				StartCoroutine(LaunchRoutine());
 			}
 		}
 	}
-
+	
 	void ModelRotation ()
 	{
-		modelRotationXAngle = Vector3.Angle(Vector3.forward, new Vector3(0, velocity.y, velocity.z));
+		modelXRotation = Vector3.Angle(Vector3.forward, new Vector3(0, velocity.y, velocity.z));
 		if (velocity.y > 0)
-			modelRotationXAngle = Mathf.Abs(modelRotationXAngle) * -1;
-		modelRotationXAngle = Mathf.Clamp(modelRotationXAngle, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
-		modelRotationYAngle = Vector3.Angle(Vector3.forward, new Vector3(velocity.x, 0, velocity.z));
-		if (velocity.x < 0)
-			modelRotationYAngle = Mathf.Abs(modelRotationYAngle) * -1;
-		modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelRotationXAngle, modelRotationYAngle, 0);
+			modelXRotation = Mathf.Abs(modelXRotation) * -1;
+		modelXRotation = Mathf.Clamp(modelXRotation, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
+
+		Vector3 lateralVelocity = new Vector3(velocity.x, 0, velocity.z);
+		if (lateralVelocity.magnitude > .1f) {
+			modelYRotation = Vector3.Angle(Vector3.forward, lateralVelocity);
+			if (velocity.x < 0)
+				modelYRotation = Mathf.Abs(modelYRotation) * -1;
+		}
+		if (Grounded()) {
+			modelYRotation -= Input.GetAxis("Right Stick X") * Time.deltaTime * cameraHorizontalSensitivity;
+		}
+
+
+
+		modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
 		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
+		if (transform.eulerAngles.z < -10 || transform.eulerAngles.z > 10)
+			Debug.Log("Transform");
+		if (dragonModel.transform.eulerAngles.z < -10 || dragonModel.transform.eulerAngles.z > 10)
+			Debug.Log("Dragon");
 	}
 
 	void Hop ()
@@ -210,7 +227,7 @@ public class PlayerController : MonoBehaviour
 		if (canHop) {
 			if (Input.GetButtonDown("A Button")) {
 				canHop = false;
-                isHopping = true;
+				isHopping = true;
 				if (velocity.y < 0)
 					velocity.y = 0;
 				velocity.y += hopVelocity;
@@ -221,7 +238,7 @@ public class PlayerController : MonoBehaviour
 		} else {
 			if (Grounded()) {
 				canHop = true;
-            }
+			}
 		}
 	}
 
@@ -274,21 +291,8 @@ public class PlayerController : MonoBehaviour
 				if (velocity.y > 0)
 					velocity.y = 0;
 			}
-
-			//SmoothLanding();
 		} else {
 			velocity.y = 0;
-		}
-	}
-
-	void SmoothLanding ()
-	{
-		float range = 10f;
-		RaycastHit smoothingRayHit;
-		if (velocity.y < 0) {
-			if (Physics.Raycast(transform.position, -Vector3.up, out smoothingRayHit, range)) {
-				velocity.y = Mathf.Clamp(velocity.y, -Vector3.Distance(transform.position, smoothingRayHit.point) - 14, 0);
-			}
 		}
 	}
 
@@ -311,19 +315,19 @@ public class PlayerController : MonoBehaviour
 			} else {
 				inSnow = false;
 			}
-			if (groundedRayHit.transform.tag == "Rock")
-            {
-                groundType = 0;
-            }
-			if (groundedRayHit.transform.tag == "Amethyst")
-            {
-                groundType = 3;
-            }
+			if (groundedRayHit.transform.tag == "Rock") {
+				groundType = 0;
+			}
+			if (groundedRayHit.transform.tag == "Amethyst") {
+				groundType = 3;
+			}
 
 			//beetje lelijk dit
 			canHop = true;
-			for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-				launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
+			if (!isBuildingLaunch) {
+				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+					launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
+				}
 			}
 
 			return true;
@@ -403,16 +407,20 @@ public class PlayerController : MonoBehaviour
 		animator.SetBool("IsAirborne", false);
 
 		//DISABLE PLAYER MOVEMENT
+		leftStickInput = Vector3.zero;
 		velocity = new Vector3(0, 0, 0);
 		transform.rotation = Quaternion.Euler(0, 0, 0);
-		rig.velocity = velocity;
+		rig.velocity = Vector3.zero;
 		enabled = false;
 	}
 
 	public void EnablePlayer ()
 	{
 		enabled = true;
-		cameraYAngle = transform.rotation.y;
+		cameraYAngle = transform.eulerAngles.y;
+		cameraDesiredTarget = transform.position + transform.rotation * cameraTarget;
+		cameraTrans.LookAt(cameraDesiredTarget);
+		modelYRotation = 0;
 	}
 
 	//COROUTINES
