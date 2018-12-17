@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
 	public float modelRotationMaximumXAngle = 40, modelRotationMinimumXAngle = -40;
 	Quaternion modelRotationDesiredRotation;
 	float modelXRotation, modelYRotation, modelZRotation;
+	Vector3 modelLateralVelocity;
 
 	[Header("Movement Settings")]
 	public Vector3 leapingVelocity = new Vector3(0, 12.5f, 18);
@@ -202,24 +203,18 @@ public class PlayerController : MonoBehaviour
 			modelXRotation = Mathf.Abs(modelXRotation) * -1;
 		modelXRotation = Mathf.Clamp(modelXRotation, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
 
-		Vector3 lateralVelocity = new Vector3(velocity.x, 0, velocity.z);
-		if (lateralVelocity.magnitude > .1f) {
-			modelYRotation = Vector3.Angle(Vector3.forward, lateralVelocity);
+		modelLateralVelocity = new Vector3(velocity.x, 0, velocity.z);
+		if (modelLateralVelocity.magnitude > .1f) {
+			modelYRotation = Vector3.Angle(Vector3.forward, modelLateralVelocity);
 			if (velocity.x < 0)
-				modelYRotation = Mathf.Abs(modelYRotation) * -1;
+				modelYRotation *= -1;
 		}
 		if (Grounded()) {
 			modelYRotation -= Input.GetAxis("Right Stick X") * Time.deltaTime * cameraHorizontalSensitivity;
 		}
 
-
-
 		modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
 		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
-		if (transform.eulerAngles.z < -10 || transform.eulerAngles.z > 10)
-			Debug.Log("Transform");
-		if (dragonModel.transform.eulerAngles.z < -10 || dragonModel.transform.eulerAngles.z > 10)
-			Debug.Log("Dragon");
 	}
 
 	void Hop ()
