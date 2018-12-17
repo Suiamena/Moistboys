@@ -25,6 +25,8 @@ public class CreatureAbilityGet : MonoBehaviour {
     GameObject abilityLight;
     Light abilityLightIntensity;
 
+    public GameObject destructibleCreature;
+
     void Start()
     {
         player = GameObject.Find("Character");

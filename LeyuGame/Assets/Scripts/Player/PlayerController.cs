@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
 
 		cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmooting);
 
-		if (Physics.Raycast(transform.position, cameraDesiredPosition - transform.position, out cameraRayHit, Vector3.Distance(transform.position, cameraDesiredPosition))) {
+		if (Physics.Raycast(transform.position, Quaternion.Euler(cameraXAngle, cameraYAngle, 0) * cameraOffset, out cameraRayHit, Vector3.Distance(Vector3.zero, cameraOffset))) {
 			cameraTrans.position = cameraRayHit.point + cameraTrans.forward * .4f;
 		} else {
 			cameraTrans.position = cameraDesiredPosition;
@@ -403,8 +403,14 @@ public class PlayerController : MonoBehaviour
 		animator.SetBool("IsAirborne", false);
 
 		//DISABLE PLAYER MOVEMENT
-		leftStickInput = Vector3.zero;
+		leftStickInput = Vector2.zero;
+		rightStickInput = Vector2.zero;
 		velocity = new Vector3(0, 0, 0);
+		StopCoroutine(LaunchRoutine());
+		launchRoutineRunning = false;
+		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+			launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
+		}
 		transform.rotation = Quaternion.Euler(0, 0, 0);
 		rig.velocity = Vector3.zero;
 		enabled = false;
