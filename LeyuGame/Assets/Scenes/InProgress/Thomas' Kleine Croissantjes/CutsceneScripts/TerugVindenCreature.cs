@@ -131,7 +131,6 @@ public class TerugVindenCreature : MonoBehaviour
 
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         playerBody.velocity = new Vector3(0, 0, 0);
-        Level4Music.musicStage = 9.5f;
         //
         //Destroy(gameObject);
     }
@@ -159,8 +158,16 @@ public class TerugVindenCreature : MonoBehaviour
             Destroy(destructibleCreature);
             cutsceneCamera.SetActive(false);
             cameraMoving = false;
-            Destroy(gameObject);
+            StartCoroutine(DelayForMusic());
+            //Destroy(gameObject);
         }
+    }
+
+    IEnumerator DelayForMusic()
+    {
+        yield return new WaitForSeconds(1f);
+        Level4Music.musicStage = 9.5f;
+        Destroy(gameObject);
     }
 
 }
