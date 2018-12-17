@@ -21,12 +21,13 @@ GameObject:
   - component: {fileID: 4247798702856314}
   - component: {fileID: 33892947797410346}
   - component: {fileID: 23098589348146096}
+  - component: {fileID: 64843047133956454}
   m_Layer: 0
   m_Name: MOD_Platform_Hoog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4247798702856314
 Transform:
@@ -34,13 +35,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1165727659235766}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.22039133, z: -0, w: 0.9754116}
+  m_LocalPosition: {x: -111.97, y: 49.31, z: 218.86}
+  m_LocalScale: {x: 1.0477686, y: 0.60246336, z: 1.2096975}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -25.464, z: 0}
 --- !u!23 &23098589348146096
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -56,8 +57,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 31da05eff632db14790e9fbdcd236db8, type: 3}
-  - {fileID: 2100000, guid: 2ad26917d8056d74cb7f823c18851977, type: 2}
+  - {fileID: 2100000, guid: f41944dbd6753f2499a99287a2aa32e3, type: 2}
+  - {fileID: 2100000, guid: 9652b38f18882e948b721359d7193254, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,4 +84,18 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1165727659235766}
+  m_Mesh: {fileID: 4300000, guid: f3fdb500906b4224cbcd097d0f95f567, type: 3}
+--- !u!64 &64843047133956454
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165727659235766}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: f3fdb500906b4224cbcd097d0f95f567, type: 3}
