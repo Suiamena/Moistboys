@@ -287,6 +287,8 @@ public class NewWallMechanic : MonoBehaviour
 	{
 		bool readyToAdvance = false;
 
+		player.transform.LookAt(moustacheBoi.transform);
+		player.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
 		moustacheBoi.transform.LookAt(player.transform);
 		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
 
