@@ -68,6 +68,7 @@ public class NewWallMechanic : MonoBehaviour
 		defaultCreaturePos = moustacheBoi.transform.position;
 		defaultCreatureRot = moustacheBoi.transform.rotation;
 		moustacheBoi.SetActive(false);
+        currentCreatureLocation = 0;
 
 		moustacheAnimator = moustacheBoi.GetComponent<Animator>();
 
@@ -99,9 +100,10 @@ public class NewWallMechanic : MonoBehaviour
 	void CheckForFlying ()
 	{
 		if (playerScript.creatureWallsEnabled) {
+            Debug.Log("biug");
 			if (currentCreatureLocation == 0) {
-				if (Vector3.Distance(defaultCreaturePos, player.transform.position) < flyInOutRange) {
-					if (!flyingRoutineRunning) {
+                if (Vector3.Distance(defaultCreaturePos, player.transform.position) < flyInOutRange) {
+                    if (!flyingRoutineRunning) {
 						flyingRoutineRunning = true;
 						StartCoroutine(FlyIn());
 					}
