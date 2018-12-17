@@ -12,9 +12,11 @@ public class CreatureAbilityGet : MonoBehaviour {
     public GameObject cutsceneCamera;
     GameObject wayPointDraak;
     GameObject creature;
+    GameObject creatureBeweging;
     Vector3 distanceToWaypointDraak;
 
     Animator creatureAnim;
+    Animator creatureBewegingAnim;
 
     GameObject abilityPickUp;
     Animator abilityAnim;
@@ -30,7 +32,8 @@ public class CreatureAbilityGet : MonoBehaviour {
     void Start()
     {
         player = GameObject.Find("Character");
-        creature = GameObject.Find("Mod_Creature");
+        creature = GameObject.Find("AbilityCreature");
+        creatureBeweging = GameObject.Find("BewegingNaAbility");
         abilityPickUp = GameObject.Find("VFX_AbilityPickup_Blue");
 
         controllerSwitch = player.GetComponent<PlayerController>();
@@ -39,6 +42,8 @@ public class CreatureAbilityGet : MonoBehaviour {
         playerAnim = playerModel.GetComponent<Animator>();
         wayPointDraak = GameObject.Find("WaypointDraak2");
         creatureAnim = creature.GetComponent<Animator>();
+        creatureBewegingAnim = creatureBeweging.GetComponent<Animator>();
+        creatureBewegingAnim.SetBool("isPlaying", false);
         //creatureAnim.SetBool("IsPlaying", false);
 
         abilityAnim = abilityPickUp.GetComponent<Animator>();
@@ -110,21 +115,25 @@ public class CreatureAbilityGet : MonoBehaviour {
 
         yield return new WaitForSeconds(1.7f);
         abilityAnim.enabled = false;
-        print("lol");
+        print("Ability Gone");
         creatureAnim.SetBool("isUsingAbility", true);
         movingToCreature = true;
 
         yield return new WaitForSeconds(2f);
+        creatureBewegingAnim.SetBool("isPlaying", true);
         creatureAnim.SetBool("isUsingAbility", false);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
+        creatureAnim.SetBool("isFlying", true);
+
+        yield return new WaitForSeconds(5f);
         cutsceneCamera.SetActive(false);
         controllerSwitch.enabled = true;
         cutsceneCamera.SetActive(false);
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         playerBody.velocity = new Vector3(0, 0, 0);
         //
-
+        Destroy(destructibleCreature);
         Destroy(abilityPickUp);
         Destroy(gameObject);
 
