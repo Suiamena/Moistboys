@@ -120,7 +120,7 @@ public class TerugVindenCreature : MonoBehaviour {
         creatureAnim.SetBool("isFlying", true);
         //camOnCreature = true;
 
-        yield return new WaitForSeconds(5.75f);
+        yield return new WaitForSeconds(6f);
         cameraMoving = true;
         //cutsceneCamera.SetActive(false);
         triggerCollider.enabled = false;
