@@ -1,5 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -45,15 +43,18 @@ public class SceneSettings : MonoBehaviour
 			case 6:
 				switch (levelSixChoice) {
 					case LevelSixChoices.NoChoiceMade:
+                        Debug.Log("none");
 						player.launchEnabled = true;
 						player.creatureWallsEnabled = true;
 						break;
 					case LevelSixChoices.Launch:
-						player.launchEnabled = true;
+                        Debug.Log("launch");
+                        player.launchEnabled = true;
 						player.creatureWallsEnabled = false;
 						break;
 					case LevelSixChoices.CreatureWall:
-						player.launchEnabled = false;
+                        Debug.Log("creature");
+                        player.launchEnabled = false;
 						player.creatureWallsEnabled = true;
 						break;
 				}
