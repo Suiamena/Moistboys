@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 	[HideInInspector]
 	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch, isHopping, isLaunchingSuperSaiyan;
 	public GameObject dragonModel;
+	public LayerMask triggerMask;
 
 	[Header("Camera Settings")]
 	public Transform cameraTrans;
@@ -150,7 +151,7 @@ public class PlayerController : MonoBehaviour
 
 		cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmooting);
 
-		if (Physics.Raycast(transform.position, Quaternion.Euler(cameraXAngle, cameraYAngle, 0) * cameraOffset, out cameraRayHit, Vector3.Distance(Vector3.zero, cameraOffset))) {
+		if (Physics.Raycast(transform.position, Quaternion.Euler(cameraXAngle, cameraYAngle, 0) * cameraOffset, out cameraRayHit, Vector3.Distance(Vector3.zero, cameraOffset), triggerMask)) {
 			cameraTrans.position = cameraRayHit.point + cameraTrans.forward * .4f;
 		} else {
 			cameraTrans.position = cameraDesiredPosition;
@@ -283,7 +284,7 @@ public class PlayerController : MonoBehaviour
 				velocity.y -= gravityStrength * Time.fixedDeltaTime;
 
 			Ray ceilingDetectRay = new Ray(transform.position, transform.up);
-			if (Physics.SphereCast(ceilingDetectRay, .4f, .15f)) {
+			if (Physics.SphereCast(ceilingDetectRay, .4f, .15f, triggerMask)) {
 				if (velocity.y > 0)
 					velocity.y = 0;
 			}
@@ -301,7 +302,7 @@ public class PlayerController : MonoBehaviour
 
 		Ray groundedRay = new Ray(transform.position, Vector3.up * -1);
 		RaycastHit groundedRayHit;
-		if (Physics.SphereCast(groundedRay, .42f, out groundedRayHit, .1f)) {
+		if (Physics.SphereCast(groundedRay, .42f, out groundedRayHit, .1f, triggerMask)) {
 			playerIsAirborne = false;
 
 			//CHECK GROUND TYPE
