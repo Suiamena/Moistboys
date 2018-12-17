@@ -12,6 +12,8 @@ public class Level4Music : MonoBehaviour
 
     public static float musicStage;
 
+    public GameObject level4Ambience;
+
     private void Awake()
     {
         Music = FMODUnity.RuntimeManager.CreateInstance(music);
@@ -19,13 +21,13 @@ public class Level4Music : MonoBehaviour
         musicStage = 9.5f;
 
         AmbienceManager.windStage = 0.40f;
-        AmbienceManager.insideStage = 0f;
+        AmbienceManager.insideStage = 1f;
 
-        //AmbienceManager.amethystStage = 0f;
-        //AmbienceManager.amethystStage = 0.5f;
-        //AmbienceManager.amethystStage = 1f;
+        AmbienceManager.ToggleAmbience();
 
-        Music.start();
+        AmbienceManager.amethystStage = 1f;
+
+        //Music.start();
     }
 
     private void Update()

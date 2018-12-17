@@ -44,50 +44,8 @@ public class LoadLevelThree : MonoBehaviour
         {
             AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Level2Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            SceneManager.LoadScene("Level3-rough_lenny");
-            //if (!coroutineRunning)
-            //{
-            //    StartCoroutine(AvalancheFalls());
-            //    coroutineRunning = true;
-            //}
-
-            //if (coroutineRunning)
-            //{
-            //    if (!avalancheFall)
-            //    {
-            //        CreatureMoving();
-            //    }
-            //    else
-            //    {
-            //        AvalancheFalling();
-            //    }
-            //}
+            SceneManager.LoadScene("Level 3");
         }
     }
-
-   // void CreatureMoving()
-   // {
-   //     creature.transform.position = Vector3.MoveTowards(creature.transform.position, creatureTransformTarget.transform.position, creatureMovingSpeed * Time.deltaTime);
-   //}
-
-   // void AvalancheFalling()
-   // {
-   //     avalanche.transform.position = Vector3.MoveTowards(avalanche.transform.position, avalancheTransformTarget.transform.position, avalancheFallingSpeed * Time.deltaTime);
-   // }
-
-   // IEnumerator AvalancheFalls()
-   // {
-   //     playerCamera.SetActive(false);
-   //     cutsceneCamera.SetActive(true);
-   //     player.transform.position = new Vector3(player.transform.position.x, avalancheTransformTarget.transform.position.y, player.transform.position.z);
-   //     playerAnim.SetBool("IsLaunching", false);
-   //     playerAnim.SetBool("IsBouncing", false);
-   //     playerRig.velocity = new Vector3(0, 0, 0);
-   //     playerScript.enabled = false;
-   //     yield return new WaitForSeconds(5F);
-   //     avalancheFall = true;
-   //     yield return new WaitForSeconds(3F);
-   //     SceneManager.LoadScene("Level3_rough");
-   // }
 
 }

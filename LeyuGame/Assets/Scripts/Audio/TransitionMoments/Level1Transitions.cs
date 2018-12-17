@@ -10,7 +10,7 @@ public class Level1Transitions : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Level1Music.musicStage += 1;
+            Level1Music.musicStage = 2.5F;
             Destroy(gameObject);
         }
     }

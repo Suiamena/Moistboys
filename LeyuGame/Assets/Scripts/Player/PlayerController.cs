@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 	Rigidbody rig;
 	Vector3 velocity;
 	bool groundedSuspended = false;
-	Vector2 leftStickInput = new Vector2(0, 0);
+	Vector2 leftStickInput = new Vector2(0, 0), rightStickInput = new Vector2(0, 0);
 
 
 	//Animation Settings
@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
 	public float modelRotationMaximumXAngle = 40, modelRotationMinimumXAngle = -40;
 	Quaternion modelRotationDesiredRotation;
 	float modelXRotation, modelYRotation, modelZRotation;
+	Vector3 modelLateralVelocity;
 
 	[Header("Movement Settings")]
 	public Vector3 leapingVelocity = new Vector3(0, 12.5f, 18);
@@ -134,12 +135,13 @@ public class PlayerController : MonoBehaviour
 	void ProcessInputs ()
 	{
 		leftStickInput = new Vector2(Input.GetAxis("Left Stick X"), Input.GetAxis("Left Stick Y"));
+		rightStickInput = new Vector2(Input.GetAxis("Right Stick X"), Input.GetAxis("Right Stick Y"));
 	}
 
 	void CameraControl ()
 	{
-		cameraYAngle += Input.GetAxis("Right Stick X") * cameraHorizontalSensitivity * Time.deltaTime;
-		cameraXAngle = Mathf.Clamp(cameraXAngle - Input.GetAxis("Right Stick Y") * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
+		cameraYAngle += rightStickInput.x * cameraHorizontalSensitivity * Time.deltaTime;
+		cameraXAngle = Mathf.Clamp(cameraXAngle - rightStickInput.y * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
 		cameraRotation = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
 
 		if (Grounded()) {
@@ -194,7 +196,7 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 	}
-	
+
 	void ModelRotation ()
 	{
 		modelXRotation = Vector3.Angle(Vector3.forward, new Vector3(0, velocity.y, velocity.z));
@@ -202,24 +204,18 @@ public class PlayerController : MonoBehaviour
 			modelXRotation = Mathf.Abs(modelXRotation) * -1;
 		modelXRotation = Mathf.Clamp(modelXRotation, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
 
-		Vector3 lateralVelocity = new Vector3(velocity.x, 0, velocity.z);
-		if (lateralVelocity.magnitude > .1f) {
-			modelYRotation = Vector3.Angle(Vector3.forward, lateralVelocity);
+		modelLateralVelocity = new Vector3(velocity.x, 0, velocity.z);
+		if (modelLateralVelocity.magnitude > .1f) {
+			modelYRotation = Vector3.Angle(Vector3.forward, modelLateralVelocity);
 			if (velocity.x < 0)
-				modelYRotation = Mathf.Abs(modelYRotation) * -1;
+				modelYRotation *= -1;
 		}
 		if (Grounded()) {
-			modelYRotation -= Input.GetAxis("Right Stick X") * Time.deltaTime * cameraHorizontalSensitivity;
+			modelYRotation -= rightStickInput.x * Time.deltaTime * cameraHorizontalSensitivity;
 		}
-
-
 
 		modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
 		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
-		if (transform.eulerAngles.z < -10 || transform.eulerAngles.z > 10)
-			Debug.Log("Transform");
-		if (dragonModel.transform.eulerAngles.z < -10 || dragonModel.transform.eulerAngles.z > 10)
-			Debug.Log("Dragon");
 	}
 
 	void Hop ()
