@@ -56,7 +56,7 @@ public class LoadLevelTwo : MonoBehaviour {
         yield return new WaitForSeconds(3F);
         AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         Level1Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        SceneManager.LoadScene("Level2_rough");
+        SceneManager.LoadScene("Level 2");
     }
 
 }

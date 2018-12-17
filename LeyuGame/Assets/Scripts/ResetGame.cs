@@ -32,7 +32,7 @@ public class ResetGame : MonoBehaviour {
         {
             AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Level4Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            SceneManager.LoadScene("Level 4");
+            SceneManager.LoadScene("level 4");
         }
 
         if (Input.GetKeyDown("5"))
