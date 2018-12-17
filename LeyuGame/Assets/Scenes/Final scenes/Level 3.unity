@@ -15559,7 +15559,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &465990909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54604,6 +54604,7 @@ GameObject:
   - component: {fileID: 1675690097}
   - component: {fileID: 1675690099}
   - component: {fileID: 1675690098}
+  - component: {fileID: 1675690100}
   m_Layer: 0
   m_Name: bezier2
   m_TagString: Untagged
@@ -54669,6 +54670,20 @@ MeshFilter:
     type: 3}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1675690096}
+  m_Mesh: {fileID: 4300002, guid: 84e0bb50b328f654aae76aabaaf928c5, type: 3}
+--- !u!64 &1675690100
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1675690096}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300002, guid: 84e0bb50b328f654aae76aabaaf928c5, type: 3}
 --- !u!1 &1677210393
 GameObject:
@@ -61424,6 +61439,11 @@ Prefab:
         type: 2}
       propertyPath: m_UpdateRate
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 114854464322811296, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: launchEnabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114751690878793932, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
