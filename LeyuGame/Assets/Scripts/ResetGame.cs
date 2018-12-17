@@ -38,6 +38,7 @@ public class ResetGame : MonoBehaviour {
         if (Input.GetKeyDown("5"))
         {
             AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            Level1Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Level5Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             SceneManager.LoadScene("Level 5");
         }

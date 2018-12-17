@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ChoiceMechanic : MonoBehaviour {
+    [FMODUnity.EventRef]
+    public string glowStart = "event:/Objects/Glow_Start";
+    public static FMOD.Studio.EventInstance GlowStart;
 
     //Player Settings
     GameObject player;
@@ -80,6 +83,8 @@ public class ChoiceMechanic : MonoBehaviour {
         cutsceneCameraTwoTransformTarget = GameObject.Find("CameraTargetTwo");
         cutsceneCameraThreeTransformTarget = GameObject.Find("CameraTargetThree");
         cutsceneCameraThreeTransformTargetTwo = GameObject.Find("CameraTargetFour");
+
+        GlowStart = FMODUnity.RuntimeManager.CreateInstance(glowStart);
     }
 
     private void FixedUpdate()
@@ -155,7 +160,7 @@ public class ChoiceMechanic : MonoBehaviour {
         creatureToSource = false;
 
         //Ability is Lost
-        //ANIMATIE USE ABILITY
+        GlowStart.start();
         cutsceneCamera.transform.position = cutsceneCameraOneTransformTarget.transform.position;
         cutsceneCamera.transform.rotation = cutsceneCameraOneTransformTarget.transform.rotation;
         moustacheBoiAnim.SetBool("isUsingAbility", true);
@@ -247,6 +252,8 @@ public class ChoiceMechanic : MonoBehaviour {
         playerScript.EnablePlayer();
         secondCutsceneCamera.SetActive(false);
         secondCutsceneFinished = true;
+
+        moustacheBoiAnim.SetBool("isWaitingForChoice", true);
     }
 
     //END OF THE MECHANIC
@@ -278,6 +285,7 @@ public class ChoiceMechanic : MonoBehaviour {
 
     IEnumerator ActivateWarmthSource()
     {
+        moustacheBoiAnim.SetBool("isWaitingForChoice", false);
         playerScript.DisablePlayer();
 
         //EERST ANIMATIE CREATURE, DAN PAS ABILITIES BEWEGEN
@@ -364,7 +372,7 @@ public class ChoiceMechanic : MonoBehaviour {
             {
                 FindObjectOfType<SceneSettings>().levelSixChoice = SceneSettings.LevelSixChoices.CreatureWall;
                 moustacheBoiEnding.SetActive(true);
-                moustacheBoiCutscene.SetActive(true);
+                moustacheBoiCutscene.SetActive(false);
             }
         }
         else
