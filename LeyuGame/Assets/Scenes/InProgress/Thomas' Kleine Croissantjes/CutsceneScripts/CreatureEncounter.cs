@@ -10,6 +10,7 @@ public class CreatureEncounter : MonoBehaviour {
     GameObject playerModel;
     Animator playerAnim;
     public GameObject destructibleBoi;
+    public GameObject destructibleCreature;
     public GameObject cutsceneCamera;
     GameObject wayPointDraak;
     GameObject creature;

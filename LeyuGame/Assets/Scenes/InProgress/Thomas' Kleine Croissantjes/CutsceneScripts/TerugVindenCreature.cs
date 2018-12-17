@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerugVindenCreature : MonoBehaviour {
+public class TerugVindenCreature : MonoBehaviour
+{
 
     GameObject player;
     PlayerController controllerSwitch;
@@ -53,6 +54,7 @@ public class TerugVindenCreature : MonoBehaviour {
 
     void OnTriggerEnter()
     {
+        Level4Music.musicStage = 8.8f;
         cutsceneCamera.SetActive(true);
         StartCoroutine(CutsceneTime());
         controllerSwitch.enabled = false;
@@ -97,7 +99,7 @@ public class TerugVindenCreature : MonoBehaviour {
         dragonMoveToWaypoing = true;
 
         yield return new WaitForSeconds(1.5f);
-         //2.04 seconden voor dat de keyframes het creature omhoog uit de sneeuw verplaatsen
+        //2.04 seconden voor dat de keyframes het creature omhoog uit de sneeuw verplaatsen
         creatureAnim.SetBool("isFlying", true); // op seconde 2.04 moet het creature uit e sneeuw bewegen.
         creatureBewegingAnim.SetBool("isPlaying", true);
 
@@ -129,6 +131,7 @@ public class TerugVindenCreature : MonoBehaviour {
 
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         playerBody.velocity = new Vector3(0, 0, 0);
+        Level4Music.musicStage = 9.5f;
         //
         //Destroy(gameObject);
     }
