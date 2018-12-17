@@ -10,6 +10,7 @@ public class TerugVindenCreature : MonoBehaviour {
     GameObject playerModel;
     Animator playerAnim;
     public GameObject destructibleBoi;
+    public GameObject destructibleCreature;
     public GameObject cutsceneCamera;
     public GameObject wayPointDraak;
     GameObject creature;
@@ -94,12 +95,11 @@ public class TerugVindenCreature : MonoBehaviour {
     {
         //yield return new WaitForSeconds(1f);
         dragonMoveToWaypoing = true;
-        print(dragonMoveToWaypoing);
-        creatureBewegingAnim.SetBool("isPlaying", true);
 
         yield return new WaitForSeconds(1.5f);
          //2.04 seconden voor dat de keyframes het creature omhoog uit de sneeuw verplaatsen
         creatureAnim.SetBool("isFlying", true); // op seconde 2.04 moet het creature uit e sneeuw bewegen.
+        creatureBewegingAnim.SetBool("isPlaying", true);
 
         // pas na 2.04 seconde moet dus alles gebeuren.
         yield return new WaitForSeconds(0.5f); // 8sec into cutscene
@@ -120,7 +120,7 @@ public class TerugVindenCreature : MonoBehaviour {
         creatureAnim.SetBool("isFlying", true);
         //camOnCreature = true;
 
-        yield return new WaitForSeconds(4.5f);
+        yield return new WaitForSeconds(6f);
         cameraMoving = true;
         //cutsceneCamera.SetActive(false);
         triggerCollider.enabled = false;
@@ -130,7 +130,6 @@ public class TerugVindenCreature : MonoBehaviour {
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         playerBody.velocity = new Vector3(0, 0, 0);
         //
-
         //Destroy(gameObject);
     }
 
@@ -154,6 +153,7 @@ public class TerugVindenCreature : MonoBehaviour {
         {
             print("loooooooolll");
             //creatureAnim.SetBool("isFlying", false);
+            Destroy(destructibleCreature);
             cutsceneCamera.SetActive(false);
             cameraMoving = false;
             Destroy(gameObject);
