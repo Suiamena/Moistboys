@@ -16,7 +16,7 @@ public class Level2Music : MonoBehaviour
     {
         Music = FMODUnity.RuntimeManager.CreateInstance(music);
         Music.getParameter("Music", out MusicParameter);
-        musicStage = 4.5f;
+        //musicStage = 4.5f;
 
         AmbienceManager.windStage = 0.36f;
         AmbienceManager.insideStage = 0f;
