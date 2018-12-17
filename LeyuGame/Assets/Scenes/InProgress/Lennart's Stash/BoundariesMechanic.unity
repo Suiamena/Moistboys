@@ -642,6 +642,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &742059392 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1225064101708304, guid: c0075439fc873af429dd20b4fb25001e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1140166765}
 --- !u!1 &972049576
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,7 +859,21 @@ Prefab:
     - target: {fileID: 23414134782478838, guid: c0075439fc873af429dd20b4fb25001e,
         type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114492766588182488, guid: c0075439fc873af429dd20b4fb25001e,
+        type: 2}
+      propertyPath: storm
+      value: 
+      objectReference: {fileID: 742059392}
+    - target: {fileID: 1225064101708304, guid: c0075439fc873af429dd20b4fb25001e, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198966262892968836, guid: c0075439fc873af429dd20b4fb25001e,
+        type: 2}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0075439fc873af429dd20b4fb25001e, type: 2}
