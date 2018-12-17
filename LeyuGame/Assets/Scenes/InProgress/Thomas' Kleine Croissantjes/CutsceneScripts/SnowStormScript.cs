@@ -41,7 +41,7 @@ public class SnowStormScript : MonoBehaviour {
 	void Update () {
         if (accelerateSnowstorm)
         {
-            windStormStrength += 50f;
+            windStormStrength += 100F;
             windStormStrength = Mathf.Clamp(windStormStrength, 5000, 20000);
             emissionModule.rateOverTime = windStormStrength;
 
