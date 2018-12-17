@@ -12,7 +12,7 @@ public class LoadLevelSix : MonoBehaviour
         {
             AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Level5Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            SceneManager.LoadScene("Level6_rough");
+            SceneManager.LoadScene("Level 6");
         }
     }
 

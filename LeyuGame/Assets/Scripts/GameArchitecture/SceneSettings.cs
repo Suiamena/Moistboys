@@ -20,6 +20,7 @@ public class SceneSettings : MonoBehaviour
 		int sceneIndex = scene.buildIndex;
 		switch (sceneIndex) {
 			default:
+                levelSixChoice = LevelSixChoices.NoChoiceMade;
 				break;
 			case 1:
 				player.creatureWallsEnabled = false;
