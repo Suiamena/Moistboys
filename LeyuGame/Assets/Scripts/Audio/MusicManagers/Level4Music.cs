@@ -27,7 +27,7 @@ public class Level4Music : MonoBehaviour
 
         AmbienceManager.amethystStage = 1f;
 
-        //Music.start();
+        Music.start();
     }
 
     private void Update()
