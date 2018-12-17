@@ -100,9 +100,8 @@ public class NewWallMechanic : MonoBehaviour
 	void CheckForFlying ()
 	{
 		if (playerScript.creatureWallsEnabled) {
-            Debug.Log(currentCreatureLocation);
+            Debug.Log("biug");
 			if (currentCreatureLocation == 0) {
-                Debug.Log("current location 0");
                 if (Vector3.Distance(defaultCreaturePos, player.transform.position) < flyInOutRange) {
                     if (!flyingRoutineRunning) {
 						flyingRoutineRunning = true;
