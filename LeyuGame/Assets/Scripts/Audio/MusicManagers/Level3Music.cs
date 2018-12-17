@@ -12,7 +12,9 @@ public class Level3Music : MonoBehaviour
 
     public static float musicStage;
 
-    bool runCoroutineOnce;
+    public static bool startMusic;
+
+    bool startCoroutineOnce;
 
     private void Awake()
     {
@@ -31,17 +33,19 @@ public class Level3Music : MonoBehaviour
     {
         MusicParameter.setValue(musicStage);
 
-        if (!runCoroutineOnce)
+        if (startMusic)
         {
-            StartCoroutine(PlayCompetentMusic());
-            runCoroutineOnce = true;
+            if (!startCoroutineOnce)
+            {
+                StartCoroutine(DelayMusic());
+                startCoroutineOnce = true;
+            }
         }
     }
 
-    IEnumerator PlayCompetentMusic()
+    IEnumerator DelayMusic()
     {
-        musicStage = 6.5f;
-        yield return new WaitForSeconds(3F);
+        yield return new WaitForSeconds(3f);
         musicStage = 7.5f;
     }
 
