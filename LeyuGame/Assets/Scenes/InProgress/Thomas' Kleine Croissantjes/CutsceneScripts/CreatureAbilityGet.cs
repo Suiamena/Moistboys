@@ -55,6 +55,7 @@ public class CreatureAbilityGet : MonoBehaviour {
 
     void OnTriggerEnter()
     {
+        Level2Music.musicStage = 3.8f;
         cutsceneCamera.SetActive(true);
         StartCoroutine(CutsceneTime());
         controllerSwitch.enabled = false;
@@ -134,6 +135,7 @@ public class CreatureAbilityGet : MonoBehaviour {
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         playerBody.velocity = new Vector3(0, 0, 0);
         //
+        Level2Music.musicStage = 3.8f;
         Destroy(destructibleCreature);
         Destroy(abilityPickUp);
         Destroy(gameObject);
