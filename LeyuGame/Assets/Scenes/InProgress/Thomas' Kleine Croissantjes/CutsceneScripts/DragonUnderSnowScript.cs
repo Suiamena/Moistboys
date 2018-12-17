@@ -95,7 +95,6 @@ public class DragonUnderSnowScript : MonoBehaviour {
             yield return null;
         }
         Level3Music.musicStage = 5.9f;
-        yield return new WaitForSeconds(0.5f);
         controllerSwitch.enabled = true;
         print("playerHasMoved = " + playerHasMoved);
         ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;

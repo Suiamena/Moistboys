@@ -11,7 +11,7 @@ public class LoadLevelTwo : MonoBehaviour {
         {
             AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Level1Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            SceneManager.LoadScene("Level 3");
+            SceneManager.LoadScene("Level 2");
         }
     }
 
