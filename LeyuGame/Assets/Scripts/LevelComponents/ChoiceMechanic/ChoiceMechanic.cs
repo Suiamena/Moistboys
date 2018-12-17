@@ -356,7 +356,6 @@ public class ChoiceMechanic : MonoBehaviour {
         {
             if (competentScript.playerChooseCompetence)
             {
-                Debug.Log("competent");
                 FindObjectOfType<SceneSettings>().levelSixChoice = SceneSettings.LevelSixChoices.Launch;
                 moustacheBoiAnim.SetBool("goodBye", true);
                 playerScript.launchEnabled = true;
@@ -366,12 +365,10 @@ public class ChoiceMechanic : MonoBehaviour {
                 FindObjectOfType<SceneSettings>().levelSixChoice = SceneSettings.LevelSixChoices.CreatureWall;
                 moustacheBoiEnding.SetActive(true);
                 moustacheBoiCutscene.SetActive(true);
-                Debug.Log("social");
             }
         }
         else
         {
-            Debug.Log("auch");
         }
     }
 
