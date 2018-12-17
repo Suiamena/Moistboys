@@ -45,7 +45,7 @@ public class SE_SnowWaggle : MonoBehaviour, ISocialEncounter
 
 		//MOVE TO FINAL POSITION
 		float t = 0;
-		while (moustacheBoy.position != endPosition) {
+		while (Vector3.Distance(moustacheBoy.position, endPosition) > .1f) {
 			moustacheBoy.position = Vector3.MoveTowards(moustacheBoy.position, endPosition, movementSpeed * Time.deltaTime);
 			moustacheBoy.rotation = Quaternion.Euler(new Vector3(0, moustacheBoy.eulerAngles.y, Mathf.Sin(t / swayTime) * swayAngle));
 			t += Time.deltaTime;
