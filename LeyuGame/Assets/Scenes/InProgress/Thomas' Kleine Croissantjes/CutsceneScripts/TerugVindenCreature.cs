@@ -54,6 +54,7 @@ public class TerugVindenCreature : MonoBehaviour
 
     void OnTriggerEnter()
     {
+        Level4Music.musicStage = 8.8f;
         cutsceneCamera.SetActive(true);
         StartCoroutine(CutsceneTime());
         controllerSwitch.enabled = false;
@@ -130,6 +131,7 @@ public class TerugVindenCreature : MonoBehaviour
 
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         playerBody.velocity = new Vector3(0, 0, 0);
+        Level4Music.musicStage = 9.5f;
         //
         //Destroy(gameObject);
     }
