@@ -403,8 +403,14 @@ public class PlayerController : MonoBehaviour
 		animator.SetBool("IsAirborne", false);
 
 		//DISABLE PLAYER MOVEMENT
-		leftStickInput = Vector3.zero;
+		leftStickInput = Vector2.zero;
+		rightStickInput = Vector2.zero;
 		velocity = new Vector3(0, 0, 0);
+		StopCoroutine(LaunchRoutine());
+		launchRoutineRunning = false;
+		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+			launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
+		}
 		transform.rotation = Quaternion.Euler(0, 0, 0);
 		rig.velocity = Vector3.zero;
 		enabled = false;
