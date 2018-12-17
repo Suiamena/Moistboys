@@ -18,7 +18,6 @@ public class Level4Music : MonoBehaviour
     {
         Music = FMODUnity.RuntimeManager.CreateInstance(music);
         Music.getParameter("Music", out MusicParameter);
-        musicStage = 9.5f;
 
         AmbienceManager.windStage = 0.40f;
         AmbienceManager.insideStage = 1f;
@@ -32,8 +31,6 @@ public class Level4Music : MonoBehaviour
 
     private void Update()
     {
-        //musicStage = 8.5f for find CREATURE!
-
         MusicParameter.setValue(musicStage);
     }
 

@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
 
 		cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmooting);
 
-		if (Physics.Raycast(transform.position, cameraDesiredPosition - transform.position, out cameraRayHit, Vector3.Distance(transform.position, cameraDesiredPosition))) {
+		if (Physics.Raycast(transform.position, Quaternion.Euler(cameraXAngle, cameraYAngle, 0) * cameraOffset, out cameraRayHit, Vector3.Distance(Vector3.zero, cameraOffset))) {
 			cameraTrans.position = cameraRayHit.point + cameraTrans.forward * .4f;
 		} else {
 			cameraTrans.position = cameraDesiredPosition;

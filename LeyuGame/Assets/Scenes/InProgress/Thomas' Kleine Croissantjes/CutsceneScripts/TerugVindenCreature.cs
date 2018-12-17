@@ -54,6 +54,7 @@ public class TerugVindenCreature : MonoBehaviour
 
     void OnTriggerEnter()
     {
+        Level4Music.musicStage = 8.8f;
         cutsceneCamera.SetActive(true);
         StartCoroutine(CutsceneTime());
         controllerSwitch.enabled = false;
@@ -157,8 +158,16 @@ public class TerugVindenCreature : MonoBehaviour
             Destroy(destructibleCreature);
             cutsceneCamera.SetActive(false);
             cameraMoving = false;
-            Destroy(gameObject);
+            StartCoroutine(DelayForMusic());
+            //Destroy(gameObject);
         }
+    }
+
+    IEnumerator DelayForMusic()
+    {
+        yield return new WaitForSeconds(1f);
+        Level4Music.musicStage = 9.5f;
+        Destroy(gameObject);
     }
 
 }
