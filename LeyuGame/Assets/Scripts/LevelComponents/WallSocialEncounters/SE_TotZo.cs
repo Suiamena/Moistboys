@@ -16,6 +16,10 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 	Quaternion defaultCreatureRot;
 
 	//INITIAL BLOCK
+	public void Awake ()
+	{
+		moustacheBoy.gameObject.SetActive(false);
+	}
 	public void Initialize (Action proceedToExecute)
 	{
 		defaultCreaturePos = moustacheBoy.transform.position;
