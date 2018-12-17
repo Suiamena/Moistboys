@@ -55,7 +55,8 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 
 	IEnumerator Wave (Action proceedToEnd)
 	{
-		yield return new WaitForSeconds(.8f);
+		while (Vector3.Distance(moustacheBoy.position, player.transform.position) > NewWallMechanic.triggerAbilityRange)
+			yield return null;
 
 		MoustacheBoiAudio.PlayScreeches();
 		moustacheAnimator.SetBool("goodBye", true);

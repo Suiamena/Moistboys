@@ -12,6 +12,7 @@ public class PauseScreen : MonoBehaviour
 
 	public GameObject pauseScreen, controlsScreen, exitScreen;
 	PlayerController playerController;
+	bool shouldPlayerBeEnabled = true;
 
 	int optionSelected = 0;
 	public GameObject[] pauseOptionSelectors = new GameObject[3];
@@ -76,10 +77,10 @@ public class PauseScreen : MonoBehaviour
 					}
 					if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Start Button")) {
 						if (exitOption == 0) {
-                            AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-                            Level6Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-                            SceneManager.LoadScene("TitleScreen");
-                            Debug.Log("EXITING GAME");
+							AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+							Level6Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+							SceneManager.LoadScene("TitleScreen");
+							Debug.Log("EXITING GAME");
 						} else {
 							DeactivateExitScreen();
 						}
@@ -105,7 +106,12 @@ public class PauseScreen : MonoBehaviour
 		waitingForDPadReset = waitingForLeftStickReset = true;
 
 		Time.timeScale = 0;
-		playerController.enabled = false;
+		if (playerController.enabled == true) {
+			playerController.enabled = false;
+			shouldPlayerBeEnabled = true;
+		} else {
+			shouldPlayerBeEnabled = false;
+		}
 
 		pauseScreen.SetActive(true);
 		activeScreen = ActiveScreen.Pause;
@@ -114,7 +120,8 @@ public class PauseScreen : MonoBehaviour
 	void DeactivatePause ()
 	{
 		Time.timeScale = 1;
-		playerController.enabled = true;
+		if (shouldPlayerBeEnabled)
+			playerController.enabled = true;
 
 		optionSelected = 0;
 

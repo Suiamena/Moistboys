@@ -24,6 +24,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
     Animator cameraAnim;
 
     Vector3 distanceToPlayerCam;
+    float cameraSpeed = 0;
 
     void Start()
     {
@@ -60,34 +61,19 @@ public class DragonUnderSnowScript : MonoBehaviour {
 
             if (cameraMoving == true)
             {
-                cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, 25 * Time.deltaTime);
+                cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
+                cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, cameraSpeed * Time.deltaTime);
+                cameraSpeed += 1f;
             }
-
-
-
-            //TRIES TO MOVE TO ROTATION OF PLAYER MAIN CAMERA
-            //cutsceneCamera.transform.localRotation = Vector3.RotateTowards(cutsceneCamera.transform.localRotation, playerCamera.transform.localRotation, 50 * Time.deltaTime, 0.0f);
-            //cutsceneCamera.transform.rotation = Quaternion.Euler(playerCamera.transform.rotation.x, playerCamera.transform.rotation.y, playerCamera.transform.rotation.z,);
         }
 
         distanceToPlayerCam = cutsceneCamera.transform.position - playerCamera.transform.position;
         distanceToPlayerCam = new Vector3(Mathf.Abs(distanceToPlayerCam.x), distanceToPlayerCam.y, distanceToPlayerCam.z);
+        distanceToPlayerCam.x = Mathf.Abs(distanceToPlayerCam.x);
+        distanceToPlayerCam.y = Mathf.Abs(distanceToPlayerCam.y);
+        distanceToPlayerCam.z = Mathf.Abs(distanceToPlayerCam.z);
 
-        /*
-        if (distanceToPlayerCam.x < 1 && distanceToPlayerCam.y < 1 && distanceToPlayerCam.z < 1)
-        {
-            cutsceneCamera.transform.rotation = Quaternion.Euler(Mathf.Lerp(cutsceneCamera.transform.rotation.x, playerCamera.transform.rotation.x, 0.01f * Time.deltaTime), Mathf.Lerp(cutsceneCamera.transform.rotation.y, playerCamera.transform.rotation.y, 25 * Time.deltaTime), Mathf.Lerp(cutsceneCamera.transform.rotation.z, playerCamera.transform.rotation.z, 25 * Time.deltaTime));
-        }
-        else
-        {
-            if (playerHasMoved == true)
-            {
-                cutsceneCamera.transform.LookAt(player.transform.position);
-            }
-        }
-        */
-
-        if (distanceToPlayerCam.x < 0.1f && distanceToPlayerCam.y < 0.1f && distanceToPlayerCam.z < 0.1f)
+        if (distanceToPlayerCam.x < 0.7f && distanceToPlayerCam.y < 0.7f && distanceToPlayerCam.z < 0.7f)
         {
             cutsceneCamera.SetActive(false);
             cameraMoving = false;
