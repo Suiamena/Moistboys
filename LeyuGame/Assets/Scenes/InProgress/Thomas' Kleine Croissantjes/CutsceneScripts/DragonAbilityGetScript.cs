@@ -75,6 +75,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     IEnumerator CutsceneTime()
     {
+        Level3Music.musicStage = 6.5f;
         yield return new WaitForSeconds(0.5f);
         abilityAnim.SetBool("IsPlaying", true);
 
@@ -82,8 +83,12 @@ public class DragonAbilityGetScript : MonoBehaviour {
         abilityAnim.enabled = false;
         movingToCreature = true;
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2F);
+        yield return new WaitForSeconds(2f);
         controllerSwitch.enabled = true;
+        Level3Music.startMusic = true;
+
+        controllerSwitch.launchEnabled = true;
 
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         //playerBody.velocity = new Vector3(0, 0, 0);

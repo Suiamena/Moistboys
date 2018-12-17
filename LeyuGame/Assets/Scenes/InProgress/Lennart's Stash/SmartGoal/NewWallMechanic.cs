@@ -286,6 +286,10 @@ public class NewWallMechanic : MonoBehaviour
 	IEnumerator CreatureDoesTrick ()
 	{
 		bool readyToAdvance = false;
+
+		moustacheBoi.transform.LookAt(player.transform);
+		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
+
 		switch (sequenceActivity) {
 			case SequenceActivities.None:
 				readyToAdvance = true;
