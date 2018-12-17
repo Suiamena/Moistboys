@@ -1,5 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +10,6 @@ public class SceneSettings : MonoBehaviour
 	{
 		DontDestroyOnLoad(gameObject);
 		SceneManager.sceneLoaded += OnSceneLoaded;
-        Debug.Log("Scene settings loaded");
 	}
 
 	void OnSceneLoaded (Scene scene, LoadSceneMode loadSceneMode)
