@@ -83,7 +83,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
     IEnumerator CutsceneTime()
     {
         Level3Music.musicStage = 5.8f;
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
         fadingToWhite = true;
 
         yield return new WaitForSeconds(7f);
