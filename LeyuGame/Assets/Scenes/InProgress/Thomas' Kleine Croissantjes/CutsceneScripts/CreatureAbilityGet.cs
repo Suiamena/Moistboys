@@ -25,8 +25,7 @@ public class CreatureAbilityGet : MonoBehaviour {
     GameObject abilityLight;
     Light abilityLightIntensity;
 
-    public GameObject destructibleCreature1;
-    public GameObject destructibleCreature2;
+    public GameObject destructibleCreature;
 
     void Start()
     {
