@@ -4,38 +4,30 @@ using UnityEngine;
 
 public class CutsceneStorm : MonoBehaviour {
 
+    public GameObject storm;
     GameObject player;
 
-    float windStormStrength, particlesSpeed;
-
-    [Header("Particle Settings")]
-    public GameObject snowParticlesWindObject;
-    ParticleSystem snowParticlesSystem;
-    ParticleSystem.EmissionModule emissionModule;
-    ParticleSystem.MainModule main;
+    bool followPlayer = true;
 
     private void Awake()
     {
         player = GameObject.Find("Character");
-
-        snowParticlesSystem = snowParticlesWindObject.GetComponent<ParticleSystem>();
-        emissionModule = snowParticlesSystem.emission;
-        main = snowParticlesSystem.main;
     }
 
-    private void OnTriggerStay(Collider other)
+    private void Update()
+    {
+        if (followPlayer)
+        {
+            storm.transform.position = new Vector3(player.transform.position.x + 5, player.transform.position.y, player.transform.position.z);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            transform.position = player.transform.position;
-
-            windStormStrength += 50f;
-            windStormStrength = Mathf.Clamp(windStormStrength, 5000, 20000);
-            emissionModule.rateOverTime = windStormStrength;
-
-            particlesSpeed += 0.2f;
-            particlesSpeed = Mathf.Clamp(particlesSpeed, 10, 40);
-            main.startSpeed = particlesSpeed;
+            followPlayer = true;
+            storm.SetActive(true);
         }
     }
 
