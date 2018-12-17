@@ -884,7 +884,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4670423433883988}
   - component: {fileID: 95381088343525274}
-  - component: {fileID: 114751690878793932}
   - component: {fileID: 114723767916725252}
   - component: {fileID: 114830979312751834}
   - component: {fileID: 114243611803306818}
@@ -1243,6 +1242,8 @@ GameObject:
   - component: {fileID: 20082990098291558}
   - component: {fileID: 114132621748815038}
   - component: {fileID: 114442034689260846}
+  - component: {fileID: 114334743724402388}
+  - component: {fileID: 114974222757655976}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2031,7 +2032,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4186474323374720}
   m_Layer: 0
-  m_Name: joint8
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3319,8 +3320,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1229989705859406}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0.06692318, z: -0, w: 0.99775815}
+  m_LocalPosition: {x: -178.55032, y: 0.89, z: -332.56754}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4756745901767612}
@@ -3895,6 +3896,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114334743724402388
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1618563732747196}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12601acaf9af72343b85bace4eb57570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RenderOrder: 0
 --- !u!114 &114336940822684970
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4125,7 +4138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: 5325f7d3a2c9926439c296532c237a32, type: 2}
+  profile: {fileID: 11400000, guid: 8afc7b9cbf17d2b41bea2c55a895d166, type: 2}
 --- !u!114 &114482715969093450
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4416,66 +4429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Root: {fileID: 4988610544062452}
-  m_UpdateRate: 60
-  m_UpdateMode: 0
-  m_Damping: 0.4
-  m_DampingDistrib:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_Elasticity: 0.1
-  m_ElasticityDistrib:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_Stiffness: 0.1
-  m_StiffnessDistrib:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_Inert: 0
-  m_InertDistrib:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_Radius: 0
-  m_RadiusDistrib:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_EndLength: 0
-  m_EndOffset: {x: 0, y: 0, z: 0}
-  m_Gravity: {x: 0, y: 0, z: 0}
-  m_Force: {x: 0, y: 0, z: 0}
-  m_Colliders: []
-  m_Exclusions: []
-  m_FreezeAxis: 0
-  m_DistantDisable: 0
-  m_ReferenceObject: {fileID: 0}
-  m_DistanceToObject: 20
---- !u!114 &114751690878793932
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1462343772803242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9ac8d30c6a0d9642a11e5be4c440740, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Root: {fileID: 4247649341614952}
-  m_UpdateRate: 60
+  m_UpdateRate: 30
   m_UpdateMode: 0
   m_Damping: 0.4
   m_DampingDistrib:
@@ -4561,7 +4515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Root: {fileID: 4710339691567298}
-  m_UpdateRate: 60
+  m_UpdateRate: 30
   m_UpdateMode: 0
   m_Damping: 0.4
   m_DampingDistrib:
@@ -4661,6 +4615,9 @@ MonoBehaviour:
   isHopping: 0
   isLaunchingSuperSaiyan: 0
   dragonModel: {fileID: 1186563670752796}
+  triggerMask:
+    serializedVersion: 2
+    m_Bits: 823
   cameraTrans: {fileID: 4345354363419050}
   cameraOffset: {x: 0, y: 3, z: -7.5}
   cameraTarget: {x: 0, y: 0.5, z: 3}
@@ -4730,6 +4687,174 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114974222757655976
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1618563732747196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf64743a1a6b454fb27131f0e59793c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RenderOrder: 0
+  callBackImageEffect: {fileID: 114334743724402388}
+  callBackImageEffectOpaque: {fileID: 0}
+  ShadowFix: 1
+  TemporalSampling: 1
+  DitherSpeed: 0.6256256
+  LuminanceFeedback: 0.8
+  MaxFeedback: 0.9
+  NoiseContrast: 1
+  NoiseTexture3D: {fileID: 11700000, guid: ea166c3018822e44fb93eca537a773fc, type: 2}
+  resolution: 1
+  SampleCount: 4
+  DirectionalSampleCount: 8
+  MaxDirectionalRayDistance: 128
+  MaxLightDistance: 128
+  Density: 0.01
+  AmbientLightingStrength: 0.5
+  MieScattering: 0.4
+  SunSize: 0
+  SunBleed: 1
+  Extinction: 0.05
+  ExtinctionEffect: 0
+  FogHeightEnabled: 0
+  FogHeight: 5
+  FogTransitionSize: 5
+  AboveFogPercent: 0.1
+  Ambient: 0
+  AmbientSky: {r: 1, g: 1, b: 1, a: 1}
+  AmbientEquator: {r: 1, g: 1, b: 1, a: 1}
+  AmbientGround: {r: 1, g: 1, b: 1, a: 1}
+  AmbientIntensity: 1
+  TintMode: 0
+  TintColor: {r: 1, g: 0, b: 0, a: 1}
+  TintColor2: {r: 0, g: 0, b: 1, a: 1}
+  TintIntensity: 0.2
+  TintGradient: 0.2
+  CurrentTint: {x: 0.2, y: 0, z: 0}
+  CurrentTintEdge: {x: 0, y: 0, z: 0.2}
+  NoiseEnabled: 0
+  NoiseScale: {x: 0.1, y: 0.1, z: 0.1}
+  NoiseVelocity: {x: 1, y: 0, z: 1}
+  ParticleDensitySupport: 0
+  densityResolution: 3
+  densityDistance: 64
+  TransparencySupport: 0
+  transparencyDistance: 64
+  BlurTransparency: 1
+  blurCount: 1
+  BlurDepthFalloff: 5
+  DownsampledBlurDepthFalloff: 5
+  UpSampledblurCount: 0
+  DepthThreshold: 0.06
+  GaussianWeights: 0
+  MapToLDR: 0
+  RemoveColorBanding: 1
+  MatrixVP:
+    e00: 0.9656572
+    e01: 0
+    e02: 0.13012554
+    e03: 215.69392
+    e10: 0.066175126
+    e11: -1.6596559
+    e12: -0.49108338
+    e13: -147.90761
+    e20: 0.000000038136374
+    e21: 0.0000000852614
+    e22: -0.00000028300875
+    e23: 0.29991105
+    e30: -0.12796444
+    e31: -0.28608978
+    e32: 0.94961977
+    e33: 298.82025
+  LastMatrixVP:
+    e00: 0.9656572
+    e01: 0
+    e02: 0.13012554
+    e03: 215.69392
+    e10: -0.066175126
+    e11: 1.6596559
+    e12: 0.49108338
+    e13: 147.90761
+    e20: 0.000000038136374
+    e21: 0.0000000852614
+    e22: -0.00000028300875
+    e23: 0.29991105
+    e30: -0.12796444
+    e31: -0.28608978
+    e32: 0.94961977
+    e33: 298.82025
+  LastMatrixVPInv:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  LastMatrixVP2:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  LastMatrixVPInv2:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  MatrixV:
+    e00: 0.99104255
+    e01: 0
+    e02: 0.1335463
+    e03: 221.36412
+    e10: -0.038206227
+    e11: 0.95820284
+    e12: 0.28352714
+    e13: 85.3945
+    e20: 0.12796444
+    e21: 0.28608978
+    e22: -0.94961977
+    e23: -298.82025
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
 --- !u!114 &114981285933601200
 MonoBehaviour:
   m_ObjectHideFlags: 1
