@@ -45,7 +45,7 @@ public class Level3Music : MonoBehaviour
 
     IEnumerator DelayMusic()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         musicStage = 7.5f;
     }
 
