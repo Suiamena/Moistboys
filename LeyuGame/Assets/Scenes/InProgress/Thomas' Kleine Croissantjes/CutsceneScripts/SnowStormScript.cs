@@ -41,6 +41,7 @@ public class SnowStormScript : MonoBehaviour {
     IEnumerator CutsceneTime()
     {
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("Level3_v1");
+        print("hallo?");
+        SceneManager.LoadScene("Level 3");
     }
 }
