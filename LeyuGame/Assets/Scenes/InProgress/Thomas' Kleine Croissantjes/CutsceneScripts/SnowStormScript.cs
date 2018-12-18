@@ -64,7 +64,7 @@ public class SnowStormScript : MonoBehaviour {
             image.color = tempColor;
         }
 
-        if (image.color.a > 0.55f && screechPlayed == false)
+        if (image.color.a > 0.41f && screechPlayed == false)
         {
             creatureScreech.PlayOneShot(screech);
             screechPlayed = true;
@@ -81,6 +81,8 @@ public class SnowStormScript : MonoBehaviour {
     {
         yield return new WaitForSeconds(1f);
         print("hallo?");
+        AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        Level2Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         SceneManager.LoadScene("Level 3");
     }
 }
