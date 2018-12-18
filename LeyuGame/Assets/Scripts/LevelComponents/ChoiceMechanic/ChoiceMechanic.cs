@@ -364,13 +364,13 @@ public class ChoiceMechanic : MonoBehaviour {
         {
             if (competentScript.playerChooseCompetence)
             {
-                FindObjectOfType<SceneSettings>().levelSixChoice = SceneSettings.LevelSixChoices.Launch;
+                PlayerPrefs.SetString("LevelSixChoice", "Launch");
                 moustacheBoiAnim.SetBool("goodBye", true);
                 playerScript.launchEnabled = true;
             }
             else
             {
-                FindObjectOfType<SceneSettings>().levelSixChoice = SceneSettings.LevelSixChoices.CreatureWall;
+                PlayerPrefs.SetString("LevelSixChoice", "Creature");
                 moustacheBoiEnding.SetActive(true);
                 moustacheBoiCutscene.SetActive(false);
             }

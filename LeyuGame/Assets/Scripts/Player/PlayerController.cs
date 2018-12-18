@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using XInputDotNetPure;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class PlayerController : MonoBehaviour
 	bool groundedSuspended = false;
 	Vector2 leftStickInput = new Vector2(0, 0), rightStickInput = new Vector2(0, 0);
 
+    //Ability settings per scene
+    public const string playerPrefsKey = "LevelSixChoice", playerPrefsNoChoiceMade = "NoChoiceMade", playerPrefsLaunch = "Launch", playerPrefsCreature = "Creature";
 
 	//Animation Settings
 	GameObject animationModel;
@@ -102,6 +105,62 @@ public class PlayerController : MonoBehaviour
 		launchBaseColor = launchRenderer.materials[launchMaterialIndexes[0]].color;
 
 		GamePad.SetVibration(0, 0, 0);
+    }
+
+    //START
+    void SetAbilities()
+    {
+        int currentSceneIndex;
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        switch (currentSceneIndex)
+        {
+            default:
+                PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
+                break;
+            case 1:
+                PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
+                creatureWallsEnabled = false;
+                launchEnabled = false;
+                break;
+            case 2:
+                PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
+                creatureWallsEnabled = false;
+                launchEnabled = false;
+                break;
+            case 3:
+                PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
+                creatureWallsEnabled = false;
+                launchEnabled = true;
+                break;
+            case 4:
+                PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
+                creatureWallsEnabled = true;
+                launchEnabled = true;
+                break;
+            case 5:
+                PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
+                creatureWallsEnabled = true;
+                launchEnabled = true;
+                break;
+            case 6:
+                switch (PlayerPrefs.GetString(playerPrefsKey))
+                {
+                    case playerPrefsNoChoiceMade:
+                        launchEnabled = true;
+                        creatureWallsEnabled = true;
+                        break;
+                    case playerPrefsLaunch:
+                        launchEnabled = true;
+                        creatureWallsEnabled = false;
+                        break;
+                    case playerPrefsCreature:
+                        launchEnabled = false;
+                        creatureWallsEnabled = true;
+                        break;
+                }
+                break;
+        }
     }
 
 	//UPDATES
