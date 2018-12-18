@@ -218,10 +218,12 @@ public class NewWallMechanic : MonoBehaviour
 			sequenceCamera.transform.position = Vector3.MoveTowards(sequenceCamera.transform.position, platformTransforms[activePlatform].transform.GetChild(0).position, cameraMovementSpeed * Time.deltaTime);
 
 			player.transform.position = Vector3.MoveTowards(player.transform.position, points[pointIndex], jumpingSpeed * Time.deltaTime);
-			Quaternion oldRot = player.transform.rotation;
-			player.transform.LookAt(points[pointIndex]);
-			player.transform.rotation = Quaternion.Lerp(oldRot, player.transform.rotation, 0.18f);
-			player.transform.Rotate(-player.transform.eulerAngles.x, 0, 0);
+			if (pointIndex >= points.Length - 1) {
+				Quaternion oldRot = player.transform.rotation;
+				player.transform.LookAt(points[pointIndex]);
+				player.transform.rotation = Quaternion.Lerp(oldRot, player.transform.rotation, 0.18f);
+				player.transform.Rotate(-player.transform.eulerAngles.x, 0, 0);
+			}
 
 			if (Vector3.Distance(player.transform.position, points[pointIndex]) < .1f) {
 				++pointIndex;
