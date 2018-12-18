@@ -6,6 +6,8 @@ using System;
 public class SE_TotZo : MonoBehaviour, ISocialEncounter
 {
 	public Transform moustacheBoy;
+	public AudioSource audioSource;
+	public AudioClip totZoClip;
 	Animator moustacheAnimator;
 	GameObject player;
 
@@ -62,7 +64,8 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 		while (Vector3.Distance(moustacheBoy.position, player.transform.position) > NewWallMechanic.triggerAbilityRange)
 			yield return null;
 
-		MoustacheBoiAudio.PlayScreeches();
+		audioSource.clip = totZoClip;
+		audioSource.Play();
 		moustacheAnimator.SetBool("goodBye", true);
 
 		float t = 0;
