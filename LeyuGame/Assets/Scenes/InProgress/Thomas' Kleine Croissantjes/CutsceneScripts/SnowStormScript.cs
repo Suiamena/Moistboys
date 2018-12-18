@@ -64,7 +64,7 @@ public class SnowStormScript : MonoBehaviour {
             image.color = tempColor;
         }
 
-        if (image.color.a > 0.41f && screechPlayed == false)
+        if (image.color.a > 0.55f && screechPlayed == false)
         {
             creatureScreech.PlayOneShot(screech);
             screechPlayed = true;
