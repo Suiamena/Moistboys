@@ -6,7 +6,7 @@ using XInputDotNetPure;
 
 public class PlayerController : MonoBehaviour
 {
-	Rigidbody rig;
+    Rigidbody rig;
 	Vector3 velocity;
 	bool groundedSuspended = false;
 	Vector2 leftStickInput = new Vector2(0, 0), rightStickInput = new Vector2(0, 0);
@@ -102,11 +102,12 @@ public class PlayerController : MonoBehaviour
 		launchBaseColor = launchRenderer.materials[launchMaterialIndexes[0]].color;
 
 		GamePad.SetVibration(0, 0, 0);
-	}
+    }
 
 	//UPDATES
 	void Update ()
 	{
+        creatureWallsEnabled = true;
 		ProcessInputs();
 
 		CameraControl();
