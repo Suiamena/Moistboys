@@ -365,12 +365,14 @@ public class ChoiceMechanic : MonoBehaviour {
             if (competentScript.playerChooseCompetence)
             {
                 PlayerPrefs.SetString("LevelSixChoice", "Launch");
+                VariablesGlobal.chosenForCompetence = true;
                 moustacheBoiAnim.SetBool("goodBye", true);
                 playerScript.launchEnabled = true;
             }
             else
             {
                 PlayerPrefs.SetString("LevelSixChoice", "Creature");
+                VariablesGlobal.chosenForSocial = true;
                 moustacheBoiEnding.SetActive(true);
                 moustacheBoiCutscene.SetActive(false);
             }

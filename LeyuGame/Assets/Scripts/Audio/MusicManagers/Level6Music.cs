@@ -16,7 +16,6 @@ public class Level6Music : MonoBehaviour
     {
         Music = FMODUnity.RuntimeManager.CreateInstance(music);
         Music.getParameter("Music", out MusicParameter);
-        musicStage = 13.5f;
 
         AmbienceManager.windStage = 0f;
         AmbienceManager.insideStage = 0f;
@@ -24,9 +23,15 @@ public class Level6Music : MonoBehaviour
 
         AmbienceManager.amethystStage = 0.5f;
 
-        //FINAL MUSIC TO DO:
-        //kies voor creature: 13.5
-        //kies voor competence: 14.5
+        if (VariablesGlobal.chosenForCompetence)
+        {
+            musicStage = 14.5f;
+        }
+
+        if (VariablesGlobal.chosenForSocial)
+        {
+            musicStage = 13.5f;
+        }
 
         Music.start();
     }
