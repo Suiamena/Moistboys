@@ -55,6 +55,7 @@ public class CreatureAbilityGet : MonoBehaviour {
 
     void OnTriggerEnter()
     {
+        Level2Music.musicStage = 3.8f;
         cutsceneCamera.SetActive(true);
         StartCoroutine(CutsceneTime());
         controllerSwitch.enabled = false;
@@ -97,6 +98,7 @@ public class CreatureAbilityGet : MonoBehaviour {
         abilityPickUp.transform.localScale -= new Vector3(0.02f, 0.02f, 0.02f);
         abilityPickUp.transform.localScale = new Vector3(Mathf.Clamp(abilityPickUp.transform.localScale.x,0,5), Mathf.Clamp(abilityPickUp.transform.localScale.y, 0, 5), Mathf.Clamp(abilityPickUp.transform.localScale.z, 0, 5));
         abilityLightIntensity.intensity -= 0.02f;
+        player.transform.LookAt(creature.transform.position);
         }
     }
 
@@ -133,6 +135,7 @@ public class CreatureAbilityGet : MonoBehaviour {
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         playerBody.velocity = new Vector3(0, 0, 0);
         //
+        Level2Music.musicStage = 3.8f;
         Destroy(destructibleCreature);
         Destroy(abilityPickUp);
         Destroy(gameObject);
