@@ -17,8 +17,12 @@ public class TitleScreen : MonoBehaviour {
 
     bool menuStarted, titleScreenDone, controlsOpened;
 
+    public GameObject level;
+
     void Update ()
     {
+        transform.Rotate(Vector3.up * Time.deltaTime * 10);
+
         if (!menuStarted)
         {
             if (Input.anyKey)
