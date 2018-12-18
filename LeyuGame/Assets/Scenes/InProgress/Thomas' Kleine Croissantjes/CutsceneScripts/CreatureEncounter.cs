@@ -54,6 +54,7 @@ public class CreatureEncounter : MonoBehaviour {
 	
     void OnTriggerEnter()
     {
+        Level2Music.musicStage = 3.5f;
         cutsceneCamera.SetActive(true);
         StartCoroutine(CutsceneTime());
         controllerSwitch.enabled = false;
