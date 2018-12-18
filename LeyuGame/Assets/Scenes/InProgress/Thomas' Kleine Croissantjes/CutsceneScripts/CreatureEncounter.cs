@@ -143,7 +143,7 @@ public class CreatureEncounter : MonoBehaviour {
         distanceToPlayerCam.x = Mathf.Abs(distanceToPlayerCam.x);
         distanceToPlayerCam.y = Mathf.Abs(distanceToPlayerCam.y);
         distanceToPlayerCam.z = Mathf.Abs(distanceToPlayerCam.z);
-        print(distanceToPlayerCam);
+        //print(distanceToPlayerCam);
 
         if (cameraMoving == true)
         {

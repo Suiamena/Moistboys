@@ -14,6 +14,11 @@ public class SnowStormScript : MonoBehaviour {
     float windStormStrength, particlesSpeed;
 
     bool accelerateSnowstorm;
+    bool screechPlayed = false;
+    
+    GameObject creature;
+    AudioSource creatureScreech;
+    public AudioClip screech;
 
     [Header("Particle Settings")]
     public GameObject snowParticlesWindObject;
@@ -23,6 +28,9 @@ public class SnowStormScript : MonoBehaviour {
 
     void Start ()
     {
+        creature = GameObject.Find("SneeuwStormCreature");
+        creatureScreech = creature.GetComponent<AudioSource>();
+
         var tempColor = image.color;
         tempColor.a = 0f;
         image.color = tempColor;
@@ -54,6 +62,12 @@ public class SnowStormScript : MonoBehaviour {
             var tempColor = image.color;
             tempColor.a += 0.0028f;
             image.color = tempColor;
+        }
+
+        if (image.color.a > 0.41f && screechPlayed == false)
+        {
+            creatureScreech.PlayOneShot(screech);
+            screechPlayed = true;
         }
 
         if (image.color.a >= 1)
