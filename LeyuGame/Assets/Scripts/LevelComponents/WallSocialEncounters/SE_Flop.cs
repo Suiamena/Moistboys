@@ -6,6 +6,8 @@ using System;
 public class SE_Flop : MonoBehaviour, ISocialEncounter
 {
 	public Transform moustacheBoy;
+	AudioSource audioSource;
+	public AudioClip flopClip;
 	Animator moustacheAnimator;
 	GameObject player;
 
@@ -13,17 +15,19 @@ public class SE_Flop : MonoBehaviour, ISocialEncounter
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
 		moustacheAnimator = moustacheBoy.GetComponent<Animator>();
+		audioSource = GetComponent<AudioSource>();
 
 		proceedToExecute();
 	}
 	
 	public void Execute (Action proceedToEnd)
 	{
-		StartCoroutine(Sneeze(proceedToEnd));
+		StartCoroutine(Flop(proceedToEnd));
 	}
-	IEnumerator Sneeze (Action proceedToEnd)
+	IEnumerator Flop (Action proceedToEnd)
 	{
-		//SPEEL AUDIO
+		transform.position = moustacheBoy.position;
+		audioSource.Play();
 
 		moustacheAnimator.SetBool("isFlop", true);
 

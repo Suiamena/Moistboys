@@ -15,7 +15,7 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 	public float shiverYAngle = 12, shiverXAngle = 8, timeBeforeSneeze = 3;
 	Quaternion defaultRot;
 	bool sneezed = false;
-	public AudioClip sneezeClip, blessYouClip, thankYouClip;
+	public AudioClip shiverClip, sneezeClip, blessYouClip, thankYouClip;
 	AudioSource audioSource;
 
 	public float sneezeBackRotation = -15, sneezeFrontRotation = 20, sneezeBackTime = .2f, sneezeFrontTime = .08f;
@@ -38,6 +38,11 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 	{
 		float shiverTimer = timePerShiver * .5f, sneezeTimer = 0;
 		bool shiverDirection = false;
+
+		transform.position = moustacheBoy.position;
+		audioSource.clip = shiverClip;
+		audioSource.Play();
+		audioSource.loop = true;
 
 		while (true) {
 			moustacheBoy.Rotate(new Vector3(0, (-1 + shiverDirection.ToInt() * 2) * shiverYAngle * 2 * shiversPerSecond * Time.deltaTime, 0));
@@ -68,6 +73,9 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 				sneezeTimer = 0;
 			}
 			yield return null;
+
+			audioSource.loop = false;
+			audioSource.Stop();
 		}
 	}
 	bool IsPlayerInRange ()
@@ -90,23 +98,12 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 
 	IEnumerator Sneeze (Action proceedToEnd)
 	{
-		for (float t = 0; t < sneezeBackTime; t += Time.deltaTime) {
-			moustacheBoy.Rotate(new Vector3(sneezeBackRotation / sneezeBackTime * Time.deltaTime, 0, 0));
-			yield return null;
-		}
+		moustacheBoy.GetComponent<Animator>().SetBool("isSneezing", true);
 
+		yield return new WaitForSeconds(.1f);
 		audioSource.clip = sneezeClip;
 		audioSource.Play();
-
-		for (float t = 0; t < sneezeFrontTime; t += Time.deltaTime) {
-			moustacheBoy.Rotate(new Vector3((Mathf.Abs(sneezeBackRotation) + sneezeFrontRotation) / sneezeFrontTime * Time.deltaTime, 0, 0));
-			yield return null;
-		}
-
-		for (float t = 0; t < .4f; t += Time.deltaTime) {
-			moustacheBoy.Rotate(new Vector3(-sneezeFrontRotation / .4f * Time.deltaTime, 0, 0));
-			yield return null;
-		}
+		moustacheBoy.GetComponent<Animator>().SetBool("isSneezing", false);
 
 		yield return new WaitForSeconds(.7f);
 		transform.position = player.transform.position;
@@ -118,13 +115,14 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 		audioSource.clip = thankYouClip;
 		audioSource.Play();
 
+
 		moustacheBoy.LookAt(player.transform);
-		for (float t = 0; t < .3f; t += Time.deltaTime) {
-			moustacheBoy.position += Vector3.up * 5 * Time.deltaTime;
+		for (float t = 0; t < .2f; t += Time.deltaTime) {
+			moustacheBoy.position += Vector3.up * 2 * Time.deltaTime;
 			yield return null;
 		}
-		for (float t = 0; t < .3f; t += Time.deltaTime) {
-			moustacheBoy.position -= Vector3.up * 5 * Time.deltaTime;
+		for (float t = 0; t < .2f; t += Time.deltaTime) {
+			moustacheBoy.position -= Vector3.up * 2 * Time.deltaTime;
 			yield return null;
 		}
 		proceedToEnd();

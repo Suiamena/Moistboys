@@ -6,6 +6,8 @@ using System;
 public class SE_Superflop : MonoBehaviour, ISocialEncounter
 {
 	public Transform moustacheBoy;
+	AudioSource audioSource;
+	public AudioClip superFlopClip;
 	Animator moustacheAnimator;
 	GameObject player;
 
@@ -13,19 +15,22 @@ public class SE_Superflop : MonoBehaviour, ISocialEncounter
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
 		moustacheAnimator = moustacheBoy.GetComponent<Animator>();
+		audioSource = GetComponent<AudioSource>();
 
 		proceedToExecute();
 	}
 
 	public void Execute (Action proceedToEnd)
 	{
-		StartCoroutine(Sneeze(proceedToEnd));
+		StartCoroutine(SuperFlop(proceedToEnd));
 	}
-	IEnumerator Sneeze (Action proceedToEnd)
+	IEnumerator SuperFlop (Action proceedToEnd)
 	{
 		moustacheBoy.LookAt(player.transform);
 
-		MoustacheBoiAudio.PlayScreeches();
+		transform.position = moustacheBoy.position;
+		audioSource.clip = superFlopClip;
+		audioSource.Play();
 		moustacheAnimator.SetBool("isSuperFlop", true);
 		yield return new WaitForSeconds(1.5f);
 

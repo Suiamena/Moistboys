@@ -7,12 +7,14 @@ public class SE_SnowWaggle : MonoBehaviour, ISocialEncounter
 {
 	public Transform moustacheBoy;
 	public Transform moustacheBoyStartLocation, moustacheBoyEndLocation;
+	public AudioClip waggleClip;
+	AudioSource audioSource;
 
 	[Header("Animation Settings")]
 	Vector3 endPosition;
 	Quaternion endRotation;
 	public float rotationSpeed = 260;
-	public float movementSpeed = 7, swayAngle = 20, swayTime = .2f;
+	public float movementSpeed = 5, swayAngle = 20, swayTime = .2f;
 	
 	public void Initialize (Action proceedToExecute)
 	{
@@ -20,6 +22,7 @@ public class SE_SnowWaggle : MonoBehaviour, ISocialEncounter
 		endRotation = moustacheBoyEndLocation.rotation;
 		moustacheBoy.position = moustacheBoyStartLocation.position;
 		moustacheBoy.rotation = moustacheBoyStartLocation.rotation;
+		audioSource = GetComponent<AudioSource>();
 
 		proceedToExecute();
 	}
@@ -37,6 +40,8 @@ public class SE_SnowWaggle : MonoBehaviour, ISocialEncounter
 		targetRotation = moustacheBoy.rotation;
 		moustacheBoy.rotation = oldRotation;
 
+		yield return new WaitForSeconds(.4f);
+
 		//ROTATE TOWARDS TARGET POSITION
 		while (moustacheBoy.rotation != targetRotation) {
 			moustacheBoy.rotation = Quaternion.RotateTowards(moustacheBoy.rotation, targetRotation, rotationSpeed * Time.deltaTime);
@@ -44,13 +49,20 @@ public class SE_SnowWaggle : MonoBehaviour, ISocialEncounter
 		}
 
 		//MOVE TO FINAL POSITION
+		moustacheBoy.GetComponent<Animator>().SetBool("isWiggling", true);
+		audioSource.clip = waggleClip;
+		audioSource.loop = true;
+		audioSource.Play();		
+
 		float t = 0;
 		while (Vector3.Distance(moustacheBoy.position, endPosition) > .1f) {
 			moustacheBoy.position = Vector3.MoveTowards(moustacheBoy.position, endPosition, movementSpeed * Time.deltaTime);
-			moustacheBoy.rotation = Quaternion.Euler(new Vector3(0, moustacheBoy.eulerAngles.y, Mathf.Sin(t / swayTime) * swayAngle));
+			transform.position = moustacheBoy.position;
 			t += Time.deltaTime;
 			yield return null;
 		}
+		moustacheBoy.GetComponent<Animator>().SetBool("isWiggling", false);
+		audioSource.Stop();
 
 		//ROTATE TO FINAL ROTATION
 		while (moustacheBoy.rotation != endRotation) {
