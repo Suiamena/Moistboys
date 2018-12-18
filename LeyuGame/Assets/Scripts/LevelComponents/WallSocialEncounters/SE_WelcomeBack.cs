@@ -6,6 +6,8 @@ using System;
 public class SE_WelcomeBack : MonoBehaviour, ISocialEncounter
 {
 	public Transform moustacheBoy;
+	AudioSource audioSource;
+	public AudioClip welcomeBackClip;
 	Animator moustacheAnimator;
 	GameObject player;
 
@@ -17,6 +19,7 @@ public class SE_WelcomeBack : MonoBehaviour, ISocialEncounter
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
 		moustacheAnimator = moustacheBoy.GetComponent<Animator>();
+		audioSource = GetComponent<AudioSource>();
 
 		proceedToExecute();
 	}
@@ -30,7 +33,8 @@ public class SE_WelcomeBack : MonoBehaviour, ISocialEncounter
 
 	IEnumerator Wave (Action proceedToEnd)
 	{
-		MoustacheBoiAudio.PlayScreeches();
+		audioSource.clip = welcomeBackClip;
+		audioSource.Play();
 		moustacheAnimator.SetBool("goodBye", true);
 
 		float t = 0;
