@@ -77,6 +77,7 @@ public class PauseScreen : MonoBehaviour
 					}
 					if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Start Button")) {
 						if (exitOption == 0) {
+                            Time.timeScale = 1;
 							AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 							Level6Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 							SceneManager.LoadScene("TitleScreen");

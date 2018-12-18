@@ -73,7 +73,6 @@ public class TitleScreen : MonoBehaviour {
         {
             if (iconPosition == 1)
             {
-                Time.timeScale = 1;
                 SceneManager.LoadScene("Level 1");
             }
             if (iconPosition == 2)
