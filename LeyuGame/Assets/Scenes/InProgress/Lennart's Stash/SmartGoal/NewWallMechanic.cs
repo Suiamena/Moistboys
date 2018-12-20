@@ -136,7 +136,7 @@ public class NewWallMechanic : MonoBehaviour
 	void StartSequence ()
 	{
 		if (enableSequence) {
-			if (Input.GetButtonDown("A Button") && !creatureSpawnsPlatforms) {
+			if ((Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space")) && !creatureSpawnsPlatforms) {
 				//DISABLE PLAYER ANIMATION
 				playerAnim.SetBool("IsBouncing", false);
 				playerAnim.SetBool("IsLaunching", false);
