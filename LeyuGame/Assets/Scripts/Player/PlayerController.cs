@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour
     Rigidbody rig;
 	Vector3 velocity;
 	bool groundedSuspended = false;
-	Vector2 leftStickInput = new Vector2(0, 0), rightStickInput = new Vector2(0, 0);
+	Vector2 movementInput = new Vector2(0, 0), orientationInput = new Vector2(0, 0);
+	public float mouseXSensitivity = 1.6f;
+	public float mouseYSensitivity = 1.4f;
 
     //Ability settings per scene
     public const string playerPrefsKey = "LevelSixChoice", playerPrefsNoChoiceMade = "NoChoiceMade", playerPrefsLaunch = "Launch", playerPrefsCreature = "Creature";
@@ -195,14 +197,14 @@ public class PlayerController : MonoBehaviour
 	//UPDATE FUNCTIONS
 	void ProcessInputs ()
 	{
-		leftStickInput = new Vector2(Input.GetAxis("Left Stick X"), Input.GetAxis("Left Stick Y"));
-		rightStickInput = new Vector2(Input.GetAxis("Right Stick X"), Input.GetAxis("Right Stick Y"));
+		movementInput = new Vector2(Mathf.Clamp(Input.GetAxis("Left Stick X") + Input.GetAxis("Keyboard AD"), -1, 1), Mathf.Clamp(Input.GetAxis("Left Stick Y") + Input.GetAxis("Keyboard WS"), -1, 1));
+		orientationInput = new Vector2(Mathf.Clamp(Input.GetAxis("Right Stick X") + Input.GetAxis("Mouse X") * mouseXSensitivity, -1, 1), Mathf.Clamp(Input.GetAxis("Right Stick Y") + Input.GetAxis("Mouse Y") * mouseYSensitivity, -1, 1));
 	}
 
 	void CameraControl ()
 	{
-		cameraYAngle += rightStickInput.x * cameraHorizontalSensitivity * Time.deltaTime;
-		cameraXAngle = Mathf.Clamp(cameraXAngle - rightStickInput.y * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
+		cameraYAngle += orientationInput.x * cameraHorizontalSensitivity * Time.deltaTime;
+		cameraXAngle = Mathf.Clamp(cameraXAngle - orientationInput.y * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
 		cameraRotation = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
 
 		if (Grounded()) {
@@ -250,7 +252,7 @@ public class PlayerController : MonoBehaviour
 
 	void Launch ()
 	{
-		if (launchEnabled && Input.GetAxis("Right Trigger") != 0) {
+		if (launchEnabled && Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Left Mouse Button")) {
 			if (!launchRoutineRunning) {
 				launchRoutineRunning = true;
 				StartCoroutine(LaunchRoutine());
@@ -272,7 +274,7 @@ public class PlayerController : MonoBehaviour
 				modelYRotation *= -1;
 		}
 		if (Grounded()) {
-			modelYRotation -= rightStickInput.x * Time.deltaTime * cameraHorizontalSensitivity;
+			modelYRotation -= orientationInput.x * Time.deltaTime * cameraHorizontalSensitivity;
 		}
 
 		modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
@@ -282,7 +284,7 @@ public class PlayerController : MonoBehaviour
 	void Hop ()
 	{
 		if (canHop) {
-			if (Input.GetButtonDown("A Button")) {
+			if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space")) {
 				canHop = false;
 				isHopping = true;
 				if (velocity.y < 0)
@@ -303,16 +305,16 @@ public class PlayerController : MonoBehaviour
 	void Movement ()
 	{
 		if (Grounded()) {
-			if (leftStickInput.magnitude == 0) {
+			if (movementInput.magnitude == 0) {
 				velocity.x = velocity.z = 0;
 			} else {
-				velocity = new Vector3(leftStickInput.x, 0, leftStickInput.y) * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
+				velocity = new Vector3(movementInput.x, 0, movementInput.y) * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
 				StartCoroutine(SuspendGroundedCheck());
 			}
 		} else {
 			Vector2 lateralSpeed = new Vector2(velocity.x, velocity.z);
 
-			if (leftStickInput.magnitude == 0) {
+			if (movementInput.magnitude == 0) {
 				//AIR MOVEMENT WHEN NOT GIVING INPUT
 				if (lateralSpeed.magnitude < 1)
 					lateralSpeed = Vector2.zero;
@@ -320,7 +322,7 @@ public class PlayerController : MonoBehaviour
 					lateralSpeed += lateralSpeed.normalized * -airborneDecceleration * Time.fixedDeltaTime;
 			} else {
 				//AIR MOVEMENT WHEN GIVING INPUT
-				Vector2 lateralSpeedGain = leftStickInput.Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0)) * airborneMovementAcceleration;
+				Vector2 lateralSpeedGain = movementInput.Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0)) * airborneMovementAcceleration;
 
 				lateralSpeed += lateralSpeedGain * Time.fixedDeltaTime;
 				if (!inSnow) {
@@ -419,9 +421,9 @@ public class PlayerController : MonoBehaviour
 	{
 		//Set Animation States
 		if (Grounded()) {
-			if (leftStickInput.magnitude == 0) {
+			if (movementInput.magnitude == 0) {
 				isBouncing = false;
-			} else if (leftStickInput.magnitude < walkingBouncingThreshold) {
+			} else if (movementInput.magnitude < walkingBouncingThreshold) {
 				if (!isPreLaunching) {
 					isBouncing = true;
 				} else {
@@ -464,8 +466,8 @@ public class PlayerController : MonoBehaviour
 		animator.SetBool("IsAirborne", false);
 
 		//DISABLE PLAYER MOVEMENT
-		leftStickInput = Vector2.zero;
-		rightStickInput = Vector2.zero;
+		movementInput = Vector2.zero;
+		orientationInput = Vector2.zero;
 		velocity = new Vector3(0, 0, 0);
 		StopCoroutine(LaunchRoutine());
 		launchRoutineRunning = false;
@@ -498,7 +500,7 @@ public class PlayerController : MonoBehaviour
 			launchRenderer.materials[launchMaterialIndexes[i]].color = launchStageOneColor;
 		}
 
-		while (Input.GetAxis("Right Trigger") != 0) {
+		while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Left Mouse Button")) {
 			isBuildingLaunch = true;
 			timeLapsed += Time.deltaTime;
 
