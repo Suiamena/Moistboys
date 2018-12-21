@@ -6,7 +6,7 @@ public class FPSDisplay : MonoBehaviour
 {
 	float deltaTime = 0.0f;
 	Queue averageFPSStack = new Queue();
-	int averageFPSMaxSize = 100;
+	int averageFPSMaxSize = 120;
 
 	private void Awake ()
 	{
