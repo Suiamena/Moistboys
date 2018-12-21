@@ -30,16 +30,16 @@ public class PauseScreen : MonoBehaviour
 	void Update ()
 	{
 		if (!gamePaused) {
-			if (Input.GetButtonDown("Start Button")) {
+			if (Input.GetButtonDown("Start Button") || Input.GetKeyDown("escape")) {
 				ActivatePause();
 			}
 		} else {
 			switch (activeScreen) {
 				case ActiveScreen.Pause:
-					if (Input.GetButtonDown("B Button")) {
+					if (Input.GetButtonDown("B Button") || Input.GetKeyDown("escape")) {
 						DeactivatePause();
 					}
-					if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Start Button")) {
+					if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Start Button") || Input.GetButtonDown("Keyboard Space")) {
 						switch (optionSelected) {
 							case 0:
 								DeactivatePause();
@@ -52,7 +52,7 @@ public class PauseScreen : MonoBehaviour
 								break;
 						}
 					}
-					if (Mathf.Abs(Input.GetAxis("Left Stick Y")) > directionInputDeadzone && !waitingForLeftStickReset) {
+					if ((Mathf.Abs(Input.GetAxis("Left Stick Y")) > directionInputDeadzone && !waitingForLeftStickReset) || (Mathf.Abs(Input.GetAxis("Keyboard WS")) > directionInputDeadzone && !waitingForLeftStickReset)) {
 						SwitchPauseOption(Input.GetAxis("Left Stick Y"));
 						waitingForLeftStickReset = true;
 					}
@@ -62,20 +62,23 @@ public class PauseScreen : MonoBehaviour
 					}
 					break;
 				case ActiveScreen.Controls:
-					if (Input.GetButtonDown("A Button") || Input.GetButtonDown("B Button") || Input.GetButtonDown("Start Button")) {
+					if (Input.GetButtonDown("A Button") || Input.GetButtonDown("B Button") || Input.GetButtonDown("Start Button") || Input.GetButtonDown("Keyboard Space"))
+                    {
 						DeactivateControlsScreen();
 					}
 					break;
 				case ActiveScreen.Exit:
-					if (Mathf.Abs(Input.GetAxis("Left Stick Y")) > directionInputDeadzone && !waitingForLeftStickReset) {
-						SwitchExitOption();
+                    if ((Mathf.Abs(Input.GetAxis("Left Stick Y")) > directionInputDeadzone && !waitingForLeftStickReset) || (Mathf.Abs(Input.GetAxis("Keyboard WS")) > 0))
+                    {
+                        SwitchExitOption();
 						waitingForLeftStickReset = true;
 					}
 					if (Input.GetAxis("DPad Y") != 0 && !waitingForDPadReset) {
 						SwitchExitOption();
 						waitingForDPadReset = true;
 					}
-					if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Start Button")) {
+					if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Start Button") || Input.GetButtonDown("Keyboard Space"))
+                    {
 						if (exitOption == 0) {
                             Time.timeScale = 1;
 							AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
@@ -86,7 +89,7 @@ public class PauseScreen : MonoBehaviour
 							DeactivateExitScreen();
 						}
 					}
-					if (Input.GetButtonDown("B Button"))
+					if (Input.GetButtonDown("B Button") || Input.GetKeyDown("scape"))
 						DeactivateExitScreen();
 					break;
 			}
@@ -94,7 +97,7 @@ public class PauseScreen : MonoBehaviour
 
 		if (Input.GetAxis("DPad Y") == 0)
 			waitingForDPadReset = false;
-		if (Mathf.Abs(Input.GetAxis("Left Stick Y")) < directionInputDeadzone)
+		if ((Mathf.Abs(Input.GetAxis("Left Stick Y")) < directionInputDeadzone) || Mathf.Abs(Input.GetAxis("Keyboard WS")) < 0)
 			waitingForLeftStickReset = false;
 	}
 
