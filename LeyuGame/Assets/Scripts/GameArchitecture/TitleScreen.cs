@@ -51,7 +51,7 @@ public class TitleScreen : MonoBehaviour {
 
     void RunMenu()
     {
-        if (Input.GetAxis("Left Stick Y") > 0)
+        if (Input.GetAxis("Left Stick Y") > 0 || Input.GetAxis("Keyboard WS") > 0)
         {
             if (iconPosition != 1)
             {
@@ -60,7 +60,7 @@ public class TitleScreen : MonoBehaviour {
             }
         }
 
-        if (Input.GetAxis("Left Stick Y") < 0)
+        if (Input.GetAxis("Left Stick Y") < 0 || Input.GetAxis("Keyboard WS") < 0)
         {
             if (iconPosition != 2)
             {
@@ -69,7 +69,7 @@ public class TitleScreen : MonoBehaviour {
             }
         }
 
-        if (Input.GetButtonDown("A Button"))
+        if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space"))
         {
             if (iconPosition == 1)
             {
@@ -88,7 +88,7 @@ public class TitleScreen : MonoBehaviour {
 
     void BackToMenu()
     {
-        if (Input.GetButtonDown("A Button"))
+        if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space"))
         {
             controlsInstruction.SetActive(false);
             controlsOpened = false;
