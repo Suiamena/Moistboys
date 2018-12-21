@@ -29,14 +29,14 @@ public class PauseScreen : MonoBehaviour
 
 	void Update ()
 	{
-		if (!gamePaused) {
+        if (!gamePaused) {
 			if (Input.GetButtonDown("Start Button") || Input.GetKeyDown("escape")) {
 				ActivatePause();
 			}
 		} else {
 			switch (activeScreen) {
 				case ActiveScreen.Pause:
-					if (Input.GetButtonDown("B Button") || Input.GetKeyDown("escape")) {
+                    if (Input.GetButtonDown("B Button") || Input.GetKeyDown("escape")) {
 						DeactivatePause();
 					}
 					if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Start Button") || Input.GetButtonDown("Keyboard Space")) {
@@ -52,7 +52,7 @@ public class PauseScreen : MonoBehaviour
 								break;
 						}
 					}
-					if ((Mathf.Abs(Input.GetAxis("Left Stick Y")) > directionInputDeadzone && !waitingForLeftStickReset) || (Mathf.Abs(Input.GetAxis("Keyboard WS")) > directionInputDeadzone && !waitingForLeftStickReset)) {
+					if ((Mathf.Abs(Input.GetAxis("Left Stick Y")) > directionInputDeadzone && !waitingForLeftStickReset)) {
 						SwitchPauseOption(Input.GetAxis("Left Stick Y"));
 						waitingForLeftStickReset = true;
 					}
@@ -60,6 +60,10 @@ public class PauseScreen : MonoBehaviour
 						SwitchPauseOption(Input.GetAxis("DPad Y"));
 						waitingForDPadReset = true;
 					}
+                    if (Input.GetAxis("Keyboard WS") != 0)
+                    {
+                        SwitchPauseOption(Input.GetAxis("Keyboard WS"));
+                    }
 					break;
 				case ActiveScreen.Controls:
 					if (Input.GetButtonDown("A Button") || Input.GetButtonDown("B Button") || Input.GetButtonDown("Start Button") || Input.GetButtonDown("Keyboard Space"))
@@ -68,7 +72,7 @@ public class PauseScreen : MonoBehaviour
 					}
 					break;
 				case ActiveScreen.Exit:
-                    if ((Mathf.Abs(Input.GetAxis("Left Stick Y")) > directionInputDeadzone && !waitingForLeftStickReset) || (Mathf.Abs(Input.GetAxis("Keyboard WS")) > 0))
+                    if ((Mathf.Abs(Input.GetAxis("Left Stick Y")) > directionInputDeadzone && !waitingForLeftStickReset))
                     {
                         SwitchExitOption();
 						waitingForLeftStickReset = true;
@@ -97,7 +101,7 @@ public class PauseScreen : MonoBehaviour
 
 		if (Input.GetAxis("DPad Y") == 0)
 			waitingForDPadReset = false;
-		if ((Mathf.Abs(Input.GetAxis("Left Stick Y")) < directionInputDeadzone) || Mathf.Abs(Input.GetAxis("Keyboard WS")) < 0)
+		if ((Mathf.Abs(Input.GetAxis("Left Stick Y")) < directionInputDeadzone))
 			waitingForLeftStickReset = false;
 	}
 
