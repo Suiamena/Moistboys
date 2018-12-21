@@ -346,7 +346,7 @@ public class PlayerController : MonoBehaviour
 				velocity.y -= gravityStrength * Time.fixedDeltaTime;
 
 			Ray ceilingDetectRay = new Ray(transform.position, transform.up);
-			if (Physics.SphereCast(ceilingDetectRay, .4f, .15f, triggerMask)) {
+			if (Physics.SphereCast(ceilingDetectRay, .2f, .35f, triggerMask)) {
 				if (velocity.y > 0)
 					velocity.y = 0;
 			}
