@@ -198,6 +198,7 @@ public class PlayerController : MonoBehaviour
 	{
 		movementInput = new Vector2(Mathf.Clamp(Input.GetAxis("Left Stick X") + Input.GetAxis("Keyboard AD"), -1, 1), Mathf.Clamp(Input.GetAxis("Left Stick Y") + Input.GetAxis("Keyboard WS"), -1, 1));
 		orientationInput = new Vector2(Mathf.Clamp(Input.GetAxis("Right Stick X") + Input.GetAxis("Mouse X") * mouseXSensitivity, -1, 1), Mathf.Clamp(Input.GetAxis("Right Stick Y") + Input.GetAxis("Mouse Y") * mouseYSensitivity, -1, 1));
+        Debug.Log(Input.GetAxis("Keyboard AD"));
 	}
 
 	void CameraControl ()
