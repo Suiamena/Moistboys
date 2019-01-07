@@ -30,11 +30,11 @@ public class PauseScreen : MonoBehaviour
 	void Update ()
 	{
         if (!gamePaused) {
-			if (Input.GetButtonDown("Start Button") || Input.GetKeyDown("escape")) {
+            if (Input.GetButtonDown("Start Button") || Input.GetKeyDown("escape")) {
 				ActivatePause();
 			}
 		} else {
-			switch (activeScreen) {
+            switch (activeScreen) {
 				case ActiveScreen.Pause:
                     if (Input.GetButtonDown("B Button") || Input.GetKeyDown("escape")) {
 						DeactivatePause();
@@ -60,11 +60,15 @@ public class PauseScreen : MonoBehaviour
 						SwitchPauseOption(Input.GetAxis("DPad Y"));
 						waitingForDPadReset = true;
 					}
-                    if (Input.GetAxis("Keyboard WS") != 0)
+                    if (Input.GetButtonDown("W"))
                     {
-                        SwitchPauseOption(Input.GetAxis("Keyboard WS"));
+                        SwitchPauseOption(1);
                     }
-					break;
+                    if (Input.GetButtonDown("S"))
+                    {
+                        SwitchPauseOption(-1);
+                    }
+                    break;
 				case ActiveScreen.Controls:
 					if (Input.GetButtonDown("A Button") || Input.GetButtonDown("B Button") || Input.GetButtonDown("Start Button") || Input.GetButtonDown("Keyboard Space"))
                     {
@@ -93,7 +97,7 @@ public class PauseScreen : MonoBehaviour
 							DeactivateExitScreen();
 						}
 					}
-					if (Input.GetButtonDown("B Button") || Input.GetKeyDown("scape"))
+					if (Input.GetButtonDown("B Button") || Input.GetKeyDown("escape"))
 						DeactivateExitScreen();
 					break;
 			}
