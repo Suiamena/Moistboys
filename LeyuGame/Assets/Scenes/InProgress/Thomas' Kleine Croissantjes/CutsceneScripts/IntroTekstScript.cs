@@ -82,10 +82,10 @@ public class IntroTekstScript : MonoBehaviour {
         fadingFromWhite = true;
         cameraAnim.enabled = true;
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(10f);
         draakAnim.enabled = true;
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
         controllerSwitch.enabled = true;
         print("lol");
         Destroy(gameObject);
