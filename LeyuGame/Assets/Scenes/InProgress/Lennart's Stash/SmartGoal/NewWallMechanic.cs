@@ -224,7 +224,7 @@ public class NewWallMechanic : MonoBehaviour
 				player.transform.rotation = Quaternion.Lerp(oldRot, player.transform.rotation, 0.18f);
 				player.transform.Rotate(-player.transform.eulerAngles.x, 0, 0);
 			}
-			if (Vector3.SquareDistance(player.transform.position, points[pointIndex]) < .1f) {
+			if (player.transform.position.SquareDistance(points[pointIndex]) < .01f) {
 				++pointIndex;
 				if (pointIndex >= points.Length) {
 					break;
