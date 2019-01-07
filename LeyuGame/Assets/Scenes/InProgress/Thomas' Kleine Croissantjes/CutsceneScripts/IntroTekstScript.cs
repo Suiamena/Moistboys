@@ -31,7 +31,7 @@ public class IntroTekstScript : MonoBehaviour {
     {
         player = GameObject.Find("Character");
         controllerSwitch = player.GetComponent<PlayerController>();
-        //controllerSwitch.enabled = true;
+        controllerSwitch.enabled = false;
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
         cameraAnim.enabled = false;
         draakAnim = draakBeweging.GetComponent<Animator>();
@@ -79,7 +79,6 @@ public class IntroTekstScript : MonoBehaviour {
         tekstFadeAway = true;
 
         yield return new WaitForSeconds(3f);
-        controllerSwitch.enabled = false;
         fadingFromWhite = true;
         cameraAnim.enabled = true;
 
