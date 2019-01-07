@@ -55,7 +55,7 @@ public class SE_SnowWaggle : MonoBehaviour, ISocialEncounter
 		audioSource.Play();		
 
 		float t = 0;
-		while (Vector3.Distance(moustacheBoy.position, endPosition) > .1f) {
+		while (moustacheBoy.position.SquareDistance(endPosition) > .01f) {
 			moustacheBoy.position = Vector3.MoveTowards(moustacheBoy.position, endPosition, movementSpeed * Time.deltaTime);
 			transform.position = moustacheBoy.position;
 			t += Time.deltaTime;
