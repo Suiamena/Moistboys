@@ -85,7 +85,15 @@ public class PauseScreen : MonoBehaviour
 						SwitchExitOption();
 						waitingForDPadReset = true;
 					}
-					if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Start Button") || Input.GetButtonDown("Keyboard Space"))
+                    if (Input.GetButtonDown("W"))
+                    {
+                        SwitchExitOption();
+                    }
+                    if (Input.GetButtonDown("S"))
+                    {
+                        SwitchExitOption();
+                    }
+                    if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Start Button") || Input.GetButtonDown("Keyboard Space"))
                     {
 						if (exitOption == 0) {
                             Time.timeScale = 1;
