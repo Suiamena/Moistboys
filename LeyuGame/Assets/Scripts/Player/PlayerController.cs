@@ -413,7 +413,7 @@ public class PlayerController : MonoBehaviour
 		if (velocity.y < 0) {
 			if (!checkCurrentHeight) {
 				Ray checkHeightRay = new Ray(transform.position, Vector3.up * -1);
-				if (Physics.Raycast(checkHeightRay, 10f)) {
+				if (Physics.Raycast(checkHeightRay, 20f)) {
 				} else {
 					jumpHeight = 1;
 				}
