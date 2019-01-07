@@ -101,14 +101,14 @@ public class NewWallMechanic : MonoBehaviour
 	{
 		if (playerScript.creatureWallsEnabled) {
 			if (currentCreatureLocation == 0) {
-                if (Vector3.Distance(defaultCreaturePos, player.transform.position) < flyInOutRange) {
+                if (defaultCreaturePos.SquareDistance(player.transform.position) < flyInOutRange * flyInOutRange) {
                     if (!flyingRoutineRunning) {
 						flyingRoutineRunning = true;
 						StartCoroutine(FlyIn());
 					}
 				}
 			} else if (currentCreatureLocation == gameObject.GetInstanceID()) {
-				if (Vector3.Distance(defaultCreaturePos, player.transform.position) > flyInOutRange) {
+				if (defaultCreaturePos.SquareDistance(player.transform.position) > flyInOutRange * flyInOutRange) {
 					if (!flyingRoutineRunning) {
 						flyingRoutineRunning = true;
 						StartCoroutine(FlyOut());
@@ -121,7 +121,7 @@ public class NewWallMechanic : MonoBehaviour
 	void TriggerSequence ()
 	{
 		if (readyForSequence && currentCreatureLocation == gameObject.GetInstanceID()) {
-			if (Vector3.Distance(defaultCreaturePos, player.transform.position) < triggerAbilityRange) {
+			if (defaultCreaturePos.SquareDistance(player.transform.position) < triggerAbilityRange * triggerAbilityRange) {
 				if (!creatureSpawnsPlatforms) {
 					pressButtonPopup.SetActive(true);
 				}
@@ -224,8 +224,7 @@ public class NewWallMechanic : MonoBehaviour
 				player.transform.rotation = Quaternion.Lerp(oldRot, player.transform.rotation, 0.18f);
 				player.transform.Rotate(-player.transform.eulerAngles.x, 0, 0);
 			}
-
-			if (Vector3.Distance(player.transform.position, points[pointIndex]) < .1f) {
+			if (Vector3.SquareDistance(player.transform.position, points[pointIndex]) < .1f) {
 				++pointIndex;
 				if (pointIndex >= points.Length) {
 					break;
@@ -355,7 +354,7 @@ public class NewWallMechanic : MonoBehaviour
 		MoustacheBoiAudio.PlayFlaps();
 		moustacheAnimator.SetBool("isFlying", true);
 
-		while (Vector3.Distance(moustacheBoi.transform.position, flyInPosition) > .1f) {
+		while (moustacheBoi.transform.position.SquareDistance(flyInPosition) > .1f * .1f) {
 			moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyInPosition, flyingSpeed * Time.deltaTime);
 			yield return null;
 		}
@@ -415,7 +414,7 @@ public class NewWallMechanic : MonoBehaviour
 
 		MoustacheBoiAudio.PlayFlaps();
 		moustacheAnimator.SetBool("isFlying", true);
-		while (Vector3.Distance(moustacheBoi.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > 0.1f) {
+		while (moustacheBoi.transform.position.SquareDistance(defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > 0.01f) {
 			moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint, flyingSpeed * Time.deltaTime);
 			yield return null;
 		}
