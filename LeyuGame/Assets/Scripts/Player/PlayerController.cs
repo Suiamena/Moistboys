@@ -198,7 +198,6 @@ public class PlayerController : MonoBehaviour
 	{
 		movementInput = new Vector2(Mathf.Clamp(Input.GetAxis("Left Stick X") + Input.GetAxis("Keyboard AD"), -1, 1), Mathf.Clamp(Input.GetAxis("Left Stick Y") + Input.GetAxis("Keyboard WS"), -1, 1));
 		orientationInput = new Vector2(Mathf.Clamp(Input.GetAxis("Right Stick X") + Input.GetAxis("Mouse X") * mouseXSensitivity, -1, 1), Mathf.Clamp(Input.GetAxis("Right Stick Y") + Input.GetAxis("Mouse Y") * mouseYSensitivity, -1, 1));
-        Debug.Log(Input.GetAxis("Keyboard AD"));
 	}
 
 	void CameraControl ()
@@ -252,7 +251,7 @@ public class PlayerController : MonoBehaviour
 
 	void Launch ()
 	{
-		if (launchEnabled && (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Left Mouse Button"))) {
+		if (launchEnabled && (Input.GetAxis("Right Trigger") != 0 || Input.GetButtonDown("Keyboard Space"))) {
 			if (!launchRoutineRunning) {
 				launchRoutineRunning = true;
 				StartCoroutine(LaunchRoutine());
@@ -284,7 +283,7 @@ public class PlayerController : MonoBehaviour
 	void Hop ()
 	{
 		if (canHop) {
-			if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space")) {
+			if (Input.GetButtonDown("A Button") || Input.GetButton("Left Mouse Button")) {
 				canHop = false;
 				isHopping = true;
 				if (velocity.y < 0)
@@ -519,7 +518,7 @@ public class PlayerController : MonoBehaviour
 			launchRenderer.materials[launchMaterialIndexes[i]].color = launchStageOneColor;
 		}
 
-		while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Left Mouse Button")) {
+		while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Keyboard Space")) {
 			isBuildingLaunch = true;
 			timeLapsed += Time.deltaTime;
 
