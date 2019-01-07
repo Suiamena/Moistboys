@@ -26313,7 +26313,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 100000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -42741,7 +42741,7 @@ MonoBehaviour:
   FogTransitionSize: 5
   MaxLightDistance: 128
   AboveFogPercent: 0.1
-  Offset: {x: 1338.658, y: 1338.658, z: 0}
+  Offset: {x: 1338.958, y: 1338.958, z: 0}
 --- !u!108 &1789474792
 Light:
   m_ObjectHideFlags: 0
@@ -49184,7 +49184,7 @@ GameObject:
   - component: {fileID: 2085154288}
   - component: {fileID: 2085154287}
   m_Layer: 0
-  m_Name: IntroTekst
+  m_Name: IntroCutscene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49203,6 +49203,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tekstImage: {fileID: 333765688}
   background: {fileID: 893152876}
+  cutsceneCamera: {fileID: 1006696871}
+  draakBeweging: {fileID: 664939757}
 --- !u!4 &2085154288
 Transform:
   m_ObjectHideFlags: 0
@@ -49214,8 +49216,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 939538432}
+  - {fileID: 2113803023}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2085486006
 GameObject:
@@ -50158,7 +50161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2113803023}
   m_Layer: 0
-  m_Name: Cutscene1
+  m_Name: CutsceneComponents
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50171,14 +50174,14 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2113803022}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -476.7, y: 231.59, z: 374.4}
+  m_LocalPosition: {x: -256.1, y: 217.39, z: 791.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1006696872}
   - {fileID: 847596690}
   - {fileID: 255585807}
-  m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_Father: {fileID: 2085154288}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2118357078
 Prefab:
