@@ -163,11 +163,14 @@ public class NewWallMechanic : MonoBehaviour
 
 	void StartJump ()
 	{
-		if ((Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space")) && sequenceIsRunning && !playerIsJumping) {
-
+		if (sequenceIsRunning && !playerIsJumping) {
 			playerIsJumping = true;
 			StartCoroutine(MakeJump(() => { playerIsJumping = false; }));
 		}
+		//if ((Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space")) && sequenceIsRunning && !playerIsJumping) {
+		//	playerIsJumping = true;
+		//	StartCoroutine(MakeJump(() => { playerIsJumping = false; }));
+		//}
 	}
 
 	IEnumerator MakeJump (System.Action callback)
