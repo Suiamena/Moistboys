@@ -107,7 +107,8 @@ public class PlayerController : MonoBehaviour
 		launchBaseColor = launchRenderer.materials[launchMaterialIndexes[0]].color;
 
 		GamePad.SetVibration(0, 0, 0);
-	}
+        Cursor.visible = false;
+    }
 
 	//START
 	void SetAbilities ()
