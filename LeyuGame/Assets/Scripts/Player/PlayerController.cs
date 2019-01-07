@@ -252,7 +252,7 @@ public class PlayerController : MonoBehaviour
 
 	void Launch ()
 	{
-		if (launchEnabled && Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Left Mouse Button")) {
+		if (launchEnabled && (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Left Mouse Button"))) {
 			if (!launchRoutineRunning) {
 				launchRoutineRunning = true;
 				StartCoroutine(LaunchRoutine());
