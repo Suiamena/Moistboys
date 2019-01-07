@@ -45,7 +45,7 @@ public class CompetenceChoice : MonoBehaviour
 
     void MakeDecision()
     {
-        if (Input.GetButtonDown("A Button"))
+        if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space"))
         {
             Level5Music.musicStage = 12.5f;
             playerChooseCompetence = true;
