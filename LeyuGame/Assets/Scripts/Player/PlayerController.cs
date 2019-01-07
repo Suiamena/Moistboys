@@ -503,7 +503,7 @@ public class PlayerController : MonoBehaviour
 	//COROUTINES
 	IEnumerator BouncePause ()
 	{
-		yield return new WaitForSeconds(.14f);
+		yield return new WaitForSeconds(.05f);
 		waitingForNextBounce = waitForBounceRoutineRunning = false;
 	}
 
