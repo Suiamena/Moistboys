@@ -251,10 +251,10 @@ public class PlayerController : MonoBehaviour
 
 	void Launch ()
 	{
-		if (launchEnabled && (Input.GetAxis("Right Trigger") != 0 || Input.GetButtonDown("Keyboard Space"))) {
+        if (launchEnabled && (Input.GetAxis("Right Trigger") != 0 || Input.GetButtonDown("Keyboard Space"))) {
 			if (!launchRoutineRunning) {
-				launchRoutineRunning = true;
-				StartCoroutine(LaunchRoutine());
+                launchRoutineRunning = true;
+                StartCoroutine(LaunchRoutine());
 			}
 		}
 	}
@@ -509,17 +509,19 @@ public class PlayerController : MonoBehaviour
 
 	IEnumerator LaunchRoutine ()
 	{
-		float timeLapsed = 0;
+        float timeLapsed = 0;
 		bool stageTwoReached = false;
 
-		GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
+        Debug.Log("start");
+
+        GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
 
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].color = launchStageOneColor;
-		}
+        }
 
 		while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Keyboard Space")) {
-			isBuildingLaunch = true;
+            isBuildingLaunch = true;
 			timeLapsed += Time.deltaTime;
 
 			if (timeLapsed > launchStageTwoTime) {
@@ -556,15 +558,17 @@ public class PlayerController : MonoBehaviour
 		StopCoroutine(SuspendGroundedCheck());
 		StartCoroutine(SuspendGroundedCheck());
 
-		while (!Grounded()) {
+        while (!Grounded()) {
 			yield return null;
 		}
 
-		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+        for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
-		}
+        }
 		launchRoutineRunning = false;
-	}
+
+        Debug.Log("end");
+    }
 
 	IEnumerator PreLaunchRoutine ()
 	{
