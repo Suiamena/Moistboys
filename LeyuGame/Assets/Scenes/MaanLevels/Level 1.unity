@@ -14,12 +14,12 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.9058824, g: 0.9176471, b: 0.93725497, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.01
-  m_LinearFogStart: 27
-  m_LinearFogEnd: 6139.5
+  m_LinearFogStart: 30
+  m_LinearFogEnd: 500
   m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
@@ -269,6 +269,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tekstImage: {fileID: 556615693}
   background: {fileID: 2058318656}
+  cutsceneCamera: {fileID: 0}
+  draakBeweging: {fileID: 0}
 --- !u!4 &16303632
 Transform:
   m_ObjectHideFlags: 0
@@ -12780,32 +12782,32 @@ Prefab:
     - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
         type: 2}
       propertyPath: MatrixVP.e00
-      value: -0.000000109726145
+      value: -0.00000012108023
       objectReference: {fileID: 0}
     - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
         type: 2}
       propertyPath: MatrixVP.e02
-      value: -0.92044973
+      value: -1.0156947
       objectReference: {fileID: 0}
     - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
         type: 2}
       propertyPath: MatrixVP.e03
-      value: 360.88986
+      value: 398.23352
       objectReference: {fileID: 0}
     - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
         type: 2}
       propertyPath: LastMatrixVP.e00
-      value: -0.000000109726145
+      value: -0.00000012108023
       objectReference: {fileID: 0}
     - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
         type: 2}
       propertyPath: LastMatrixVP.e02
-      value: -0.92044973
+      value: -1.0156947
       objectReference: {fileID: 0}
     - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
         type: 2}
       propertyPath: LastMatrixVP.e03
-      value: 360.88986
+      value: 398.23352
       objectReference: {fileID: 0}
     - target: {fileID: 4670423433883988, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
       propertyPath: m_RootOrder
@@ -12814,6 +12816,231 @@ Prefab:
     - target: {fileID: 1462343772803242, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: Density
+      value: 0.941
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixVP.e01
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixVP.e10
+      value: -0.40117857
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixVP.e12
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixVP.e13
+      value: 183.65309
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixVP.e20
+      value: -0.0000002899189
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixVP.e22
+      value: 3.5527137e-14
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixVP.e23
+      value: 0.29985133
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixVP.e30
+      value: 0.97280633
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixVP.e31
+      value: -0.23162057
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixVP.e32
+      value: -0.00000011920929
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixVP.e33
+      value: 499.21487
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: LastMatrixVP.e01
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: LastMatrixVP.e10
+      value: 0.40117857
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: LastMatrixVP.e12
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: LastMatrixVP.e13
+      value: -183.65309
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: LastMatrixVP.e20
+      value: -0.0000002899189
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: LastMatrixVP.e22
+      value: 3.5527137e-14
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: LastMatrixVP.e23
+      value: 0.29985133
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: LastMatrixVP.e30
+      value: 0.97280633
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: LastMatrixVP.e31
+      value: -0.23162057
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: LastMatrixVP.e32
+      value: -0.00000011920929
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: LastMatrixVP.e33
+      value: 499.21487
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixV.e00
+      value: -0.00000011920929
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixV.e01
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixV.e02
+      value: -1.0000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixV.e03
+      value: 392.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixV.e10
+      value: 0.23162057
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixV.e12
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixV.e13
+      value: -106.032166
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixV.e20
+      value: -0.97280633
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixV.e21
+      value: 0.23162057
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixV.e22
+      value: 0.00000011920929
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MatrixV.e23
+      value: -499.21487
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: MieScattering
+      value: 0.995
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: Extinction
+      value: 0.114
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: ExtinctionEffect
+      value: 0.371
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: AmbientLightingStrength
+      value: 0.905
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: NoiseEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: NoiseVelocity.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: NoiseVelocity.y
+      value: -1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: NoiseVelocity.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: NoiseScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: NoiseScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114974222757655976, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: NoiseScale.z
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
@@ -16767,7 +16994,7 @@ MonoBehaviour:
   NoiseTexture3D: {fileID: 0}
   NoiseScale: {x: 0.5, y: 0.5, z: 0.5}
   NoiseVelocity: {x: 1, y: 1, z: 0}
-  LightFalloff: {fileID: 0}
+  LightFalloff: {fileID: 2800000, guid: 8f6aaf9a49a4d7b4e9f251b0af976ef6, type: 3}
   NearPlane: 0
   NoiseEnabled: 0
   CustomMieScatter: 0
@@ -16775,7 +17002,7 @@ MonoBehaviour:
   CustomExtinctionEffect: 0
   CustomDensity: 0
   CustomSampleCount: 0
-  CustomColor: 0
+  CustomColor: 1
   CustomNoiseEnabled: 0
   CustomNoiseTexture: 0
   CustomNoiseScale: 0
@@ -16789,7 +17016,7 @@ MonoBehaviour:
   CustomSunBleed: 0
   ShadowCasting: 1
   CustomStrength: 0
-  CustomIntensity: 0
+  CustomIntensity: 1
   CustomTintMode: 0
   CustomTintColor: 0
   CustomTintColor2: 0
@@ -16802,7 +17029,7 @@ MonoBehaviour:
   TintColor2: {r: 0, g: 0, b: 1, a: 1}
   TintIntensity: 0.2
   TintGradient: 0.2
-  Intensity: 1
+  Intensity: 0
   Strength: 1
   Color: {r: 1, g: 1, b: 1, a: 1}
   MieScattering: 0.05
@@ -16810,7 +17037,7 @@ MonoBehaviour:
   SunBleed: 1
   Extinction: 0.01
   Density: 0.2
-  ExtraDensity: 0
+  ExtraDensity: 0.1
   SampleCount: 4
   Shadows: 1
   FogHeightEnabled: 0
@@ -16818,7 +17045,7 @@ MonoBehaviour:
   FogTransitionSize: 5
   MaxLightDistance: 128
   AboveFogPercent: 0.1
-  Offset: {x: 1434.8186, y: 1434.8186, z: 0}
+  Offset: {x: 1442.8928, y: 1442.8928, z: 0}
 --- !u!108 &682500474
 Light:
   m_ObjectHideFlags: 0
