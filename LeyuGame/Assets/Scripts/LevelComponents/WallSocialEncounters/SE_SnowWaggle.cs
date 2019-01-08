@@ -15,12 +15,12 @@ public class SE_SnowWaggle : MonoBehaviour, ISocialEncounter
 	Quaternion endRotation;
 	public float rotationSpeed = 260;
 	public float movementSpeed = 5, swayAngle = 20, swayTime = .2f;
-	
+
 	public void Initialize (Action proceedToExecute)
 	{
-		endPosition = moustacheBoyEndLocation.position;
-		endRotation = moustacheBoyEndLocation.rotation;
-		moustacheBoy.position = moustacheBoyStartLocation.position;
+        endPosition = moustacheBoyEndLocation.position;
+        endRotation = moustacheBoyEndLocation.rotation;
+        moustacheBoy.position = moustacheBoyStartLocation.position;
 		moustacheBoy.rotation = moustacheBoyStartLocation.rotation;
 		audioSource = GetComponent<AudioSource>();
 
