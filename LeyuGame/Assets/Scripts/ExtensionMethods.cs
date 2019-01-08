@@ -23,6 +23,13 @@ public static class ExtensionMethods
 		return new Vector2(vec.x, vec.z);
 	}
 
+	public static float SquareDistance (this Vector3 lhs, Vector3 rhs)
+	{
+		float result;
+		result = (lhs - rhs).sqrMagnitude;
+		return result;
+	}
+
 	public static int ToInt (this bool lhs)
 	{
 		if (lhs)

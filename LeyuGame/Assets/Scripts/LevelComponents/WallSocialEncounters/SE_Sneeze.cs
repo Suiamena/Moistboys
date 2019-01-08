@@ -80,7 +80,7 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 	}
 	bool IsPlayerInRange ()
 	{
-		if (Vector3.Distance(player.transform.position, moustacheBoy.position) < NewWallMechanic.triggerAbilityRange)
+		if (player.transform.position.SquareDistance(moustacheBoy.position) < NewWallMechanic.triggerAbilityRange * NewWallMechanic.triggerAbilityRange)
 			return true;
 		else
 			return false;

@@ -7,15 +7,15 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    Rigidbody rig;
+	Rigidbody rig;
 	Vector3 velocity;
 	bool groundedSuspended = false;
 	Vector2 movementInput = new Vector2(0, 0), orientationInput = new Vector2(0, 0);
 	public float mouseXSensitivity = 1.6f;
 	public float mouseYSensitivity = 1.4f;
 
-    //Ability settings per scene
-    public const string playerPrefsKey = "LevelSixChoice", playerPrefsNoChoiceMade = "NoChoiceMade", playerPrefsLaunch = "Launch", playerPrefsCreature = "Creature";
+	//Ability settings per scene
+	public const string playerPrefsKey = "LevelSixChoice", playerPrefsNoChoiceMade = "NoChoiceMade", playerPrefsLaunch = "Launch", playerPrefsCreature = "Creature";
 
 	//Animation Settings
 	GameObject animationModel;
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
 	public float walkingBouncingThreshold = .8f;
 	bool inSnow = false;
 	public float groundType, jumpHeight;
-	bool checkCurrentHeight;
+	bool checkCurrentHeight, waitingForNextBounce = false, waitForBounceRoutineRunning = false;
 
 	[Header("Hop Settings")]
 	public bool canHop = true;
@@ -107,68 +107,67 @@ public class PlayerController : MonoBehaviour
 		launchBaseColor = launchRenderer.materials[launchMaterialIndexes[0]].color;
 
 		GamePad.SetVibration(0, 0, 0);
+        Cursor.visible = false;
     }
 
-    //START
-    void SetAbilities()
-    {
-        int currentSceneIndex;
-        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+	//START
+	void SetAbilities ()
+	{
+		int currentSceneIndex;
+		currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        switch (currentSceneIndex)
-        {
-            default:
-                PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
-                break;
-            case 1:
-                PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
-                creatureWallsEnabled = false;
-                launchEnabled = false;
-                break;
-            case 2:
-                PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
-                creatureWallsEnabled = false;
-                launchEnabled = false;
-                break;
-            case 3:
-                PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
-                creatureWallsEnabled = false;
-                launchEnabled = true;
-                break;
-            case 4:
-                PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
-                creatureWallsEnabled = true;
-                launchEnabled = true;
-                break;
-            case 5:
-                PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
-                creatureWallsEnabled = true;
-                launchEnabled = true;
-                break;
-            case 6:
-                switch (PlayerPrefs.GetString(playerPrefsKey))
-                {
-                    case playerPrefsNoChoiceMade:
-                        launchEnabled = true;
-                        creatureWallsEnabled = true;
-                        break;
-                    case playerPrefsLaunch:
-                        launchEnabled = true;
-                        creatureWallsEnabled = false;
-                        break;
-                    case playerPrefsCreature:
-                        launchEnabled = false;
-                        creatureWallsEnabled = true;
-                        break;
-                }
-                break;
-        }
-    }
+		switch (currentSceneIndex) {
+			default:
+				PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
+				break;
+			case 1:
+				PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
+				creatureWallsEnabled = false;
+				launchEnabled = false;
+				break;
+			case 2:
+				PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
+				creatureWallsEnabled = false;
+				launchEnabled = false;
+				break;
+			case 3:
+				PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
+				creatureWallsEnabled = false;
+				launchEnabled = true;
+				break;
+			case 4:
+				PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
+				creatureWallsEnabled = true;
+				launchEnabled = true;
+				break;
+			case 5:
+				PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
+				creatureWallsEnabled = true;
+				launchEnabled = true;
+				break;
+			case 6:
+				switch (PlayerPrefs.GetString(playerPrefsKey)) {
+					case playerPrefsNoChoiceMade:
+						launchEnabled = true;
+						creatureWallsEnabled = true;
+						break;
+					case playerPrefsLaunch:
+						launchEnabled = true;
+						creatureWallsEnabled = false;
+						break;
+					case playerPrefsCreature:
+						launchEnabled = false;
+						creatureWallsEnabled = true;
+						break;
+				}
+				break;
+		}
+	}
 
 	//UPDATES
 	void Update ()
 	{
-        creatureWallsEnabled = true;
+		creatureWallsEnabled = true;
 		ProcessInputs();
 
 		CameraControl();
@@ -252,10 +251,10 @@ public class PlayerController : MonoBehaviour
 
 	void Launch ()
 	{
-		if (launchEnabled && Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Left Mouse Button")) {
+        if (launchEnabled && (Input.GetAxis("Right Trigger") != 0 || Input.GetButtonDown("Keyboard Space"))) {
 			if (!launchRoutineRunning) {
-				launchRoutineRunning = true;
-				StartCoroutine(LaunchRoutine());
+                launchRoutineRunning = true;
+                StartCoroutine(LaunchRoutine());
 			}
 		}
 	}
@@ -284,7 +283,7 @@ public class PlayerController : MonoBehaviour
 	void Hop ()
 	{
 		if (canHop) {
-			if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space")) {
+			if (Input.GetButtonDown("A Button") || Input.GetButton("Left Mouse Button")) {
 				canHop = false;
 				isHopping = true;
 				if (velocity.y < 0)
@@ -305,7 +304,18 @@ public class PlayerController : MonoBehaviour
 	void Movement ()
 	{
 		if (Grounded()) {
-			if (movementInput.magnitude == 0) {
+			if (waitingForNextBounce) {
+				if (groundType == 1.5f) {
+					if (!waitForBounceRoutineRunning) {
+						waitForBounceRoutineRunning = true;
+						StartCoroutine(BouncePause());
+					}
+				} else {
+					waitingForNextBounce = false;
+				}
+			}
+
+			if (movementInput.magnitude == 0 || waitingForNextBounce) {
 				velocity.x = velocity.z = 0;
 			} else {
 				velocity = new Vector3(movementInput.x, 0, movementInput.y) * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
@@ -334,6 +344,8 @@ public class PlayerController : MonoBehaviour
 				}
 			}
 
+			waitingForNextBounce = true;
+
 			velocity.x = lateralSpeed.x;
 			velocity.z = lateralSpeed.y;
 		}
@@ -346,7 +358,7 @@ public class PlayerController : MonoBehaviour
 				velocity.y -= gravityStrength * Time.fixedDeltaTime;
 
 			Ray ceilingDetectRay = new Ray(transform.position, transform.up);
-			if (Physics.SphereCast(ceilingDetectRay, .4f, .15f, triggerMask)) {
+			if (Physics.SphereCast(ceilingDetectRay, .2f, .35f, triggerMask)) {
 				if (velocity.y > 0)
 					velocity.y = 0;
 			}
@@ -401,7 +413,7 @@ public class PlayerController : MonoBehaviour
 		if (velocity.y < 0) {
 			if (!checkCurrentHeight) {
 				Ray checkHeightRay = new Ray(transform.position, Vector3.up * -1);
-				if (Physics.Raycast(checkHeightRay, 10f)) {
+				if (Physics.Raycast(checkHeightRay, 20f)) {
 				} else {
 					jumpHeight = 1;
 				}
@@ -489,19 +501,27 @@ public class PlayerController : MonoBehaviour
 	}
 
 	//COROUTINES
+	IEnumerator BouncePause ()
+	{
+		yield return new WaitForSeconds(.05f);
+		waitingForNextBounce = waitForBounceRoutineRunning = false;
+	}
+
 	IEnumerator LaunchRoutine ()
 	{
-		float timeLapsed = 0;
+        float timeLapsed = 0;
 		bool stageTwoReached = false;
 
-		GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
+        Debug.Log("start");
+
+        GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
 
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].color = launchStageOneColor;
-		}
+        }
 
-		while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Left Mouse Button")) {
-			isBuildingLaunch = true;
+		while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Keyboard Space")) {
+            isBuildingLaunch = true;
 			timeLapsed += Time.deltaTime;
 
 			if (timeLapsed > launchStageTwoTime) {
@@ -538,15 +558,17 @@ public class PlayerController : MonoBehaviour
 		StopCoroutine(SuspendGroundedCheck());
 		StartCoroutine(SuspendGroundedCheck());
 
-		while (!Grounded()) {
+        while (!Grounded()) {
 			yield return null;
 		}
 
-		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+        for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
-		}
+        }
 		launchRoutineRunning = false;
-	}
+
+        Debug.Log("end");
+    }
 
 	IEnumerator PreLaunchRoutine ()
 	{

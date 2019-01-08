@@ -48,7 +48,8 @@ public class DragonUnderSnowScript : MonoBehaviour {
         if (playerCanMove == true)
         {
             if (Input.GetButtonDown("A Button") || Mathf.Abs(Input.GetAxis("Left Stick X")) > 0 ||
-                Mathf.Abs(Input.GetAxis("Left Stick Y")) > 0)
+                Mathf.Abs(Input.GetAxis("Left Stick Y")) > 0 || (Input.GetButtonDown("Keyboard Space")) ||
+                (Input.GetAxis("Keyboard WS") != 0) || (Input.GetAxis("Keyboard AD") != 0))
             {
                 playerHasMoved = true;
             }
@@ -96,7 +97,6 @@ public class DragonUnderSnowScript : MonoBehaviour {
         }
         Level3Music.musicStage = 5.9f;
         controllerSwitch.enabled = true;
-        print("playerHasMoved = " + playerHasMoved);
         ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
         snowExplosion.transform.position = player.transform.position;
         //snowExplosion.SetActive(false);

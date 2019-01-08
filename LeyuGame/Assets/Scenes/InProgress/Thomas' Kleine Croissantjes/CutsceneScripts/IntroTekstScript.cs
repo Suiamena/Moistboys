@@ -7,20 +7,35 @@ public class IntroTekstScript : MonoBehaviour {
 
     public Image tekstImage;
     public Image background;
-    bool fadingToBlack = false;
+    bool fadingFromWhite = false;
     bool tekstFadeAway = false;
     bool tekstFadeIn = false;
+
+    bool playerCanMove = false;
+    bool playerHasMoved = false;
+    bool cameraMoving = false;
 
     Color tempColor;
 
     GameObject player;
+    //GameObject playerCamera;
     PlayerController controllerSwitch;
+
+    public GameObject cutsceneCamera;
+    Animator cameraAnim;
+
+    public GameObject draakBeweging;
+    Animator draakAnim;
 
     void Start()
     {
         player = GameObject.Find("Character");
         controllerSwitch = player.GetComponent<PlayerController>();
         controllerSwitch.enabled = false;
+        cameraAnim = cutsceneCamera.GetComponent<Animator>();
+        cameraAnim.enabled = false;
+        draakAnim = draakBeweging.GetComponent<Animator>();
+        draakAnim.enabled = false;
         StartCoroutine(CutsceneTime());
     }
 
@@ -41,11 +56,16 @@ public class IntroTekstScript : MonoBehaviour {
             tekstImage.color = tempColor;
         }
 
-        if (fadingToBlack == true)
+        if (fadingFromWhite == true)
         {
             var tempColor2 = background.color;
             tempColor2.a -= 0.005f;
             background.color = tempColor2;
+
+            if (tempColor2.a <= 0)
+            {
+
+            }
         }
     }
 
@@ -59,11 +79,15 @@ public class IntroTekstScript : MonoBehaviour {
         tekstFadeAway = true;
 
         yield return new WaitForSeconds(3f);
-        fadingToBlack = true;
+        fadingFromWhite = true;
+        cameraAnim.enabled = true;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(10f);
+        draakAnim.enabled = true;
+
+        yield return new WaitForSeconds(2f);
         controllerSwitch.enabled = true;
         print("lol");
-        //Destroy(gameObject);
+        Destroy(gameObject);
     }
 }

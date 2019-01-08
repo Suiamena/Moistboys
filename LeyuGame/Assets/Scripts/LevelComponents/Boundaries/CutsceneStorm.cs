@@ -66,7 +66,7 @@ public class CutsceneStorm : MonoBehaviour {
 
         distanceToDraak = player.transform.position - creature.transform.position;
         distanceToDraak = new Vector3(distanceToDraak.x, distanceToDraak.y, distanceToDraak.z);
-        print(distanceToDraak);
+        //print(distanceToDraak);
 
         if (creatureMoving == true && distanceToDraak.x > -15f)
         {

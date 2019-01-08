@@ -42,7 +42,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 		moustacheAnimator.SetBool("isFlying", true);
 		MoustacheBoiAudio.PlayFlaps();
 
-		while (Vector3.Distance(moustacheBoy.transform.position, defaultCreaturePos) > .1f) {
+		while (moustacheBoy.transform.position.SquareDistance(defaultCreaturePos) > .01f) {
 			moustacheBoy.position = Vector3.MoveTowards(moustacheBoy.transform.position, defaultCreaturePos, flyingSpeed * Time.deltaTime);
 			yield return null;
 		}
@@ -61,7 +61,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 
 	IEnumerator Wave (Action proceedToEnd)
 	{
-		while (Vector3.Distance(moustacheBoy.position, player.transform.position) > NewWallMechanic.triggerAbilityRange)
+		while (moustacheBoy.position.SquareDistance(player.transform.position) > NewWallMechanic.triggerAbilityRange * NewWallMechanic.triggerAbilityRange)
 			yield return null;
 
 		audioSource.clip = totZoClip;
@@ -69,7 +69,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 		moustacheAnimator.SetBool("goodBye", true);
 
 		float t = 0;
-		while (Vector3.Distance(moustacheBoy.position, player.transform.position) < NewWallMechanic.triggerAbilityRange && t < timeBeforeDeparture) {
+		while (moustacheBoy.position.SquareDistance(player.transform.position) < NewWallMechanic.triggerAbilityRange * NewWallMechanic.triggerAbilityRange && t < timeBeforeDeparture) {
 			moustacheBoy.LookAt(player.transform);
 			moustacheBoy.Rotate(new Vector3(-moustacheBoy.transform.eulerAngles.x, 0, -moustacheBoy.transform.eulerAngles.z));
 			t += Time.deltaTime;
@@ -96,7 +96,7 @@ public class SE_TotZo : MonoBehaviour, ISocialEncounter
 		moustacheAnimator.SetBool("isFlying", true);
 		MoustacheBoiAudio.PlayFlaps();
 
-		while (Vector3.Distance(moustacheBoy.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > .1f) {
+		while (moustacheBoy.transform.position.SquareDistance(defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > .01f) {
 			moustacheBoy.position = Vector3.MoveTowards(moustacheBoy.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint, flyingSpeed * Time.deltaTime);
 			yield return null;
 		}
