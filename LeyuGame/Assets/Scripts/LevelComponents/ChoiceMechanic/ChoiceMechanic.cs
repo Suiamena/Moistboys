@@ -357,7 +357,6 @@ public class ChoiceMechanic : MonoBehaviour {
         playerScript.EnablePlayer();
         fourthCutsceneCamera.SetActive(false);
         //RESOLVE
-
         //uitvoeren if null
         SceneSettings sceneSettingObject = FindObjectOfType<SceneSettings>();
         if (sceneSettingObject != null)
