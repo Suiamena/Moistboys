@@ -512,8 +512,6 @@ public class PlayerController : MonoBehaviour
         float timeLapsed = 0;
 		bool stageTwoReached = false;
 
-        Debug.Log("start");
-
         GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
 
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
@@ -565,9 +563,7 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
         }
-		launchRoutineRunning = false;
-
-        Debug.Log("end");
+        launchRoutineRunning = false;
     }
 
 	IEnumerator PreLaunchRoutine ()
