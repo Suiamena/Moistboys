@@ -363,7 +363,7 @@ public class NewWallMechanic : MonoBehaviour
 		}
 
 		MoustacheBoiAudio.StopFlaps();
-		moustacheAnimator.SetBool("isFlying", false);
+        moustacheAnimator.SetBool("isFlying", false);
 
 		while (Quaternion.Angle(moustacheBoi.transform.rotation, defaultCreatureRot) > .1f) {
 			moustacheBoi.transform.rotation = Quaternion.RotateTowards(moustacheBoi.transform.rotation, defaultCreatureRot, 260 * Time.deltaTime);
@@ -416,14 +416,14 @@ public class NewWallMechanic : MonoBehaviour
 		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
 
 		MoustacheBoiAudio.PlayFlaps();
-		moustacheAnimator.SetBool("isFlying", true);
+        moustacheAnimator.SetBool("isFlying", true);
 		while (moustacheBoi.transform.position.SquareDistance(defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > 0.01f) {
 			moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint, flyingSpeed * Time.deltaTime);
 			yield return null;
 		}
 
 		MoustacheBoiAudio.StopFlaps();
-		moustacheAnimator.SetBool("isFlying", false);
+        moustacheAnimator.SetBool("isFlying", false);
 		moustacheBoi.gameObject.SetActive(false);
 
 		yield return new WaitForSeconds(.6f);
