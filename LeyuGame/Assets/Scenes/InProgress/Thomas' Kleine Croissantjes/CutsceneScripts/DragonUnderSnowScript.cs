@@ -5,11 +5,15 @@ using UnityEngine.UI;
 
 public class DragonUnderSnowScript : MonoBehaviour {
 
+    public GameObject cutsceneLaunchObject;
     public Image image;
     bool fadingToWhite = false;
     bool playerCanMove = false;
     bool playerHasMoved = false;
     bool cameraMoving = false;
+
+    bool firstLaunch = false;
+    int chargingTime;
 
     Color tempColor;
 
@@ -32,6 +36,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
         player = GameObject.Find("Character");
         playerCamera = GameObject.Find("Main Camera");
         controllerSwitch = player.GetComponent<PlayerController>();
+        controllerSwitch.launchEnabled = true;
         controllerSwitch.enabled = false;
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
     }
@@ -43,16 +48,6 @@ public class DragonUnderSnowScript : MonoBehaviour {
             var tempColor = image.color;
             tempColor.a -= 0.015f;
             image.color = tempColor;
-        }
-
-        if (playerCanMove == true)
-        {
-            if (Input.GetButtonDown("A Button") || Mathf.Abs(Input.GetAxis("Left Stick X")) > 0 ||
-                Mathf.Abs(Input.GetAxis("Left Stick Y")) > 0 || (Input.GetButtonDown("Keyboard Space")) ||
-                (Input.GetAxis("Keyboard WS") != 0) || (Input.GetAxis("Keyboard AD") != 0))
-            {
-                playerHasMoved = true;
-            }
         }
 
         if (playerHasMoved == true)
@@ -90,19 +85,50 @@ public class DragonUnderSnowScript : MonoBehaviour {
         yield return new WaitForSeconds(7f);
         cameraAnim.enabled = false;
         playerCanMove = true;
+        controllerSwitch.enableLaunchOnly = true;
+        controllerSwitch.enabled = true;
 
-        while (playerHasMoved == false)
+        //while (!firstLaunch)
+        //{
+        //    while (Input.GetAxis("Right Trigger") == 0)
+        //    {
+        //        yield return null;
+        //    }
+
+        //    //START PRESSING
+        //    while (Input.GetAxis("Right Trigger") > 0)
+        //    {
+        //        chargingTime += 1;
+        //        Debug.Log(chargingTime);
+        //        yield return null;
+        //    }
+        //    if (chargingTime > 35)
+        //    {
+        //        firstLaunch = true;
+        //    }
+        //    chargingTime = 0;
+        //}
+
+        while (Input.GetAxis("Right Trigger") == 0)
         {
             yield return null;
         }
+        while (Input.GetAxis("Right Trigger") > 0)
+        {
+            yield return null;
+        }
+
+        controllerSwitch.enableLaunchOnly = false;
+        playerHasMoved = true;
+
         Level3Music.musicStage = 5.9f;
-        controllerSwitch.enabled = true;
+        print("playerHasMoved = " + playerHasMoved);
         ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
         snowExplosion.transform.position = player.transform.position;
         //snowExplosion.SetActive(false);
         Destroy(destructibleBoi);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         cameraMoving = true;
 
         //Not really necessary but for performance I guess.

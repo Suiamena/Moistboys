@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class CutsceneStorm : MonoBehaviour {
 
-    //Thomas Creature Shit
-    GameObject creature;
-    GameObject creatureBeweging;
-    Vector3 distanceToDraak;
-    Animator creatureAnim;
-    Animator creatureBewegingAnim;
+    //Thomas Creature Shit± alles voor de creature toen hij nog geanimeerd was. Is nu niet meer nodig uitgaand van dat hij de speler constant zal volgen.
+    //GameObject creature;
+    //GameObject creatureBeweging;
+    //Vector3 distanceToDraak;
+    //Animator creatureAnim;
+    //Animator creatureBewegingAnim;
 
-    bool creatureMoving = false;
+    //bool creatureMoving = false;
     //Thomas Shit
 
     public GameObject storm;
@@ -36,12 +36,12 @@ public class CutsceneStorm : MonoBehaviour {
         main = snowParticlesSystem.main;
 
         //Thomas
-        creature = GameObject.Find("SneeuwStormCreature");
-        creatureBeweging = GameObject.Find("BewegingSneeuwstorm");
-        creatureAnim = creature.GetComponent<Animator>();
-        creatureAnim.SetBool("isFlying", true);
-        creatureBewegingAnim = creatureBeweging.GetComponent<Animator>();
-        creatureBewegingAnim.SetBool("isPlaying", false);
+        //creature = GameObject.Find("SneeuwStormCreature");
+        //creatureBeweging = GameObject.Find("BewegingSneeuwstorm");
+        //creatureAnim = creature.GetComponent<Animator>();
+        //creatureAnim.SetBool("isFlying", true);
+        //creatureBewegingAnim = creatureBeweging.GetComponent<Animator>();
+        //creatureBewegingAnim.SetBool("isPlaying", false);
         //Thomas
     }
 
@@ -54,8 +54,8 @@ public class CutsceneStorm : MonoBehaviour {
         if (startToAccelerate)
         {
             Debug.Log("hay");
-            windStormStrength += 100F;
-            windStormStrength = Mathf.Clamp(windStormStrength, 0, 5000);
+            windStormStrength += 20F;
+            windStormStrength = Mathf.Clamp(windStormStrength, 0, 1500);
             emissionModule.rateOverTime = windStormStrength;
 
             if (windStormStrength == 5000)
@@ -64,18 +64,18 @@ public class CutsceneStorm : MonoBehaviour {
             }
         }
 
-        distanceToDraak = player.transform.position - creature.transform.position;
-        distanceToDraak = new Vector3(distanceToDraak.x, distanceToDraak.y, distanceToDraak.z);
+        //distanceToDraak = player.transform.position - creature.transform.position;
+        //distanceToDraak = new Vector3(distanceToDraak.x, distanceToDraak.y, distanceToDraak.z);
         //print(distanceToDraak);
 
-        if (creatureMoving == true && distanceToDraak.x > -15f)
-        {
-            creatureBewegingAnim.enabled = true;
-        }
-        else
-        {
-            creatureBewegingAnim.enabled = false;
-        }
+        //if (creatureMoving == true && distanceToDraak.x > -15f)
+        //{
+        //    creatureBewegingAnim.enabled = true;
+        //}
+        //else
+        //{
+        //    creatureBewegingAnim.enabled = false;
+        //}
 
     }
 
@@ -83,8 +83,8 @@ public class CutsceneStorm : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            creatureBewegingAnim.SetBool("isPlaying", true);
-            creatureMoving = true;
+            //creatureBewegingAnim.SetBool("isPlaying", true);
+            //creatureMoving = true;
             followPlayer = true;
             storm.SetActive(true);
             startToAccelerate = true;
