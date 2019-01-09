@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
 	bool inSnow = false;
 	public float groundType, jumpHeight;
 	bool checkCurrentHeight, waitingForNextBounce = false, waitForBounceRoutineRunning = false;
+    public bool enableLaunchOnly;
 
 	[Header("Hop Settings")]
 	public bool canHop = true;
@@ -196,9 +197,13 @@ public class PlayerController : MonoBehaviour
 	//UPDATE FUNCTIONS
 	void ProcessInputs ()
 	{
-		movementInput = new Vector2(Mathf.Clamp(Input.GetAxis("Left Stick X") + Input.GetAxis("Keyboard AD"), -1, 1), Mathf.Clamp(Input.GetAxis("Left Stick Y") + Input.GetAxis("Keyboard WS"), -1, 1));
-		orientationInput = new Vector2(Mathf.Clamp(Input.GetAxis("Right Stick X") + Input.GetAxis("Mouse X") * mouseXSensitivity, -1, 1), Mathf.Clamp(Input.GetAxis("Right Stick Y") + Input.GetAxis("Mouse Y") * mouseYSensitivity, -1, 1));
-	}
+        if (!enableLaunchOnly)
+        {
+            movementInput = new Vector2(Mathf.Clamp(Input.GetAxis("Left Stick X") + Input.GetAxis("Keyboard AD"), -1, 1), Mathf.Clamp(Input.GetAxis("Left Stick Y") + Input.GetAxis("Keyboard WS"), -1, 1));
+            orientationInput = new Vector2(Mathf.Clamp(Input.GetAxis("Right Stick X") + Input.GetAxis("Mouse X") * mouseXSensitivity, -1, 1), Mathf.Clamp(Input.GetAxis("Right Stick Y") + Input.GetAxis("Mouse Y") * mouseYSensitivity, -1, 1));
+
+        }
+    }
 
 	void CameraControl ()
 	{
@@ -282,7 +287,7 @@ public class PlayerController : MonoBehaviour
 
 	void Hop ()
 	{
-		if (canHop) {
+		if (canHop && !enableLaunchOnly) {
 			if (Input.GetButtonDown("A Button") || Input.GetButton("Left Mouse Button")) {
 				canHop = false;
 				isHopping = true;

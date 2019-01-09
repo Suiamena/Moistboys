@@ -12,6 +12,10 @@ public class LaunchTest : MonoBehaviour {
     public float launchStageTwoTime = .7f;
     public LayerMask triggerMask;
 
+    [Header("Gravity Settings")]
+    public float gravityStrength = 48;
+    public float maximumFallingSpeed = 112;
+
     GameObject player;
     PlayerController playerScript;
     Vector3 velocity;
@@ -39,13 +43,14 @@ public class LaunchTest : MonoBehaviour {
         rig.velocity = transform.rotation * velocity;
     }
 
+    private void FixedUpdate()
+    {
+        Gravity();
+    }
+
     IEnumerator TestLaunch()
     {
-        Debug.Log("one");
-        yield return new WaitForSeconds(1f);
-        Debug.Log("two");
-        yield return new WaitForSeconds(1f);
-        Debug.Log("three");
+        yield return new WaitForSeconds(0f);
         launchRoutineRunning = true;
         StartCoroutine(LaunchRoutine());
         StartCoroutine(EnablePlayer());
@@ -53,7 +58,7 @@ public class LaunchTest : MonoBehaviour {
 
     IEnumerator EnablePlayer()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.8f);
         playerScript.enabled = true;
     }
 
@@ -181,6 +186,26 @@ public class LaunchTest : MonoBehaviour {
         groundedSuspended = true;
         yield return new WaitForSeconds(suspensionTime);
         groundedSuspended = false;
+    }
+
+    void Gravity()
+    {
+        if (!Grounded())
+        {
+            if (velocity.y > -maximumFallingSpeed)
+                velocity.y -= gravityStrength * Time.fixedDeltaTime;
+
+            Ray ceilingDetectRay = new Ray(transform.position, transform.up);
+            if (Physics.SphereCast(ceilingDetectRay, .2f, .35f, triggerMask))
+            {
+                if (velocity.y > 0)
+                    velocity.y = 0;
+            }
+        }
+        else
+        {
+            velocity.y = 0;
+        }
     }
 
 }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class DragonUnderSnowScript : MonoBehaviour {
 
+    public GameObject cutsceneLaunchObject;
     public Image image;
     bool fadingToWhite = false;
     bool playerCanMove = false;
@@ -46,16 +47,6 @@ public class DragonUnderSnowScript : MonoBehaviour {
             image.color = tempColor;
         }
 
-        if (playerCanMove == true)
-        {
-            //PLAYER MUST LAUNCH OUT OF SNOW
-            if (Input.GetButtonDown("A Button") || Mathf.Abs(Input.GetAxis("Left Stick X")) > 0 ||
-                Mathf.Abs(Input.GetAxis("Left Stick Y")) > 0)
-            {
-                playerHasMoved = true;
-            }
-        }
-
         if (playerHasMoved == true)
         {    
             cutsceneCamera.transform.LookAt(player.transform.position);
@@ -91,20 +82,30 @@ public class DragonUnderSnowScript : MonoBehaviour {
         yield return new WaitForSeconds(7f);
         cameraAnim.enabled = false;
         playerCanMove = true;
+        controllerSwitch.enableLaunchOnly = true;
+        controllerSwitch.enabled = true;
 
-        while (playerHasMoved == false)
+        while (Input.GetAxis("Right Trigger") == 0)
         {
             yield return null;
         }
+
+        while (Input.GetAxis("Right Trigger") > 0)
+        {
+            yield return null;
+        }
+
+        controllerSwitch.enableLaunchOnly = false;
+        playerHasMoved = true;
+
         Level3Music.musicStage = 5.9f;
-        controllerSwitch.enabled = true;
         print("playerHasMoved = " + playerHasMoved);
         ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
         snowExplosion.transform.position = player.transform.position;
         //snowExplosion.SetActive(false);
         Destroy(destructibleBoi);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         cameraMoving = true;
 
         //Not really necessary but for performance I guess.
