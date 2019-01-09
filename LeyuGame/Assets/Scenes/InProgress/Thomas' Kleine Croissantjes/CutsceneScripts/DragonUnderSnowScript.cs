@@ -12,6 +12,9 @@ public class DragonUnderSnowScript : MonoBehaviour {
     bool playerHasMoved = false;
     bool cameraMoving = false;
 
+    bool firstLaunch = false;
+    int chargingTime;
+
     Color tempColor;
 
     GameObject player;
@@ -19,7 +22,8 @@ public class DragonUnderSnowScript : MonoBehaviour {
     PlayerController controllerSwitch;
 
     public GameObject destructibleBoi;
-    public ParticleSystem snowExplosionPrefab;
+    //public ParticleSystem snowExplosionPrefab;    //Voor de zekerheid gecomment lol.
+    public GameObject snowExplosion;
 
     public GameObject cutsceneCamera;
     Animator cameraAnim;
@@ -85,11 +89,31 @@ public class DragonUnderSnowScript : MonoBehaviour {
         controllerSwitch.enableLaunchOnly = true;
         controllerSwitch.enabled = true;
 
+        //while (!firstLaunch)
+        //{
+        //    while (Input.GetAxis("Right Trigger") == 0)
+        //    {
+        //        yield return null;
+        //    }
+
+        //    //START PRESSING
+        //    while (Input.GetAxis("Right Trigger") > 0)
+        //    {
+        //        chargingTime += 1;
+        //        Debug.Log(chargingTime);
+        //        yield return null;
+        //    }
+        //    if (chargingTime > 35)
+        //    {
+        //        firstLaunch = true;
+        //    }
+        //    chargingTime = 0;
+        //}
+
         while (Input.GetAxis("Right Trigger") == 0)
         {
             yield return null;
         }
-
         while (Input.GetAxis("Right Trigger") > 0)
         {
             yield return null;
@@ -100,12 +124,12 @@ public class DragonUnderSnowScript : MonoBehaviour {
 
         Level3Music.musicStage = 5.9f;
         print("playerHasMoved = " + playerHasMoved);
-        ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
-        snowExplosion.transform.position = player.transform.position;
-        //snowExplosion.SetActive(false);
+        //ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
+        //snowExplosion.transform.position = player.transform.position;
+        snowExplosion.SetActive(true);
         Destroy(destructibleBoi);
 
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
         cameraMoving = true;
 
         //Not really necessary but for performance I guess.
@@ -113,6 +137,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
         {
             yield return null;
         }
+        Destroy(snowExplosion);
         Destroy(gameObject);
     }
 }
