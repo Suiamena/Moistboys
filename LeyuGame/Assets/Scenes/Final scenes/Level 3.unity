@@ -2690,8 +2690,7 @@ MonoBehaviour:
   cutsceneLaunchObject: {fileID: 0}
   image: {fileID: 1355678067}
   destructibleBoi: {fileID: 1379758406}
-  snowExplosionPrefab: {fileID: 198812738054286644, guid: 5cbbddfc08dbf124db0d6532bc772816,
-    type: 2}
+  snowExplosion: {fileID: 1467296311}
   cutsceneCamera: {fileID: 1406994232}
 --- !u!4 &56198388 stripped
 Transform:
@@ -24420,15 +24419,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4660649916765248, guid: 5cbbddfc08dbf124db0d6532bc772816, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.80000305
+      value: 1.33
       objectReference: {fileID: 0}
     - target: {fileID: 4660649916765248, guid: 5cbbddfc08dbf124db0d6532bc772816, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.8
+      value: 0.29
       objectReference: {fileID: 0}
     - target: {fileID: 4660649916765248, guid: 5cbbddfc08dbf124db0d6532bc772816, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.19000244
+      value: 1.23
       objectReference: {fileID: 0}
     - target: {fileID: 4660649916765248, guid: 5cbbddfc08dbf124db0d6532bc772816, type: 2}
       propertyPath: m_LocalRotation.x
@@ -34884,7 +34883,7 @@ Prefab:
     - target: {fileID: 114334743724402388, guid: 47a34638fa2704b4dab1ff8566ea8072,
         type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114854464322811296, guid: 47a34638fa2704b4dab1ff8566ea8072,
         type: 2}
@@ -42330,10 +42329,10 @@ MonoBehaviour:
   MapToLDR: 0
   RemoveColorBanding: 1
   MatrixVP:
-    e00: -0.60233814
-    e01: 0.000000018375687
-    e02: 0.5595186
-    e03: 78.90014
+    e00: -0.71405023
+    e01: 0.000000021783716
+    e02: 0.6632892
+    e03: 93.53329
     e10: 0.25466043
     e11: -1.6911505
     e12: 0.27414942
@@ -42347,10 +42346,10 @@ MonoBehaviour:
     e32: -0.7153685
     e33: -349.16266
   LastMatrixVP:
-    e00: -0.60233814
-    e01: 0.000000018375687
-    e02: 0.5595186
-    e03: 78.90014
+    e00: -0.71405023
+    e01: 0.000000021783716
+    e02: 0.6632892
+    e03: 93.53329
     e10: -0.25466043
     e11: 1.6911505
     e12: -0.27414942
@@ -44232,6 +44231,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4987d9b7dcfde6b48b67041ce55e7179, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1467296311 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1588602952089130, guid: 5cbbddfc08dbf124db0d6532bc772816,
+    type: 2}
+  m_PrefabInternal: {fileID: 758590245}
 --- !u!1 &1467816388 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 1e936e3575a5cac438a29b711a7f5490,
@@ -46896,7 +46900,7 @@ MonoBehaviour:
   FogTransitionSize: 8.45
   MaxLightDistance: 128
   AboveFogPercent: 0.1
-  Offset: {x: 5338.583, y: 5338.583, z: 0}
+  Offset: {x: 5338.703, y: 5338.703, z: 0}
 --- !u!1001 &1533151368
 Prefab:
   m_ObjectHideFlags: 0
