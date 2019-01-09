@@ -53,7 +53,6 @@ public class CutsceneStorm : MonoBehaviour {
         }
         if (startToAccelerate)
         {
-            Debug.Log("hay");
             windStormStrength += 20F;
             windStormStrength = Mathf.Clamp(windStormStrength, 0, 1500);
             emissionModule.rateOverTime = windStormStrength;

@@ -11,6 +11,8 @@ public class DragonAbilityGetScript : MonoBehaviour {
     GameObject playerModel;
     Animator playerAnim;
 
+    public GameObject landingIndicatorObject;
+
     GameObject abilityPlant;
     GameObject abilityPickUp;
     Animator abilityAnim;
@@ -33,6 +35,8 @@ public class DragonAbilityGetScript : MonoBehaviour {
         playerModel = GameObject.Find("MOD_Draak");
         playerAnim = playerModel.GetComponent<Animator>();
 
+        landingIndicatorObject = GameObject.Find("LandingIndicator");
+
         abilityAnim = abilityPickUp.GetComponent<Animator>();
         abilityAnim.SetBool("IsPlaying", false);
 
@@ -42,6 +46,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     void OnTriggerEnter()
     {
+        //landingIndicatorObject.SetActive(false);
         StartCoroutine(CutsceneTime());
         controllerSwitch.enabled = false;
         playerBody.velocity = new Vector3(0, playerBody.velocity.y, 0);
@@ -57,6 +62,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     void OnTriggerStay()
     {
+        landingIndicatorObject.transform.position = player.transform.position;
         player.transform.LookAt(gameObject.transform.position);
         playerCamera.transform.LookAt(abilityPickUp.transform.position);
 
@@ -99,6 +105,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
         //ACTIVATE LAUNCH
         Destroy(abilityPickUp);
         sneeuwstormTrigger.SetActive(true);
+        landingIndicatorObject.SetActive(true);
         Destroy(gameObject);
     }
 }
