@@ -32,6 +32,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
         player = GameObject.Find("Character");
         playerCamera = GameObject.Find("Main Camera");
         controllerSwitch = player.GetComponent<PlayerController>();
+        controllerSwitch.launchEnabled = true;
         controllerSwitch.enabled = false;
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
     }
@@ -47,9 +48,9 @@ public class DragonUnderSnowScript : MonoBehaviour {
 
         if (playerCanMove == true)
         {
+            //PLAYER MUST LAUNCH OUT OF SNOW
             if (Input.GetButtonDown("A Button") || Mathf.Abs(Input.GetAxis("Left Stick X")) > 0 ||
-                Mathf.Abs(Input.GetAxis("Left Stick Y")) > 0 || (Input.GetButtonDown("Keyboard Space")) ||
-                (Input.GetAxis("Keyboard WS") != 0) || (Input.GetAxis("Keyboard AD") != 0))
+                Mathf.Abs(Input.GetAxis("Left Stick Y")) > 0)
             {
                 playerHasMoved = true;
             }
@@ -97,6 +98,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
         }
         Level3Music.musicStage = 5.9f;
         controllerSwitch.enabled = true;
+        print("playerHasMoved = " + playerHasMoved);
         ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
         snowExplosion.transform.position = player.transform.position;
         //snowExplosion.SetActive(false);
