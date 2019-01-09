@@ -22,7 +22,8 @@ public class DragonUnderSnowScript : MonoBehaviour {
     PlayerController controllerSwitch;
 
     public GameObject destructibleBoi;
-    public ParticleSystem snowExplosionPrefab;
+    //public ParticleSystem snowExplosionPrefab;    //Voor de zekerheid gecomment lol.
+    public GameObject snowExplosion;
 
     public GameObject cutsceneCamera;
     Animator cameraAnim;
@@ -123,12 +124,12 @@ public class DragonUnderSnowScript : MonoBehaviour {
 
         Level3Music.musicStage = 5.9f;
         print("playerHasMoved = " + playerHasMoved);
-        ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
-        snowExplosion.transform.position = player.transform.position;
-        //snowExplosion.SetActive(false);
+        //ParticleSystem snowExplosion = Instantiate(snowExplosionPrefab) as ParticleSystem;
+        //snowExplosion.transform.position = player.transform.position;
+        snowExplosion.SetActive(true);
         Destroy(destructibleBoi);
 
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
         cameraMoving = true;
 
         //Not really necessary but for performance I guess.
@@ -136,6 +137,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
         {
             yield return null;
         }
+        Destroy(snowExplosion);
         Destroy(gameObject);
     }
 }
