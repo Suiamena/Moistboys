@@ -5,7 +5,7 @@ using UnityEngine;
 public class TerugVindenCreature : MonoBehaviour
 {
 
-    GameObject player;
+    public GameObject player;
     PlayerController controllerSwitch;
     Rigidbody playerBody;
     GameObject playerModel;
@@ -14,7 +14,7 @@ public class TerugVindenCreature : MonoBehaviour
     public GameObject destructibleCreature;
     public GameObject cutsceneCamera;
     public GameObject wayPointDraak;
-    GameObject creature;
+    public GameObject creature;
     GameObject creatureBeweging;
     Vector3 distanceToWaypointDraak;
 
@@ -36,8 +36,6 @@ public class TerugVindenCreature : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.Find("Character");
-        creature = GameObject.Find("Mod_Creature");
         creatureBeweging = GameObject.Find("BewegingCreature");
         controllerSwitch = player.GetComponent<PlayerController>();
         playerBody = player.GetComponent<Rigidbody>();

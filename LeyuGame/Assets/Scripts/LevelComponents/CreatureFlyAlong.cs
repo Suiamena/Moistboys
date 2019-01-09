@@ -8,8 +8,8 @@ public class CreatureFlyAlong : MonoBehaviour
 	bool flyAlongRoutineRunning = false;
 	Transform moustacheBoy, player;
 	Animator moustacheBoyAnimator;
-	public Vector3 startingOffset = new Vector3(0, 20, 0), flyingOffset = new Vector3(3.2f, 2.2f, 3.6f), endingOffset = new Vector3(5, 20, 35);
-	public float lerpFactor = .14f, speed = 20;
+	public Vector3 startingOffset = new Vector3(0, 20, 0), flyingOffset = new Vector3(0, 2.2f, 3.6f), endingOffset = new Vector3(5, 20, 35);
+	public float lerpFactor = .14f, baseSpeed = 6, distanceSpeedIncrease = 2, turnRate = 250, flyingSway = 2.5f;
 	bool flyAlong = false;
 
 	private void Awake ()
@@ -46,22 +46,42 @@ public class CreatureFlyAlong : MonoBehaviour
 
 		moustacheBoyAnimator.SetBool("isFlying", true);
 
+		Vector3 targetPos;
+		float correctedSpeed;
 		while (flyAlong) {
-			moustacheBoy.position = Vector3.Lerp(moustacheBoy.position, player.position + player.rotation * flyingOffset, lerpFactor);
+			targetPos = player.position + player.rotation * flyingOffset + new Vector3(Mathf.Sin(Time.time * .1f) * flyingOffset.x, 0, Mathf.Sin(Time.time * 0.08f));
 
-			yAngle = Mathf.Lerp(yAngle, player.eulerAngles.y, lerpFactor);
-			moustacheBoy.eulerAngles = new Vector3(20, yAngle, 0);
+			float distance = Vector3.Distance(moustacheBoy.position, targetPos);
+			correctedSpeed = baseSpeed + distance;
+
+			moustacheBoy.position += moustacheBoy.forward * correctedSpeed * Time.deltaTime;
+
+			Vector3 currentPos = moustacheBoy.position;
+			currentPos.y = Mathf.Lerp(currentPos.y, targetPos.y, lerpFactor);
+			moustacheBoy.position = currentPos;
+
+			float rightDistance = (moustacheBoy.position + moustacheBoy.right).SquareDistance(targetPos);
+			if ((moustacheBoy.position + -moustacheBoy.right).SquareDistance(targetPos) < rightDistance)
+				moustacheBoy.Rotate(new Vector3(0, -turnRate * Time.deltaTime, 0));
+			else
+				moustacheBoy.Rotate(new Vector3(0, turnRate * Time.deltaTime, 0));
 			yield return null;
+
+			//moustacheBoy.position = Vector3.Lerp(moustacheBoy.position, player.position + player.rotation * flyingOffset, lerpFactor);
+
+			//yAngle = Mathf.Lerp(yAngle, player.eulerAngles.y, lerpFactor);
+			//moustacheBoy.eulerAngles = new Vector3(20, yAngle, 0);
+			//yield return null;
 		}
 
-		Vector3 targetPos = player.position + Quaternion.Euler(new Vector3(0, player.eulerAngles.y, 0)) * endingOffset;
+		targetPos = player.position + Quaternion.Euler(new Vector3(0, player.eulerAngles.y, 0)) * endingOffset;
 		Quaternion oldRot = moustacheBoy.rotation;
 		moustacheBoy.LookAt(targetPos);
 		float targetYAngle = moustacheBoy.eulerAngles.y;
 		moustacheBoy.rotation = oldRot;
 
 		while (moustacheBoy.position.SquareDistance(targetPos) > 1) {
-			moustacheBoy.position = Vector3.MoveTowards(moustacheBoy.position, targetPos, speed * Time.deltaTime);
+			moustacheBoy.position = Vector3.MoveTowards(moustacheBoy.position, targetPos, baseSpeed * Time.deltaTime);
 			moustacheBoy.eulerAngles = new Vector3(20, Mathf.Lerp(moustacheBoy.eulerAngles.y, targetYAngle, lerpFactor), 0);
 			yield return null;
 		}
