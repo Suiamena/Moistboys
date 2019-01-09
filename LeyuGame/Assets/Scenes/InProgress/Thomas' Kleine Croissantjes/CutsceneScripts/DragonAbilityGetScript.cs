@@ -19,6 +19,8 @@ public class DragonAbilityGetScript : MonoBehaviour {
     GameObject abilityLight;
     Light abilityLightIntensity;
 
+    public GameObject sneeuwstormTrigger;
+
     void Start ()
     {
         player = GameObject.Find("Character");
@@ -63,7 +65,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
             //MOGELIJK WAYPOINT VOOR ABILITY IMPLEMENTEREN IN PLAYER CHARACTER
             abilityLightIntensity.intensity -= 0.02f;
             abilityPickUp.transform.position = Vector3.MoveTowards(abilityPickUp.transform.position, new Vector3(player.transform.position.x, player.transform.position.y +1, player.transform.position.z), 5 * Time.deltaTime);
-            abilityPickUp.transform.localScale -= new Vector3(0.015f, 0.015f, 0.015f);
+            abilityPickUp.transform.localScale -= new Vector3(0.01f, 0.01f, 0.01f);
             abilityPickUp.transform.localScale = new Vector3(Mathf.Clamp(abilityPickUp.transform.localScale.x, 0, 5), Mathf.Clamp(abilityPickUp.transform.localScale.y, 0, 5), Mathf.Clamp(abilityPickUp.transform.localScale.z, 0, 5));
         }
     }
@@ -96,6 +98,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
         //ACTIVATE LAUNCH
         Destroy(abilityPickUp);
+        sneeuwstormTrigger.SetActive(true);
         Destroy(gameObject);
     }
 }

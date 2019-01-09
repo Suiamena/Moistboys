@@ -23,10 +23,10 @@ public static class ExtensionMethods
 		return new Vector2(vec.x, vec.z);
 	}
 
-	public static float SquareDistance (this Vector3 lhs, Vector3 rhs)
+	public static float SquareDistance (this Vector3 from, Vector3 to)
 	{
 		float result;
-		result = (lhs - rhs).sqrMagnitude;
+		result = (from - to).sqrMagnitude;
 		return result;
 	}
 
