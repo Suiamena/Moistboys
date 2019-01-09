@@ -12,6 +12,9 @@ public class DragonUnderSnowScript : MonoBehaviour {
     bool playerHasMoved = false;
     bool cameraMoving = false;
 
+    bool firstLaunch = false;
+    int chargingTime;
+
     Color tempColor;
 
     GameObject player;
@@ -85,11 +88,31 @@ public class DragonUnderSnowScript : MonoBehaviour {
         controllerSwitch.enableLaunchOnly = true;
         controllerSwitch.enabled = true;
 
+        //while (!firstLaunch)
+        //{
+        //    while (Input.GetAxis("Right Trigger") == 0)
+        //    {
+        //        yield return null;
+        //    }
+
+        //    //START PRESSING
+        //    while (Input.GetAxis("Right Trigger") > 0)
+        //    {
+        //        chargingTime += 1;
+        //        Debug.Log(chargingTime);
+        //        yield return null;
+        //    }
+        //    if (chargingTime > 35)
+        //    {
+        //        firstLaunch = true;
+        //    }
+        //    chargingTime = 0;
+        //}
+
         while (Input.GetAxis("Right Trigger") == 0)
         {
             yield return null;
         }
-
         while (Input.GetAxis("Right Trigger") > 0)
         {
             yield return null;
