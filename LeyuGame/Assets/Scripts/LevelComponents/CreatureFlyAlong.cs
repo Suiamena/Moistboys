@@ -7,8 +7,8 @@ public class CreatureFlyAlong : MonoBehaviour
 	bool flyAlongRoutineRunning = false;
 	Transform moustacheBoy, player;
 	Animator moustacheBoyAnimator;
-	Vector3 startingOffset = new Vector3(0, 20, 0), flyingOffset = new Vector3(3.2f, 2.2f, 3), endingOffset = new Vector3(5, 20, 35);
-	float lerpFactor = .1f;
+	public Vector3 startingOffset = new Vector3(0, 20, 0), flyingOffset = new Vector3(3.2f, 2.2f, 3.6f), endingOffset = new Vector3(5, 20, 35);
+	public float lerpFactor = .14f;
 	bool flyAlong = false;
 
 	private void Awake ()
