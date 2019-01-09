@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class CreatureFlyAlong : MonoBehaviour
 {
+
 	bool flyAlongRoutineRunning = false;
 	Transform moustacheBoy, player;
 	Animator moustacheBoyAnimator;
 	public Vector3 startingOffset = new Vector3(0, 20, 0), flyingOffset = new Vector3(3.2f, 2.2f, 3.6f), endingOffset = new Vector3(5, 20, 35);
-	public float lerpFactor = .14f;
+	public float lerpFactor = .14f, speed = 20;
 	bool flyAlong = false;
 
 	private void Awake ()
@@ -53,14 +54,14 @@ public class CreatureFlyAlong : MonoBehaviour
 			yield return null;
 		}
 
-		Vector3 targetPos = player.position + startingOffset;
+		Vector3 targetPos = player.position + Quaternion.Euler(new Vector3(0, player.eulerAngles.y, 0)) * endingOffset;
 		Quaternion oldRot = moustacheBoy.rotation;
 		moustacheBoy.LookAt(targetPos);
 		float targetYAngle = moustacheBoy.eulerAngles.y;
 		moustacheBoy.rotation = oldRot;
 
 		while (moustacheBoy.position.SquareDistance(targetPos) > 1) {
-			moustacheBoy.position = Vector3.Lerp(moustacheBoy.position, targetPos, lerpFactor);
+			moustacheBoy.position = Vector3.MoveTowards(moustacheBoy.position, targetPos, speed * Time.deltaTime);
 			moustacheBoy.eulerAngles = new Vector3(20, Mathf.Lerp(moustacheBoy.eulerAngles.y, targetYAngle, lerpFactor), 0);
 			yield return null;
 		}
