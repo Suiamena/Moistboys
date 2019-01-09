@@ -361,27 +361,27 @@ public class ChoiceMechanic : MonoBehaviour {
         fourthCutsceneCamera.SetActive(false);
         //RESOLVE
         //uitvoeren if null
-        SceneSettings sceneSettingObject = FindObjectOfType<SceneSettings>();
-        if (sceneSettingObject != null)
+        if (competentScript.playerChooseCompetence)
         {
-            if (competentScript.playerChooseCompetence)
-            {
-                PlayerPrefs.SetString("LevelSixChoice", "Launch");
-                VariablesGlobal.chosenForCompetence = true;
-                moustacheBoiAnim.SetBool("goodBye", true);
-                playerScript.launchEnabled = true;
-            }
-            else
-            {
-                PlayerPrefs.SetString("LevelSixChoice", "Creature");
-                VariablesGlobal.chosenForSocial = true;
-                moustacheBoiEnding.SetActive(true);
-                moustacheBoiCutscene.SetActive(false);
-            }
+            //PlayerPrefs.SetString("LevelSixChoice", "Launch");
+            VariablesGlobal.chosenForCompetence = true;
+            moustacheBoiAnim.SetBool("goodBye", true);
+            playerScript.launchEnabled = true;
         }
         else
         {
+            //PlayerPrefs.SetString("LevelSixChoice", "Creature");
+            VariablesGlobal.chosenForSocial = true;
+            moustacheBoiEnding.SetActive(true);
+            moustacheBoiCutscene.SetActive(false);
         }
+        //SceneSettings sceneSettingObject = FindObjectOfType<SceneSettings>();
+        //if (sceneSettingObject != null)
+        //{
+        //}
+        //else
+        //{
+        //}
     }
 
 }
