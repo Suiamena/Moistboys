@@ -19,7 +19,7 @@ public class PlangaMuur : MonoBehaviour
 	public GameObject moustacheBoi;
 	Animator moustacheAnimator;
 
-	[Header("Platform Settings")]
+    [Header("Platform Settings")]
 	public GameObject platformsObject;
 	public GameObject initialCameraPoint, initialCameraTarget;
 	public float platformCreationTime = .5f, platformCreationDistance = 7f;
@@ -74,6 +74,8 @@ public class PlangaMuur : MonoBehaviour
 			platformTransforms[i].position += platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
 		}
 		platformTransforms[platformTransforms.Count - 1].gameObject.SetActive(false);
+
+        transform.position = platformTransforms[0].transform.position;
 	}
 
 	private void Update ()
@@ -102,19 +104,27 @@ public class PlangaMuur : MonoBehaviour
 		}
 	}
 
-	void TriggerSequence ()
+    public void StartSequence(bool start)
+    {
+        if (start)
+        {
+            StartCoroutine(CreatureDoesTrick());
+        }
+    }
+
+    void TriggerSequence ()
 	{
-		if (readyForSequence && currentCreatureLocation == gameObject.GetInstanceID()) {
-			if (defaultCreaturePos.SquareDistance(player.transform.position) < triggerAbilityRange * triggerAbilityRange) {
-				if (!creatureSpawnsPlatforms) {
-					pressButtonPopup.SetActive(true);
-				}
-				enableSequence = true;
-			} else {
-				pressButtonPopup.SetActive(false);
-				enableSequence = false;
-			}
-		}
+		//if (readyForSequence && currentCreatureLocation == gameObject.GetInstanceID()) {
+		//	if (defaultCreaturePos.SquareDistance(player.transform.position) < triggerAbilityRange * triggerAbilityRange) {
+		//		if (!creatureSpawnsPlatforms) {
+		//			pressButtonPopup.SetActive(true);
+		//		}
+		//		enableSequence = true;
+		//	} else {
+		//		pressButtonPopup.SetActive(false);
+		//		enableSequence = false;
+		//	}
+		//}
 	}
 
 	IEnumerator MakeJump (System.Action callback)
