@@ -20,6 +20,9 @@ public class PlangaMuur : MonoBehaviour
 	Animator moustacheAnimator;
 
     [Header("Platform Settings")]
+    //DIRTY TEST
+    public GameObject platformOne;
+
 	public GameObject platformsObject;
 	public GameObject initialCameraPoint, initialCameraTarget;
 	public float platformCreationTime = .5f, platformCreationDistance = 7f;
@@ -44,7 +47,7 @@ public class PlangaMuur : MonoBehaviour
 
 	//UI
 	[Header("")]
-	public GameObject pressButtonPopup;
+	//public GameObject pressButtonPopup;
 	public GameObject sequenceCamera;
 
 	//MANAGER
@@ -75,8 +78,8 @@ public class PlangaMuur : MonoBehaviour
 		}
 		platformTransforms[platformTransforms.Count - 1].gameObject.SetActive(false);
 
-        transform.position = platformTransforms[0].transform.position;
-	}
+        flyInPosition = platformTransforms[0].transform.position;
+    }
 
 	private void Update ()
 	{
@@ -108,7 +111,7 @@ public class PlangaMuur : MonoBehaviour
     {
         if (start)
         {
-            StartCoroutine(CreatureDoesTrick());
+            StartCoroutine(MakeJump(() => { playerIsJumping = false; }));
         }
     }
 
@@ -129,7 +132,7 @@ public class PlangaMuur : MonoBehaviour
 
 	IEnumerator MakeJump (System.Action callback)
 	{
-		pressButtonPopup.SetActive(false);
+		//pressButtonPopup.SetActive(false);
 		player.transform.LookAt(platformTransforms[activePlatform]);
 		playerAnim.SetBool("IsBouncing", true);
 		PlayerAudio.PlayWallJump();
@@ -201,7 +204,7 @@ public class PlangaMuur : MonoBehaviour
 		if (activePlatform >= platformTransforms.Count) {
 			StartCoroutine(EndSequence());
 		} else {
-			pressButtonPopup.SetActive(true);
+			//pressButtonPopup.SetActive(true);
 		}
 		callback();
 	}
@@ -234,32 +237,36 @@ public class PlangaMuur : MonoBehaviour
 
 	IEnumerator CreatureDoesTrick ()
 	{
-		bool readyToAdvance = false;
+        yield return new WaitForSeconds(0.5f);
+		//bool readyToAdvance = false;
 
-		player.transform.LookAt(moustacheBoi.transform);
-		player.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
-		moustacheBoi.transform.LookAt(player.transform);
-		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
+		//player.transform.LookAt(moustacheBoi.transform);
+		//player.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
+		//moustacheBoi.transform.LookAt(player.transform);
+		//moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
 
 		MoustacheBoiAudio.PlayRumble();
 		moustacheAnimator.SetBool("isUsingAbility", true);
-		pressButtonPopup.SetActive(false);
+		//pressButtonPopup.SetActive(false);
 
 		GamePad.SetVibration(0, .6f, .6f);
 		yield return new WaitForSeconds(.2f);
 
-		for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
-			foreach (Transform trans in platformTransforms) {
-				trans.position -= trans.rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
-			}
-			yield return null;
-		}
-		for (int i = 0; i < platformTransforms.Count; i++) {
-			platformTransforms[i].position = platformDefaultPositions[i];
-		}
+        //for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
+        //	foreach (Transform trans in platformTransforms) {
+        //		trans.position -= trans.rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
+        //	}
+        //	yield return null;
+        //}
+        //for (int i = 0; i < platformTransforms.Count; i++) {
+        //	platformTransforms[i].position = platformDefaultPositions[i];
+        //}
+
+        platformOne.SetActive(true);
+
 		GamePad.SetVibration(0, .6f, .6f);
 		moustacheAnimator.SetBool("isUsingAbility", false);
-		pressButtonPopup.SetActive(true);
+		//pressButtonPopup.SetActive(true);
 		sequenceIsRunning = true;
 		yield return new WaitForSeconds(.2f);
 		GamePad.SetVibration(0, 0, 0);
@@ -274,7 +281,7 @@ public class PlangaMuur : MonoBehaviour
 
 		MoustacheBoiAudio.PlayFlaps();
 		moustacheAnimator.SetBool("isFlying", true);
-
+        //added *.1f
 		while (moustacheBoi.transform.position.SquareDistance(flyInPosition) > .1f) {
 			moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyInPosition, flyingSpeed * Time.deltaTime);
 			yield return null;
@@ -293,6 +300,8 @@ public class PlangaMuur : MonoBehaviour
 
 		currentCreatureLocation = gameObject.GetInstanceID();
 		flyingRoutineRunning = false;
+
+        StartCoroutine(CreatureDoesTrick());
 	}
 
 	IEnumerator FlyOut ()
