@@ -149,7 +149,7 @@ public class ChoiceMechanic : MonoBehaviour {
         //SUPERFLOP HIERIN!
         cutsceneCamera.SetActive(true);
         player.transform.position = playerTransformTarget.transform.position;
-        player.transform.rotation = Quaternion.Euler(-10, 20, 0);
+        player.transform.rotation = Quaternion.Euler(-10, 90, 0);
         landingIndicatorObject.transform.position = playerTransformTarget.transform.position;
         moustacheBoiAnim.SetBool("isFlying", true);
         yield return new WaitForSeconds(1.5F);
