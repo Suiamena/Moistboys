@@ -21,8 +21,9 @@ public class PlangaMuur : MonoBehaviour
 
     [Header("Platform Settings")]
     //DIRTY TEST
-    public GameObject platformOne;
+    //public GameObject platformOne;
 
+    public GameObject creatureFlyInPositionObject;
 	public GameObject platformsObject;
 	public GameObject initialCameraPoint, initialCameraTarget;
 	public float platformCreationTime = .5f, platformCreationDistance = 7f;
@@ -78,7 +79,7 @@ public class PlangaMuur : MonoBehaviour
 		}
 		platformTransforms[platformTransforms.Count - 1].gameObject.SetActive(false);
 
-        flyInPosition = platformTransforms[0].transform.position;
+        flyInPosition = creatureFlyInPositionObject.transform.position;
     }
 
 	private void Update ()
@@ -111,6 +112,7 @@ public class PlangaMuur : MonoBehaviour
     {
         if (start)
         {
+            playerScript.DisablePlayer();
             StartCoroutine(MakeJump(() => { playerIsJumping = false; }));
         }
     }
@@ -136,6 +138,7 @@ public class PlangaMuur : MonoBehaviour
 		player.transform.LookAt(platformTransforms[activePlatform]);
 		playerAnim.SetBool("IsBouncing", true);
 		PlayerAudio.PlayWallJump();
+        Debug.Log(platformTransforms[activePlatform]);
 
 		//Set current and target positions for calculations
 		Vector3 currentPos = player.transform.position,
@@ -252,17 +255,20 @@ public class PlangaMuur : MonoBehaviour
 		GamePad.SetVibration(0, .6f, .6f);
 		yield return new WaitForSeconds(.2f);
 
-        //for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
-        //	foreach (Transform trans in platformTransforms) {
-        //		trans.position -= trans.rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
-        //	}
-        //	yield return null;
-        //}
-        //for (int i = 0; i < platformTransforms.Count; i++) {
-        //	platformTransforms[i].position = platformDefaultPositions[i];
-        //}
+        for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
+        {
+            foreach (Transform trans in platformTransforms)
+            {
+                trans.position -= trans.rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
+            }
+            yield return null;
+        }
+        for (int i = 0; i < platformTransforms.Count; i++)
+        {
+            platformTransforms[i].position = platformDefaultPositions[i];
+        }
 
-        platformOne.SetActive(true);
+        //platformOne.SetActive(true);
 
 		GamePad.SetVibration(0, .6f, .6f);
 		moustacheAnimator.SetBool("isUsingAbility", false);
