@@ -29,6 +29,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
     Animator cameraAnim;
 
     Vector3 distanceToPlayerCam;
+    float cameraDistance;
     float cameraSpeed = 0;
 
     void Start()
@@ -64,17 +65,25 @@ public class DragonUnderSnowScript : MonoBehaviour {
             }
         }
 
-        distanceToPlayerCam = cutsceneCamera.transform.position - playerCamera.transform.position;
-        distanceToPlayerCam = new Vector3(Mathf.Abs(distanceToPlayerCam.x), distanceToPlayerCam.y, distanceToPlayerCam.z);
-        distanceToPlayerCam.x = Mathf.Abs(distanceToPlayerCam.x);
-        distanceToPlayerCam.y = Mathf.Abs(distanceToPlayerCam.y);
-        distanceToPlayerCam.z = Mathf.Abs(distanceToPlayerCam.z);
+        cameraDistance = Vector3.Distance(cutsceneCamera.transform.position, playerCamera.transform.position);
+        print(cameraDistance);
 
-        if (distanceToPlayerCam.x < 0.7f && distanceToPlayerCam.y < 0.7f && distanceToPlayerCam.z < 0.7f)
+        if (cameraDistance < 0.1f)
         {
             cutsceneCamera.SetActive(false);
             cameraMoving = false;
         }
+        //distanceToPlayerCam = cutsceneCamera.transform.position - playerCamera.transform.position;
+        //distanceToPlayerCam = new Vector3(Mathf.Abs(distanceToPlayerCam.x), distanceToPlayerCam.y, distanceToPlayerCam.z);
+        //distanceToPlayerCam.x = Mathf.Abs(distanceToPlayerCam.x);
+        //distanceToPlayerCam.y = Mathf.Abs(distanceToPlayerCam.y);
+        //distanceToPlayerCam.z = Mathf.Abs(distanceToPlayerCam.z);
+
+        //if (distanceToPlayerCam.x < 0.7f && distanceToPlayerCam.y < 0.7f && distanceToPlayerCam.z < 0.7f)
+        //{
+        //    cutsceneCamera.SetActive(false);
+        //    cameraMoving = false;
+        //}
     }
 
     IEnumerator CutsceneTime()
