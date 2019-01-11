@@ -1285,6 +1285,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &563205521
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 563205522}
+  m_Layer: 0
+  m_Name: CameraTransformGoal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &563205522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 563205521}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.71, y: 0, z: -0.09}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 715397507}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &583588266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1647,9 +1675,10 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 715397506}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.05, y: 30.61, z: -10.89}
+  m_LocalPosition: {x: -1, y: 30.3, z: -10.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 563205522}
   m_Father: {fileID: 51994978}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1661,7 +1690,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 715397506}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1
@@ -2197,8 +2226,8 @@ MonoBehaviour:
   moustacheBoi: {fileID: 542893796}
   creatureFlyInPositionObject: {fileID: 2012990874}
   platformsObject: {fileID: 51994977}
-  initialCameraPoint: {fileID: 0}
-  initialCameraTarget: {fileID: 0}
+  initialCameraPoint: {fileID: 1108636323}
+  initialCameraTarget: {fileID: 1108636323}
   platformCreationTime: 0.5
   platformCreationDistance: 12
   flyInOutPoint: {x: -20, y: 30, z: 7}
@@ -2226,6 +2255,7 @@ Transform:
   - {fileID: 542893801}
   - {fileID: 1187248645}
   - {fileID: 2049450461}
+  - {fileID: 1108636324}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: -140, z: 0}
@@ -2322,6 +2352,34 @@ Transform:
   m_Father: {fileID: 51994978}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 134.78801, z: 0}
+--- !u!1 &1108636323
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1108636324}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1108636324
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1108636323}
+  m_LocalRotation: {x: -0, y: 0.9396926, z: -0, w: 0.34202024}
+  m_LocalPosition: {x: 151.95644, y: -27.538048, z: -3.7056708}
+  m_LocalScale: {x: 0.9389417, y: 0.8896006, z: 0.94043934}
+  m_Children: []
+  m_Father: {fileID: 1004012349}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1125889046
 GameObject:
   m_ObjectHideFlags: 0
@@ -4045,7 +4103,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2012990874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.075, y: -0.0000010814, z: 0.224}
+  m_LocalPosition: {x: -1.637, y: -0.0000010814, z: 0.049}
   m_LocalScale: {x: 0.40769, y: 0.40769, z: 0.40769}
   m_Children: []
   m_Father: {fileID: 855176795}
@@ -4127,7 +4185,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2049450461}
   - component: {fileID: 2049450460}
-  - component: {fileID: 2049450459}
   m_Layer: 0
   m_Name: SequenceCamera
   m_TagString: Untagged
@@ -4135,13 +4192,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!81 &2049450459
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2049450458}
-  m_Enabled: 1
 --- !u!20 &2049450460
 Camera:
   m_ObjectHideFlags: 0
