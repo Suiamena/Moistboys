@@ -151,6 +151,7 @@ public class NewWallMechanic : MonoBehaviour
 				sequenceCamera.transform.position = initialCameraPoint.transform.position;
 				sequenceCamera.transform.LookAt(initialCameraTarget.transform);
 				sequenceCamera.SetActive(true);
+				Camera.main.gameObject.SetActive(false);
 
 				//SPAWN OBJECTS
 				creatureSpawnsPlatforms = true;
@@ -260,6 +261,7 @@ public class NewWallMechanic : MonoBehaviour
 		playerScript.cameraTrans.position = sequenceCamera.transform.position;
 		playerScript.EnablePlayer();
 
+		Camera.main.gameObject.SetActive(true);
 		sequenceCamera.SetActive(false);
 		creatureSpawnsPlatforms = false;
 		activePlatform = 0;

@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public static class VariablesGlobal
 {
+    public static bool chosenForSocial = true, chosenForCompetence = true;
 
-    public static bool chosenForSocial;
-    public static bool chosenForCompetence;
-
+	public static void Reset ()
+	{
+		chosenForSocial = true;
+		chosenForCompetence = true;
+	}
 }
