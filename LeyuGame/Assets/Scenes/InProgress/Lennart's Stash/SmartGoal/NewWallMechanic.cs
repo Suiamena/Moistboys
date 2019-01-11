@@ -55,7 +55,7 @@ public class NewWallMechanic : MonoBehaviour
 	public GameObject sequenceCamera;
 
 	//MANAGER
-	bool enableSequence, creatureSpawnsPlatforms, sequenceIsRunning, playerIsJumping;
+	bool enableSequence, creatureSpawnsPlatforms, sequenceIsRunning, oldPlayerIsJumping;
 	int activePlatform;
 
 	private void Awake ()
@@ -163,13 +163,13 @@ public class NewWallMechanic : MonoBehaviour
 
 	void StartJump ()
 	{
-		if (sequenceIsRunning && !playerIsJumping) {
-			playerIsJumping = true;
-			StartCoroutine(MakeJump(() => { playerIsJumping = false; }));
+		if (sequenceIsRunning && !oldPlayerIsJumping) {
+			oldPlayerIsJumping = true;
+			StartCoroutine(MakeJump(() => { oldPlayerIsJumping = false; }));
 		}
-		//if ((Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space")) && sequenceIsRunning && !playerIsJumping) {
-		//	playerIsJumping = true;
-		//	StartCoroutine(MakeJump(() => { playerIsJumping = false; }));
+		//if ((Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space")) && sequenceIsRunning && !oldPlayerIsJumping) {
+		//	oldPlayerIsJumping = true;
+		//	StartCoroutine(MakeJump(() => { oldPlayerIsJumping = false; }));
 		//}
 	}
 
