@@ -33,7 +33,7 @@ public class PlangaMuur : MonoBehaviour
 	[Header("Flying Settings")]
 	public Vector3 flyInOutPoint = new Vector3(0, 40, -7);
 	public float flyingSpeed = 50, flyInOutRange = 45;
-	Vector3 defaultCreaturePos, flyInPosition;
+	Vector3 defaultCreaturePos, flyInPosition, flyToPlatformPosition;
 	Quaternion defaultCreatureRot;
 	bool flyingRoutineRunning = false;
 
@@ -125,6 +125,7 @@ public class PlangaMuur : MonoBehaviour
         {
             creatureIsSpawningPlatforms = true;
             StartCoroutine(CreatureSpawnsPlatforms());
+            StartCoroutine(CreatureFliesToPlatforms());
         }
     }
 
@@ -239,16 +240,6 @@ public class PlangaMuur : MonoBehaviour
 		creatureSpawnsPlatforms = false;
 		activePlatform = 0;
 
-        //for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
-        //	foreach (Transform trans in platformTransforms) {
-        //		trans.position += trans.rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
-        //	}
-        //	yield return null;
-        //}
-        //for (int i = 0; i < platformTransforms.Count - 1; i++) {
-        //	platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
-        //}
-
         for (int i = 0; i < platformTransforms.Count - 1; i++)
         {
             for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
@@ -256,12 +247,12 @@ public class PlangaMuur : MonoBehaviour
                 platformTransforms[i].position -= platformTransforms[i].rotation * new Vector3(0, 0, -1 * platformCreationDistance) / platformCreationTime * Time.deltaTime;
                 yield return null;
             }
-            for (int j = 0; i < platformTransforms.Count - 1; j++)
+            for (int j = 0; j < platformTransforms.Count - 1; j++)
             {
                 platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
+                yield return null;
             }
         }
-        yield return new WaitForSeconds(0f);
         readyForSequence = true;
 	}
 
@@ -306,11 +297,26 @@ public class PlangaMuur : MonoBehaviour
                 yield return null;
             }
             platformTransforms[i].position = platformDefaultPositions[i];
-            //yield return new WaitForSeconds(0.1f);
         }
     }
 
-	IEnumerator FlyIn ()
+    IEnumerator CreatureFliesToPlatforms()
+    {
+        yield return new WaitForSeconds(0.5f);
+        for (int i = 1; i < platformTransforms.Count; i++)
+        {
+            flyToPlatformPosition = platformTransforms[i].transform.position;
+            flyToPlatformPosition.y += 3;
+            while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
+            {
+                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed) * Time.deltaTime);
+                yield return null;
+            }
+            Debug.Log("go");
+        }
+    }
+
+    IEnumerator FlyIn ()
 	{
 		moustacheBoi.transform.position = flyInPosition + defaultCreatureRot * flyInOutPoint;
 		moustacheBoi.transform.LookAt(flyInPosition);
