@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4685454749141826}
   - component: {fileID: 33211849979574038}
   - component: {fileID: 23385521574297122}
+  - component: {fileID: 64848866384165182}
   m_Layer: 0
   m_Name: Mod_Wall_High_Level3
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -34,13 +35,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1433967815224254}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.020035863, y: 0.9271531, z: 0.050101057, w: 0.370777}
+  m_LocalPosition: {x: -405.63, y: -71.81702, z: -136.73}
+  m_LocalScale: {x: 0.7309635, y: 0.65662545, z: 0.7309631}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -6.1860003, y: 136.406, z: 0}
 --- !u!23 &23385521574297122
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -56,7 +57,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 31da05eff632db14790e9fbdcd236db8, type: 3}
+  - {fileID: 2100000, guid: 866897a873ef5cd439f91474ac56f56f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,4 +83,18 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1433967815224254}
+  m_Mesh: {fileID: 4300000, guid: 896cbb1810b95ec4fbb78dc62d14c268, type: 3}
+--- !u!64 &64848866384165182
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1433967815224254}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 896cbb1810b95ec4fbb78dc62d14c268, type: 3}
