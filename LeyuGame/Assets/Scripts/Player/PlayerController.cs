@@ -491,7 +491,7 @@ public class PlayerController : MonoBehaviour
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
 		}
-		transform.rotation = Quaternion.Euler(0, 0, 0);
+		//transform.rotation = Quaternion.Euler(0, 0, 0);
 		rig.velocity = Vector3.zero;
 		enabled = false;
 	}

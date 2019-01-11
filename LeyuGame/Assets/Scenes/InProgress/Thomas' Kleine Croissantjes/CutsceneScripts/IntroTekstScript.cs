@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class IntroTekstScript : MonoBehaviour {
 
+    public GameObject warmthSourceSoundObject;
     public Image tekstImage;
     public Image background;
     bool fadingFromWhite = false;
@@ -87,7 +88,7 @@ public class IntroTekstScript : MonoBehaviour {
 
         yield return new WaitForSeconds(2f);
         controllerSwitch.enabled = true;
-        print("lol");
+        warmthSourceSoundObject.SetActive(true);
         Destroy(gameObject);
     }
 }

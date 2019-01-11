@@ -149,8 +149,8 @@ public class ChoiceMechanic : MonoBehaviour {
         //SUPERFLOP HIERIN!
         cutsceneCamera.SetActive(true);
         player.transform.position = playerTransformTarget.transform.position;
-        player.transform.rotation = Quaternion.Euler(-10, 20, 0);
         landingIndicatorObject.transform.position = playerTransformTarget.transform.position;
+        player.transform.rotation = Quaternion.Euler(-10, 90, 0);
         moustacheBoiAnim.SetBool("isFlying", true);
         yield return new WaitForSeconds(1.5F);
 
@@ -216,7 +216,7 @@ public class ChoiceMechanic : MonoBehaviour {
     {
         secondCutsceneCamera.SetActive(true);
         player.transform.position = playerTransformTargetTwo.transform.position;
-        player.transform.rotation = Quaternion.Euler(0, -10, 0);
+        player.transform.rotation = Quaternion.Euler(-10, 65, 0);
         landingIndicatorObject.transform.position = playerTransformTargetTwo.transform.position;
         yield return new WaitForSeconds(1F);
         //Ability moves
@@ -361,27 +361,27 @@ public class ChoiceMechanic : MonoBehaviour {
         fourthCutsceneCamera.SetActive(false);
         //RESOLVE
         //uitvoeren if null
-        SceneSettings sceneSettingObject = FindObjectOfType<SceneSettings>();
-        if (sceneSettingObject != null)
+        if (competentScript.playerChooseCompetence)
         {
-            if (competentScript.playerChooseCompetence)
-            {
-                PlayerPrefs.SetString("LevelSixChoice", "Launch");
-                VariablesGlobal.chosenForCompetence = true;
-                moustacheBoiAnim.SetBool("goodBye", true);
-                playerScript.launchEnabled = true;
-            }
-            else
-            {
-                PlayerPrefs.SetString("LevelSixChoice", "Creature");
-                VariablesGlobal.chosenForSocial = true;
-                moustacheBoiEnding.SetActive(true);
-                moustacheBoiCutscene.SetActive(false);
-            }
+            //PlayerPrefs.SetString("LevelSixChoice", "Launch");
+            VariablesGlobal.chosenForCompetence = true;
+            moustacheBoiAnim.SetBool("goodBye", true);
+            playerScript.launchEnabled = true;
         }
         else
         {
+            //PlayerPrefs.SetString("LevelSixChoice", "Creature");
+            VariablesGlobal.chosenForSocial = true;
+            moustacheBoiEnding.SetActive(true);
+            moustacheBoiCutscene.SetActive(false);
         }
+        //SceneSettings sceneSettingObject = FindObjectOfType<SceneSettings>();
+        //if (sceneSettingObject != null)
+        //{
+        //}
+        //else
+        //{
+        //}
     }
 
 }
