@@ -110,6 +110,7 @@ public class PlangaMuur : MonoBehaviour
 
     public void StartJump()
     {
+        sequenceIsRunning = true;
         if (!playerIsJumping)
         {
             sequenceCamera.SetActive(true);
@@ -203,7 +204,7 @@ public class PlangaMuur : MonoBehaviour
 		playerRig.velocity = new Vector3(0, 0, 0);
 		player.transform.Rotate(new Vector3(-player.transform.eulerAngles.x, 0, -player.transform.eulerAngles.z));
 		++activePlatform;
-        if (activePlatform >= platformTransforms.Count) {
+        if (activePlatform >= platformTransforms.Count && sequenceIsRunning) {
             StartCoroutine(EndSequence());
 		} else {
 			//pressButtonPopup.SetActive(true);
