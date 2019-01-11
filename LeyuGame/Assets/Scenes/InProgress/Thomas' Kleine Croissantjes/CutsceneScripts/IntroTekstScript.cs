@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +32,7 @@ public class IntroTekstScript : MonoBehaviour {
     {
         player = GameObject.Find("Character");
         controllerSwitch = player.GetComponent<PlayerController>();
-        controllerSwitch.enabled = false;
+        controllerSwitch.DisablePlayer(true);
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
         cameraAnim.enabled = false;
         draakAnim = draakBeweging.GetComponent<Animator>();
@@ -87,7 +87,7 @@ public class IntroTekstScript : MonoBehaviour {
         draakAnim.enabled = true;
 
         yield return new WaitForSeconds(2f);
-        controllerSwitch.enabled = true;
+        controllerSwitch.EnablePlayer();
         warmthSourceSoundObject.SetActive(true);
         Destroy(gameObject);
     }
