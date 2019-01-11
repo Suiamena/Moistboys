@@ -177,7 +177,7 @@ public class NewWallMechanic : MonoBehaviour
 	{
 		pressButtonPopup.SetActive(false);
 		player.transform.LookAt(platformTransforms[activePlatform]);
-		playerAnim.SetBool("IsBouncing", true);
+        playerAnim.SetBool("IsBouncing", true);
 		PlayerAudio.PlayWallJump();
 
 		//Set current and target positions for calculations
@@ -222,13 +222,13 @@ public class NewWallMechanic : MonoBehaviour
 
 			player.transform.position = Vector3.MoveTowards(player.transform.position, points[pointIndex], jumpingSpeed * Time.deltaTime);
 			if (pointIndex >= points.Length - 1) {
-				Quaternion oldRot = player.transform.rotation;
+                Quaternion oldRot = player.transform.rotation;
 				player.transform.LookAt(points[pointIndex]);
 				player.transform.rotation = Quaternion.Lerp(oldRot, player.transform.rotation, 0.18f);
 				player.transform.Rotate(-player.transform.eulerAngles.x, 0, 0);
 			}
 			if (player.transform.position.SquareDistance(points[pointIndex]) < .01f) {
-				++pointIndex;
+                ++pointIndex;
 				if (pointIndex >= points.Length) {
 					break;
 				}
@@ -238,9 +238,8 @@ public class NewWallMechanic : MonoBehaviour
 
 			yield return null;
 		}
-
-		//Finalize the jump
-		playerAnim.SetBool("IsBouncing", false);
+        //Finalize the jump
+        playerAnim.SetBool("IsBouncing", false);
 		playerRig.velocity = new Vector3(0, 0, 0);
 		player.transform.Rotate(new Vector3(-player.transform.eulerAngles.x, 0, -player.transform.eulerAngles.z));
 		++activePlatform;
