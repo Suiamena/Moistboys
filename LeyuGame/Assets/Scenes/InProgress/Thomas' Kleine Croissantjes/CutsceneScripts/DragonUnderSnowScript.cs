@@ -35,6 +35,8 @@ public class DragonUnderSnowScript : MonoBehaviour {
     public GameObject rightTriggerUI;
     public Image RTOrangeUI;
     Color AlphaVar = new Color(1,1,1,0);
+    bool fadingOut = false;
+    bool fadingIn = true;
 
     void Start()
     {
@@ -97,12 +99,26 @@ public class DragonUnderSnowScript : MonoBehaviour {
                 //var tempColor2 = RTOrangeUI.color;
                 //tempColor2.a -= 0.01f;
                 //RTOrangeUI.color = tempColor2;
-                AlphaVar.a -= 0.01f;
+                fadingIn = false;
+                fadingOut = true;
             }
+
             if (RTOrangeUI.color.a <= 0f)
             {
-                AlphaVar.a += 0.01f;
+                fadingIn = true;
+                fadingOut = false;
             }
+
+            if (fadingIn == true)
+            {
+                AlphaVar.a += 0.05f;
+            }
+
+            if (fadingOut == true)
+            {
+                AlphaVar.a -= 0.03f;
+            }
+
             RTOrangeUI.color = AlphaVar;
         }
     }
@@ -117,9 +133,9 @@ public class DragonUnderSnowScript : MonoBehaviour {
         cameraAnim.enabled = false;
         controllerSwitch.enableLaunchOnly = true;
         controllerSwitch.enabled = true;
-        rightTriggerUI.SetActive(true);
 
         //yield return new WaitForSeconds(1f);
+        rightTriggerUI.SetActive(true);
         playerCanMove = true;
 
         //while (!firstLaunch)
