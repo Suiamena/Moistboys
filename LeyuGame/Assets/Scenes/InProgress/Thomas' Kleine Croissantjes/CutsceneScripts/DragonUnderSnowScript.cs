@@ -32,6 +32,10 @@ public class DragonUnderSnowScript : MonoBehaviour {
     float cameraDistance;
     float cameraSpeed = 0;
 
+    public GameObject rightTriggerUI;
+    public Image RTOrangeUI;
+    Color AlphaVar = new Color(1,1,1,0);
+
     void Start()
     {
         StartCoroutine(CutsceneTime());
@@ -41,6 +45,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
         controllerSwitch.launchEnabled = true;
         controllerSwitch.enabled = false;
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
+        rightTriggerUI.SetActive(false);
     }
 
     void Update()
@@ -84,6 +89,22 @@ public class DragonUnderSnowScript : MonoBehaviour {
         //    cutsceneCamera.SetActive(false);
         //    cameraMoving = false;
         //}
+        
+        if (playerCanMove == true)
+        {
+            if (RTOrangeUI.color.a >= 1f)
+            {
+                //var tempColor2 = RTOrangeUI.color;
+                //tempColor2.a -= 0.01f;
+                //RTOrangeUI.color = tempColor2;
+                AlphaVar.a -= 0.01f;
+            }
+            if (RTOrangeUI.color.a <= 0f)
+            {
+                AlphaVar.a += 0.01f;
+            }
+            RTOrangeUI.color = AlphaVar;
+        }
     }
 
     IEnumerator CutsceneTime()
@@ -94,9 +115,12 @@ public class DragonUnderSnowScript : MonoBehaviour {
 
         yield return new WaitForSeconds(7f);
         cameraAnim.enabled = false;
-        playerCanMove = true;
         controllerSwitch.enableLaunchOnly = true;
         controllerSwitch.enabled = true;
+        rightTriggerUI.SetActive(true);
+
+        //yield return new WaitForSeconds(1f);
+        playerCanMove = true;
 
         //while (!firstLaunch)
         //{
@@ -128,8 +152,10 @@ public class DragonUnderSnowScript : MonoBehaviour {
             yield return null;
         }
 
+
         controllerSwitch.enableLaunchOnly = false;
         playerHasMoved = true;
+        rightTriggerUI.SetActive(false);
 
         Level3Music.musicStage = 5.9f;
         print("playerHasMoved = " + playerHasMoved);
