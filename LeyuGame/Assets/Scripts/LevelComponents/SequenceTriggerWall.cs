@@ -6,8 +6,6 @@ public class SequenceTriggerWall : MonoBehaviour {
 
     public GameObject wallScriptObject;
     PlangaMuur wallScript;
- 
-    bool begin = true;
 
     private void Awake()
     {
@@ -18,7 +16,7 @@ public class SequenceTriggerWall : MonoBehaviour {
     {
         if (other.gameObject.tag == "Player")
         {
-            wallScript.StartSequence(begin);
+            wallScript.StartJump();
         }
     }
 
