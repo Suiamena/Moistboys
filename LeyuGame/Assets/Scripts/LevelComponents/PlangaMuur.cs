@@ -20,9 +20,6 @@ public class PlangaMuur : MonoBehaviour
 	Animator moustacheAnimator;
 
     [Header("Platform Settings")]
-    //DIRTY TEST
-    //public GameObject platformOne;
-
     public GameObject creatureFlyInPositionObject;
 	public GameObject platformsObject;
 	public GameObject initialCameraPoint, initialCameraTarget;
@@ -48,11 +45,10 @@ public class PlangaMuur : MonoBehaviour
 
 	//UI
 	[Header("")]
-	//public GameObject pressButtonPopup;
 	public GameObject sequenceCamera;
 
 	//MANAGER
-	bool enableSequence, creatureSpawnsPlatforms, sequenceIsRunning, oldPlayerIsJumping, playerIsJumping, creatureIsSpawningPlatforms;
+	bool enableSequence, creatureSpawnsPlatforms, sequenceIsRunning, oldPlayerIsJumping, playerIsJumping, creatureIsSpawningPlatforms, readyToStart;
 	int activePlatform = 1;
 
 	private void Awake ()
@@ -80,7 +76,6 @@ public class PlangaMuur : MonoBehaviour
         {
             platformTransforms[i].position += platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
         }
-        //platformTransforms[platformTransforms.Count - 1].gameObject.SetActive(false);
 
         flyInPosition = creatureFlyInPositionObject.transform.position;
     }
@@ -102,7 +97,7 @@ public class PlangaMuur : MonoBehaviour
 				}
 			} else if (currentCreatureLocation == gameObject.GetInstanceID()) {
 				if (defaultCreaturePos.SquareDistance(player.transform.position) > flyInOutRange * flyInOutRange) {
-					if (!flyingRoutineRunning) {
+					if (!flyingRoutineRunning && !sequenceIsRunning) {
 						flyingRoutineRunning = true;
 						StartCoroutine(FlyOut());
 					}
@@ -114,7 +109,7 @@ public class PlangaMuur : MonoBehaviour
     public void StartJump()
     {
         sequenceIsRunning = true;
-        if (!playerIsJumping)
+        if (!playerIsJumping && readyToStart)
         {
             sequenceCamera.SetActive(true);
             playerIsJumping = true;
@@ -129,23 +124,9 @@ public class PlangaMuur : MonoBehaviour
         }
     }
 
-    void TriggerSequence ()
-	{
-		//if (readyForSequence && currentCreatureLocation == gameObject.GetInstanceID()) {
-		//	if (defaultCreaturePos.SquareDistance(player.transform.position) < triggerAbilityRange * triggerAbilityRange) {
-		//		if (!creatureSpawnsPlatforms) {
-		//			pressButtonPopup.SetActive(true);
-		//		}
-		//		enableSequence = true;
-		//	} else {
-		//		pressButtonPopup.SetActive(false);
-		//		enableSequence = false;
-		//	}
-		//}
-	}
-
 	IEnumerator MakeJump (System.Action callback)
 	{
+        platformTransforms[activePlatform].transform.position = platformTransforms[activePlatform].transform.position;
         if (activePlatform == 1)
         {
             yield return new WaitForSeconds(0.5f);
@@ -159,8 +140,8 @@ public class PlangaMuur : MonoBehaviour
 		Vector3 currentPos = player.transform.position,
 			nextPos = platformTransforms[activePlatform].position + new Vector3(0, playerPlatformOffset, 0);
 
-		//apexModifier moves the apex of the player's jump towards the higher of either the starting or target platform to create a better arc
-		float heightDif = nextPos.y - currentPos.y;
+        //apexModifier moves the apex of the player's jump towards the higher of either the starting or target platform to create a better arc
+        float heightDif = nextPos.y - currentPos.y;
 		float apexModifier = -.2f;
 		if (heightDif > -4) {
 			apexModifier = -.13f;
@@ -189,10 +170,9 @@ public class PlangaMuur : MonoBehaviour
 			Vector3.Lerp(currentPos, nextPos, .68f+ apexModifier) + Vector3.up * 3.8f,
 			nextPos
 		};
-
 		//Do da move
 		int pointIndex = 0;
-		while (true) {
+        while (true) {
             //sequenceCamera.transform.position = Vector3.MoveTowards(sequenceCamera.transform.position, platformTransforms[activePlatform].transform.GetChild(0).position, cameraMovementSpeed * Time.deltaTime);
             player.transform.position = Vector3.MoveTowards(player.transform.position, points[pointIndex], jumpingSpeed * Time.deltaTime);
 			if (pointIndex >= points.Length - 1) {
@@ -231,6 +211,7 @@ public class PlangaMuur : MonoBehaviour
 		sequenceIsRunning = false;
         playerIsJumping = false;
         creatureIsSpawningPlatforms = false;
+        readyToStart = false;
         player.transform.rotation = platformTransforms[platformTransforms.Count - 1].rotation;
 		player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
 		playerRig.velocity = new Vector3(0, 0, 0);
@@ -259,16 +240,9 @@ public class PlangaMuur : MonoBehaviour
 	IEnumerator CreatureDoesTrick ()
 	{
         yield return new WaitForSeconds(0.5f);
-		//bool readyToAdvance = false;
-
-		//player.transform.LookAt(moustacheBoi.transform);
-		//player.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
-		//moustacheBoi.transform.LookAt(player.transform);
-		//moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
 
 		MoustacheBoiAudio.PlayRumble();
 		moustacheAnimator.SetBool("isUsingAbility", true);
-		//pressButtonPopup.SetActive(false);
 
 		GamePad.SetVibration(0, .6f, .6f);
 		yield return new WaitForSeconds(.2f);
@@ -282,9 +256,9 @@ public class PlangaMuur : MonoBehaviour
 
         GamePad.SetVibration(0, .6f, .6f);
 		moustacheAnimator.SetBool("isUsingAbility", false);
-		//pressButtonPopup.SetActive(true);
 		yield return new WaitForSeconds(.2f);
 		GamePad.SetVibration(0, 0, 0);
+        readyToStart = true;
 	}
 
     IEnumerator CreatureSpawnsPlatforms()
@@ -306,13 +280,13 @@ public class PlangaMuur : MonoBehaviour
         for (int i = 1; i < platformTransforms.Count; i++)
         {
             flyToPlatformPosition = platformTransforms[i].transform.position;
-            flyToPlatformPosition.y += 3;
+            flyToPlatformPosition.y += 5;
+            flyToPlatformPosition.z += -10;
             while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
             {
-                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed) * Time.deltaTime);
+                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 1.5f) * Time.deltaTime);
                 yield return null;
             }
-            Debug.Log("go");
         }
     }
 
@@ -350,7 +324,7 @@ public class PlangaMuur : MonoBehaviour
 
 	IEnumerator FlyOut ()
 	{
-		moustacheBoi.transform.LookAt(defaultCreaturePos + defaultCreatureRot * flyInOutPoint);
+        moustacheBoi.transform.LookAt(defaultCreaturePos + defaultCreatureRot * flyInOutPoint);
 		moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
 
 		MoustacheBoiAudio.PlayFlaps();
