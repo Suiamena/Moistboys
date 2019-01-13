@@ -28,12 +28,13 @@ public class DragonUnderSnowScript : MonoBehaviour {
     public GameObject cutsceneCamera;
     Animator cameraAnim;
 
-    Vector3 distanceToPlayerCam;
+    //Vector3 distanceToPlayerCam;
     float cameraDistance;
     float cameraSpeed = 0;
 
     public GameObject rightTriggerUI;
     public Image RTOrangeUI;
+    public Image RTRedUI;
     Color AlphaVar = new Color(1,1,1,0);
     bool fadingOut = false;
     bool fadingIn = true;
@@ -67,7 +68,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
             if (cameraMoving == true)
             {
                 cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
-                cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, cameraSpeed * Time.deltaTime);
+                cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 3*cameraSpeed * Time.deltaTime);
                 cameraSpeed += 1f;
             }
         }
@@ -79,6 +80,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
         {
             cutsceneCamera.SetActive(false);
             cameraMoving = false;
+            print("loooolll");
         }
         //distanceToPlayerCam = cutsceneCamera.transform.position - playerCamera.transform.position;
         //distanceToPlayerCam = new Vector3(Mathf.Abs(distanceToPlayerCam.x), distanceToPlayerCam.y, distanceToPlayerCam.z);
@@ -94,34 +96,47 @@ public class DragonUnderSnowScript : MonoBehaviour {
         
         if (playerCanMove == true)
         {
-            if (RTOrangeUI.color.a >= 1f)
-            {
-                //var tempColor2 = RTOrangeUI.color;
-                //tempColor2.a -= 0.01f;
-                //RTOrangeUI.color = tempColor2;
-                fadingIn = false;
-                fadingOut = true;
-            }
+            var tempColor = RTRedUI.color;
+            tempColor.a += 0.05f;
+            RTRedUI.color = tempColor;
 
-            if (RTOrangeUI.color.a <= 0f)
+            if (RTRedUI.color.a >= 1f)
             {
-                fadingIn = true;
-                fadingOut = false;
-            }
+                if (RTOrangeUI.color.a >= 1f)
+                {
+                    //var tempColor2 = RTOrangeUI.color;
+                    //tempColor2.a -= 0.01f;
+                    //RTOrangeUI.color = tempColor2;
+                    fadingIn = false;
+                    fadingOut = true;
+                }
 
-            if (fadingIn == true)
-            {
-                AlphaVar.a += 0.05f;
-            }
+                if (RTOrangeUI.color.a <= 0f)
+                {
+                    fadingIn = true;
+                    fadingOut = false;
+                }
 
-            if (fadingOut == true)
-            {
-                AlphaVar.a -= 0.03f;
-            }
+                if (fadingIn == true)
+                {
+                    AlphaVar.a += 0.05f;
+                }
 
-            RTOrangeUI.color = AlphaVar;
+                if (fadingOut == true)
+                {
+                    AlphaVar.a -= 0.03f;
+                }
+
+                RTOrangeUI.color = AlphaVar;
+            } 
         }
     }
+
+    //void UIDelay()
+    //{
+    //    playerCanMove = true;
+    //    rightTriggerUI.SetActive(true);
+    //}
 
     IEnumerator CutsceneTime()
     {
@@ -134,7 +149,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
         controllerSwitch.enableLaunchOnly = true;
         controllerSwitch.enabled = true;
 
-        //yield return new WaitForSeconds(1f);
+        //Invoke("UIDelay", 1);
         rightTriggerUI.SetActive(true);
         playerCanMove = true;
 

@@ -2567,6 +2567,7 @@ MonoBehaviour:
   cutsceneCamera: {fileID: 1406994232}
   rightTriggerUI: {fileID: 489909471}
   RTOrangeUI: {fileID: 1668444297}
+  RTRedUI: {fileID: 177354685}
 --- !u!4 &56198388 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4956469857134598, guid: 0a502b4261f16f44badad5461fd29f72,
@@ -5622,7 +5623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -32819,6 +32820,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1409002609933300, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
   m_IsPrefabAsset: 0
@@ -39560,10 +39565,10 @@ MonoBehaviour:
   MapToLDR: 0
   RemoveColorBanding: 1
   MatrixVP:
-    e00: -0.71405023
-    e01: 0.000000021783716
-    e02: 0.6632892
-    e03: 93.53329
+    e00: -0.7141676
+    e01: 0.000000021787297
+    e02: 0.6633982
+    e03: 93.54866
     e10: 0.25466043
     e11: -1.6911505
     e12: 0.27414942
@@ -39577,10 +39582,10 @@ MonoBehaviour:
     e32: -0.7153685
     e33: -349.16266
   LastMatrixVP:
-    e00: -0.71405023
-    e01: 0.000000021783716
-    e02: 0.6632892
-    e03: 93.53329
+    e00: -0.7141676
+    e01: 0.000000021787297
+    e02: 0.6633982
+    e03: 93.54866
     e10: -0.25466043
     e11: 1.6911505
     e12: -0.27414942
@@ -43823,7 +43828,7 @@ MonoBehaviour:
   FogTransitionSize: 8.45
   MaxLightDistance: 128
   AboveFogPercent: 0.1
-  Offset: {x: 5561.922, y: 5561.922, z: 0}
+  Offset: {x: 5575.089, y: 5575.089, z: 0}
 --- !u!1001 &1533151368
 Prefab:
   m_ObjectHideFlags: 0

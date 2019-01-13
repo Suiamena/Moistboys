@@ -19809,7 +19809,7 @@ MonoBehaviour:
   FogTransitionSize: 5
   MaxLightDistance: 128
   AboveFogPercent: 0.1
-  Offset: {x: 1866.4801, y: 1866.4801, z: 0}
+  Offset: {x: 1871.4585, y: 1871.4585, z: 0}
 --- !u!108 &722089261
 Light:
   m_ObjectHideFlags: 0
@@ -24181,6 +24181,30 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4345354363419050, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4345354363419050, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4345354363419050, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4345354363419050, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4345354363419050, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4345354363419050, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
   m_IsPrefabAsset: 0
@@ -27811,10 +27835,10 @@ MonoBehaviour:
   MapToLDR: 0
   RemoveColorBanding: 1
   MatrixVP:
-    e00: 0.14953813
-    e01: 0.0880885
-    e02: -0.9590091
-    e03: 428.85736
+    e00: 0.1495627
+    e01: 0.08810298
+    e02: -0.95916677
+    e03: 428.9279
     e10: 0.79480743
     e11: -1.5388235
     e12: -0.017412424
@@ -27828,10 +27852,10 @@ MonoBehaviour:
     e32: 0.17779624
     e33: 447.324
   LastMatrixVP:
-    e00: 0.14953813
-    e01: 0.0880885
-    e02: -0.9590091
-    e03: 428.85736
+    e00: 0.1495627
+    e01: 0.08810298
+    e02: -0.95916677
+    e03: 428.9279
     e10: -0.79480743
     e11: 1.5388235
     e12: 0.017412424
@@ -56785,6 +56809,11 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &2072066793 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1618563732747196, guid: 47a34638fa2704b4dab1ff8566ea8072,
+    type: 2}
+  m_PrefabInternal: {fileID: 867024496}
 --- !u!1 &2073786036
 GameObject:
   m_ObjectHideFlags: 0
@@ -57183,6 +57212,7 @@ MonoBehaviour:
   warmthSourceSoundObject: {fileID: 1448143662}
   tekstImage: {fileID: 333765688}
   background: {fileID: 893152876}
+  playerCamera: {fileID: 2072066793}
   cutsceneCamera: {fileID: 1006696871}
   draakBeweging: {fileID: 664939757}
 --- !u!4 &2085154288
