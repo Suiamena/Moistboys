@@ -29,6 +29,12 @@ public class CreatureAbilityGet : MonoBehaviour {
 
     public GameObject destructibleCreature;
 
+    float cameraDistance;
+    bool cameraMoving = false;
+    float cameraSpeed = 0;
+    Animator cameraAnim;
+    public GameObject playerCamera;
+
     void Start()
     {
         player = GameObject.Find("Character");
@@ -51,6 +57,8 @@ public class CreatureAbilityGet : MonoBehaviour {
 
         abilityLight = GameObject.Find("BlueLight");
         abilityLightIntensity = abilityLight.GetComponent<Light>();
+
+        cameraAnim = cutsceneCamera.GetComponent<Animator>();
     }
 
     void OnTriggerEnter()
@@ -106,9 +114,10 @@ public class CreatureAbilityGet : MonoBehaviour {
     {
         //creatureAnim.SetBool("IsPlaying", true);
         //camOnCreature = true;
-
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.7f);
         abilityAnim.SetBool("IsPlaying", true);
+
+        yield return new WaitForSeconds(0.3f);
         creatureAnim.SetBool("isFlying", false);
         creatureAnim.SetBool("isFlop", true);
 
@@ -129,22 +138,37 @@ public class CreatureAbilityGet : MonoBehaviour {
         creatureAnim.SetBool("isFlying", true);
 
         yield return new WaitForSeconds(5f);
-        cutsceneCamera.SetActive(false);
+        cameraMoving = true;
         controllerSwitch.enabled = true;
-        cutsceneCamera.SetActive(false);
+        cameraAnim.enabled = false;
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
-        playerBody.velocity = new Vector3(0, 0, 0);
+        //playerBody.velocity = new Vector3(0, 0, 0);
         //
         Level2Music.musicStage = 4.5f;
         Destroy(destructibleCreature);
         Destroy(abilityPickUp);
-        Destroy(gameObject);
 
         //Cutscene duration = 7seconden
     }
 
     void Update()
     {
+        if (cameraMoving == true)
+        {
+            cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
+            cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 2.8f * cameraSpeed * Time.deltaTime);
+            cameraSpeed += 3f;
+        }
+
+        cameraDistance = Vector3.Distance(cutsceneCamera.transform.position, playerCamera.transform.position);
+        print(cameraDistance);
+
+        if (cameraDistance < 0.01f)
+        {
+            cutsceneCamera.SetActive(false);
+            cameraMoving = false;
+            Destroy(gameObject);
+        }
         //if (movingToCreature == true)
         //{
         //    abilityPickUp.transform.position = Vector3.MoveTowards(abilityPickUp.transform.position, creature.transform.position, 10 * Time.deltaTime);
