@@ -5,7 +5,9 @@ using XInputDotNetPure;
 
 public class PlangaMuur : MonoBehaviour
 {
-    public GameObject liamNeesson;
+    Vector3 nextCameraPosition;
+    public GameObject spawnPlatformParticle;
+    public GameObject playerCamera;
 
 	public static int currentCreatureLocation = 0;
 
@@ -113,15 +115,14 @@ public class PlangaMuur : MonoBehaviour
         sequenceIsRunning = true;
         if (!playerIsJumping && readyToStart)
         {
-            sequenceCamera.SetActive(true);
             playerIsJumping = true;
             playerScript.DisablePlayer();
             StartCoroutine(MakeJump(() => { oldPlayerIsJumping = true; }));
         }
+
         if (!creatureIsSpawningPlatforms)
         {
             creatureIsSpawningPlatforms = true;
-            StartCoroutine(CreatureSpawnsPlatforms());
             StartCoroutine(CreatureFliesToPlatforms());
         }
     }
@@ -132,6 +133,14 @@ public class PlangaMuur : MonoBehaviour
         if (activePlatform == 1)
         {
             yield return new WaitForSeconds(1f);
+            //sequenceCamera.SetActive(true);
+            playerCamera.SetActive(true);
+            bool test;
+            test = false;
+            while (!test)
+            {
+                playerCamera.transform.position = new Vector3(Mathf.Lerp(playerCamera.transform.position.x, 10, 0.5f), Mathf.Lerp(playerCamera.transform.position.y, 10, 0.5f), Mathf.Lerp(playerCamera.transform.position.z, 10, 0.5f));
+            }
         }
         //pressButtonPopup.SetActive(false);
         player.transform.LookAt(platformTransforms[activePlatform]);
@@ -175,7 +184,16 @@ public class PlangaMuur : MonoBehaviour
 		//Do da move
 		int pointIndex = 0;
         while (true) {
-            //sequenceCamera.transform.position = Vector3.MoveTowards(sequenceCamera.transform.position, platformTransforms[activePlatform].transform.GetChild(0).position, cameraMovementSpeed * Time.deltaTime);
+            //sequenceCamera.transform.position = player.transform.position + player.transform.rotation * new Vector3(0, 5, -20);
+            //sequenceCamera.transform.LookAt(player.transform.position);
+            nextCameraPosition = player.transform.position + player.transform.rotation * new Vector3(0, 5, -20);
+
+            playerCamera.transform.position = new Vector3(Mathf.Lerp(playerCamera.transform.position.x, nextCameraPosition.x, 0.5f),
+            Mathf.Lerp(playerCamera.transform.position.y, nextCameraPosition.y, 0.5f),
+            Mathf.Lerp(playerCamera.transform.position.z, nextCameraPosition.z, 0.5f));
+
+            playerCamera.transform.LookAt(player.transform.position);
+            //playerCamera.transform.position = nextCameraPosition;
             player.transform.position = Vector3.MoveTowards(player.transform.position, points[pointIndex], jumpingSpeed * Time.deltaTime);
 			if (pointIndex >= points.Length - 1) {
 				Quaternion oldRot = player.transform.rotation;
@@ -190,8 +208,6 @@ public class PlangaMuur : MonoBehaviour
 				}
 			}
 
-			//sequenceCamera.transform.LookAt(player.transform);
-
 			yield return null;
 		}
 		//Finalize the jump
@@ -200,7 +216,6 @@ public class PlangaMuur : MonoBehaviour
 		player.transform.Rotate(new Vector3(-player.transform.eulerAngles.x, 0, -player.transform.eulerAngles.z));
 		++activePlatform;
         playerIsJumping = false;
-        yield return new WaitForSeconds(1.5f);
         if (activePlatform >= platformTransforms.Count && sequenceIsRunning) {
             StartCoroutine(EndSequence());
 		} else {
@@ -240,7 +255,7 @@ public class PlangaMuur : MonoBehaviour
         readyForSequence = true;
 	}
 
-	IEnumerator CreatureDoesTrick ()
+	IEnumerator CreatureSpawnsFirstPlatform ()
 	{
         yield return new WaitForSeconds(0.5f);
 
@@ -264,22 +279,6 @@ public class PlangaMuur : MonoBehaviour
         readyToStart = true;
 	}
 
-    IEnumerator CreatureSpawnsPlatforms()
-    {
-        for (int i = 1; i < platformTransforms.Count - 1; i++)
-        {
-            yield return new WaitForSeconds(0.5f);
-            Debug.Log("shader and particles");
-            for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
-            {
-                platformTransforms[i].position -= platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
-                yield return null;
-            }
-            yield return new WaitForSeconds(1f);
-            platformTransforms[i].position = platformDefaultPositions[i];
-        }
-    }
-
     IEnumerator CreatureFliesToPlatforms()
     {
         for (int i = 1; i < platformTransforms.Count; i++)
@@ -287,11 +286,24 @@ public class PlangaMuur : MonoBehaviour
             flyToPlatformPosition = platformTransforms[i].position  + platformTransforms[i].transform.rotation * new Vector3(0, 5, -10);
             while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
             {
-                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 1.5f) * Time.deltaTime);
+                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 1.2f) * Time.deltaTime);
                 yield return null;
             }
-            yield return new WaitForSeconds(1f);
-         }
+            //yield return new WaitForSeconds(0.1f);
+            StartCoroutine(PlatformSpawnsNow(i));
+            //yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    IEnumerator PlatformSpawnsNow(int currentPlatform)
+    {
+        Instantiate(spawnPlatformParticle, new Vector3(flyToPlatformPosition.x, flyToPlatformPosition.y - 3, flyToPlatformPosition.z), Quaternion.identity);
+        for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
+        {
+            platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
+            yield return null;
+        }
+        platformTransforms[currentPlatform].position = platformDefaultPositions[currentPlatform];
     }
 
     IEnumerator FlyIn ()
@@ -323,7 +335,7 @@ public class PlangaMuur : MonoBehaviour
 		currentCreatureLocation = gameObject.GetInstanceID();
 		flyingRoutineRunning = false;
 
-        StartCoroutine(CreatureDoesTrick());
+        StartCoroutine(CreatureSpawnsFirstPlatform());
 	}
 
 	IEnumerator FlyOut ()
