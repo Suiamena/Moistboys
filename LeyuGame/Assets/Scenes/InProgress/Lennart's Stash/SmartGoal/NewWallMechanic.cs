@@ -55,7 +55,7 @@ public class NewWallMechanic : MonoBehaviour
 	public GameObject sequenceCamera;
 
 	//MANAGER
-	bool enableSequence, creatureSpawnsPlatforms, sequenceIsRunning, playerIsJumping;
+	bool enableSequence, creatureSpawnsPlatforms, sequenceIsRunning, oldPlayerIsJumping;
 	int activePlatform;
 
 	private void Awake ()
@@ -151,6 +151,7 @@ public class NewWallMechanic : MonoBehaviour
 				sequenceCamera.transform.position = initialCameraPoint.transform.position;
 				sequenceCamera.transform.LookAt(initialCameraTarget.transform);
 				sequenceCamera.SetActive(true);
+				Camera.main.gameObject.SetActive(false);
 
 				//SPAWN OBJECTS
 				creatureSpawnsPlatforms = true;
@@ -163,13 +164,13 @@ public class NewWallMechanic : MonoBehaviour
 
 	void StartJump ()
 	{
-		if (sequenceIsRunning && !playerIsJumping) {
-			playerIsJumping = true;
-			StartCoroutine(MakeJump(() => { playerIsJumping = false; }));
+		if (sequenceIsRunning && !oldPlayerIsJumping) {
+			oldPlayerIsJumping = true;
+			StartCoroutine(MakeJump(() => { oldPlayerIsJumping = false; }));
 		}
-		//if ((Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space")) && sequenceIsRunning && !playerIsJumping) {
-		//	playerIsJumping = true;
-		//	StartCoroutine(MakeJump(() => { playerIsJumping = false; }));
+		//if ((Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space")) && sequenceIsRunning && !oldPlayerIsJumping) {
+		//	oldPlayerIsJumping = true;
+		//	StartCoroutine(MakeJump(() => { oldPlayerIsJumping = false; }));
 		//}
 	}
 
@@ -177,7 +178,7 @@ public class NewWallMechanic : MonoBehaviour
 	{
 		pressButtonPopup.SetActive(false);
 		player.transform.LookAt(platformTransforms[activePlatform]);
-		playerAnim.SetBool("IsBouncing", true);
+        playerAnim.SetBool("IsBouncing", true);
 		PlayerAudio.PlayWallJump();
 
 		//Set current and target positions for calculations
@@ -222,13 +223,13 @@ public class NewWallMechanic : MonoBehaviour
 
 			player.transform.position = Vector3.MoveTowards(player.transform.position, points[pointIndex], jumpingSpeed * Time.deltaTime);
 			if (pointIndex >= points.Length - 1) {
-				Quaternion oldRot = player.transform.rotation;
+                Quaternion oldRot = player.transform.rotation;
 				player.transform.LookAt(points[pointIndex]);
 				player.transform.rotation = Quaternion.Lerp(oldRot, player.transform.rotation, 0.18f);
 				player.transform.Rotate(-player.transform.eulerAngles.x, 0, 0);
 			}
 			if (player.transform.position.SquareDistance(points[pointIndex]) < .01f) {
-				++pointIndex;
+                ++pointIndex;
 				if (pointIndex >= points.Length) {
 					break;
 				}
@@ -238,9 +239,8 @@ public class NewWallMechanic : MonoBehaviour
 
 			yield return null;
 		}
-
-		//Finalize the jump
-		playerAnim.SetBool("IsBouncing", false);
+        //Finalize the jump
+        playerAnim.SetBool("IsBouncing", false);
 		playerRig.velocity = new Vector3(0, 0, 0);
 		player.transform.Rotate(new Vector3(-player.transform.eulerAngles.x, 0, -player.transform.eulerAngles.z));
 		++activePlatform;
@@ -261,6 +261,7 @@ public class NewWallMechanic : MonoBehaviour
 		playerScript.cameraTrans.position = sequenceCamera.transform.position;
 		playerScript.EnablePlayer();
 
+		Camera.main.gameObject.SetActive(true);
 		sequenceCamera.SetActive(false);
 		creatureSpawnsPlatforms = false;
 		activePlatform = 0;

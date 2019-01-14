@@ -1,10 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class IntroTekstScript : MonoBehaviour {
 
+    public GameObject warmthSourceSoundObject;
     public Image tekstImage;
     public Image background;
     bool fadingFromWhite = false;
@@ -14,6 +15,9 @@ public class IntroTekstScript : MonoBehaviour {
     bool playerCanMove = false;
     bool playerHasMoved = false;
     bool cameraMoving = false;
+    float cameraDistance;
+    float cameraSpeed = 0;
+    public GameObject playerCamera;
 
     Color tempColor;
 
@@ -31,7 +35,7 @@ public class IntroTekstScript : MonoBehaviour {
     {
         player = GameObject.Find("Character");
         controllerSwitch = player.GetComponent<PlayerController>();
-        controllerSwitch.enabled = false;
+        controllerSwitch.DisablePlayer(true);
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
         cameraAnim.enabled = false;
         draakAnim = draakBeweging.GetComponent<Animator>();
@@ -39,7 +43,6 @@ public class IntroTekstScript : MonoBehaviour {
         StartCoroutine(CutsceneTime());
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (tekstFadeIn == true)
@@ -67,6 +70,24 @@ public class IntroTekstScript : MonoBehaviour {
 
             }
         }
+
+        if (cameraMoving == true)
+        {
+            cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
+            cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 2.25f * cameraSpeed * Time.deltaTime);
+            cameraSpeed += 0.5f;
+        }
+
+        cameraDistance = Vector3.Distance(cutsceneCamera.transform.position, playerCamera.transform.position);
+        //print(cameraDistance);
+
+        if (cameraDistance < 0.01f)
+        {
+            cutsceneCamera.SetActive(false);
+            cameraMoving = false;
+            controllerSwitch.EnablePlayer();
+            Destroy(gameObject);
+        }
     }
 
     IEnumerator CutsceneTime()
@@ -86,8 +107,9 @@ public class IntroTekstScript : MonoBehaviour {
         draakAnim.enabled = true;
 
         yield return new WaitForSeconds(2f);
-        controllerSwitch.enabled = true;
-        print("lol");
-        Destroy(gameObject);
+        warmthSourceSoundObject.SetActive(true);
+        cameraMoving = true;
+        cameraAnim.enabled = false;
+        //Destroy(gameObject);
     }
 }

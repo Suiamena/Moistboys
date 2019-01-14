@@ -475,7 +475,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void DisablePlayer ()
+	public void DisablePlayer (bool disableCamera = false)
 	{
 		//DISABLE PLAYER ANIMATION
 		animator.SetBool("IsBouncing", false);
@@ -491,8 +491,9 @@ public class PlayerController : MonoBehaviour
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
 		}
-		transform.rotation = Quaternion.Euler(0, 0, 0);
+		//transform.rotation = Quaternion.Euler(0, 0, 0);
 		rig.velocity = Vector3.zero;
+		cameraTrans.gameObject.SetActive(!disableCamera);
 		enabled = false;
 	}
 
@@ -502,6 +503,7 @@ public class PlayerController : MonoBehaviour
 		cameraYAngle = transform.eulerAngles.y;
 		cameraDesiredTarget = transform.position + transform.rotation * cameraTarget;
 		cameraTrans.LookAt(cameraDesiredTarget);
+		cameraTrans.gameObject.SetActive(true);
 		modelYRotation = 0;
 	}
 

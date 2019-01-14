@@ -14,7 +14,7 @@ public class WallMechanic : MonoBehaviour
 	public int playerLerpSpeed;
 	GameObject player, playerCam;
 	Vector3 playerPositionLerp;
-	bool playerIsJumping;
+	bool oldPlayerIsJumping;
 
 	PlayerController playerScript;
 	Rigidbody playerRig;
@@ -88,9 +88,9 @@ public class WallMechanic : MonoBehaviour
 	void JumpInput ()
 	{
 		if (Input.GetButtonDown("A Button")) {
-			if (enableSequence && !playerIsJumping) {
+			if (enableSequence && !oldPlayerIsJumping) {
 				if (creatureSpawnedPlatforms) {
-					playerIsJumping = true;
+					oldPlayerIsJumping = true;
 					if (platformsJumped == 0) {
 						StartSequence();
 					}
@@ -125,7 +125,7 @@ public class WallMechanic : MonoBehaviour
 	//Actual jumping
 	void JumpExecution ()
 	{
-		if (playerIsJumping) {
+		if (oldPlayerIsJumping) {
 			player.transform.rotation = transform.rotation;
 			playerMovementTarget = platforms[platformsJumped].transform.position;
 			playerPositionLerp = new Vector3(player.transform.position.x, Mathf.Lerp(player.transform.position.y, playerMovementTarget.y, playerLerpSpeed * Time.deltaTime), player.transform.position.z);
@@ -138,7 +138,7 @@ public class WallMechanic : MonoBehaviour
 			if (fuckingBoolean) {
 				playerRig.velocity = new Vector3(0, 0, 0);
 				platformsJumped += 1;
-				playerIsJumping = false;
+				oldPlayerIsJumping = false;
 				fuckingBoolean = false;
 				coroutineRunning = false;
 				if (platformsJumped == platforms.Count) {
