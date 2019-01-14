@@ -5,7 +5,7 @@ using XInputDotNetPure;
 
 public class PlangaMuur : MonoBehaviour
 {
-    public GameObject liamNeesson;
+    public GameObject spawnPlatformParticle;
 
 	public static int currentCreatureLocation = 0;
 
@@ -270,6 +270,7 @@ public class PlangaMuur : MonoBehaviour
         {
             yield return new WaitForSeconds(0.5f);
             Debug.Log("shader and particles");
+            Instantiate(spawnPlatformParticle, flyToPlatformPosition, Quaternion.identity);
             for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
             {
                 platformTransforms[i].position -= platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
