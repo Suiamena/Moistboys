@@ -1,36 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CommunicateChoice : MonoBehaviour
 {
-    public GameObject player;
-    PlayerController playerScript;
-    public GameObject walls;
+	void Start ()
+	{
+		PlayerController playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
-    private void Awake()
-    {
-        Debug.Log("scri[t");
-        playerScript = player.GetComponent<PlayerController>();
-        if (VariablesGlobal.chosenForCompetence)
-        {
-            Debug.Log("COMPETENCE");
-            playerScript.launchEnabled = true;
-        }
+		if (VariablesGlobal.chosenForCompetence)
+			playerController.launchEnabled = true;
+		else
+			playerController.launchEnabled = false;
 
-        if (VariablesGlobal.chosenForSocial)
-        {
-            Debug.Log("SOCIAL");
-            walls.SetActive(true);
-        }
-    }
-
-    private void Update()
-    {
-        if (VariablesGlobal.chosenForSocial)
-        {
-            playerScript.launchEnabled = false;
-        }
-    }
-
+		if (VariablesGlobal.chosenForSocial)
+			playerController.creatureWallsEnabled = true;
+		else
+			playerController.creatureWallsEnabled = false;
+	}
 }

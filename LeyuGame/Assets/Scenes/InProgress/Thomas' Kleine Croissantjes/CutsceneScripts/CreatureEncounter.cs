@@ -24,7 +24,8 @@ public class CreatureEncounter : MonoBehaviour {
 
     GameObject playerCamera;
     Animator cameraAnim;
-    Vector3 distanceToPlayerCam;
+    //Vector3 distanceToPlayerCam;
+    float cameraDistance;
 
     bool dragonMoveToWaypoing = false;
     bool cameraMoving = false;
@@ -138,28 +139,38 @@ public class CreatureEncounter : MonoBehaviour {
 
 	void Update ()
     {
-        distanceToPlayerCam = cutsceneCamera.transform.position - playerCamera.transform.position;
-        distanceToPlayerCam = new Vector3(Mathf.Abs(distanceToPlayerCam.x), distanceToPlayerCam.y, distanceToPlayerCam.z);
-        distanceToPlayerCam.x = Mathf.Abs(distanceToPlayerCam.x);
-        distanceToPlayerCam.y = Mathf.Abs(distanceToPlayerCam.y);
-        distanceToPlayerCam.z = Mathf.Abs(distanceToPlayerCam.z);
+        //distanceToPlayerCam = cutsceneCamera.transform.position - playerCamera.transform.position;
+        //distanceToPlayerCam = new Vector3(Mathf.Abs(distanceToPlayerCam.x), distanceToPlayerCam.y, distanceToPlayerCam.z);
+        //distanceToPlayerCam.x = Mathf.Abs(distanceToPlayerCam.x);
+        //distanceToPlayerCam.y = Mathf.Abs(distanceToPlayerCam.y);
+        //distanceToPlayerCam.z = Mathf.Abs(distanceToPlayerCam.z);
         //print(distanceToPlayerCam);
 
         if (cameraMoving == true)
         {
             cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed* Time.deltaTime);
-            cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, cameraSpeed * Time.deltaTime);
+            cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 2.2f*cameraSpeed * Time.deltaTime);
             cameraSpeed += 1f;
         }
 
-        if (distanceToPlayerCam.x < 0.7f && distanceToPlayerCam.y < 0.7f && distanceToPlayerCam.z < 0.7f)
+        cameraDistance = Vector3.Distance(cutsceneCamera.transform.position, playerCamera.transform.position);
+        print(cameraDistance);
+
+        if (cameraDistance < 0.01f)
         {
-            print("loooooooolll");
-            //creatureAnim.SetBool("isFlying", false);
             cutsceneCamera.SetActive(false);
             cameraMoving = false;
             Destroy(gameObject);
         }
+
+        //if (distanceToPlayerCam.x < 0.7f && distanceToPlayerCam.y < 0.7f && distanceToPlayerCam.z < 0.7f)
+        //{
+        //    print("loooooooolll");
+        //    //creatureAnim.SetBool("isFlying", false);
+        //    cutsceneCamera.SetActive(false);
+        //    cameraMoving = false;
+        //    Destroy(gameObject);
+        //}
     }
 }
 

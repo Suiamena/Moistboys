@@ -49,7 +49,7 @@ public class CutsceneStorm : MonoBehaviour {
     {
         if (followPlayer)
         {
-            storm.transform.position = new Vector3(player.transform.position.x + 10, player.transform.position.y, player.transform.position.z);
+            storm.transform.position = new Vector3(player.transform.position.x + 30, player.transform.position.y, player.transform.position.z);
         }
         if (startToAccelerate)
         {
