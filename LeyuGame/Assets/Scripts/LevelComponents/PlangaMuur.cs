@@ -5,6 +5,8 @@ using XInputDotNetPure;
 
 public class PlangaMuur : MonoBehaviour
 {
+    public GameObject liamNeesson;
+
 	public static int currentCreatureLocation = 0;
 
 	GameObject player;
@@ -129,7 +131,7 @@ public class PlangaMuur : MonoBehaviour
         platformTransforms[activePlatform].transform.position = platformTransforms[activePlatform].transform.position;
         if (activePlatform == 1)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
         }
         //pressButtonPopup.SetActive(false);
         player.transform.LookAt(platformTransforms[activePlatform]);
@@ -188,7 +190,7 @@ public class PlangaMuur : MonoBehaviour
 				}
 			}
 
-			sequenceCamera.transform.LookAt(player.transform);
+			//sequenceCamera.transform.LookAt(player.transform);
 
 			yield return null;
 		}
@@ -198,6 +200,7 @@ public class PlangaMuur : MonoBehaviour
 		player.transform.Rotate(new Vector3(-player.transform.eulerAngles.x, 0, -player.transform.eulerAngles.z));
 		++activePlatform;
         playerIsJumping = false;
+        yield return new WaitForSeconds(1.5f);
         if (activePlatform >= platformTransforms.Count && sequenceIsRunning) {
             StartCoroutine(EndSequence());
 		} else {
@@ -265,29 +268,30 @@ public class PlangaMuur : MonoBehaviour
     {
         for (int i = 1; i < platformTransforms.Count - 1; i++)
         {
+            yield return new WaitForSeconds(0.5f);
+            Debug.Log("shader and particles");
             for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
             {
                 platformTransforms[i].position -= platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
                 yield return null;
             }
+            yield return new WaitForSeconds(1f);
             platformTransforms[i].position = platformDefaultPositions[i];
         }
     }
 
     IEnumerator CreatureFliesToPlatforms()
     {
-        yield return new WaitForSeconds(0.5f);
         for (int i = 1; i < platformTransforms.Count; i++)
         {
-            flyToPlatformPosition = platformTransforms[i].transform.position;
-            flyToPlatformPosition.y += 5;
-            flyToPlatformPosition.z += -10;
+            flyToPlatformPosition = platformTransforms[i].position  + platformTransforms[i].transform.rotation * new Vector3(0, 5, -10);
             while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
             {
                 moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 1.5f) * Time.deltaTime);
                 yield return null;
             }
-        }
+            yield return new WaitForSeconds(1f);
+         }
     }
 
     IEnumerator FlyIn ()
