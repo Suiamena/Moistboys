@@ -118,10 +118,10 @@ public class PlangaMuur : MonoBehaviour
             playerScript.DisablePlayer();
             StartCoroutine(MakeJump(() => { oldPlayerIsJumping = true; }));
         }
+
         if (!creatureIsSpawningPlatforms)
         {
             creatureIsSpawningPlatforms = true;
-            StartCoroutine(CreatureSpawnsPlatforms());
             StartCoroutine(CreatureFliesToPlatforms());
         }
     }
@@ -131,7 +131,7 @@ public class PlangaMuur : MonoBehaviour
         platformTransforms[activePlatform].transform.position = platformTransforms[activePlatform].transform.position;
         if (activePlatform == 1)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.7f);
         }
         //pressButtonPopup.SetActive(false);
         player.transform.LookAt(platformTransforms[activePlatform]);
@@ -200,7 +200,7 @@ public class PlangaMuur : MonoBehaviour
 		player.transform.Rotate(new Vector3(-player.transform.eulerAngles.x, 0, -player.transform.eulerAngles.z));
 		++activePlatform;
         playerIsJumping = false;
-        yield return new WaitForSeconds(1.5f);
+        //yield return new WaitForSeconds(1.5f);
         if (activePlatform >= platformTransforms.Count && sequenceIsRunning) {
             StartCoroutine(EndSequence());
 		} else {
@@ -240,7 +240,7 @@ public class PlangaMuur : MonoBehaviour
         readyForSequence = true;
 	}
 
-	IEnumerator CreatureDoesTrick ()
+	IEnumerator CreatureSpawnsFirstPlatform ()
 	{
         yield return new WaitForSeconds(0.5f);
 
@@ -264,23 +264,6 @@ public class PlangaMuur : MonoBehaviour
         readyToStart = true;
 	}
 
-    IEnumerator CreatureSpawnsPlatforms()
-    {
-        for (int i = 1; i < platformTransforms.Count - 1; i++)
-        {
-            yield return new WaitForSeconds(0.5f);
-            Debug.Log("shader and particles");
-            Instantiate(spawnPlatformParticle, flyToPlatformPosition, Quaternion.identity);
-            for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
-            {
-                platformTransforms[i].position -= platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
-                yield return null;
-            }
-            yield return new WaitForSeconds(1f);
-            platformTransforms[i].position = platformDefaultPositions[i];
-        }
-    }
-
     IEnumerator CreatureFliesToPlatforms()
     {
         for (int i = 1; i < platformTransforms.Count; i++)
@@ -288,11 +271,24 @@ public class PlangaMuur : MonoBehaviour
             flyToPlatformPosition = platformTransforms[i].position  + platformTransforms[i].transform.rotation * new Vector3(0, 5, -10);
             while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
             {
-                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 1.5f) * Time.deltaTime);
+                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 1.2f) * Time.deltaTime);
                 yield return null;
             }
-            yield return new WaitForSeconds(1f);
-         }
+            //yield return new WaitForSeconds(0.1f);
+            StartCoroutine(PlatformSpawnsNow(i));
+            //yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    IEnumerator PlatformSpawnsNow(int currentPlatform)
+    {
+        Instantiate(spawnPlatformParticle, new Vector3(flyToPlatformPosition.x, flyToPlatformPosition.y - 3, flyToPlatformPosition.z), Quaternion.identity);
+        for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
+        {
+            platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
+            yield return null;
+        }
+        platformTransforms[currentPlatform].position = platformDefaultPositions[currentPlatform];
     }
 
     IEnumerator FlyIn ()
@@ -324,7 +320,7 @@ public class PlangaMuur : MonoBehaviour
 		currentCreatureLocation = gameObject.GetInstanceID();
 		flyingRoutineRunning = false;
 
-        StartCoroutine(CreatureDoesTrick());
+        StartCoroutine(CreatureSpawnsFirstPlatform());
 	}
 
 	IEnumerator FlyOut ()
