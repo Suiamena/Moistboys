@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
 		cameraDesiredTarget = transform.position + transform.rotation * cameraTarget;
 		cameraTrans.LookAt(cameraDesiredTarget);
 
-		animationModel = GameObject.Find("MOD_Draak");
+		animationModel = GameObject.Find("Draak_Rework");
 		animator = animationModel.GetComponent<Animator>();
 		launchBaseColor = launchRenderer.materials[launchMaterialIndexes[0]].color;
 
@@ -177,12 +177,15 @@ public class PlayerController : MonoBehaviour
 		Launch();
 		Hop();
 		ModelRotation();
+		if (Grounded())
+			animator.SetBool("airborne", false);
+		else
+			animator.SetBool("airborne", true);
 	}
 
 	private void FixedUpdate ()
 	{
 		Gravity();
-		RunAnimation();
 		Movement();
 		CheckHeight();
 
@@ -259,6 +262,7 @@ public class PlayerController : MonoBehaviour
         if (launchEnabled && (Input.GetAxis("Right Trigger") != 0 || Input.GetButtonDown("Keyboard Space"))) {
 			if (!launchRoutineRunning) {
                 launchRoutineRunning = true;
+				animator.SetBool("preLaunching", true);
                 StartCoroutine(LaunchRoutine());
 			}
 		}
@@ -434,53 +438,12 @@ public class PlayerController : MonoBehaviour
 		StartCoroutine(KillVibrationRoutine(timeBeforeKill));
 	}
 
-	void RunAnimation ()
-	{
-		//Set Animation States
-		if (Grounded()) {
-			if (movementInput.magnitude == 0) {
-				isBouncing = false;
-			} else if (movementInput.magnitude < walkingBouncingThreshold) {
-				if (!isPreLaunching) {
-					isBouncing = true;
-				} else {
-					isBouncing = false;
-				}
-			} else {
-				if (!isPreLaunching) {
-					isBouncing = true;
-				} else {
-					isBouncing = false;
-				}
-			}
-		}
-
-		//Play Bounce Animation
-		if (isBouncing) {
-			animator.SetBool("IsBouncing", true);
-		} else {
-			animator.SetBool("IsBouncing", false);
-		}
-		//Play prelaunch
-		if (isPreLaunching) {
-			animator.SetBool("IsLaunching", true);
-		} else {
-			animator.SetBool("IsLaunching", false);
-		}
-		//Play Airborne
-		if (Grounded()) {
-			animator.SetBool("IsAirborne", false);
-		} else {
-			animator.SetBool("IsAirborne", true);
-		}
-	}
-
 	public void DisablePlayer (bool disableCamera = false)
 	{
 		//DISABLE PLAYER ANIMATION
-		animator.SetBool("IsBouncing", false);
-		animator.SetBool("IsLaunching", false);
-		animator.SetBool("IsAirborne", false);
+		animator.SetTrigger("reset");
+		animator.SetBool("preLaunching", false);
+		animator.SetBool("airborne", false);
 
 		//DISABLE PLAYER MOVEMENT
 		movementInput = Vector2.zero;
@@ -541,6 +504,7 @@ public class PlayerController : MonoBehaviour
 
 		GamePad.SetVibration(PlayerIndex.One, 0.8f, 0.8f);
 		KillVibration(.15f);
+		animator.SetBool("preLaunching", false);
 
 		if (velocity.y < 0)
 			velocity.y = 0;
