@@ -5,6 +5,7 @@ using XInputDotNetPure;
 
 public class PlangaMuur : MonoBehaviour
 {
+    bool lookAtPlayer;
     Vector3 nextCameraPosition;
     public GameObject spawnPlatformParticle;
     public GameObject playerCamera;
@@ -135,15 +136,9 @@ public class PlangaMuur : MonoBehaviour
             yield return new WaitForSeconds(1f);
             //sequenceCamera.SetActive(true);
             playerCamera.SetActive(true);
-            bool test;
-            test = false;
-            while (!test)
-            {
-                playerCamera.transform.position = new Vector3(Mathf.Lerp(playerCamera.transform.position.x, 10, 0.5f), Mathf.Lerp(playerCamera.transform.position.y, 10, 0.5f), Mathf.Lerp(playerCamera.transform.position.z, 10, 0.5f));
-            }
         }
         //pressButtonPopup.SetActive(false);
-        player.transform.LookAt(platformTransforms[activePlatform]);
+        //player.transform.LookAt(platformTransforms[activePlatform]);
 		playerAnim.SetBool("IsBouncing", true);
 		PlayerAudio.PlayWallJump();
 
@@ -184,22 +179,27 @@ public class PlangaMuur : MonoBehaviour
 		//Do da move
 		int pointIndex = 0;
         while (true) {
+            if (!lookAtPlayer)
+            {
+                playerCamera.transform.LookAt(player.transform.position);
+                lookAtPlayer = true;
+            }
             //sequenceCamera.transform.position = player.transform.position + player.transform.rotation * new Vector3(0, 5, -20);
             //sequenceCamera.transform.LookAt(player.transform.position);
-            nextCameraPosition = player.transform.position + player.transform.rotation * new Vector3(0, 5, -20);
+            nextCameraPosition = player.transform.position + player.transform.rotation * new Vector3(5, 5, -50);
 
-            playerCamera.transform.position = new Vector3(Mathf.Lerp(playerCamera.transform.position.x, nextCameraPosition.x, 0.5f),
-            Mathf.Lerp(playerCamera.transform.position.y, nextCameraPosition.y, 0.5f),
-            Mathf.Lerp(playerCamera.transform.position.z, nextCameraPosition.z, 0.5f));
+            //playerCamera.transform.position = new Vector3(Mathf.Lerp(playerCamera.transform.position.x, nextCameraPosition.x, 0.5f),
+            //Mathf.Lerp(playerCamera.transform.position.y, nextCameraPosition.y, 0.5f),
+            //Mathf.Lerp(playerCamera.transform.position.z, nextCameraPosition.z, 0.5f));
 
-            playerCamera.transform.LookAt(player.transform.position);
-            //playerCamera.transform.position = nextCameraPosition;
+            playerCamera.transform.position = nextCameraPosition;
+            playerCamera.transform.position = nextCameraPosition;
             player.transform.position = Vector3.MoveTowards(player.transform.position, points[pointIndex], jumpingSpeed * Time.deltaTime);
 			if (pointIndex >= points.Length - 1) {
 				Quaternion oldRot = player.transform.rotation;
-				player.transform.LookAt(points[pointIndex]);
-				player.transform.rotation = Quaternion.Lerp(oldRot, player.transform.rotation, 0.18f);
-				player.transform.Rotate(-player.transform.eulerAngles.x, 0, 0);
+				//player.transform.LookAt(points[pointIndex]);
+				//player.transform.rotation = Quaternion.Lerp(oldRot, player.transform.rotation, 0.18f);
+				//player.transform.Rotate(-player.transform.eulerAngles.x, 0, 0);
 			}
 			if (player.transform.position.SquareDistance(points[pointIndex]) < .01f) {
                 ++pointIndex;
@@ -213,7 +213,7 @@ public class PlangaMuur : MonoBehaviour
 		//Finalize the jump
 		playerAnim.SetBool("IsBouncing", false);
 		playerRig.velocity = new Vector3(0, 0, 0);
-		player.transform.Rotate(new Vector3(-player.transform.eulerAngles.x, 0, -player.transform.eulerAngles.z));
+		//player.transform.Rotate(new Vector3(-player.transform.eulerAngles.x, 0, -player.transform.eulerAngles.z));
 		++activePlatform;
         playerIsJumping = false;
         if (activePlatform >= platformTransforms.Count && sequenceIsRunning) {
