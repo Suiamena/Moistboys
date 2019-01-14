@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,8 +45,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
         player = GameObject.Find("Character");
         playerCamera = GameObject.Find("Main Camera");
         controllerSwitch = player.GetComponent<PlayerController>();
-        controllerSwitch.launchEnabled = true;
-        controllerSwitch.enabled = false;
+		controllerSwitch.DisablePlayer(true);
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
         rightTriggerUI.SetActive(false);
     }
@@ -146,8 +145,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
 
         yield return new WaitForSeconds(7f);
         cameraAnim.enabled = false;
-        controllerSwitch.enableLaunchOnly = true;
-        controllerSwitch.enabled = true;
+		controllerSwitch.EnablePlayer();
 
         //Invoke("UIDelay", 1);
         rightTriggerUI.SetActive(true);
