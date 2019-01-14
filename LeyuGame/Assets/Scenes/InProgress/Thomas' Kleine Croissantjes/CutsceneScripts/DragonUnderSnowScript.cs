@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,8 +28,16 @@ public class DragonUnderSnowScript : MonoBehaviour {
     public GameObject cutsceneCamera;
     Animator cameraAnim;
 
-    Vector3 distanceToPlayerCam;
+    //Vector3 distanceToPlayerCam;
+    float cameraDistance;
     float cameraSpeed = 0;
+
+    public GameObject rightTriggerUI;
+    public Image RTOrangeUI;
+    public Image RTRedUI;
+    Color AlphaVar = new Color(1,1,1,0);
+    bool fadingOut = false;
+    bool fadingIn = true;
 
     void Start()
     {
@@ -37,9 +45,9 @@ public class DragonUnderSnowScript : MonoBehaviour {
         player = GameObject.Find("Character");
         playerCamera = GameObject.Find("Main Camera");
         controllerSwitch = player.GetComponent<PlayerController>();
-        controllerSwitch.launchEnabled = true;
-        controllerSwitch.enabled = false;
+		controllerSwitch.DisablePlayer(true);
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
+        rightTriggerUI.SetActive(false);
     }
 
     void Update()
@@ -59,23 +67,75 @@ public class DragonUnderSnowScript : MonoBehaviour {
             if (cameraMoving == true)
             {
                 cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
-                cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, cameraSpeed * Time.deltaTime);
+                cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 3*cameraSpeed * Time.deltaTime);
                 cameraSpeed += 1f;
             }
         }
 
-        distanceToPlayerCam = cutsceneCamera.transform.position - playerCamera.transform.position;
-        distanceToPlayerCam = new Vector3(Mathf.Abs(distanceToPlayerCam.x), distanceToPlayerCam.y, distanceToPlayerCam.z);
-        distanceToPlayerCam.x = Mathf.Abs(distanceToPlayerCam.x);
-        distanceToPlayerCam.y = Mathf.Abs(distanceToPlayerCam.y);
-        distanceToPlayerCam.z = Mathf.Abs(distanceToPlayerCam.z);
+        cameraDistance = Vector3.Distance(cutsceneCamera.transform.position, playerCamera.transform.position);
+        print(cameraDistance);
 
-        if (distanceToPlayerCam.x < 0.7f && distanceToPlayerCam.y < 0.7f && distanceToPlayerCam.z < 0.7f)
+        if (cameraDistance < 0.1f)
         {
             cutsceneCamera.SetActive(false);
             cameraMoving = false;
+            print("loooolll");
+        }
+        //distanceToPlayerCam = cutsceneCamera.transform.position - playerCamera.transform.position;
+        //distanceToPlayerCam = new Vector3(Mathf.Abs(distanceToPlayerCam.x), distanceToPlayerCam.y, distanceToPlayerCam.z);
+        //distanceToPlayerCam.x = Mathf.Abs(distanceToPlayerCam.x);
+        //distanceToPlayerCam.y = Mathf.Abs(distanceToPlayerCam.y);
+        //distanceToPlayerCam.z = Mathf.Abs(distanceToPlayerCam.z);
+
+        //if (distanceToPlayerCam.x < 0.7f && distanceToPlayerCam.y < 0.7f && distanceToPlayerCam.z < 0.7f)
+        //{
+        //    cutsceneCamera.SetActive(false);
+        //    cameraMoving = false;
+        //}
+        
+        if (playerCanMove == true)
+        {
+            var tempColor = RTRedUI.color;
+            tempColor.a += 0.05f;
+            RTRedUI.color = tempColor;
+
+            if (RTRedUI.color.a >= 1f)
+            {
+                if (RTOrangeUI.color.a >= 1f)
+                {
+                    //var tempColor2 = RTOrangeUI.color;
+                    //tempColor2.a -= 0.01f;
+                    //RTOrangeUI.color = tempColor2;
+                    fadingIn = false;
+                    fadingOut = true;
+                }
+
+                if (RTOrangeUI.color.a <= 0f)
+                {
+                    fadingIn = true;
+                    fadingOut = false;
+                }
+
+                if (fadingIn == true)
+                {
+                    AlphaVar.a += 0.05f;
+                }
+
+                if (fadingOut == true)
+                {
+                    AlphaVar.a -= 0.03f;
+                }
+
+                RTOrangeUI.color = AlphaVar;
+            } 
         }
     }
+
+    //void UIDelay()
+    //{
+    //    playerCanMove = true;
+    //    rightTriggerUI.SetActive(true);
+    //}
 
     IEnumerator CutsceneTime()
     {
@@ -85,9 +145,11 @@ public class DragonUnderSnowScript : MonoBehaviour {
 
         yield return new WaitForSeconds(7f);
         cameraAnim.enabled = false;
+		controllerSwitch.EnablePlayer();
+
+        //Invoke("UIDelay", 1);
+        rightTriggerUI.SetActive(true);
         playerCanMove = true;
-        controllerSwitch.enableLaunchOnly = true;
-        controllerSwitch.enabled = true;
 
         //while (!firstLaunch)
         //{
@@ -119,8 +181,10 @@ public class DragonUnderSnowScript : MonoBehaviour {
             yield return null;
         }
 
+
         controllerSwitch.enableLaunchOnly = false;
         playerHasMoved = true;
+        rightTriggerUI.SetActive(false);
 
         Level3Music.musicStage = 5.9f;
         print("playerHasMoved = " + playerHasMoved);
