@@ -153,17 +153,17 @@ public class TerugVindenCreature : MonoBehaviour
         if (cameraMoving == true)
         {
             cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
-            cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, cameraRotationSpeed * Time.deltaTime); //0.8f * cameraSpeed is hoe het was.
-            cameraSpeed += onePercCamDist; // was 1f;
-            cameraRotationSpeed += onePercRotDist;
-            // Afstand cutsceneCamera naar playerCamera berekenen om de snelheid waarmee de cutsceneCamera naar de playerCamera roteert te bepalen!!! 
-            // hoe kleiner de afstand hoe sneller de camera ernaartoe moet roteren
-            //cameraDistance 
-            //cameraRotationDifference / cameraDistance = x                x * cameraspeed = camerarotationdifference
+            cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 0.8f * cameraSpeed * Time.deltaTime);
+            cameraSpeed += 1f;
 
-            
-            onePercCamDist = maxCameraDistance / 100;
-            onePercRotDist = maxCameraRotationDifference / 100;
+            //POGING TOT FOREVER SMOOTH CAMERA MVEMENTS.
+            //cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
+            //cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, cameraRotationSpeed * Time.deltaTime);
+            //cameraSpeed += onePercCamDist; // was 1f;
+            //cameraRotationSpeed += onePercRotDist;
+
+            //onePercCamDist = maxCameraDistance / 100;
+            //onePercRotDist = maxCameraRotationDifference / 100;
 
             //percCameraDistance = cameraDistance / maxCameraDistance * 100;
             //percCameraRotationDifference = cameraRotationDifference / maxCameraRotationDifference * 100;
