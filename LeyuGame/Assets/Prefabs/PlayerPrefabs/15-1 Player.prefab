@@ -884,6 +884,7 @@ GameObject:
   - component: {fileID: 4952961141549432}
   - component: {fileID: 95481586292396108}
   - component: {fileID: 114880506181955412}
+  - component: {fileID: 114218810913951848}
   m_Layer: 0
   m_Name: MOD_Draak
   m_TagString: Untagged
@@ -1927,7 +1928,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1625656965695350}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 682.32, y: 42.4, z: 819.25}
+  m_LocalPosition: {x: 82.66255, y: -41.75311, z: -184.61307}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4624373607199524}
@@ -2612,7 +2613,7 @@ MonoBehaviour:
   cameraTargetSmoothing: 0.32
   cameraVerticalInfluenceThreshold: 16
   cameraVerticalInfluenceFactor: 0.05
-  launchEnabled: 0
+  launchEnabled: 1
   launchStageTwoTime: 0.7
   launchStageOneForce: {x: 0, y: 35, z: 10}
   launchStageTwoForce: {x: 0, y: 50, z: 22}
@@ -2764,6 +2765,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RenderOrder: 0
+--- !u!114 &114218810913951848
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1651934405221906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0538ec1f2ba08c04ab592f684fc4cbde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walljump: event:/Dragon/Walljump
+  dragon_screeches: event:/Dragon/Dragon_Screeches
+  launchParticles: {fileID: 1185272968008230, guid: 231661e035515bb47866e81577d93c94,
+    type: 2}
+  superSaiyanLaunchParticles: {fileID: 1365683928068060, guid: 784772c8906280f49808de5dab769c48,
+    type: 2}
 --- !u!114 &114223677946377292
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3285,39 +3303,39 @@ MonoBehaviour:
   MapToLDR: 0
   RemoveColorBanding: 1
   MatrixVP:
-    e00: -0.97393876
+    e00: -0.74230766
     e01: 0
     e02: 0
-    e03: 664.5379
+    e03: 61.36105
     e10: 0
     e11: -1.6849498
     e12: 0.40117857
-    e13: -255.17766
+    e13: 5.7569227
     e20: 0
     e21: 0.0000000690283
     e22: 0.0000002899189
-    e23: 0.29975727
+    e23: 0.30005413
     e30: 0
     e31: -0.23162055
     e32: -0.97280633
-    e33: 814.7832
+    e33: -181.27272
   LastMatrixVP:
-    e00: -0.97393876
+    e00: -0.74230766
     e01: 0
     e02: 0
-    e03: 664.5379
+    e03: 61.36105
     e10: 0
     e11: 1.6849498
     e12: -0.40117857
-    e13: 255.17766
+    e13: -5.7569227
     e20: 0
     e21: 0.0000000690283
     e22: 0.0000002899189
-    e23: 0.29975727
+    e23: 0.30005413
     e30: 0
     e31: -0.23162055
     e32: -0.97280633
-    e33: 814.7832
+    e33: -181.27272
   LastMatrixVPInv:
     e00: 0
     e01: 0
@@ -3373,15 +3391,15 @@ MonoBehaviour:
     e00: -1.0000002
     e01: 0
     e02: 0
-    e03: 682.3202
+    e03: 82.662575
     e10: 0
     e11: 0.9728062
     e12: -0.23162055
-    e13: 147.32689
+    e13: -3.323761
     e20: 0
     e21: 0.23162055
     e22: 0.97280633
-    e23: -814.7832
+    e23: 181.27272
     e30: 0
     e31: 0
     e32: 0
