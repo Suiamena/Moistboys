@@ -11,9 +11,19 @@ ModelImporter:
     3300000: //RootNode
     4300000: MOD_Platform_Hoog
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MAT_Platform_Bottom
+    second: {fileID: 2100000, guid: 75b44ac476a0a5644b90c5412653d9a2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MAT_Platform_Top
+    second: {fileID: 2100000, guid: 9d9861c75f9894e4092013b36b8e3e41, type: 2}
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -62,7 +72,7 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 0
-    previousCalculatedGlobalScale: 0.14999999
+    previousCalculatedGlobalScale: 5
     hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
