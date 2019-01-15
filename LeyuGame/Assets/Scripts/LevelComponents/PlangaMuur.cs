@@ -5,7 +5,8 @@ using XInputDotNetPure;
 
 public class PlangaMuur : MonoBehaviour
 {
-    bool lookAtPlayer;
+    Quaternion currentCameraRotation;
+    Quaternion nextCameraRotation;
     Vector3 nextCameraPosition;
     public GameObject spawnPlatformParticle;
     public GameObject playerCamera;
@@ -134,12 +135,10 @@ public class PlangaMuur : MonoBehaviour
         if (activePlatform == 1)
         {
             yield return new WaitForSeconds(1f);
-            //sequenceCamera.SetActive(true);
             playerCamera.SetActive(true);
         }
-        //pressButtonPopup.SetActive(false);
-        //player.transform.LookAt(platformTransforms[activePlatform]);
-		playerAnim.SetBool("IsBouncing", true);
+        player.transform.LookAt(platformTransforms[activePlatform]);
+		//playerAnim.SetBool("IsBouncing", true);
 		PlayerAudio.PlayWallJump();
 
 		//Set current and target positions for calculations
@@ -166,7 +165,6 @@ public class PlangaMuur : MonoBehaviour
 				}
 			}
 		}
-
 		//5 points are set at different stages of the jump with a y-axis offset to create an arc
 		Vector3[] points = new Vector3[] {
 			Vector3.Lerp(currentPos, nextPos, .32f + apexModifier) + Vector3.up * 3.8f,
@@ -179,42 +177,46 @@ public class PlangaMuur : MonoBehaviour
 		//Do da move
 		int pointIndex = 0;
         while (true) {
-            if (!lookAtPlayer)
-            {
-                playerCamera.transform.LookAt(player.transform.position);
-                lookAtPlayer = true;
-            }
-            //sequenceCamera.transform.position = player.transform.position + player.transform.rotation * new Vector3(0, 5, -20);
-            //sequenceCamera.transform.LookAt(player.transform.position);
-            nextCameraPosition = player.transform.position + player.transform.rotation * new Vector3(5, 5, -50);
+            //Camera: look at player
+            currentCameraRotation = playerCamera.transform.rotation;
+            playerCamera.transform.LookAt(player.transform.position);
+            nextCameraRotation = playerCamera.transform.rotation;
 
-            //playerCamera.transform.position = new Vector3(Mathf.Lerp(playerCamera.transform.position.x, nextCameraPosition.x, 0.5f),
-            //Mathf.Lerp(playerCamera.transform.position.y, nextCameraPosition.y, 0.5f),
-            //Mathf.Lerp(playerCamera.transform.position.z, nextCameraPosition.z, 0.5f));
+            playerCamera.transform.rotation = nextCameraRotation;
+            //playerCamera.transform.rotation = Quaternion.Euler(nextCameraRotation.x, nextCameraRotation.y, nextCameraRotation.z);
 
-            playerCamera.transform.position = nextCameraPosition;
-            playerCamera.transform.position = nextCameraPosition;
+    //        playerCamera.transform.rotation = Quaternion.Euler(Mathf.Lerp(currentCameraRotation.x, nextCameraRotation.x, 0.5f),
+    //Mathf.Lerp(currentCameraRotation.y, nextCameraRotation.y, 0.5f),
+    //Mathf.Lerp(currentCameraRotation.z, nextCameraRotation.z, 0.5f));
+
+            //Camera: calculate the camera's position with an offset from the player
+            nextCameraPosition = player.transform.position + player.transform.rotation * new Vector3(0, 3, -10);
+
+            //Camera: move to the next position
+            playerCamera.transform.position = new Vector3(Mathf.Lerp(playerCamera.transform.position.x, nextCameraPosition.x, 0.5f),
+            Mathf.Lerp(playerCamera.transform.position.y, nextCameraPosition.y, 0.5f),
+            Mathf.Lerp(playerCamera.transform.position.z, nextCameraPosition.z, 0.5f));
+
             player.transform.position = Vector3.MoveTowards(player.transform.position, points[pointIndex], jumpingSpeed * Time.deltaTime);
 			if (pointIndex >= points.Length - 1) {
 				Quaternion oldRot = player.transform.rotation;
-				//player.transform.LookAt(points[pointIndex]);
-				//player.transform.rotation = Quaternion.Lerp(oldRot, player.transform.rotation, 0.18f);
-				//player.transform.Rotate(-player.transform.eulerAngles.x, 0, 0);
-			}
-			if (player.transform.position.SquareDistance(points[pointIndex]) < .01f) {
+                player.transform.LookAt(points[pointIndex]);
+                player.transform.rotation = Quaternion.Lerp(oldRot, player.transform.rotation, 0.18f);
+                player.transform.Rotate(-player.transform.eulerAngles.x, 0, 0);
+            }
+            if (player.transform.position.SquareDistance(points[pointIndex]) < .01f) {
                 ++pointIndex;
 				if (pointIndex >= points.Length) {
 					break;
 				}
 			}
-
 			yield return null;
 		}
 		//Finalize the jump
 		playerAnim.SetBool("IsBouncing", false);
 		playerRig.velocity = new Vector3(0, 0, 0);
-		//player.transform.Rotate(new Vector3(-player.transform.eulerAngles.x, 0, -player.transform.eulerAngles.z));
-		++activePlatform;
+        player.transform.Rotate(new Vector3(-player.transform.eulerAngles.x, 0, -player.transform.eulerAngles.z));
+        ++activePlatform;
         playerIsJumping = false;
         if (activePlatform >= platformTransforms.Count && sequenceIsRunning) {
             StartCoroutine(EndSequence());
@@ -230,7 +232,7 @@ public class PlangaMuur : MonoBehaviour
         playerIsJumping = false;
         creatureIsSpawningPlatforms = false;
         readyToStart = false;
-        player.transform.rotation = platformTransforms[platformTransforms.Count - 1].rotation;
+        //player.transform.rotation = platformTransforms[platformTransforms.Count - 1].rotation;
 		player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
 		playerRig.velocity = new Vector3(0, 0, 0);
 		playerScript.cameraTrans.position = sequenceCamera.transform.position;
@@ -286,7 +288,7 @@ public class PlangaMuur : MonoBehaviour
             flyToPlatformPosition = platformTransforms[i].position  + platformTransforms[i].transform.rotation * new Vector3(0, 5, -10);
             while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
             {
-                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 1.2f) * Time.deltaTime);
+                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 1.3f) * Time.deltaTime);
                 yield return null;
             }
             //yield return new WaitForSeconds(0.1f);
