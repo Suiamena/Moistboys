@@ -2584,7 +2584,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257c635f1d8af6f4798e58492c38280b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutsceneLaunchObject: {fileID: 0}
   image: {fileID: 1355678067}
   destructibleBoi: {fileID: 1379758406}
   snowExplosion: {fileID: 1821736216}
@@ -14919,7 +14918,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 506136072}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ecf64743a1a6b454fb27131f0e59793c, type: 3}
   m_Name: 
@@ -14946,9 +14945,9 @@ MonoBehaviour:
   SunBleed: 1
   Extinction: 0.05
   ExtinctionEffect: 0
-  FogHeightEnabled: 1
-  FogHeight: 167.6
-  FogTransitionSize: 5
+  FogHeightEnabled: 0
+  FogHeight: 26.25
+  FogTransitionSize: 8.45
   AboveFogPercent: 0.1
   Ambient: 0
   AmbientSky: {r: 1, g: 1, b: 1, a: 1}
@@ -14962,9 +14961,9 @@ MonoBehaviour:
   TintGradient: 0.2
   CurrentTint: {x: 0.2, y: 0, z: 0}
   CurrentTintEdge: {x: 0, y: 0, z: 0.2}
-  NoiseEnabled: 1
-  NoiseScale: {x: 0.1, y: 0.1, z: 0.1}
-  NoiseVelocity: {x: 1, y: 0, z: 1}
+  NoiseEnabled: 0
+  NoiseScale: {x: 5, y: 5, z: 5}
+  NoiseVelocity: {x: 5, y: 0, z: 1}
   ParticleDensitySupport: 0
   densityResolution: 3
   densityDistance: 64
@@ -14980,10 +14979,10 @@ MonoBehaviour:
   MapToLDR: 0
   RemoveColorBanding: 1
   MatrixVP:
-    e00: 0.9062971
-    e01: 0.03837955
-    e02: 0.15462875
-    e03: 213.58005
+    e00: 0.90252835
+    e01: 0.03821995
+    e02: 0.15398575
+    e03: 212.6919
     e10: 0.06945923
     e11: -1.7305123
     e12: 0.022412242
@@ -14997,10 +14996,10 @@ MonoBehaviour:
     e32: 0.98569536
     e33: 304.72327
   LastMatrixVP:
-    e00: 0.9062971
-    e01: 0.03837955
-    e02: 0.15462875
-    e03: 213.58005
+    e00: 0.90252835
+    e01: 0.03821995
+    e02: 0.15398575
+    e03: 212.6919
     e10: -0.06945923
     e11: 1.7305123
     e12: -0.022412242
@@ -33131,12 +33130,12 @@ Prefab:
     - target: {fileID: 114334743724402388, guid: 47a34638fa2704b4dab1ff8566ea8072,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114854464322811296, guid: 47a34638fa2704b4dab1ff8566ea8072,
         type: 2}
       propertyPath: launchEnabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4763790372104648, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -33419,6 +33418,11 @@ Prefab:
         type: 2}
       propertyPath: m_ForceIntoRT
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114854464322811296, guid: 47a34638fa2704b4dab1ff8566ea8072,
+        type: 2}
+      propertyPath: enableLaunchOnly
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114442034689260846, guid: 47a34638fa2704b4dab1ff8566ea8072, type: 2}
@@ -44184,7 +44188,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 0.8349056, g: 1, b: 1, a: 1}
-  m_Intensity: 1.53
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -44222,9 +44226,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da396d4547fa3ff45a6bc1e4f6ca6964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NoiseTexture3D: {fileID: 0}
-  NoiseScale: {x: 0.5, y: 0.5, z: 0.5}
-  NoiseVelocity: {x: 1, y: 1, z: 0}
+  NoiseTexture3D: {fileID: 11700000, guid: ea166c3018822e44fb93eca537a773fc, type: 2}
+  NoiseScale: {x: 5, y: 5, z: 5}
+  NoiseVelocity: {x: 5, y: 1, z: 0}
   LightFalloff: {fileID: 0}
   NearPlane: 0
   NoiseEnabled: 1
@@ -44254,7 +44258,7 @@ MonoBehaviour:
   CustomTintGradient: 0
   CustomTintIntensity: 0
   CustomMaxLightDistance: 0
-  NoiseContrast: 1
+  NoiseContrast: 0.86
   TintMode: 0
   TintColor: {r: 1, g: 0, b: 0, a: 1}
   TintColor2: {r: 0, g: 0, b: 1, a: 1}
@@ -44263,11 +44267,11 @@ MonoBehaviour:
   Intensity: 1
   Strength: 1
   Color: {r: 1, g: 1, b: 1, a: 1}
-  MieScattering: 0.211
+  MieScattering: 0.169
   SunSize: 0
   SunBleed: 1
-  Extinction: 0.06
-  Density: 0.082
+  Extinction: 0
+  Density: 0.073
   ExtraDensity: 0.018
   SampleCount: 4
   Shadows: 1
@@ -44276,7 +44280,7 @@ MonoBehaviour:
   FogTransitionSize: 8.45
   MaxLightDistance: 128
   AboveFogPercent: 0.1
-  Offset: {x: 5747.6665, y: 5747.6665, z: 0}
+  Offset: {x: 5982.991, y: 5812.1025, z: 0}
 --- !u!1001 &1533151368
 Prefab:
   m_ObjectHideFlags: 0
