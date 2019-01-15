@@ -32,6 +32,18 @@ public class TerugVindenCreature : MonoBehaviour
 
     float cameraDistance;
     float cameraSpeed = 0;
+    float cameraRotationDifference;
+
+    //
+    float cameraRotationSpeed;
+    float maxCameraDistance;
+    float maxCameraRotationDifference;
+    float percCameraDistance;           
+    float percCameraRotationDifference;
+    float percDifference;
+    float onePercCamDist;
+    float onePercRotDist;
+    //
 
     BoxCollider triggerCollider;
 
@@ -122,6 +134,8 @@ public class TerugVindenCreature : MonoBehaviour
         //camOnCreature = true;
 
         yield return new WaitForSeconds(6f);
+        maxCameraDistance = cameraDistance;
+        maxCameraRotationDifference = cameraRotationDifference;
         cameraMoving = true;
         //cutsceneCamera.SetActive(false);
         triggerCollider.enabled = false;
@@ -142,13 +156,25 @@ public class TerugVindenCreature : MonoBehaviour
             cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 0.8f * cameraSpeed * Time.deltaTime);
             cameraSpeed += 1f;
 
-            // Afstand cutsceneCamera naar playerCamera berekenen om de snelheid waarmee de cutsceneCamera naar de playerCamera roteert te bepalen!!! 
-            //playerCamera.transform.rotation - cutsceneCamera.transform.rotation;
-            //
+            //POGING TOT FOREVER SMOOTH CAMERA MVEMENTS.
+            //cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
+            //cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, cameraRotationSpeed * Time.deltaTime);
+            //cameraSpeed += onePercCamDist; // was 1f;
+            //cameraRotationSpeed += onePercRotDist;
+
+            //onePercCamDist = maxCameraDistance / 100;
+            //onePercRotDist = maxCameraRotationDifference / 100;
+
+            //percCameraDistance = cameraDistance / maxCameraDistance * 100;
+            //percCameraRotationDifference = cameraRotationDifference / maxCameraRotationDifference * 100;
+
+            //percDifference = percCameraDistance - percCameraRotationDifference;
         }
 
         cameraDistance = Vector3.Distance(cutsceneCamera.transform.position, playerCamera.transform.position);
-        print(cameraDistance);
+        cameraRotationDifference = Quaternion.Angle(cutsceneCamera.transform.rotation, playerCamera.transform.rotation);
+        //print(cameraDistance);
+        print(cameraRotationDifference);
 
         if (cameraDistance < 0.1f)
         {
