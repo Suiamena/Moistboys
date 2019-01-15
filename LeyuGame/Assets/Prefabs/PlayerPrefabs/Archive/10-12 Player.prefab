@@ -3207,10 +3207,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2df535b0f2934a4fbf55ec54f498c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseXSensitivity: 1.6
+  mouseYSensitivity: 1.4
   isBouncing: 0
   isPreLaunching: 0
   isAirborne: 0
   isBuildingLaunch: 0
+  isHopping: 0
+  isLaunchingSuperSaiyan: 0
+  dragonModel: {fileID: 1410704583348454}
+  triggerMask:
+    serializedVersion: 2
+    m_Bits: 0
   cameraTrans: {fileID: 4573777286551338}
   cameraOffset: {x: 0, y: 3, z: -7.5}
   cameraTarget: {x: 0, y: 0, z: 3}
@@ -3219,16 +3227,17 @@ MonoBehaviour:
   cameraXRotationMaxClamp: 50
   cameraXRotationMinClamp: -50
   cameraPositionSmooting: 0.12
+  cameraTargetSmoothing: 0.32
   cameraVerticalInfluenceThreshold: 14
   cameraVerticalInfluenceFactor: 0.06
-  canLaunch: 1
+  launchEnabled: 1
   launchStageTwoTime: 0.7
   launchStageOneForce: {x: 0, y: 35, z: 10}
   launchStageTwoForce: {x: 0, y: 50, z: 22}
   launchStageOneColor: {r: 0.05271244, g: 1, b: 0, a: 1}
   launchStageTwoColor: {r: 1, g: 0, b: 0.13333334, a: 1}
   launchRenderer: {fileID: 137395650388788126}
-  canUseCreatureWalls: 1
+  creatureWallsEnabled: 1
   creatureWallJumpSpeed: 40
   modelRotationLerpFactor: 0.24
   modelRotationMaximumXAngle: 40
@@ -3240,6 +3249,9 @@ MonoBehaviour:
   airborneMovementAcceleration: 50
   airborneDecceleration: 56
   walkingBouncingThreshold: 0.8
+  groundType: 0
+  jumpHeight: 0
+  enableLaunchOnly: 0
   canHop: 1
   hopVelocity: 11.5
   gravityStrength: 48
@@ -3247,9 +3259,6 @@ MonoBehaviour:
   playerIsAirborne: 0
   enablePlayerPushBack: 0
   boundaryPushingDirection: {x: 0, y: 0, z: 0}
-  dragonModel: {fileID: 1410704583348454}
-  enableTwirl: 0
-  twirlTime: 0.18
   landingIndicatorTrans: {fileID: 4451283818533884}
   useLandingIndicator: 1
   useLandingIndicatorOnlyWhenAirborne: 0
@@ -22128,7 +22137,7 @@ SpriteRenderer:
   m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!222 &222177187881691888
