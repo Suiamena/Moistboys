@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +10,6 @@ public class CreatureEncounter : MonoBehaviour {
     GameObject playerModel;
     Animator playerAnim;
     public GameObject destructibleBoi;
-    public GameObject destructibleCreature;
     public GameObject cutsceneCamera;
     GameObject wayPointDraak;
     GameObject creature;
@@ -58,7 +57,7 @@ public class CreatureEncounter : MonoBehaviour {
         Level2Music.musicStage = 3.5f;
         cutsceneCamera.SetActive(true);
         StartCoroutine(CutsceneTime());
-        controllerSwitch.enabled = false;
+        controllerSwitch.DisablePlayer(true);
         playerBody.velocity = new Vector3(0, playerBody.velocity.y, 0);
         if (playerBody.velocity.y > 0)
         {
@@ -128,7 +127,7 @@ public class CreatureEncounter : MonoBehaviour {
         //cutsceneCamera.SetActive(false);
         triggerCollider.enabled = false;
         cameraAnim.enabled = false;
-        controllerSwitch.enabled = true;
+        controllerSwitch.EnablePlayer();
 
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         playerBody.velocity = new Vector3(0, 0, 0);
