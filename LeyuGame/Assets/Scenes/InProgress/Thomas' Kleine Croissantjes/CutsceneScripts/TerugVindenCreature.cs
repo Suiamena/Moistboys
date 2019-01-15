@@ -139,8 +139,12 @@ public class TerugVindenCreature : MonoBehaviour
         if (cameraMoving == true)
         {
             cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
-            cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 4*cameraSpeed * Time.deltaTime);
+            cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 0.8f * cameraSpeed * Time.deltaTime);
             cameraSpeed += 1f;
+
+            // Afstand cutsceneCamera naar playerCamera berekenen om de snelheid waarmee de cutsceneCamera naar de playerCamera roteert te bepalen!!! 
+            //playerCamera.transform.rotation - cutsceneCamera.transform.rotation;
+            //
         }
 
         cameraDistance = Vector3.Distance(cutsceneCamera.transform.position, playerCamera.transform.position);

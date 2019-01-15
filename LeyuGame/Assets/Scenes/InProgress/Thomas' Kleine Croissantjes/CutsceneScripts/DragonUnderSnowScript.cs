@@ -1,11 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+// WHAT THE FUCK!!!!!!!!
 
 public class DragonUnderSnowScript : MonoBehaviour {
 
-    public GameObject cutsceneLaunchObject;
     public Image image;
     bool fadingToWhite = false;
     bool playerCanMove = false;
@@ -44,11 +44,12 @@ public class DragonUnderSnowScript : MonoBehaviour {
         StartCoroutine(CutsceneTime());
         player = GameObject.Find("Character");
         playerCamera = GameObject.Find("Main Camera");
+        playerCamera.SetActive(false);
         controllerSwitch = player.GetComponent<PlayerController>();
-        controllerSwitch.launchEnabled = true;
-        controllerSwitch.enabled = false;
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
         rightTriggerUI.SetActive(false);
+        controllerSwitch.enabled = false;
+        controllerSwitch.launchEnabled = true;
     }
 
     void Update()
@@ -79,6 +80,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
         if (cameraDistance < 0.1f)
         {
             cutsceneCamera.SetActive(false);
+            playerCamera.SetActive(true);
             cameraMoving = false;
             print("loooolll");
         }
@@ -146,8 +148,9 @@ public class DragonUnderSnowScript : MonoBehaviour {
 
         yield return new WaitForSeconds(7f);
         cameraAnim.enabled = false;
-        controllerSwitch.enableLaunchOnly = true;
         controllerSwitch.enabled = true;
+        controllerSwitch.enableLaunchOnly = true;
+
 
         //Invoke("UIDelay", 1);
         rightTriggerUI.SetActive(true);
@@ -182,7 +185,6 @@ public class DragonUnderSnowScript : MonoBehaviour {
         {
             yield return null;
         }
-
 
         controllerSwitch.enableLaunchOnly = false;
         playerHasMoved = true;
