@@ -483,6 +483,7 @@ GameObject:
   - component: {fileID: 114815320955847094}
   - component: {fileID: 114206605899176312}
   - component: {fileID: 114707380404561170}
+  - component: {fileID: 114271837851402932}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1927,7 +1928,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1625656965695350}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 682.32, y: 42.4, z: 819.25}
+  m_LocalPosition: {x: 0, y: 2.83, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4624373607199524}
@@ -2600,7 +2601,7 @@ MonoBehaviour:
   dragonModel: {fileID: 1836611707524320}
   triggerMask:
     serializedVersion: 2
-    m_Bits: 823
+    m_Bits: 567
   cameraTrans: {fileID: 4757320769923710}
   cameraOffset: {x: 0, y: 3, z: -7.5}
   cameraTarget: {x: 0, y: 0.5, z: 3}
@@ -2886,6 +2887,65 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114271837851402932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1420076219880442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeTrigger: {fileID: 4757320769923710}
+  volumeLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  stopNaNPropagation: 1
+  finalBlitToCameraTarget: 1
+  antialiasingMode: 0
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  debugLayer:
+    lightMeter:
+      width: 512
+      height: 256
+      showCurves: 1
+    histogram:
+      width: 512
+      height: 256
+      channel: 3
+    waveform:
+      exposure: 0.12
+      height: 256
+    vectorscope:
+      size: 256
+      exposure: 0.12
+    overlaySettings:
+      linearDepth: 0
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 0
+  m_ShowCustomSorter: 0
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles: []
 --- !u!114 &114281620266775476
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3285,39 +3345,39 @@ MonoBehaviour:
   MapToLDR: 0
   RemoveColorBanding: 1
   MatrixVP:
-    e00: -0.97393876
+    e00: -0.916368
     e01: 0
     e02: 0
-    e03: 664.5379
+    e03: 0
     e10: 0
     e11: -1.6849498
     e12: 0.40117857
-    e13: -255.17766
+    e13: 6.814418
     e20: 0
     e21: 0.0000000690283
     e22: 0.0000002899189
-    e23: 0.29975727
+    e23: 0.29999754
     e30: 0
     e31: -0.23162055
     e32: -0.97280633
-    e33: 814.7832
+    e33: 8.646396
   LastMatrixVP:
-    e00: -0.97393876
+    e00: -0.916368
     e01: 0
     e02: 0
-    e03: 664.5379
+    e03: 0
     e10: 0
     e11: 1.6849498
     e12: -0.40117857
-    e13: 255.17766
+    e13: -6.814418
     e20: 0
     e21: 0.0000000690283
     e22: 0.0000002899189
-    e23: 0.29975727
+    e23: 0.29999754
     e30: 0
     e31: -0.23162055
     e32: -0.97280633
-    e33: 814.7832
+    e33: 8.646396
   LastMatrixVPInv:
     e00: 0
     e01: 0
@@ -3373,15 +3433,15 @@ MonoBehaviour:
     e00: -1.0000002
     e01: 0
     e02: 0
-    e03: 682.3202
+    e03: 0
     e10: 0
     e11: 0.9728062
     e12: -0.23162055
-    e13: 147.32689
+    e13: -3.9343061
     e20: 0
     e21: 0.23162055
     e22: 0.97280633
-    e23: -814.7832
+    e23: -8.646396
     e30: 0
     e31: 0
     e32: 0
