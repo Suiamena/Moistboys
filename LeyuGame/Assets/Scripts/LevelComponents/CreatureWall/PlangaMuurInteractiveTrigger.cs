@@ -15,7 +15,6 @@ public class PlangaMuurInteractiveTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("duh");
         if (other.gameObject.tag == "Player")
         {
             wallScript.StartJump();
