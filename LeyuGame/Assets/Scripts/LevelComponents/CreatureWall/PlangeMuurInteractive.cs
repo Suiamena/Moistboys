@@ -5,8 +5,6 @@ using XInputDotNetPure;
 
 public class PlangeMuurInteractive : MonoBehaviour
 {
-    Quaternion currentCameraRotation;
-    Quaternion nextCameraRotation;
     Vector3 nextCameraPosition;
     public GameObject spawnPlatformParticle;
     public GameObject playerCamera;
@@ -193,16 +191,7 @@ public class PlangeMuurInteractive : MonoBehaviour
         while (true)
         {
             //Camera: look at player
-            currentCameraRotation = playerCamera.transform.rotation;
             playerCamera.transform.LookAt(player.transform.position);
-            nextCameraRotation = playerCamera.transform.rotation;
-
-            playerCamera.transform.rotation = nextCameraRotation;
-            //playerCamera.transform.rotation = Quaternion.Euler(nextCameraRotation.x, nextCameraRotation.y, nextCameraRotation.z);
-
-            //        playerCamera.transform.rotation = Quaternion.Euler(Mathf.Lerp(currentCameraRotation.x, nextCameraRotation.x, 0.5f),
-            //Mathf.Lerp(currentCameraRotation.y, nextCameraRotation.y, 0.5f),
-            //Mathf.Lerp(currentCameraRotation.z, nextCameraRotation.z, 0.5f));
 
             //Camera: calculate the camera's position with an offset from the player
             nextCameraPosition = player.transform.position + player.transform.rotation * new Vector3(0, 3, -10);
@@ -308,18 +297,19 @@ public class PlangeMuurInteractive : MonoBehaviour
             flyToPlatformPosition = platformTransforms[i].position + platformTransforms[i].transform.rotation * new Vector3(0, 5, -10);
             while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
             {
-                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 1.3f) * Time.deltaTime);
+                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 1f) * Time.deltaTime);
                 yield return null;
             }
-            //yield return new WaitForSeconds(0.1f);
             StartCoroutine(PlatformSpawnsNow(i));
-            //yield return new WaitForSeconds(0.1f);
         }
     }
 
     IEnumerator PlatformSpawnsNow(int currentPlatform)
     {
-        Instantiate(spawnPlatformParticle, new Vector3(flyToPlatformPosition.x, flyToPlatformPosition.y - 3, flyToPlatformPosition.z), Quaternion.identity);
+        GameObject particle = Instantiate(spawnPlatformParticle, flyToPlatformPosition, Quaternion.Euler(0, 0, 0));
+        particle.transform.rotation = platformTransforms[currentPlatform].transform.rotation;
+        particle.transform.Rotate(-90, 0, 0);
+        particle.transform.position = platformTransforms[currentPlatform].position + platformTransforms[currentPlatform].transform.rotation * new Vector3(0, -2, -5);
         for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
         {
             platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
