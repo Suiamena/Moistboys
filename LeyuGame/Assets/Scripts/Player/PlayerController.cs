@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 	public Vector3 launchStageOneForce = new Vector3(0, 35, 10), launchStageTwoForce = new Vector3(0, 50, 22);
 	public Color launchStageOneColor = Color.green, launchStageTwoColor = Color.red;
 	public Renderer launchRenderer;
-	int[] launchMaterialIndexes = new int[] { 1, 3, 4 };
+	int[] launchMaterialIndexes = new int[] { 0, 3, 6, 9 };
 	Color launchBaseColor = Color.white;
 	bool launchRoutineRunning = false;
 
@@ -103,9 +103,9 @@ public class PlayerController : MonoBehaviour
 		cameraDesiredTarget = transform.position + transform.rotation * cameraTarget;
 		cameraTrans.LookAt(cameraDesiredTarget);
 
-		animationModel = GameObject.Find("Draak_Rework");
+		animationModel = GameObject.Find("MOD_Draak");
 		animator = animationModel.GetComponent<Animator>();
-		launchBaseColor = launchRenderer.materials[launchMaterialIndexes[0]].color;
+		launchBaseColor = launchRenderer.materials[launchMaterialIndexes[0]].GetColor("_baseColor");
 
 		GamePad.SetVibration(0, 0, 0);
         Cursor.visible = false;
@@ -406,7 +406,7 @@ public class PlayerController : MonoBehaviour
 			canHop = true;
 			if (!isBuildingLaunch) {
 				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-					launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
+					launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
 				}
 			}
 
@@ -452,7 +452,7 @@ public class PlayerController : MonoBehaviour
 		StopCoroutine(LaunchRoutine());
 		launchRoutineRunning = false;
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-			launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
+			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
 		}
 		//transform.rotation = Quaternion.Euler(0, 0, 0);
 		rig.velocity = Vector3.zero;
@@ -485,7 +485,7 @@ public class PlayerController : MonoBehaviour
         GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
 
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-			launchRenderer.materials[launchMaterialIndexes[i]].color = launchStageOneColor;
+			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchStageOneColor);
         }
 
 		while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Keyboard Space")) {
@@ -496,7 +496,7 @@ public class PlayerController : MonoBehaviour
 				stageTwoReached = true;
 				GamePad.SetVibration(PlayerIndex.One, .3f, .3f);
 				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-					launchRenderer.materials[launchMaterialIndexes[i]].color = launchStageTwoColor;
+					launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchStageTwoColor);
 				}
 			}
 			yield return null;
@@ -532,7 +532,7 @@ public class PlayerController : MonoBehaviour
 		}
 
         for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-			launchRenderer.materials[launchMaterialIndexes[i]].color = launchBaseColor;
+			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
         }
         launchRoutineRunning = false;
     }
