@@ -114,6 +114,7 @@ public class PlangeMuurInteractive : MonoBehaviour
                     if (!flyingRoutineRunning && !sequenceIsRunning)
                     {
                         flyingRoutineRunning = true;
+                        StartCoroutine(EndSequence());
                         StartCoroutine(FlyOut());
                     }
                 }
@@ -246,17 +247,17 @@ public class PlangeMuurInteractive : MonoBehaviour
         callback();
     }
 
+    public void StartEndSequence()
+    {
+        StartCoroutine(EndSequence());
+    }
+
     IEnumerator EndSequence()
     {
         sequenceIsRunning = false;
         playerIsJumping = false;
         creatureIsSpawningPlatforms = false;
         readyToStart = false;
-        //player.transform.rotation = platformTransforms[platformTransforms.Count - 1].rotation;
-        player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
-        playerRig.velocity = new Vector3(0, 0, 0);
-        playerScript.cameraTrans.position = sequenceCamera.transform.position;
-        sequenceCamera.SetActive(false);
         creatureSpawnsPlatforms = false;
         activePlatform = 0;
 

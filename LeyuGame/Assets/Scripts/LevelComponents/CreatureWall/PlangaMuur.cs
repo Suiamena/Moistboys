@@ -105,7 +105,8 @@ public class PlangaMuur : MonoBehaviour
 				if (defaultCreaturePos.SquareDistance(player.transform.position) > flyInOutRange * flyInOutRange) {
 					if (!flyingRoutineRunning && !sequenceIsRunning) {
 						flyingRoutineRunning = true;
-						StartCoroutine(FlyOut());
+                        StartCoroutine(EndSequence());
+                        StartCoroutine(FlyOut());
 					}
 				}
 			}
@@ -131,6 +132,7 @@ public class PlangaMuur : MonoBehaviour
 
 	IEnumerator MakeJump (System.Action callback)
 	{
+        yield return new WaitForSeconds(0.1f);
         platformTransforms[activePlatform].transform.position = platformTransforms[activePlatform].transform.position;
         if (activePlatform == 1)
         {
@@ -223,6 +225,7 @@ public class PlangaMuur : MonoBehaviour
 		} else {
             StartJump();
         }
+        Debug.Log("done");
         callback();
 	}
 
@@ -239,7 +242,7 @@ public class PlangaMuur : MonoBehaviour
 		playerScript.EnablePlayer();
 		sequenceCamera.SetActive(false);
 		creatureSpawnsPlatforms = false;
-		activePlatform = 0;
+		activePlatform = 1;
 
         for (int i = 0; i < platformTransforms.Count - 1; i++)
         {

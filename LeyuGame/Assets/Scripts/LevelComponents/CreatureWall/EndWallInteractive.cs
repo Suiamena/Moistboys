@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlangaMuurInteractiveTrigger : MonoBehaviour
+public class EndWallInteractive : MonoBehaviour
 {
 
     public GameObject wallScriptObject;
@@ -15,10 +15,9 @@ public class PlangaMuurInteractiveTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("duh");
         if (other.gameObject.tag == "Player")
         {
-            wallScript.StartJump();
+            wallScript.StartEndSequence();
         }
     }
 
