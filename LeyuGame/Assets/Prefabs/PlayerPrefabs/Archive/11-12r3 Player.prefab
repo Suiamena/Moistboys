@@ -4635,6 +4635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2df535b0f2934a4fbf55ec54f498c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseXSensitivity: 1.6
+  mouseYSensitivity: 1.4
   isBouncing: 0
   isPreLaunching: 0
   isAirborne: 0
@@ -4642,6 +4644,9 @@ MonoBehaviour:
   isHopping: 0
   isLaunchingSuperSaiyan: 0
   dragonModel: {fileID: 1573106061697702}
+  triggerMask:
+    serializedVersion: 2
+    m_Bits: 0
   cameraTrans: {fileID: 4482878119358484}
   cameraOffset: {x: 0, y: 3, z: -7.5}
   cameraTarget: {x: 0, y: 0.5, z: 3}
@@ -4674,6 +4679,7 @@ MonoBehaviour:
   walkingBouncingThreshold: 0.8
   groundType: 0
   jumpHeight: 0
+  enableLaunchOnly: 0
   canHop: 1
   hopVelocity: 11.5
   gravityStrength: 48

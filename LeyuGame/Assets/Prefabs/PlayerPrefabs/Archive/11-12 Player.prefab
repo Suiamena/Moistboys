@@ -3239,6 +3239,7 @@ MonoBehaviour:
   dragon_screeches: event:/Dragon/Dragon_Screeches
   launchParticles: {fileID: 1729310620024972, guid: 231661e035515bb47866e81577d93c94,
     type: 2}
+  superSaiyanLaunchParticles: {fileID: 0}
 --- !u!114 &114334016603240806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3450,11 +3451,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2df535b0f2934a4fbf55ec54f498c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseXSensitivity: 1.6
+  mouseYSensitivity: 1.4
   isBouncing: 0
   isPreLaunching: 0
   isAirborne: 0
   isBuildingLaunch: 0
   isHopping: 0
+  isLaunchingSuperSaiyan: 0
+  dragonModel: {fileID: 1271596040362716}
+  triggerMask:
+    serializedVersion: 2
+    m_Bits: 0
   cameraTrans: {fileID: 4192991915567334}
   cameraOffset: {x: 0, y: 3, z: -7.5}
   cameraTarget: {x: 0, y: 0, z: 3}
@@ -3463,9 +3471,10 @@ MonoBehaviour:
   cameraXRotationMaxClamp: 50
   cameraXRotationMinClamp: -50
   cameraPositionSmooting: 0.12
+  cameraTargetSmoothing: 0.32
   cameraVerticalInfluenceThreshold: 14
   cameraVerticalInfluenceFactor: 0.06
-  canLaunch: 1
+  launchEnabled: 1
   launchStageTwoTime: 0.7
   launchStageOneForce: {x: 0, y: 35, z: 10}
   launchStageTwoForce: {x: 0, y: 50, z: 22}
@@ -3484,6 +3493,9 @@ MonoBehaviour:
   airborneMovementAcceleration: 50
   airborneDecceleration: 56
   walkingBouncingThreshold: 0.8
+  groundType: 0
+  jumpHeight: 0
+  enableLaunchOnly: 0
   canHop: 1
   hopVelocity: 11.5
   gravityStrength: 48
@@ -3491,9 +3503,6 @@ MonoBehaviour:
   playerIsAirborne: 0
   enablePlayerPushBack: 0
   boundaryPushingDirection: {x: 0, y: 0, z: 0}
-  dragonModel: {fileID: 1271596040362716}
-  enableTwirl: 0
-  twirlTime: 0.18
   landingIndicatorTrans: {fileID: 4930915891487318}
   useLandingIndicator: 1
   useLandingIndicatorOnlyWhenAirborne: 0
@@ -22145,7 +22154,7 @@ SpriteRenderer:
   m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!222 &222411509678499760
