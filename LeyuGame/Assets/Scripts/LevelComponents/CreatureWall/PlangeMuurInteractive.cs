@@ -54,10 +54,11 @@ public class PlangeMuurInteractive : MonoBehaviour
     //NEW OBJECTS
     Vector3 nextCameraPosition;
     public GameObject spawnPlatformParticle;
-    public GameObject playerCamera;
+    GameObject playerCamera;
 
     private void Awake()
     {
+        playerCamera = GameObject.Find("Main Camera");
         player = GameObject.Find("Character");
         playerModel = GameObject.Find("MOD_Draak");
         playerScript = player.GetComponent<PlayerController>();
