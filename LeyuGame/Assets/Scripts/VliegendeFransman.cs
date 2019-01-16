@@ -9,7 +9,7 @@ public class VliegendeFransman : MonoBehaviour
 	PlayerController playerController;
 	Camera cam;
 	Vector3 rotation;
-	float xRotation = 0, yRotation = 0, sprintModifier = 2f, actualSpeed;
+	float sprintModifier = 2f, actualSpeed;
 
 	void Start ()
 	{

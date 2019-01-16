@@ -84,14 +84,6 @@ public class PlayerController : MonoBehaviour
 	[HideInInspector]
 	public Vector3 boundaryPushingDirection;
 
-	[Header("Landing Indicator Settings")]
-	public Transform landingIndicatorTrans;
-	public bool useLandingIndicator = true, useLandingIndicatorOnlyWhenAirborne = false;
-	Vector3 landingIndicatorPosition;
-	float landingIndicatorYRotation;
-	Ray landingIndicatorRay;
-	RaycastHit landingIndicatorRayHit;
-
 	//SETUP
 	void Start ()
 	{
@@ -172,8 +164,6 @@ public class PlayerController : MonoBehaviour
 		ProcessInputs();
 
 		CameraControl();
-		if (useLandingIndicator)
-			LandingIndicator();
 		Launch();
 		Hop();
 		ModelRotation();
@@ -216,6 +206,8 @@ public class PlayerController : MonoBehaviour
 
 		if (Grounded()) {
 			transform.rotation = Quaternion.Euler(new Vector3(0, cameraYAngle, 0));
+		} else {
+
 		}
 
 		cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmooting);
@@ -236,25 +228,6 @@ public class PlayerController : MonoBehaviour
 		}
 		cameraDesiredTarget = Vector3.Lerp(cameraDesiredTarget, transform.position + cameraRotation * (cameraTarget + new Vector3(0, cameraVerticalInfluence, 0)), cameraTargetSmoothing);
 		cameraTrans.LookAt(cameraDesiredTarget);
-	}
-
-	void LandingIndicator ()
-	{
-		landingIndicatorPosition = transform.position;
-
-		landingIndicatorRay = new Ray(transform.position, Vector3.up * -1);
-		if (Physics.Raycast(landingIndicatorRay, out landingIndicatorRayHit)) {
-			landingIndicatorPosition.y = landingIndicatorRayHit.point.y;
-			landingIndicatorTrans.up = landingIndicatorRayHit.normal;
-		}
-
-		if (useLandingIndicatorOnlyWhenAirborne && Grounded()) {
-			landingIndicatorTrans.gameObject.SetActive(false);
-		} else {
-			landingIndicatorTrans.gameObject.SetActive(true);
-		}
-
-		landingIndicatorTrans.position = landingIndicatorPosition;
 	}
 
 	void Launch ()

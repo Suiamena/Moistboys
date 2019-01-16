@@ -16,12 +16,12 @@ public class TitleScreen : MonoBehaviour {
 
     int iconPosition;
 
-    bool menuStarted, titleScreenDone, controlsOpened;
+    bool menuStarted, titleScreenDone, controlsOpened, stickPushed, keyboardPressed;
 
     public GameObject level;
 
     void Update ()
-    {
+    { 
         transform.Rotate(Vector3.up * Time.deltaTime * 10);
 
         if (!menuStarted)
@@ -52,42 +52,80 @@ public class TitleScreen : MonoBehaviour {
 
     void RunMenu()
     {
-        if (Input.GetAxis("Left Stick Y") > 0 || Input.GetAxis("Keyboard WS") > 0)
+        if (Input.GetAxis("Left Stick Y") == 0)
         {
-            iconPosition += 1;
+            stickPushed = false;
         }
-        if (Input.GetAxis("Left Stick Y") < 0 || Input.GetAxis("Keyboard WS") < 0)
+        if (Input.GetAxis("Keyboard WS") == 0)
         {
-            iconPosition -= 1;
+            keyboardPressed = false;
         }
-
-        if (Input.GetAxis("Left Stick Y") > 0 || Input.GetAxis("Keyboard WS") > 0)
+        //INPUT
+        if (stickPushed || keyboardPressed)
         {
-            if (iconPosition != 1)
+        }
+        else
+        {
+            if (Input.GetAxis("Left Stick Y") > 0 || Input.GetAxis("Keyboard WS") > 0)
             {
-                pointer.transform.position = startPointer.transform.position;
-                iconPosition = 1;
+                if (iconPosition == 1)
+                {
+                    iconPosition = 3;
+                    pointer.transform.position = quitPointer.transform.position;
+                }
+                else
+                {
+                    if (iconPosition == 3)
+                    {
+                        iconPosition = 2;
+                        pointer.transform.position = controlsPointer.transform.position;
+                    }
+                    else
+                    {
+                        if (iconPosition == 2)
+                        {
+                            iconPosition = 1;
+                            pointer.transform.position = startPointer.transform.position;
+                        }
+                    }
+                }
+            }
+
+            if (Input.GetAxis("Left Stick Y") < 0 || Input.GetAxis("Keyboard WS") < 0)
+            {
+                if (iconPosition == 1)
+                {
+                    iconPosition = 2;
+                    pointer.transform.position = controlsPointer.transform.position;
+                }
+                else
+                {
+                    if (iconPosition == 2)
+                    {
+                        iconPosition = 3;
+                        pointer.transform.position = quitPointer.transform.position;
+                    }
+                    else
+                    {
+                        if (iconPosition == 3)
+                        {
+                            iconPosition = 1;
+                            pointer.transform.position = startPointer.transform.position;
+                        }
+                    }
+                }
+            }
+            if (Input.GetAxis("Left Stick Y") != 0)
+            {
+                stickPushed = true;
+            }
+            if (Input.GetAxis("Keyboard WS") != 0)
+            {
+                keyboardPressed = true;
             }
         }
 
-        if (Input.GetAxis("Left Stick Y") < 0 || Input.GetAxis("Keyboard WS") < 0)
-        {
-            if (iconPosition != 2)
-            {
-                pointer.transform.position = controlsPointer.transform.position;
-                iconPosition = 2;
-            }
-        }
-
-        if (Input.GetAxis("Left Stick Y") < 0 || Input.GetAxis("Keyboard WS") < 0)
-        {
-            if (iconPosition != 2)
-            {
-                pointer.transform.position = controlsPointer.transform.position;
-                iconPosition = 3;
-            }
-        }
-
+        //OPTIONS
         if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space"))
         {
             if (iconPosition == 1)
@@ -100,6 +138,10 @@ public class TitleScreen : MonoBehaviour {
                 controlsInstruction.SetActive(true);
                 buttons.SetActive(false);
                 StartCoroutine(BackToMenuDelay());
+            }
+            if (iconPosition == 3)
+            {
+                Application.Quit();
             }
         }
 
