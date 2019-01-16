@@ -206,6 +206,8 @@ public class PlayerController : MonoBehaviour
 
 		if (Grounded()) {
 			transform.rotation = Quaternion.Euler(new Vector3(0, cameraYAngle, 0));
+		} else {
+
 		}
 
 		cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmooting);

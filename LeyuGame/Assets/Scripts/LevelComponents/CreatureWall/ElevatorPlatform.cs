@@ -5,7 +5,7 @@ using UnityEngine;
 public class ElevatorPlatform : MonoBehaviour {
 
     bool goingUp, goingDown, playerIsOnElevator;
-    int elevatorSpeed = 15;
+    public int elevatorSpeed;
 
     public GameObject elevatorPlatform;
     public GameObject nextLocation;
@@ -35,6 +35,7 @@ public class ElevatorPlatform : MonoBehaviour {
     IEnumerator MoveUp()
     {
         goingUp = true;
+        nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3, nextLocation.transform.position.z);
         while ((elevatorPlatform.transform.position.SquareDistance(nextLocation.transform.position) > .1f))
         {
             elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, nextLocation.transform.position, elevatorSpeed * Time.deltaTime);
@@ -48,6 +49,7 @@ public class ElevatorPlatform : MonoBehaviour {
     {
         if (!goingUp && !playerIsOnElevator)
         {
+            yield return new WaitForSeconds(1f);
             goingDown = true;
             while ((elevatorPlatform.transform.position.SquareDistance(startingLocation) > .1f))
             {

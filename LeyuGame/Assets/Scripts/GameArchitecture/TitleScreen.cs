@@ -21,8 +21,7 @@ public class TitleScreen : MonoBehaviour {
     public GameObject level;
 
     void Update ()
-    {
-        Debug.Log(keyboardPressed);
+    { 
         transform.Rotate(Vector3.up * Time.deltaTime * 10);
 
         if (!menuStarted)

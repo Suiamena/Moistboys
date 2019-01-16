@@ -86,7 +86,6 @@ public class PlangeMuurInteractive : MonoBehaviour
                 platformTransforms[i].position += platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
             }
         }
-
         flyInPosition = creatureFlyInPositionObject.transform.position;
     }
 
@@ -107,8 +106,10 @@ public class PlangeMuurInteractive : MonoBehaviour
                 }
             }
             else if (currentCreatureLocation == gameObject.GetInstanceID()) {
-                if (defaultCreaturePos.SquareDistance(player.transform.position) > flyInOutRange * flyInOutRange) {
-                    if (!flyingRoutineRunning && !sequenceIsRunning) {
+                if ((defaultCreaturePos.SquareDistance(player.transform.position) > ((flyInOutRange * flyInOutRange) * 5)) || !sequenceIsRunning && !readyToStart) {
+                    if (!flyingRoutineRunning)
+                    {
+                        sequenceIsRunning = false;
                         flyingRoutineRunning = true;
                         StartCoroutine(EndSequence());
                         StartCoroutine(FlyOut());
@@ -268,28 +269,38 @@ public class PlangeMuurInteractive : MonoBehaviour
 
     IEnumerator CreatureSpawnsFirstPlatform()
     {
-        yield return new WaitForSeconds(0.5f);
+        readyToStart = true;
+        //THIS WILL BECOME DIFFERENT!
+
+        //yield return new WaitForSeconds(0.5f);
         MoustacheBoiAudio.PlayRumble();
-        moustacheAnimator.SetBool("isUsingAbility", true);
+        //moustacheAnimator.SetBool("isUsingAbility", true);
         GamePad.SetVibration(0, .6f, .6f);
-        yield return new WaitForSeconds(.2f);
+        //yield return new WaitForSeconds(.2f);
+
+        //Spawn platform and particles
+        GameObject particle = Instantiate(spawnPlatformParticle, flyToPlatformPosition, Quaternion.Euler(0, 0, 0));
+        particle.transform.rotation = platformTransforms[0].transform.rotation;
+        particle.transform.Rotate(-90, 0, 0);
+        particle.transform.position = platformTransforms[0].position + platformTransforms[0].transform.rotation * new Vector3(0, -2, -5);
         for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
             platformTransforms[0].position -= platformTransforms[0].rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
             yield return null;
         }
         platformTransforms[0].position = platformDefaultPositions[0];
+
         GamePad.SetVibration(0, .6f, .6f);
-        moustacheAnimator.SetBool("isUsingAbility", false);
-        yield return new WaitForSeconds(.2f);
+        //moustacheAnimator.SetBool("isUsingAbility", false);
+        //yield return new WaitForSeconds(.2f);
         GamePad.SetVibration(0, 0, 0);
-        readyToStart = true;
     }
 
     IEnumerator CreatureFliesToPlatforms()
     {
         for (int i = 1; i < platformTransforms.Count; i++) {
             flyToPlatformPosition = platformTransforms[i].position + platformTransforms[i].transform.rotation * new Vector3(0, 5, -10);
-            while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) {
+            //hier gaat het mis
+            while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f && sequenceIsRunning) {
                 moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 1f) * Time.deltaTime);
                 yield return null;
             }
@@ -350,7 +361,7 @@ public class PlangeMuurInteractive : MonoBehaviour
         moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
         MoustacheBoiAudio.PlayFlaps();
         moustacheAnimator.SetBool("isFlying", true);
-        while (moustacheBoi.transform.position.SquareDistance(defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > 0.01f) {
+        while (moustacheBoi.transform.position.SquareDistance(defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > 0.2f) {
             moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint, flyingSpeed * Time.deltaTime);
             yield return null;
         }
