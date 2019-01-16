@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ElevatorPlatform : MonoBehaviour {
 
-    bool elevatorIsRunning;
+    bool goingUp, goingDown, playerIsOnElevator;
     int elevatorSpeed = 15;
 
     public GameObject elevatorPlatform;
@@ -19,31 +19,42 @@ public class ElevatorPlatform : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        elevatorIsRunning = true;
-        StartCoroutine(MoveUp());
+        playerIsOnElevator = true;
+        if (!goingDown && playerIsOnElevator)
+        {
+            StartCoroutine(MoveUp());
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        elevatorIsRunning = false;
+        playerIsOnElevator = false;
         StartCoroutine(GoDown());
     }
 
     IEnumerator MoveUp()
     {
-        while ((elevatorPlatform.transform.position.SquareDistance(nextLocation.transform.position) > .1f) && elevatorIsRunning)
+        goingUp = true;
+        while ((elevatorPlatform.transform.position.SquareDistance(nextLocation.transform.position) > .1f))
         {
             elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, nextLocation.transform.position, elevatorSpeed * Time.deltaTime);
             yield return null;
         }
+        goingUp = false;
+        StartCoroutine(GoDown());
     }
 
     IEnumerator GoDown()
     {
-        while ((elevatorPlatform.transform.position.SquareDistance(startingLocation) > .1f) && !elevatorIsRunning)
+        if (!goingUp && !playerIsOnElevator)
         {
-            elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, startingLocation, elevatorSpeed * Time.deltaTime);
-            yield return null;
+            goingDown = true;
+            while ((elevatorPlatform.transform.position.SquareDistance(startingLocation) > .1f))
+            {
+                elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, startingLocation, elevatorSpeed * Time.deltaTime);
+                yield return null;
+            }
+            goingDown = false;
         }
     }
 
