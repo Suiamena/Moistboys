@@ -32,6 +32,9 @@ public class VliegendeFransman : MonoBehaviour
 				cam.enabled = false;
 			}
 
+			if (Input.GetButtonDown("X Button"))
+				transform.position = playerController.transform.position;
+
 			if (Input.GetButton("A Button"))
 				actualSpeed = movementSpeed * sprintModifier;
 			else
