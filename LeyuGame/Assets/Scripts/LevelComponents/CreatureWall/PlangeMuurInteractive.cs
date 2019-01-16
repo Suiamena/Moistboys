@@ -79,7 +79,16 @@ public class PlangeMuurInteractive : MonoBehaviour
         }
         for (int i = 0; i < platformsParent.childCount - 1; i++)
         {
-            platformTransforms[i].position += platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
+            PlatformType platformTypeScript;
+            platformTypeScript = platformTransforms[i].GetComponent<PlatformType>();
+            if (platformTypeScript.emergeFromTheGround)
+            {
+                platformTransforms[i].position += platformTransforms[i].rotation * new Vector3(0, -platformCreationDistance, 0);
+            }
+            else
+            {
+                platformTransforms[i].position += platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
+            }
         }
 
         flyInPosition = creatureFlyInPositionObject.transform.position;
@@ -254,12 +263,33 @@ public class PlangeMuurInteractive : MonoBehaviour
         {
             for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
             {
-                platformTransforms[i].position -= platformTransforms[i].rotation * new Vector3(0, 0, -1 * platformCreationDistance) / platformCreationTime * Time.deltaTime;
+                PlatformType platformTypeScript;
+                platformTypeScript = platformTransforms[i].GetComponent<PlatformType>();
+                if (platformTypeScript.emergeFromTheGround)
+                {
+                    platformTransforms[i].position -= platformTransforms[i].rotation * new Vector3(0, platformCreationDistance, 0) / platformCreationTime * Time.deltaTime;
+                }
+                else
+                {
+                    platformTransforms[i].position -= platformTransforms[i].rotation * new Vector3(0, 0, -platformCreationDistance) / platformCreationTime * Time.deltaTime;
+                }
+
+                //platformTransforms[i].position -= platformTransforms[i].rotation * new Vector3(0, 0, -1 * platformCreationDistance) / platformCreationTime * Time.deltaTime;
                 yield return null;
             }
             for (int j = 0; j < platformTransforms.Count - 1; j++)
             {
-                platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
+                PlatformType platformTypeScript;
+                platformTypeScript = platformTransforms[i].GetComponent<PlatformType>();
+                if (platformTypeScript.emergeFromTheGround)
+                {
+                    platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, -platformCreationDistance, 0);
+                }
+                else
+                {
+                    platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
+                }
+                //platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
                 yield return null;
             }
         }
@@ -312,8 +342,17 @@ public class PlangeMuurInteractive : MonoBehaviour
         particle.transform.position = platformTransforms[currentPlatform].position + platformTransforms[currentPlatform].transform.rotation * new Vector3(0, -2, -5);
         for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
         {
-            platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
-            yield return null;
+            PlatformType platformTypeScript;
+            platformTypeScript = platformTransforms[currentPlatform].GetComponent<PlatformType>();
+            if (platformTypeScript.emergeFromTheGround)
+            {
+                platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, -platformCreationDistance, 0) / platformCreationTime * Time.deltaTime;
+            }
+            else
+            {
+                platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
+            }
+           yield return null;
         }
         platformTransforms[currentPlatform].position = platformDefaultPositions[currentPlatform];
     }
