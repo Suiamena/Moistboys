@@ -106,13 +106,7 @@ public class PlangeMuurInteractive : MonoBehaviour
                 }
             }
             else if (currentCreatureLocation == gameObject.GetInstanceID()) {
-                //hier gaat het afsluiten mis
-                float temp = (flyInOutRange * flyInOutRange) * 4;
-                Debug.Log(temp);
-                Debug.Log(defaultCreaturePos.SquareDistance(player.transform.position));
-                if (defaultCreaturePos.SquareDistance(player.transform.position) > temp) {
-                    //if (!flyingRoutineRunning && !sequenceIsRunning) {
-                    //nieuwe range
+                if ((defaultCreaturePos.SquareDistance(player.transform.position) > ((flyInOutRange * flyInOutRange) * 5)) || !sequenceIsRunning && !readyToStart) {
                     if (!flyingRoutineRunning)
                     {
                         sequenceIsRunning = false;
@@ -275,6 +269,7 @@ public class PlangeMuurInteractive : MonoBehaviour
 
     IEnumerator CreatureSpawnsFirstPlatform()
     {
+        readyToStart = true;
         //THIS WILL BECOME DIFFERENT!
 
         //yield return new WaitForSeconds(0.5f);
@@ -298,7 +293,6 @@ public class PlangeMuurInteractive : MonoBehaviour
         //moustacheAnimator.SetBool("isUsingAbility", false);
         //yield return new WaitForSeconds(.2f);
         GamePad.SetVibration(0, 0, 0);
-        readyToStart = true;
     }
 
     IEnumerator CreatureFliesToPlatforms()
