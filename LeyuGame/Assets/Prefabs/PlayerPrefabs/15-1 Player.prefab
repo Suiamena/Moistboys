@@ -481,10 +481,9 @@ GameObject:
   - component: {fileID: 20240277089700104}
   - component: {fileID: 81799246114809918}
   - component: {fileID: 114815320955847094}
-  - component: {fileID: 114563303970814034}
   - component: {fileID: 114100366278755174}
   - component: {fileID: 114128817448693848}
-  - component: {fileID: 114584684331154410}
+  - component: {fileID: 114563303970814034}
   m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1929,8 +1928,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1625656965695350}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 682.32, y: 77.76, z: 821.33}
+  m_LocalRotation: {x: -0, y: 0.3971697, z: -0, w: 0.9177452}
+  m_LocalPosition: {x: -209.0708, y: 7.782739, z: -401.37775}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4624373607199524}
@@ -2787,39 +2786,39 @@ MonoBehaviour:
   MapToLDR: 0
   RemoveColorBanding: 1
   MatrixVP:
-    e00: -0.9859896
-    e01: 0
-    e02: 0
-    e03: 672.76044
-    e10: 0
+    e00: 0.6669836
+    e01: -0.0000000072597888
+    e02: -0.7103332
+    e03: -145.66515
+    e10: -0.2924596
     e11: -1.6849498
-    e12: 0.40117857
-    e13: -196.43227
-    e20: 0
+    e12: -0.27461168
+    e13: -156.20825
+    e20: -0.0000002113512
     e21: 0.0000000690283
-    e22: 0.0000002899189
-    e23: 0.29975423
-    e30: 0
+    e22: -0.00000019845305
+    e23: 0.29987335
+    e30: 0.70917696
     e31: -0.23162055
-    e32: -0.97280633
-    e33: 824.99677
+    e32: 0.66589797
+    e33: 425.33838
   LastMatrixVP:
-    e00: -0.9859896
-    e01: 0
-    e02: 0
-    e03: 672.76044
-    e10: 0
+    e00: 0.6669836
+    e01: -0.0000000072597888
+    e02: -0.7103332
+    e03: -145.66515
+    e10: 0.2924596
     e11: 1.6849498
-    e12: -0.40117857
-    e13: 196.43227
-    e20: 0
+    e12: 0.27461168
+    e13: 156.20825
+    e20: -0.0000002113512
     e21: 0.0000000690283
-    e22: 0.0000002899189
-    e23: 0.29975423
-    e30: 0
+    e22: -0.00000019845305
+    e23: 0.29987335
+    e30: 0.70917696
     e31: -0.23162055
-    e32: -0.97280633
-    e33: 824.99677
+    e32: 0.66589797
+    e33: 425.33838
   LastMatrixVPInv:
     e00: 0
     e01: 0
@@ -2872,18 +2871,18 @@ MonoBehaviour:
     e32: 0
     e33: 0
   MatrixV:
-    e00: -1.0000002
-    e01: 0
-    e02: 0
-    e03: 682.3202
-    e10: 0
+    e00: 0.6845124
+    e01: -0.000000007450581
+    e02: -0.7290012
+    e03: -149.49332
+    e10: 0.16885164
     e11: 0.9728062
-    e12: -0.23162055
-    e13: 113.410225
-    e20: 0
+    e12: 0.15854713
+    e13: 90.186874
+    e20: -0.70917696
     e21: 0.23162055
-    e22: 0.97280633
-    e23: -824.99677
+    e22: -0.66589797
+    e23: -425.33838
     e30: 0
     e31: 0
     e32: 0
@@ -3358,66 +3357,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Are you sure you wish to exit?
---- !u!114 &114584684331154410
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1420076219880442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  volumeTrigger: {fileID: 4500743890702396, guid: cf74b874aae588946a3b43cf916e9545,
-    type: 2}
-  volumeLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  stopNaNPropagation: 1
-  finalBlitToCameraTarget: 1
-  antialiasingMode: 1
-  temporalAntialiasing:
-    jitterSpread: 0.75
-    sharpness: 0.25
-    stationaryBlending: 0.95
-    motionBlending: 0.85
-  subpixelMorphologicalAntialiasing:
-    quality: 2
-  fastApproximateAntialiasing:
-    fastMode: 1
-    keepAlpha: 0
-  fog:
-    enabled: 1
-    excludeSkybox: 1
-  debugLayer:
-    lightMeter:
-      width: 512
-      height: 256
-      showCurves: 1
-    histogram:
-      width: 512
-      height: 256
-      channel: 3
-    waveform:
-      exposure: 0.12
-      height: 256
-    vectorscope:
-      size: 256
-      exposure: 0.12
-    overlaySettings:
-      linearDepth: 0
-      motionColorIntensity: 4
-      motionGridSize: 64
-      colorBlindnessType: 0
-      colorBlindnessStrength: 1
-  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
-  m_ShowToolkit: 0
-  m_ShowCustomSorter: 0
-  breakBeforeColorGrading: 0
-  m_BeforeTransparentBundles: []
-  m_BeforeStackBundles: []
-  m_AfterStackBundles: []
 --- !u!114 &114612151032069426
 MonoBehaviour:
   m_ObjectHideFlags: 1
