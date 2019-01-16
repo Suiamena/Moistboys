@@ -9,8 +9,9 @@ public class TitleScreen : MonoBehaviour {
     public GameObject buttons;
     public GameObject instruction;
     public GameObject pointer;
-    public GameObject positionUp;
-    public GameObject positionDown;
+    public GameObject startPointer;
+    public GameObject controlsPointer;
+    public GameObject quitPointer;
     public GameObject controlsInstruction;
 
     int iconPosition;
@@ -53,9 +54,18 @@ public class TitleScreen : MonoBehaviour {
     {
         if (Input.GetAxis("Left Stick Y") > 0 || Input.GetAxis("Keyboard WS") > 0)
         {
+            iconPosition += 1;
+        }
+        if (Input.GetAxis("Left Stick Y") < 0 || Input.GetAxis("Keyboard WS") < 0)
+        {
+            iconPosition -= 1;
+        }
+
+        if (Input.GetAxis("Left Stick Y") > 0 || Input.GetAxis("Keyboard WS") > 0)
+        {
             if (iconPosition != 1)
             {
-                pointer.transform.position = positionUp.transform.position;
+                pointer.transform.position = startPointer.transform.position;
                 iconPosition = 1;
             }
         }
@@ -64,8 +74,17 @@ public class TitleScreen : MonoBehaviour {
         {
             if (iconPosition != 2)
             {
-                pointer.transform.position = positionDown.transform.position;
+                pointer.transform.position = controlsPointer.transform.position;
                 iconPosition = 2;
+            }
+        }
+
+        if (Input.GetAxis("Left Stick Y") < 0 || Input.GetAxis("Keyboard WS") < 0)
+        {
+            if (iconPosition != 2)
+            {
+                pointer.transform.position = controlsPointer.transform.position;
+                iconPosition = 3;
             }
         }
 
