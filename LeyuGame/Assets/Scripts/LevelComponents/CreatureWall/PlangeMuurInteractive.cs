@@ -307,11 +307,12 @@ public class PlangeMuurInteractive : MonoBehaviour
     IEnumerator PlatformSpawnsNow(int currentPlatform)
     {
         GameObject particle = Instantiate(spawnPlatformParticle, flyToPlatformPosition, Quaternion.Euler(0, 0, 0));
+        particle.transform.rotation = platformTransforms[currentPlatform].transform.rotation;
+        particle.transform.Rotate(-90, 0, 0);
+        particle.transform.position = platformTransforms[currentPlatform].position + platformTransforms[currentPlatform].transform.rotation * new Vector3(0, -2, -5);
         for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
         {
             platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
-            particle.transform.position = platformTransforms[currentPlatform].transform.position;
-            particle.transform.rotation = platformTransforms[currentPlatform].transform.rotation;
             yield return null;
         }
         platformTransforms[currentPlatform].position = platformDefaultPositions[currentPlatform];

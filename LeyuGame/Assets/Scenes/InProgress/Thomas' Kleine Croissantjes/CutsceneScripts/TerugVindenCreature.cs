@@ -162,6 +162,8 @@ public class TerugVindenCreature : MonoBehaviour
             //cameraSpeed += onePercCamDist; // was 1f;
             //cameraRotationSpeed += onePercRotDist;
 
+            //
+
             //onePercCamDist = maxCameraDistance / 100;
             //onePercRotDist = maxCameraRotationDifference / 100;
 
