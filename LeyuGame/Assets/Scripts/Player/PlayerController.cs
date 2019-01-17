@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
 	bool inSnow = false;
 	public float groundType, jumpHeight;
 	bool checkCurrentHeight, waitingForNextBounce = false, waitForBounceRoutineRunning = false;
-    public bool enableLaunchOnly;
+	public bool enableLaunchOnly;
 
 	[Header("Hop Settings")]
 	public bool canHop = true;
@@ -100,8 +100,8 @@ public class PlayerController : MonoBehaviour
 		launchBaseColor = launchRenderer.materials[launchMaterialIndexes[0]].GetColor("_baseColor");
 
 		GamePad.SetVibration(0, 0, 0);
-        Cursor.visible = false;
-    }
+		Cursor.visible = false;
+	}
 
 	//START
 	void SetAbilities ()
@@ -186,17 +186,20 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	private void OnApplicationQuit ()
+	{
+		GamePad.SetVibration(PlayerIndex.One, 0, 0);
+	}
+
 
 	//UPDATE FUNCTIONS
 	void ProcessInputs ()
 	{
-        if (!enableLaunchOnly)
-        {
-            movementInput = new Vector2(Mathf.Clamp(Input.GetAxis("Left Stick X") + Input.GetAxis("Keyboard AD"), -1, 1), Mathf.Clamp(Input.GetAxis("Left Stick Y") + Input.GetAxis("Keyboard WS"), -1, 1));
-            orientationInput = new Vector2(Mathf.Clamp(Input.GetAxis("Right Stick X") + Input.GetAxis("Mouse X") * mouseXSensitivity, -1, 1), Mathf.Clamp(Input.GetAxis("Right Stick Y") + Input.GetAxis("Mouse Y") * mouseYSensitivity, -1, 1));
-
-        }
-    }
+		if (!enableLaunchOnly) {
+			movementInput = new Vector2(Mathf.Clamp(Input.GetAxis("Left Stick X") + Input.GetAxis("Keyboard AD"), -1, 1), Mathf.Clamp(Input.GetAxis("Left Stick Y") + Input.GetAxis("Keyboard WS"), -1, 1));
+			orientationInput = new Vector2(Mathf.Clamp(Input.GetAxis("Right Stick X") + Input.GetAxis("Mouse X") * mouseXSensitivity, -1, 1), Mathf.Clamp(Input.GetAxis("Right Stick Y") + Input.GetAxis("Mouse Y") * mouseYSensitivity, -1, 1));
+		}
+	}
 
 	void CameraControl ()
 	{
@@ -232,11 +235,11 @@ public class PlayerController : MonoBehaviour
 
 	void Launch ()
 	{
-        if (launchEnabled && (Input.GetAxis("Right Trigger") != 0 || Input.GetButtonDown("Keyboard Space"))) {
+		if (launchEnabled && (Input.GetAxis("Right Trigger") != 0 || Input.GetButtonDown("Keyboard Space"))) {
 			if (!launchRoutineRunning) {
-                launchRoutineRunning = true;
+				launchRoutineRunning = true;
 				animator.SetBool("preLaunching", true);
-                StartCoroutine(LaunchRoutine());
+				StartCoroutine(LaunchRoutine());
 			}
 		}
 	}
@@ -349,8 +352,8 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	//RETURN FUNCTIONS
-	bool Grounded ()
+    //RETURN FUNCTIONS
+    bool Grounded ()
 	{
 		if (groundedSuspended) {
 			return false;
@@ -375,8 +378,8 @@ public class PlayerController : MonoBehaviour
 				groundType = 3;
 			}
 
-			//beetje lelijk dit
-			canHop = true;
+            //beetje lelijk dit
+            canHop = true;
 			if (!isBuildingLaunch) {
 				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 					launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
@@ -452,17 +455,17 @@ public class PlayerController : MonoBehaviour
 
 	IEnumerator LaunchRoutine ()
 	{
-        float timeLapsed = 0;
+		float timeLapsed = 0;
 		bool stageTwoReached = false;
 
-        GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
+		GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
 
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchStageOneColor);
-        }
+		}
 
 		while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Keyboard Space")) {
-            isBuildingLaunch = true;
+			isBuildingLaunch = true;
 			timeLapsed += Time.deltaTime;
 
 			if (timeLapsed > launchStageTwoTime) {
@@ -500,15 +503,15 @@ public class PlayerController : MonoBehaviour
 		StopCoroutine(SuspendGroundedCheck());
 		StartCoroutine(SuspendGroundedCheck());
 
-        while (!Grounded()) {
+		while (!Grounded()) {
 			yield return null;
 		}
 
-        for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
-        }
-        launchRoutineRunning = false;
-    }
+		}
+		launchRoutineRunning = false;
+	}
 
 	IEnumerator PreLaunchRoutine ()
 	{
