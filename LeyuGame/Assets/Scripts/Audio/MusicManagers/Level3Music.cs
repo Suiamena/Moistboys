@@ -35,18 +35,15 @@ public class Level3Music : MonoBehaviour
 
         if (startMusic)
         {
-            if (!startCoroutineOnce)
-            {
-                StartCoroutine(DelayMusic());
-                startCoroutineOnce = true;
-            }
+            musicStage = 7.5f;
+            startMusic = false;
         }
     }
 
     IEnumerator DelayMusic()
     {
         yield return new WaitForSeconds(1f);
-        musicStage = 7.5f;
+        //musicStage = 7.5f;
     }
 
 }
