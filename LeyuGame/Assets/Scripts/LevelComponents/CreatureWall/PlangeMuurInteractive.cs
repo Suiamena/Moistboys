@@ -45,6 +45,7 @@ public class PlangeMuurInteractive : MonoBehaviour
     //MANAGER
     int activePlatform = 0;
     public GameObject spawnPlatformParticle;
+    bool creatureBecamePiccolo;
 
     private void Awake()
     {
@@ -188,20 +189,23 @@ public class PlangeMuurInteractive : MonoBehaviour
 
     IEnumerator CreatureFliesToPlatform()
     {
-        if (activePlatform < platformTransforms.Count - 1) {
-            flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -12);
+        if (creatureBecamePiccolo) {
+
         } else {
-            flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, 0, 0);
-        }
-        while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) { 
-            moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
-            yield return null;
-        }
-        if (activePlatform < platformTransforms.Count - 1) {
-            StartCoroutine(CreatureSpawnsPlatform(activePlatform));
-        }
-        else {
-            moustacheAnimator.SetBool("isFlying", false);
+            if (activePlatform < platformTransforms.Count - 1) {
+                flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -12);
+            } else {
+                flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, 0, 0);
+            }
+            while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) {
+                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
+                yield return null;
+            }
+            if (activePlatform < platformTransforms.Count - 1) {
+                StartCoroutine(CreatureSpawnsPlatform(activePlatform));
+            } else { 
+                moustacheAnimator.SetBool("isFlying", false);
+            }
         }
     }
 
@@ -211,6 +215,10 @@ public class PlangeMuurInteractive : MonoBehaviour
         for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
             PlatformType platformTypeScript;
             platformTypeScript = platformTransforms[currentPlatform].GetComponent<PlatformType>();
+            if (platformTypeScript.platformIsElevator)
+            {
+                creatureBecamePiccolo = true;
+            }
             if (platformTypeScript.emergeFromTheGround) {
                 platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, -platformCreationDistance, 0) / platformCreationTime * Time.deltaTime;
             } else {
@@ -219,6 +227,16 @@ public class PlangeMuurInteractive : MonoBehaviour
             yield return null;
         }
         platformTransforms[currentPlatform].position = platformDefaultPositions[currentPlatform];
+        if (creatureBecamePiccolo)
+        {
+            int temp = activePlatform;
+            while (temp <= activePlatform)
+            {
+                moustacheAnimator.SetBool("isFlying", false);
+                moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, player.transform.position.y, moustacheBoi.transform.position.z);
+                yield return null;
+            }
+        }
     }
 
     IEnumerator EndSequence()
