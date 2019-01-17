@@ -352,8 +352,8 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	//RETURN FUNCTIONS
-	bool Grounded ()
+    //RETURN FUNCTIONS
+    bool Grounded ()
 	{
 		if (groundedSuspended) {
 			return false;
@@ -378,8 +378,8 @@ public class PlayerController : MonoBehaviour
 				groundType = 3;
 			}
 
-			//beetje lelijk dit
-			canHop = true;
+            //beetje lelijk dit
+            canHop = true;
 			if (!isBuildingLaunch) {
 				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 					launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
