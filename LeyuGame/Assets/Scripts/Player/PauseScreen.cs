@@ -19,8 +19,8 @@ public class PauseScreen : MonoBehaviour
 	bool waitingForLeftStickReset = false, waitingForDPadReset = false;
 	float directionInputDeadzone = .4f;
 
-	public GameObject[] exitOptionSelectors = new GameObject[2];
-	int exitOption = 0;
+	public GameObject[] exitOptionSelectors = new GameObject[3];
+	int exitOptionSelected = 0;
 
 	private void Awake ()
 	{
@@ -78,31 +78,32 @@ public class PauseScreen : MonoBehaviour
 				case ActiveScreen.Exit:
                     if ((Mathf.Abs(Input.GetAxis("Left Stick Y")) > directionInputDeadzone && !waitingForLeftStickReset))
                     {
-                        SwitchExitOption();
+                        SwitchExitOption(Input.GetAxis("Left Stick Y"));
 						waitingForLeftStickReset = true;
 					}
 					if (Input.GetAxis("DPad Y") != 0 && !waitingForDPadReset) {
-						SwitchExitOption();
+						SwitchExitOption(Input.GetAxis("DPad Y"));
 						waitingForDPadReset = true;
 					}
                     if (Input.GetButtonDown("W"))
                     {
-                        SwitchExitOption();
+                        SwitchExitOption(1);
                     }
                     if (Input.GetButtonDown("S"))
                     {
-                        SwitchExitOption();
+                        SwitchExitOption(-1);
                     }
                     if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Start Button") || Input.GetButtonDown("Keyboard Space"))
                     {
-						if (exitOption == 0) {
-                            Time.timeScale = 1;
+						if (exitOptionSelected == 0) {
+							DeactivateExitScreen();
+						} else if (exitOptionSelected == 1) {
+							Time.timeScale = 1;
 							AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 							Level6Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 							SceneManager.LoadScene("TitleScreen");
-							Debug.Log("EXITING GAME");
 						} else {
-							DeactivateExitScreen();
+							Application.Quit();
 						}
 					}
 					if (Input.GetButtonDown("B Button") || Input.GetKeyDown("escape"))
@@ -171,7 +172,7 @@ public class PauseScreen : MonoBehaviour
 
 		pauseScreen.SetActive(false);
 		exitScreen.SetActive(true);
-		exitOption = 0;
+		exitOptionSelected = 0;
 		activeScreen = ActiveScreen.Exit;
 	}
 
@@ -202,15 +203,23 @@ public class PauseScreen : MonoBehaviour
 		pauseOptionSelectors[optionSelected].SetActive(true);
 	}
 
-	void SwitchExitOption ()
+	void SwitchExitOption (float input)
 	{
-		exitOptionSelectors[exitOption].SetActive(false);
+		exitOptionSelectors[exitOptionSelected].SetActive(false);
 
-		if (exitOption == 0)
-			exitOption = 1;
+		int direction;
+		if (input < 0)
+			direction = 1;
 		else
-			exitOption = 0;
+			direction = -1;
 
-		exitOptionSelectors[exitOption].SetActive(true);
+		exitOptionSelected += direction;
+
+		if (exitOptionSelected < 0)
+			exitOptionSelected = exitOptionSelectors.Length - 1;
+		if (exitOptionSelected > exitOptionSelectors.Length - 1)
+			exitOptionSelected = 0;
+
+		exitOptionSelectors[exitOptionSelected].SetActive(true);
 	}
 }
