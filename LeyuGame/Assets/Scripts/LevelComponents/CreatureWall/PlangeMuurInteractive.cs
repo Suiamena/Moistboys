@@ -43,7 +43,7 @@ public class PlangeMuurInteractive : MonoBehaviour
     //public const float triggerAbilityRange = 16;
 
     //MANAGER
-    int activePlatform = 1;
+    int activePlatform = 0;
     public GameObject spawnPlatformParticle;
 
     private void Awake()
@@ -171,51 +171,59 @@ public class PlangeMuurInteractive : MonoBehaviour
         platformTransforms[0].position = platformDefaultPositions[0];
         GamePad.SetVibration(0, .6f, .6f);
         GamePad.SetVibration(0, 0, 0);
+        moustacheAnimator.SetBool("isFlying", true);
+        flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -2);
+        while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
+        {
+            moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
+            yield return null;
+        }
     }
 
     public void NewPlatform(bool playerOnPlatform)
     {
+        activePlatform += 1;
         StartCoroutine(CreatureFliesToPlatform());
     }
 
     IEnumerator CreatureFliesToPlatform()
     {
-        flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, 5, -10);
-        while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
-        {
-            moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 1f) * Time.deltaTime);
+        if (activePlatform < platformTransforms.Count - 1) {
+            flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -12);
+        } else {
+            flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, 0, 0);
+        }
+        while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) { 
+            moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
             yield return null;
         }
-        if (activePlatform < platformTransforms.Count - 1)
-        {
+        if (activePlatform < platformTransforms.Count - 1) {
             StartCoroutine(CreatureSpawnsPlatform(activePlatform));
+        }
+        else {
+            moustacheAnimator.SetBool("isFlying", false);
         }
     }
 
     IEnumerator CreatureSpawnsPlatform(int currentPlatform)
     {
         GameObject particle = Instantiate(spawnPlatformParticle, flyToPlatformPosition, Quaternion.Euler(0, 5, 5));
-        for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
-        {
+        for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
             PlatformType platformTypeScript;
             platformTypeScript = platformTransforms[currentPlatform].GetComponent<PlatformType>();
-            if (platformTypeScript.emergeFromTheGround)
-            {
+            if (platformTypeScript.emergeFromTheGround) {
                 platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, -platformCreationDistance, 0) / platformCreationTime * Time.deltaTime;
-            }
-            else
-            {
+            } else {
                 platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
             }
             yield return null;
         }
         platformTransforms[currentPlatform].position = platformDefaultPositions[currentPlatform];
-        activePlatform += 1;
     }
 
     IEnumerator EndSequence()
     {
-        activePlatform = 1;
+        activePlatform = 0;
         for (int i = 0; i < platformTransforms.Count - 1; i++)
         {
             PlatformType platformTypeScript;
