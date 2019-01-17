@@ -304,7 +304,10 @@ public class PlangeMuurInteractive : MonoBehaviour
                 moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 1f) * Time.deltaTime);
                 yield return null;
             }
-            StartCoroutine(PlatformSpawnsNow(i));
+            if (i != platformTransforms.Count)
+            {
+                StartCoroutine(PlatformSpawnsNow(i));
+            }
         }
     }
 
