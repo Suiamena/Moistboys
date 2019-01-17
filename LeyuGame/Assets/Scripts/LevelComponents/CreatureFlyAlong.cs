@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class CreatureFlyAlong : MonoBehaviour
 {
-
+	public LayerMask obstacleDetectMask;
+	RaycastHit obstacleRayHit;
 	bool flyAlongRoutineRunning = false;
 	Transform moustacheBoy, player;
 	Animator moustacheBoyAnimator;
 	public Vector3 startingOffset = new Vector3(0, 20, 0), flyingOffset = new Vector3(0, 2.2f, 3.6f), endingOffset = new Vector3(5, 20, 35);
-	public float lerpFactor = .14f, baseSpeed = 6, distanceSpeedIncrease = 2, turnRate = 250, flyingSway = 2.5f;
+	public float lerpFactor = .14f, baseSpeed = 10, distanceSpeedIncrease = 60, turnRate = 250, flyingSway = 2.5f, obstacleDetectRange = 9;
 	bool flyAlong = false;
 
 	private void Awake ()
@@ -37,18 +38,20 @@ public class CreatureFlyAlong : MonoBehaviour
 
 	IEnumerator FlyAlong ()
 	{
+		//Fly in
 		flyAlong = true;
 		moustacheBoy.position = player.position + startingOffset;
 		moustacheBoy.gameObject.SetActive(true);
 
 		float yAngle = player.eulerAngles.y;
-		moustacheBoy.eulerAngles = new Vector3(20, yAngle, 0);
+		moustacheBoy.eulerAngles = new Vector3(0, yAngle, 0);
 
 		moustacheBoyAnimator.SetBool("isFlying", true);
 
 		Vector3 targetPos;
 		float correctedSpeed;
 		while (flyAlong) {
+			//Move 
 			targetPos = player.position + player.rotation * flyingOffset + new Vector3(Mathf.Sin(Time.time * .1f) * flyingOffset.x, 0, Mathf.Sin(Time.time * 0.08f));
 
 			float distance = Vector3.Distance(moustacheBoy.position, targetPos);
@@ -56,22 +59,38 @@ public class CreatureFlyAlong : MonoBehaviour
 
 			moustacheBoy.position += moustacheBoy.forward * correctedSpeed * Time.deltaTime;
 
-			Vector3 currentPos = moustacheBoy.position;
-			currentPos.y = Mathf.Lerp(currentPos.y, targetPos.y, lerpFactor);
-			moustacheBoy.position = currentPos;
-
+			//Steer based on targetPos
 			float rightDistance = (moustacheBoy.position + moustacheBoy.right).SquareDistance(targetPos);
 			if ((moustacheBoy.position + -moustacheBoy.right).SquareDistance(targetPos) < rightDistance)
 				moustacheBoy.Rotate(new Vector3(0, -turnRate * Time.deltaTime, 0));
 			else
 				moustacheBoy.Rotate(new Vector3(0, turnRate * Time.deltaTime, 0));
+
+			//Detect obstacles in front
+			float obstacleDetectionTurnFactor = 0;
+			for (int i = -1; i <= 1; ++i) {
+				if (Physics.Raycast(moustacheBoy.position + moustacheBoy.right * i, moustacheBoy.forward, out obstacleRayHit, obstacleDetectRange, obstacleDetectMask)) {
+					if (Vector3.SignedAngle(moustacheBoy.forward, obstacleRayHit.normal, Vector3.up) < 0)
+						obstacleDetectionTurnFactor += -1.2f;
+					else
+						obstacleDetectionTurnFactor += 1.2f;
+				}
+			}
+			obstacleDetectionTurnFactor = Mathf.Clamp(obstacleDetectionTurnFactor, -2.8f, 2.8f);
+			float yRotation = turnRate * obstacleDetectionTurnFactor * Time.deltaTime;
+
+			float xRotation = 0;
+			if (targetPos.y > moustacheBoy.position.y) {
+				xRotation += 45;
+			} else {
+				xRotation += -45;
+			}
+			if (Physics.Raycast(moustacheBoy.position, Vector3.down, 10, obstacleDetectMask)) {
+				xRotation += -30;
+			}
+			moustacheBoy.Rotate(xRotation * Time.deltaTime, turnRate * obstacleDetectionTurnFactor * Time.deltaTime, 0);
+			moustacheBoy.rotation = Quaternion.Euler(Mathf.Clamp(moustacheBoy.eulerAngles.x, -20, 20), moustacheBoy.eulerAngles.y, 0);
 			yield return null;
-
-			//moustacheBoy.position = Vector3.Lerp(moustacheBoy.position, player.position + player.rotation * flyingOffset, lerpFactor);
-
-			//yAngle = Mathf.Lerp(yAngle, player.eulerAngles.y, lerpFactor);
-			//moustacheBoy.eulerAngles = new Vector3(20, yAngle, 0);
-			//yield return null;
 		}
 
 		targetPos = player.position + Quaternion.Euler(new Vector3(0, player.eulerAngles.y, 0)) * endingOffset;
