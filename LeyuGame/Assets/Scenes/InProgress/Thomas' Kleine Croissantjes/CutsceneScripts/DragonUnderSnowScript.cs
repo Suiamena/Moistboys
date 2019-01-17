@@ -205,6 +205,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
         {
             yield return null;
         }
+        Level3Music.startMusic = true;
         Destroy(snowExplosion);
         Destroy(gameObject);
     }

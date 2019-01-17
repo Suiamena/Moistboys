@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,8 +10,6 @@ public class DragonAbilityGetScript : MonoBehaviour {
     Rigidbody playerBody;
     GameObject playerModel;
     Animator playerAnim;
-
-    public GameObject landingIndicatorObject;
 
     GameObject abilityPlant;
     GameObject abilityPickUp;
@@ -34,8 +32,6 @@ public class DragonAbilityGetScript : MonoBehaviour {
         playerBody = player.GetComponent<Rigidbody>();
         playerModel = GameObject.Find("MOD_Draak");
         playerAnim = playerModel.GetComponent<Animator>();
-
-        landingIndicatorObject = GameObject.Find("LandingIndicator");
 
         abilityAnim = abilityPickUp.GetComponent<Animator>();
         abilityAnim.SetBool("IsPlaying", false);
@@ -62,7 +58,6 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     void OnTriggerStay()
     {
-        landingIndicatorObject.transform.position = player.transform.position;
         player.transform.LookAt(gameObject.transform.position);
         playerCamera.transform.LookAt(abilityPickUp.transform.position);
 
@@ -105,7 +100,6 @@ public class DragonAbilityGetScript : MonoBehaviour {
         //ACTIVATE LAUNCH
         Destroy(abilityPickUp);
         sneeuwstormTrigger.SetActive(true);
-        landingIndicatorObject.SetActive(true);
         Destroy(gameObject);
     }
 }

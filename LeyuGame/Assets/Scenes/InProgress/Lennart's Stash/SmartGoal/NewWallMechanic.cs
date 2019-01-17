@@ -138,9 +138,6 @@ public class NewWallMechanic : MonoBehaviour
 		if (enableSequence) {
 			if ((Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space")) && !creatureSpawnsPlatforms) {
 				//DISABLE PLAYER ANIMATION
-				playerAnim.SetBool("IsBouncing", false);
-				playerAnim.SetBool("IsLaunching", false);
-				playerAnim.SetBool("IsAirborne", false);
 
 				//DISABLE PLAYER MOVEMENT
 				player.transform.position = new Vector3(player.transform.position.x, moustacheBoi.transform.position.y, player.transform.position.z);
@@ -178,7 +175,6 @@ public class NewWallMechanic : MonoBehaviour
 	{
 		pressButtonPopup.SetActive(false);
 		player.transform.LookAt(platformTransforms[activePlatform]);
-        playerAnim.SetBool("IsBouncing", true);
 		PlayerAudio.PlayWallJump();
 
 		//Set current and target positions for calculations
