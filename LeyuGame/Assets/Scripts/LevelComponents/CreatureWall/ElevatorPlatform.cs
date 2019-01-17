@@ -18,11 +18,6 @@ public class ElevatorPlatform : MonoBehaviour {
         nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3, nextLocation.transform.position.z);
     }
 
-    private void Update()
-    {
-        Debug.Log(elevatorSpeed);
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         playerIsOnElevator = true;
@@ -44,7 +39,6 @@ public class ElevatorPlatform : MonoBehaviour {
         while ((elevatorPlatform.transform.position.SquareDistance(nextLocation.transform.position) > .1f))
         {
             elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, nextLocation.transform.position, elevatorSpeed * Time.deltaTime);
-            Debug.Log("UP");
             yield return null;
         }
         goingUp = false;
@@ -60,7 +54,6 @@ public class ElevatorPlatform : MonoBehaviour {
             while ((elevatorPlatform.transform.position.SquareDistance(startingLocation) > .1f))
             {
                 elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, startingLocation, elevatorSpeed * Time.deltaTime);
-                Debug.Log("DOWN");
                 yield return null;
             }
             goingDown = false;

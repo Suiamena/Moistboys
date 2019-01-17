@@ -88,11 +88,10 @@ public class PlangeMuurInteractive : MonoBehaviour
         }
         flyInPosition = creatureFlyInPositionObject.transform.position;
     }
-
+    
     private void Update()
     {
         CheckForFlying();
-        Debug.Log(playerScript.onPlatform);
     }
 
     void CheckForFlying()
@@ -319,7 +318,6 @@ public class PlangeMuurInteractive : MonoBehaviour
         //particle.transform.Rotate(-90, 0, 0);
         //particle.transform.position = platformTransforms[currentPlatform].position + platformTransforms[currentPlatform].transform.rotation * new Vector3(0, -2, -5);
         particle.transform.position = platformTransforms[currentPlatform].position + platformTransforms[currentPlatform].transform.rotation * new Vector3(0, 5, 5);
-        Debug.Log("spawned");
         for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
             PlatformType platformTypeScript;
             platformTypeScript = platformTransforms[currentPlatform].GetComponent<PlatformType>();
