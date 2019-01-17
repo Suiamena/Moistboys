@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
 	public float walkingBouncingThreshold = .8f;
 	bool inSnow = false;
 	public float groundType, jumpHeight;
+    public bool onPlatform;
 	bool checkCurrentHeight, waitingForNextBounce = false, waitForBounceRoutineRunning = false;
 	public bool enableLaunchOnly;
 
@@ -377,9 +378,18 @@ public class PlayerController : MonoBehaviour
 			if (groundedRayHit.transform.tag == "Amethyst") {
 				groundType = 3;
 			}
+            if (groundedRayHit.transform.tag == "Platform")
+            {
+                groundType = 0;
+                onPlatform = true;
+            }
+            else
+            {
+                onPlatform = false;
+            }
 
-			//beetje lelijk dit
-			canHop = true;
+            //beetje lelijk dit
+            canHop = true;
 			if (!isBuildingLaunch) {
 				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 					launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);

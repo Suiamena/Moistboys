@@ -92,6 +92,7 @@ public class PlangeMuurInteractive : MonoBehaviour
     private void Update()
     {
         CheckForFlying();
+        Debug.Log(playerScript.onPlatform);
     }
 
     void CheckForFlying()
