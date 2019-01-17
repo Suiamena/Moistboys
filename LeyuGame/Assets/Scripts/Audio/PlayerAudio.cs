@@ -50,7 +50,7 @@ public class PlayerAudio : MonoBehaviour {
     {
         //PLAYER SETUP
         player = GameObject.Find("Character");
-        launchParticleTransform = GameObject.Find("LandingIndicator");
+        launchParticleTransform = GameObject.Find("Shadow");
         playerScript = player.GetComponent<PlayerController>();
 
         //LAUNCH SETUP
