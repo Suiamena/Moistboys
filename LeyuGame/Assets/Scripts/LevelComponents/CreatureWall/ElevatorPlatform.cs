@@ -39,8 +39,8 @@ public class ElevatorPlatform : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
+        goDown = true;
         if (!elevatorIsMoving) {
-            goDown = true;
             elevatorIsMoving = true;
             StartCoroutine(Move());
         }
@@ -51,6 +51,7 @@ public class ElevatorPlatform : MonoBehaviour {
         if (goUp) {
             distance = Mathf.Abs(elevatorPlatform.transform.position.y - nextLocation.transform.position.y);
             while (distance > .1f) {
+                distance = Mathf.Abs(elevatorPlatform.transform.position.y - nextLocation.transform.position.y);
                 elevatorPlatform.transform.position = Vector3.MoveTowards(
                     new Vector3(elevatorPlatform.transform.position.x, elevatorPlatform.transform.position.y, elevatorPlatform.transform.position.z),
                     new Vector3(elevatorPlatform.transform.position.x, nextLocation.transform.position.y, elevatorPlatform.transform.position.z), elevatorSpeed * Time.deltaTime);
@@ -61,6 +62,7 @@ public class ElevatorPlatform : MonoBehaviour {
             yield return new WaitForSeconds(1f);
             distance = Mathf.Abs(elevatorPlatform.transform.position.y - startingLocation.y);
             while (distance > .1f) {
+                distance = Mathf.Abs(elevatorPlatform.transform.position.y - startingLocation.y);
                 elevatorPlatform.transform.position = Vector3.MoveTowards(
                     new Vector3(elevatorPlatform.transform.position.x, elevatorPlatform.transform.position.y, elevatorPlatform.transform.position.z),
                     new Vector3(elevatorPlatform.transform.position.x, startingLocation.y, elevatorPlatform.transform.position.z), elevatorSpeed * Time.deltaTime);
@@ -71,6 +73,11 @@ public class ElevatorPlatform : MonoBehaviour {
         goDown = false;
         elevatorIsMoving = false;
         wallScript.DisablePiccolo();
+        if (goDown)
+        {
+            elevatorIsMoving = true;
+            StartCoroutine(Move());
+        }
     }
 
 }

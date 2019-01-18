@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
 	{
 		rig = GetComponent<Rigidbody>();
 
-		snowLandingParticlePool = new GameObject[3];
+		snowLandingParticlePool = new GameObject[6];
 		for (int i = 0; i < snowLandingParticlePool.Length; i++) {
 			snowLandingParticlePool[i] = Instantiate(snowLandingParticlePrefab);
 			snowLandingParticlePool[i].hideFlags = HideFlags.HideInHierarchy;
@@ -219,6 +219,7 @@ public class PlayerController : MonoBehaviour
 	{
 		cameraYAngle += orientationInput.x * cameraHorizontalSensitivity * Time.deltaTime;
 		cameraXAngle = Mathf.Clamp(cameraXAngle - orientationInput.y * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
+		
 		//CAMERA RESET ZN ROTATIE WANNEER SPELER STIL STAAT. NIET TEVREDEN OVER.
 		//if (velocity.sqrMagnitude <= 1) {
 		//	if (cameraYAngle != modelYRotation) {
@@ -333,6 +334,14 @@ public class PlayerController : MonoBehaviour
 				if (groundType == 1.5f) {
 					if (!waitForBounceRoutineRunning) {
 						waitForBounceRoutineRunning = true;
+						foreach (GameObject g in snowLandingParticlePool) {
+							if (!g.activeSelf) {
+								g.transform.position = transform.position - Vector3.up * .5f;
+								g.SetActive(true);
+								StartCoroutine(DisableSnowLandingParticle(g));
+								break;
+							}
+						}
 						StartCoroutine(BouncePause());
 					}
 				} else {
@@ -494,6 +503,12 @@ public class PlayerController : MonoBehaviour
 	{
 		yield return new WaitForSeconds(.05f);
 		waitingForNextBounce = waitForBounceRoutineRunning = false;
+	}
+
+	IEnumerator DisableSnowLandingParticle (GameObject go)
+	{
+		yield return new WaitForSeconds(go.GetComponent<ParticleSystem>().main.duration);
+		go.SetActive(false);
 	}
 
 	IEnumerator LaunchRoutine ()
