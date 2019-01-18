@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
 	[Range(0.0f, 1.0f)]
 	public float cameraPositionSmooting = .12f, cameraTargetSmoothing = .32f;
 	public float cameraVerticalInfluenceThreshold = 14, cameraVerticalInfluenceFactor = .06f;
+	public float cameraStationaryYResetSpeed = 30, cameraStationaryXResetSpeed = 15;
 	float cameraVerticalInfluence = 0, cameraXAngle = 0, cameraYAngle = 0;
 	Vector3 cameraDesiredPosition, cameraDesiredTarget;
 	Quaternion cameraRotation;
@@ -67,7 +68,7 @@ public class PlayerController : MonoBehaviour
 	bool inSnow = false;
 	public float groundType, jumpHeight;
 	bool checkCurrentHeight, waitingForNextBounce = false, waitForBounceRoutineRunning = false;
-    public bool enableLaunchOnly;
+	public bool enableLaunchOnly;
 
 	[Header("Hop Settings")]
 	public bool canHop = true;
@@ -100,8 +101,8 @@ public class PlayerController : MonoBehaviour
 		launchBaseColor = launchRenderer.materials[launchMaterialIndexes[0]].GetColor("_baseColor");
 
 		GamePad.SetVibration(0, 0, 0);
-        Cursor.visible = false;
-    }
+		Cursor.visible = false;
+	}
 
 	//START
 	void SetAbilities ()
@@ -186,28 +187,45 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	private void OnApplicationQuit ()
+	{
+		GamePad.SetVibration(PlayerIndex.One, 0, 0);
+	}
+
 
 	//UPDATE FUNCTIONS
 	void ProcessInputs ()
 	{
-        if (!enableLaunchOnly)
-        {
-            movementInput = new Vector2(Mathf.Clamp(Input.GetAxis("Left Stick X") + Input.GetAxis("Keyboard AD"), -1, 1), Mathf.Clamp(Input.GetAxis("Left Stick Y") + Input.GetAxis("Keyboard WS"), -1, 1));
-            orientationInput = new Vector2(Mathf.Clamp(Input.GetAxis("Right Stick X") + Input.GetAxis("Mouse X") * mouseXSensitivity, -1, 1), Mathf.Clamp(Input.GetAxis("Right Stick Y") + Input.GetAxis("Mouse Y") * mouseYSensitivity, -1, 1));
-
-        }
-    }
+		if (!enableLaunchOnly) {
+			movementInput = new Vector2(Mathf.Clamp(Input.GetAxis("Left Stick X") + Input.GetAxis("Keyboard AD"), -1, 1), Mathf.Clamp(Input.GetAxis("Left Stick Y") + Input.GetAxis("Keyboard WS"), -1, 1));
+			orientationInput = new Vector2(Mathf.Clamp(Input.GetAxis("Right Stick X") + Input.GetAxis("Mouse X") * mouseXSensitivity, -1, 1), Mathf.Clamp(Input.GetAxis("Right Stick Y") + Input.GetAxis("Mouse Y") * mouseYSensitivity, -1, 1));
+		}
+	}
 
 	void CameraControl ()
 	{
 		cameraYAngle += orientationInput.x * cameraHorizontalSensitivity * Time.deltaTime;
 		cameraXAngle = Mathf.Clamp(cameraXAngle - orientationInput.y * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
+		//CAMERA RESET ZN ROTATIE WANNEER SPELER STIL STAAT. NIET TEVREDEN OVER.
+		//if (velocity.sqrMagnitude <= 1) {
+		//	if (cameraYAngle != modelYRotation) {
+		//		cameraYAngle = Mathf.MoveTowards(cameraYAngle, transform.eulerAngles.y + modelYRotation, cameraStationaryYResetSpeed * Time.deltaTime);
+		//		modelYRotation = Mathf.MoveTowards(modelYRotation, 0, cameraStationaryYResetSpeed * Time.deltaTime);
+		//	}
+		//	cameraXAngle = Mathf.MoveTowards(cameraXAngle, 0, cameraStationaryXResetSpeed * Time.deltaTime);
+		//}
+		if (velocity.sqrMagnitude > 64) {
+			float angle = Vector3.SignedAngle(cameraTrans.forward, transform.rotation * velocity, Vector3.up);
+			if (angle < 0) {
+				cameraYAngle -= (8 + 94 * Mathf.Abs(angle) / 180) * Time.deltaTime;
+			} else {
+				cameraYAngle += (8 + 94 * Mathf.Abs(angle) / 180) * Time.deltaTime;
+			}
+		}
 		cameraRotation = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
 
 		if (Grounded()) {
 			transform.rotation = Quaternion.Euler(new Vector3(0, cameraYAngle, 0));
-		} else {
-
 		}
 
 		cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmooting);
@@ -232,11 +250,11 @@ public class PlayerController : MonoBehaviour
 
 	void Launch ()
 	{
-        if (launchEnabled && (Input.GetAxis("Right Trigger") != 0 || Input.GetButtonDown("Keyboard Space"))) {
+		if (launchEnabled && (Input.GetAxis("Right Trigger") != 0 || Input.GetButtonDown("Keyboard Space"))) {
 			if (!launchRoutineRunning) {
-                launchRoutineRunning = true;
+				launchRoutineRunning = true;
 				animator.SetBool("preLaunching", true);
-                StartCoroutine(LaunchRoutine());
+				StartCoroutine(LaunchRoutine());
 			}
 		}
 	}
@@ -452,17 +470,17 @@ public class PlayerController : MonoBehaviour
 
 	IEnumerator LaunchRoutine ()
 	{
-        float timeLapsed = 0;
+		float timeLapsed = 0;
 		bool stageTwoReached = false;
 
-        GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
+		GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
 
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchStageOneColor);
-        }
+		}
 
 		while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Keyboard Space")) {
-            isBuildingLaunch = true;
+			isBuildingLaunch = true;
 			timeLapsed += Time.deltaTime;
 
 			if (timeLapsed > launchStageTwoTime) {
@@ -500,15 +518,15 @@ public class PlayerController : MonoBehaviour
 		StopCoroutine(SuspendGroundedCheck());
 		StartCoroutine(SuspendGroundedCheck());
 
-        while (!Grounded()) {
+		while (!Grounded()) {
 			yield return null;
 		}
 
-        for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
-        }
-        launchRoutineRunning = false;
-    }
+		}
+		launchRoutineRunning = false;
+	}
 
 	IEnumerator PreLaunchRoutine ()
 	{

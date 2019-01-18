@@ -15,6 +15,7 @@ public class ElevatorPlatform : MonoBehaviour {
     private void Awake()
     {
         startingLocation = elevatorPlatform.transform.position;
+        nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3, nextLocation.transform.position.z);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,6 +23,7 @@ public class ElevatorPlatform : MonoBehaviour {
         playerIsOnElevator = true;
         if (!goingDown && playerIsOnElevator)
         {
+            goingUp = true;
             StartCoroutine(MoveUp());
         }
     }
@@ -29,13 +31,15 @@ public class ElevatorPlatform : MonoBehaviour {
     private void OnTriggerExit(Collider other)
     {
         playerIsOnElevator = false;
-        StartCoroutine(GoDown());
+        if (!goingUp && !playerIsOnElevator)
+        {
+            goingDown = true;
+            StartCoroutine(GoDown());
+        }
     }
 
     IEnumerator MoveUp()
     {
-        goingUp = true;
-        nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3, nextLocation.transform.position.z);
         while ((elevatorPlatform.transform.position.SquareDistance(nextLocation.transform.position) > .1f))
         {
             elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, nextLocation.transform.position, elevatorSpeed * Time.deltaTime);
@@ -47,17 +51,13 @@ public class ElevatorPlatform : MonoBehaviour {
 
     IEnumerator GoDown()
     {
-        if (!goingUp && !playerIsOnElevator)
+        yield return new WaitForSeconds(1f);
+        while ((elevatorPlatform.transform.position.SquareDistance(startingLocation) > .1f))
         {
-            yield return new WaitForSeconds(1f);
-            goingDown = true;
-            while ((elevatorPlatform.transform.position.SquareDistance(startingLocation) > .1f))
-            {
-                elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, startingLocation, elevatorSpeed * Time.deltaTime);
-                yield return null;
-            }
-            goingDown = false;
+            elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, startingLocation, elevatorSpeed * Time.deltaTime);
+            yield return null;
         }
+        goingDown = false;
     }
 
 }
