@@ -4,60 +4,89 @@ using UnityEngine;
 
 public class ElevatorPlatform : MonoBehaviour {
 
-    bool goingUp, goingDown, playerIsOnElevator;
+    bool goUp, goDown, elevatorIsMoving;
     public int elevatorSpeed;
 
     public GameObject elevatorPlatform;
     public GameObject nextLocation;
+    public GameObject wallObject;
+    PlangeMuurInteractive wallScript;
+
+    public GameObject player;
+    public GameObject elevatorRadio;
+    public GameObject elevatorBell;
 
     Vector3 startingLocation;
+    bool startingLocationSet;
+
+    float distance;
 
     private void Awake()
     {
-        startingLocation = elevatorPlatform.transform.position;
+        wallScript = wallObject.GetComponent<PlangeMuurInteractive>();
         nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3, nextLocation.transform.position.z);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        playerIsOnElevator = true;
-        if (!goingDown && playerIsOnElevator)
-        {
-            goingUp = true;
-            StartCoroutine(MoveUp());
+        if (!startingLocationSet) {
+            startingLocation = elevatorPlatform.transform.position;
+            startingLocationSet = true;
+        }
+
+        if (!elevatorIsMoving) {
+            goUp = true;
+            elevatorIsMoving = true;
+            StartCoroutine(Move());
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        playerIsOnElevator = false;
-        if (!goingUp && !playerIsOnElevator)
-        {
-            goingDown = true;
-            StartCoroutine(GoDown());
+        goDown = true;
+        if (!elevatorIsMoving) {
+            elevatorIsMoving = true;
+            StartCoroutine(Move());
         }
     }
 
-    IEnumerator MoveUp()
+    IEnumerator Move()
     {
-        while ((elevatorPlatform.transform.position.SquareDistance(nextLocation.transform.position) > .1f))
-        {
-            elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, nextLocation.transform.position, elevatorSpeed * Time.deltaTime);
-            yield return null;
+        if (goUp) {
+            elevatorRadio.SetActive(true);
+            distance = Mathf.Abs(elevatorPlatform.transform.position.y - nextLocation.transform.position.y);
+            while (distance > .1f) {
+                //player.transform.rotation = Quaternion.Euler(40, 0, 40);
+                distance = Mathf.Abs(elevatorPlatform.transform.position.y - nextLocation.transform.position.y);
+                elevatorPlatform.transform.position = Vector3.MoveTowards(
+                    new Vector3(elevatorPlatform.transform.position.x, elevatorPlatform.transform.position.y, elevatorPlatform.transform.position.z),
+                    new Vector3(elevatorPlatform.transform.position.x, nextLocation.transform.position.y, elevatorPlatform.transform.position.z), elevatorSpeed * Time.deltaTime);
+                yield return null;
+            }
         }
-        goingUp = false;
-        StartCoroutine(GoDown());
-    }
-
-    IEnumerator GoDown()
-    {
-        yield return new WaitForSeconds(1f);
-        while ((elevatorPlatform.transform.position.SquareDistance(startingLocation) > .1f))
-        {
-            elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, startingLocation, elevatorSpeed * Time.deltaTime);
-            yield return null;
+        if (goDown) {
+            yield return new WaitForSeconds(1f);
+            distance = Mathf.Abs(elevatorPlatform.transform.position.y - startingLocation.y);
+            while (distance > .1f) {
+                distance = Mathf.Abs(elevatorPlatform.transform.position.y - startingLocation.y);
+                elevatorPlatform.transform.position = Vector3.MoveTowards(
+                    new Vector3(elevatorPlatform.transform.position.x, elevatorPlatform.transform.position.y, elevatorPlatform.transform.position.z),
+                    new Vector3(elevatorPlatform.transform.position.x, startingLocation.y, elevatorPlatform.transform.position.z), elevatorSpeed * Time.deltaTime);
+                yield return null;
+            }
         }
-        goingDown = false;
+        elevatorBell.SetActive(true);
+        //ELEVATOR BELL INACTIVE!
+        elevatorRadio.SetActive(false);
+        goUp = false;
+        goDown = false;
+        elevatorIsMoving = false;
+        wallScript.DisablePiccolo();
+        if (goDown)
+        {
+            elevatorIsMoving = true;
+            StartCoroutine(Move());
+        }
     }
 
 }
