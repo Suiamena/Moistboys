@@ -15,7 +15,7 @@ public class ElevatorPlatform : MonoBehaviour {
     Vector3 startingLocation;
     bool startingLocationSet;
 
-    //REWRITE ALL!
+    float distance;
 
     private void Awake()
     {
@@ -25,14 +25,12 @@ public class ElevatorPlatform : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!startingLocationSet)
-        {
+        if (!startingLocationSet) {
             startingLocation = elevatorPlatform.transform.position;
             startingLocationSet = true;
         }
 
-        if (!elevatorIsMoving)
-        {
+        if (!elevatorIsMoving) {
             goUp = true;
             elevatorIsMoving = true;
             StartCoroutine(Move());
@@ -41,8 +39,7 @@ public class ElevatorPlatform : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (!elevatorIsMoving)
-        {
+        if (!elevatorIsMoving) {
             goDown = true;
             elevatorIsMoving = true;
             StartCoroutine(Move());
@@ -51,28 +48,28 @@ public class ElevatorPlatform : MonoBehaviour {
 
     IEnumerator Move()
     {
-        if (goUp)
-        {
-            while ((elevatorPlatform.transform.position.SquareDistance(nextLocation.transform.position) > .1f))
-            {
-                elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, nextLocation.transform.position, elevatorSpeed * Time.deltaTime);
+        if (goUp) {
+            distance = Mathf.Abs(elevatorPlatform.transform.position.y - nextLocation.transform.position.y);
+            while (distance > .1f) {
+                elevatorPlatform.transform.position = Vector3.MoveTowards(
+                    new Vector3(elevatorPlatform.transform.position.x, elevatorPlatform.transform.position.y, elevatorPlatform.transform.position.z),
+                    new Vector3(elevatorPlatform.transform.position.x, nextLocation.transform.position.y, elevatorPlatform.transform.position.z), elevatorSpeed * Time.deltaTime);
                 yield return null;
             }
         }
-        if (goDown)
-        {
+        if (goDown) {
             yield return new WaitForSeconds(1f);
-            while ((elevatorPlatform.transform.position.SquareDistance(startingLocation) > .1f))
-            {
-
-                elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, startingLocation, elevatorSpeed * Time.deltaTime);
+            distance = Mathf.Abs(elevatorPlatform.transform.position.y - startingLocation.y);
+            while (distance > .1f) {
+                elevatorPlatform.transform.position = Vector3.MoveTowards(
+                    new Vector3(elevatorPlatform.transform.position.x, elevatorPlatform.transform.position.y, elevatorPlatform.transform.position.z),
+                    new Vector3(elevatorPlatform.transform.position.x, startingLocation.y, elevatorPlatform.transform.position.z), elevatorSpeed * Time.deltaTime);
                 yield return null;
             }
         }
         goUp = false;
         goDown = false;
         elevatorIsMoving = false;
-
         wallScript.DisablePiccolo();
     }
 
