@@ -63,6 +63,8 @@ public class PlayerController : MonoBehaviour
 	Vector3 modelLateralVelocity;
 
 	[Header("Movement Settings")]
+	public GameObject snowLandingParticlePrefab;
+	GameObject[] snowLandingParticlePool;
 	public Vector3 leapingVelocity = new Vector3(0, 12.5f, 18);
 	public Vector3 snowLeapingVelocity = new Vector3(0, 8, 14);
 	public float airborneMovementSpeed = 25, snowAirborneMovementSpeed = 14, airborneMovementAcceleration = 50, airborneDecceleration = 56;
@@ -92,6 +94,13 @@ public class PlayerController : MonoBehaviour
 	void Start ()
 	{
 		rig = GetComponent<Rigidbody>();
+
+		snowLandingParticlePool = new GameObject[3];
+		for (int i = 0; i < snowLandingParticlePool.Length; i++) {
+			snowLandingParticlePool[i] = Instantiate(snowLandingParticlePrefab);
+			snowLandingParticlePool[i].hideFlags = HideFlags.HideInHierarchy;
+			snowLandingParticlePool[i].SetActive(false);
+		}
 
 		cameraRayDistance = cameraOffset.magnitude;
 		cameraYAngle = transform.rotation.eulerAngles.y;
@@ -220,12 +229,15 @@ public class PlayerController : MonoBehaviour
 		//}
 
 		//Smart Y rot
-		if (new Vector2(velocity.x, velocity.z).sqrMagnitude > 64) {
-			float angle = Vector3.SignedAngle(cameraTrans.forward, transform.rotation * velocity, Vector3.up);
-			if (angle < 0)
-				cameraYAngle -= (cameraSmartYCorrectionBase + cameraSmartYCorrectionRate * Mathf.Abs(angle) / 180) * Time.deltaTime;
-			else
-				cameraYAngle += (cameraSmartYCorrectionBase + cameraSmartYCorrectionRate * Mathf.Abs(angle) / 180) * Time.deltaTime;
+		Vector3 lateralVelocity = new Vector3(velocity.x, 0, velocity.z);
+		if (lateralVelocity.sqrMagnitude > 64) {
+			Vector3 cameraOrientation = Quaternion.Euler(0, cameraTrans.eulerAngles.y, 0) * Vector3.forward;
+			float angle = Vector3.SignedAngle(cameraOrientation, transform.rotation * lateralVelocity, Vector3.up);
+			if (angle < 0) {
+				cameraYAngle -= (cameraSmartYCorrectionRate * Mathf.Abs(angle) / 180) * Time.deltaTime;
+			} else {
+				cameraYAngle += (cameraSmartYCorrectionRate * Mathf.Abs(angle) / 180) * Time.deltaTime;
+			}
 		}
 		cameraRotation = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
 
