@@ -286,6 +286,7 @@ public class PlayerController : MonoBehaviour
 
 	void ModelRotation ()
 	{
+		//HIER BEN IK BEZIG WANT ALLES STUKKKKKKKKKKKKKKKKK
 		if (velocity.y > 0)
 			modelXRotation -= modelXRotationSpeed * Time.deltaTime;
 		else
