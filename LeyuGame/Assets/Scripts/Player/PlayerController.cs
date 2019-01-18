@@ -56,10 +56,9 @@ public class PlayerController : MonoBehaviour
 	public float creatureWallJumpSpeed = 40;
 
 	[Header("Model Rotation Settings")]
-	public float modelRotationLerpFactor = .24f;
+	public float modelXRotationSpeed = 45;
 	public float modelRotationMaximumXAngle = 40, modelRotationMinimumXAngle = -40;
-	Quaternion modelRotationDesiredRotation;
-	float modelXRotation, modelYRotation, modelZRotation;
+	float modelXRotation = 0, modelYRotation = 0;
 	Vector3 modelLateralVelocity;
 
 	[Header("Movement Settings")]
@@ -287,10 +286,10 @@ public class PlayerController : MonoBehaviour
 
 	void ModelRotation ()
 	{
-		modelXRotation = Vector3.Angle(Vector3.forward, new Vector3(0, velocity.y, velocity.z));
 		if (velocity.y > 0)
-			modelXRotation = Mathf.Abs(modelXRotation) * -1;
-		modelXRotation = Mathf.Clamp(modelXRotation, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
+			modelXRotation -= modelXRotationSpeed * Time.deltaTime;
+		else
+			modelXRotation -= modelXRotationSpeed * Time.deltaTime;
 
 		modelLateralVelocity = new Vector3(velocity.x, 0, velocity.z);
 		if (modelLateralVelocity.magnitude > .1f) {
@@ -299,11 +298,14 @@ public class PlayerController : MonoBehaviour
 				modelYRotation *= -1;
 		}
 		if (Grounded()) {
+			modelXRotation = Mathf.MoveTowards(modelXRotation, 0, modelXRotationSpeed * Time.deltaTime);
 			modelYRotation -= orientationInput.x * Time.deltaTime * cameraHorizontalSensitivity;
 		}
 
-		modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
-		dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
+		dragonModel.transform.rotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
+
+		//modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
+		//dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
 	}
 
 	void Hop ()
