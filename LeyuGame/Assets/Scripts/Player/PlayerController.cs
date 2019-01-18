@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
 	[Range(0.0f, 1.0f)]
 	public float cameraPositionSmooting = .12f, cameraTargetSmoothing = .32f;
 	public float cameraVerticalInfluenceThreshold = 14, cameraVerticalInfluenceFactor = .06f;
+	public float cameraStationaryYResetSpeed = 30, cameraStationaryXResetSpeed = 15;
 	float cameraVerticalInfluence = 0, cameraXAngle = 0, cameraYAngle = 0;
 	Vector3 cameraDesiredPosition, cameraDesiredTarget;
 	Quaternion cameraRotation;
@@ -205,12 +206,26 @@ public class PlayerController : MonoBehaviour
 	{
 		cameraYAngle += orientationInput.x * cameraHorizontalSensitivity * Time.deltaTime;
 		cameraXAngle = Mathf.Clamp(cameraXAngle - orientationInput.y * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
+		//CAMERA RESET ZN ROTATIE WANNEER SPELER STIL STAAT. NIET TEVREDEN OVER.
+		//if (velocity.sqrMagnitude <= 1) {
+		//	if (cameraYAngle != modelYRotation) {
+		//		cameraYAngle = Mathf.MoveTowards(cameraYAngle, transform.eulerAngles.y + modelYRotation, cameraStationaryYResetSpeed * Time.deltaTime);
+		//		modelYRotation = Mathf.MoveTowards(modelYRotation, 0, cameraStationaryYResetSpeed * Time.deltaTime);
+		//	}
+		//	cameraXAngle = Mathf.MoveTowards(cameraXAngle, 0, cameraStationaryXResetSpeed * Time.deltaTime);
+		//}
+		if (velocity.sqrMagnitude > 64) {
+			float angle = Vector3.SignedAngle(cameraTrans.forward, transform.rotation * velocity, Vector3.up);
+			if (angle < 0) {
+				cameraYAngle -= (8 + 94 * Mathf.Abs(angle) / 180) * Time.deltaTime;
+			} else {
+				cameraYAngle += (8 + 94 * Mathf.Abs(angle) / 180) * Time.deltaTime;
+			}
+		}
 		cameraRotation = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
 
 		if (Grounded()) {
 			transform.rotation = Quaternion.Euler(new Vector3(0, cameraYAngle, 0));
-		} else {
-
 		}
 
 		cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmooting);
@@ -352,8 +367,8 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-    //RETURN FUNCTIONS
-    bool Grounded ()
+	//RETURN FUNCTIONS
+	bool Grounded ()
 	{
 		if (groundedSuspended) {
 			return false;
@@ -378,8 +393,8 @@ public class PlayerController : MonoBehaviour
 				groundType = 3;
 			}
 
-            //beetje lelijk dit
-            canHop = true;
+			//beetje lelijk dit
+			canHop = true;
 			if (!isBuildingLaunch) {
 				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 					launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
