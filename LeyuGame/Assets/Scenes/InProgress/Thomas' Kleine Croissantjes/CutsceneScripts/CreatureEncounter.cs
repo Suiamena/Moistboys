@@ -16,8 +16,10 @@ public class CreatureEncounter : MonoBehaviour {
     GameObject creatureBeweging;
     float distanceToWaypointDraak;
     bool playerLookAtCreature = false;
+    bool playerLookAtSnowHeap = false;
     Quaternion oldDraakRot;
     Quaternion newDraakRot;
+    public GameObject playerLookAtPoint;
 
     public GameObject snowExplosionPrefab;
 
@@ -81,6 +83,10 @@ public class CreatureEncounter : MonoBehaviour {
         //Move to position on cutscene start:
         if (dragonMoveToWaypoing == true)
         {
+            if (playerLookAtSnowHeap == true)
+            {
+                player.transform.LookAt(playerLookAtPoint.transform.position);
+            }
             player.transform.position = Vector3.MoveTowards(player.transform.position, wayPointDraak.transform.position, 4f*Time.deltaTime);
             distanceToWaypointDraak = Vector3.Distance(player.transform.position, wayPointDraak.transform.position);
             print(distanceToWaypointDraak);
@@ -92,6 +98,7 @@ public class CreatureEncounter : MonoBehaviour {
                 
                 if (playerLookAtCreature == true)
                 {
+                    playerLookAtSnowHeap = false;
                     oldDraakRot = player.transform.rotation;
                     player.transform.LookAt(creature.transform.position);
                     newDraakRot = player.transform.rotation;
@@ -104,6 +111,8 @@ public class CreatureEncounter : MonoBehaviour {
 
     IEnumerator CutsceneTime()
     {
+        playerLookAtSnowHeap = true;
+
         yield return new WaitForSeconds(1f);
         dragonMoveToWaypoing = true;
 

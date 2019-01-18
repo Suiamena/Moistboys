@@ -45,7 +45,7 @@ public class PlangeMuurInteractive : MonoBehaviour
     //MANAGER
     int activePlatform = 0;
     public GameObject spawnPlatformParticle;
-    bool creatureBecamePiccolo;
+    bool creatureBecamePiccolo, sequenceIsRunning;
 
     private void Awake()
     {
@@ -97,8 +97,7 @@ public class PlangeMuurInteractive : MonoBehaviour
             }
             else if (currentCreatureLocation == gameObject.GetInstanceID()) {
                 if ((defaultCreaturePos.SquareDistance(player.transform.position) > ((flyInOutRange * flyInOutRange) * 5))) {
-                    if (!flyingRoutineRunning)
-                    {
+                    if (!flyingRoutineRunning) {
                         flyingRoutineRunning = true;
                         StartCoroutine(EndSequence());
                         StartCoroutine(FlyOut());
@@ -116,16 +115,13 @@ public class PlangeMuurInteractive : MonoBehaviour
         moustacheBoi.SetActive(true);
         MoustacheBoiAudio.PlayFlaps();
         moustacheAnimator.SetBool("isFlying", true);
-        //added *.1f
-        while (moustacheBoi.transform.position.SquareDistance(flyInPosition) > .1f)
-        {
+        while (moustacheBoi.transform.position.SquareDistance(flyInPosition) > .1f) {
             moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyInPosition, flyingSpeed * Time.deltaTime);
             yield return null;
         }
         MoustacheBoiAudio.StopFlaps();
         moustacheAnimator.SetBool("isFlying", false);
-        while (Quaternion.Angle(moustacheBoi.transform.rotation, defaultCreatureRot) > .1f)
-        {
+        while (Quaternion.Angle(moustacheBoi.transform.rotation, defaultCreatureRot) > .1f) {
             moustacheBoi.transform.rotation = Quaternion.RotateTowards(moustacheBoi.transform.rotation, defaultCreatureRot, 260 * Time.deltaTime);
             yield return null;
         }
@@ -142,8 +138,8 @@ public class PlangeMuurInteractive : MonoBehaviour
         moustacheBoi.transform.Rotate(new Vector3(-moustacheBoi.transform.eulerAngles.x, 0, -moustacheBoi.transform.eulerAngles.z));
         MoustacheBoiAudio.PlayFlaps();
         moustacheAnimator.SetBool("isFlying", true);
-        while (moustacheBoi.transform.position.SquareDistance(defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > 0.2f)
-        {
+        while (moustacheBoi.transform.position.SquareDistance(defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > 0.2f) {
+            moustacheBoi.transform.LookAt(player.transform.position);
             moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint, flyingSpeed * Time.deltaTime);
             yield return null;
         }
@@ -159,13 +155,11 @@ public class PlangeMuurInteractive : MonoBehaviour
     {
         MoustacheBoiAudio.PlayRumble();
         GamePad.SetVibration(0, .6f, .6f);
-        //Spawn platform and particles
         GameObject particle = Instantiate(spawnPlatformParticle, flyToPlatformPosition, Quaternion.Euler(0, 0, 0));
         particle.transform.rotation = platformTransforms[0].transform.rotation;
         particle.transform.Rotate(-90, 0, 0);
         particle.transform.position = platformTransforms[0].position + platformTransforms[0].transform.rotation * new Vector3(0, -2, -5);
-        for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
-        {
+        for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
             platformTransforms[0].position -= platformTransforms[0].rotation * new Vector3(0, 0, platformCreationDistance) / platformCreationTime * Time.deltaTime;
             yield return null;
         }
@@ -173,52 +167,56 @@ public class PlangeMuurInteractive : MonoBehaviour
         GamePad.SetVibration(0, .6f, .6f);
         GamePad.SetVibration(0, 0, 0);
         moustacheAnimator.SetBool("isFlying", true);
-        flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -2);
-        while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
-        {
+        flyToPlatformPosition = platformTransforms[1].position + platformTransforms[1].transform.rotation * new Vector3(0, -2, -12);
+        while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) {
             moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
             yield return null;
         }
+        sequenceIsRunning = true;
     }
 
     public void NewPlatform(bool playerOnPlatform)
     {
         activePlatform += 1;
-        StartCoroutine(CreatureFliesToPlatform());
+        if (activePlatform < platformTransforms.Count - 1) {
+            StartCoroutine(CreatureSpawnsPlatform(activePlatform));
+        } else {
+            moustacheAnimator.SetBool("isFlying", false);
+        }
     }
 
     IEnumerator CreatureFliesToPlatform()
     {
         if (creatureBecamePiccolo) {
-
         } else {
             if (activePlatform < platformTransforms.Count - 1) {
-                flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -12);
+                flyToPlatformPosition = platformTransforms[activePlatform + 1].position + platformTransforms[activePlatform + 1].transform.rotation * new Vector3(0, -2, -12);
             } else {
                 flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, 0, 0);
+                moustacheAnimator.SetBool("isFlying", false);
             }
             while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) {
+                moustacheBoi.transform.LookAt(player.transform.position);
                 moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
                 yield return null;
-            }
-            if (activePlatform < platformTransforms.Count - 1) {
-                StartCoroutine(CreatureSpawnsPlatform(activePlatform));
-            } else { 
-                moustacheAnimator.SetBool("isFlying", false);
             }
         }
     }
 
     IEnumerator CreatureSpawnsPlatform(int currentPlatform)
     {
+        PlatformType platformTypeScript;
+        platformTypeScript = platformTransforms[currentPlatform].GetComponent<PlatformType>();
+        if (platformTypeScript.platformIsElevator) {
+            creatureBecamePiccolo = true;
+        }
+        //FLY TO NEXT PLATFORM
+        if (!creatureBecamePiccolo) {
+            StartCoroutine(CreatureFliesToPlatform());
+        }
+
         GameObject particle = Instantiate(spawnPlatformParticle, flyToPlatformPosition, Quaternion.Euler(0, 5, 5));
         for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
-            PlatformType platformTypeScript;
-            platformTypeScript = platformTransforms[currentPlatform].GetComponent<PlatformType>();
-            if (platformTypeScript.platformIsElevator)
-            {
-                creatureBecamePiccolo = true;
-            }
             if (platformTypeScript.emergeFromTheGround) {
                 platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, -platformCreationDistance, 0) / platformCreationTime * Time.deltaTime;
             } else {
@@ -227,11 +225,9 @@ public class PlangeMuurInteractive : MonoBehaviour
             yield return null;
         }
         platformTransforms[currentPlatform].position = platformDefaultPositions[currentPlatform];
-        if (creatureBecamePiccolo)
-        {
-            int temp = activePlatform;
-            while (temp <= activePlatform)
-            {
+        //PICCOLO
+        if (creatureBecamePiccolo) {
+            while (creatureBecamePiccolo) {
                 moustacheAnimator.SetBool("isFlying", false);
                 moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, player.transform.position.y, moustacheBoi.transform.position.z);
                 yield return null;
@@ -239,8 +235,19 @@ public class PlangeMuurInteractive : MonoBehaviour
         }
     }
 
+    public void DisablePiccolo()
+    {
+        if (sequenceIsRunning) {
+            creatureBecamePiccolo = false;
+            moustacheAnimator.SetBool("isFlying", true);
+            StartCoroutine(CreatureFliesToPlatform());
+        }
+    }
+
     IEnumerator EndSequence()
     {
+        sequenceIsRunning = false;
+        creatureBecamePiccolo = false;
         activePlatform = 0;
         for (int i = 0; i < platformTransforms.Count - 1; i++)
         {
@@ -249,24 +256,17 @@ public class PlangeMuurInteractive : MonoBehaviour
             DetectPlayerOnPlatform detectPlayerScript;
             detectPlayerScript = platformTransforms[i].GetComponentInChildren<DetectPlayerOnPlatform>();
             detectPlayerScript.playerOnPlatform = false;
-            for (float t = 0; t < platformCreationTime; t += Time.deltaTime)
-            {
-                if (platformTypeScript.emergeFromTheGround)
-                {
+            for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
+                if (platformTypeScript.emergeFromTheGround) {
                     platformTransforms[i].position -= platformTransforms[i].rotation * new Vector3(0, platformCreationDistance, 0) / platformCreationTime * Time.deltaTime;
-                }
-                else
-                {
+                } else {
                     platformTransforms[i].position -= platformTransforms[i].rotation * new Vector3(0, 0, -platformCreationDistance) / platformCreationTime * Time.deltaTime;
                 }
                 yield return null;
             }
-            if (platformTypeScript.emergeFromTheGround)
-            {
+            if (platformTypeScript.emergeFromTheGround) {
                 platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, -platformCreationDistance, 0);
-            }
-            else
-            {
+            } else {
                 platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
             }
         }
