@@ -17,7 +17,7 @@ public class EndWallInteractive : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            wallScript.StartEndSequence();
+            //wallScript.StartEndSequence();
         }
     }
 

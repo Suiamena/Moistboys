@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class PlatformType : MonoBehaviour {
 
-    public bool emergeFromTheGround;
+    public bool emergeFromTheGround, platformIsElevator;
 
 }

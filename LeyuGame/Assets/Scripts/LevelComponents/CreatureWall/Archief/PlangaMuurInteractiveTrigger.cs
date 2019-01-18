@@ -17,7 +17,7 @@ public class PlangaMuurInteractiveTrigger : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            wallScript.StartJump();
+            //wallScript.StartJump();
         }
     }
 
