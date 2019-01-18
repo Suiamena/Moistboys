@@ -44,7 +44,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
     {
         //landingIndicatorObject.SetActive(false);
         StartCoroutine(CutsceneTime());
-        controllerSwitch.enabled = false;
+        controllerSwitch.DisablePlayer();
         playerBody.velocity = new Vector3(0, playerBody.velocity.y, 0);
         if (playerBody.velocity.y > 0)
         {
@@ -86,9 +86,8 @@ public class DragonAbilityGetScript : MonoBehaviour {
         abilityAnim.enabled = false;
         movingToCreature = true;
 
-        yield return new WaitForSeconds(2F);
-        yield return new WaitForSeconds(2f);
-        controllerSwitch.enabled = true;
+        yield return new WaitForSeconds(4f);
+        controllerSwitch.EnablePlayer();
         Level3Music.startMusic = true;
 
         controllerSwitch.launchEnabled = true;
