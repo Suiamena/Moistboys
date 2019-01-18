@@ -139,6 +139,7 @@ public class PlangeMuurInteractive : MonoBehaviour
         MoustacheBoiAudio.PlayFlaps();
         moustacheAnimator.SetBool("isFlying", true);
         while (moustacheBoi.transform.position.SquareDistance(defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > 0.2f) {
+            moustacheBoi.transform.LookAt(player.transform.position);
             moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint, flyingSpeed * Time.deltaTime);
             yield return null;
         }
@@ -192,8 +193,10 @@ public class PlangeMuurInteractive : MonoBehaviour
                 flyToPlatformPosition = platformTransforms[activePlatform + 1].position + platformTransforms[activePlatform + 1].transform.rotation * new Vector3(0, -2, -12);
             } else {
                 flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, 0, 0);
+                moustacheAnimator.SetBool("isFlying", false);
             }
             while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) {
+                moustacheBoi.transform.LookAt(player.transform.position);
                 moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
                 yield return null;
             }
