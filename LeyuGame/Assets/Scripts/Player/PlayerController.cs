@@ -32,10 +32,14 @@ public class PlayerController : MonoBehaviour
 	[Range(0.0f, 1.0f)]
 	public float cameraPositionSmooting = .12f, cameraTargetSmoothing = .32f;
 	public float cameraVerticalInfluenceThreshold = 14, cameraVerticalInfluenceFactor = .06f;
+	public float cameraStationaryYResetSpeed = 30, cameraStationaryXResetSpeed = 15;
+	public float cameraSmartYCorrectionBase = 12, cameraSmartYCorrectionRate = 140;
 	float cameraVerticalInfluence = 0, cameraXAngle = 0, cameraYAngle = 0;
 	Vector3 cameraDesiredPosition, cameraDesiredTarget;
 	Quaternion cameraRotation;
 	RaycastHit cameraRayHit;
+	float cameraRayDistance, cameraObstacleAvoidanceOffset = 0, cameraObstacleAvoidanceMaxOffset = 1.1f, cameraObstacleAvoidanceOffsetLerp = .1f;
+	bool cameraObstacleDetected = false;
 
 	[Header("Launch Settings")]
 	public bool launchEnabled = true;
@@ -89,6 +93,7 @@ public class PlayerController : MonoBehaviour
 	{
 		rig = GetComponent<Rigidbody>();
 
+		cameraRayDistance = cameraOffset.magnitude;
 		cameraYAngle = transform.rotation.eulerAngles.y;
 		cameraDesiredPosition = transform.position + transform.rotation * cameraOffset;
 		cameraTrans.position = cameraDesiredPosition;
@@ -205,19 +210,42 @@ public class PlayerController : MonoBehaviour
 	{
 		cameraYAngle += orientationInput.x * cameraHorizontalSensitivity * Time.deltaTime;
 		cameraXAngle = Mathf.Clamp(cameraXAngle - orientationInput.y * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
+		//CAMERA RESET ZN ROTATIE WANNEER SPELER STIL STAAT. NIET TEVREDEN OVER.
+		//if (velocity.sqrMagnitude <= 1) {
+		//	if (cameraYAngle != modelYRotation) {
+		//		cameraYAngle = Mathf.MoveTowards(cameraYAngle, transform.eulerAngles.y + modelYRotation, cameraStationaryYResetSpeed * Time.deltaTime);
+		//		modelYRotation = Mathf.MoveTowards(modelYRotation, 0, cameraStationaryYResetSpeed * Time.deltaTime);
+		//	}
+		//	cameraXAngle = Mathf.MoveTowards(cameraXAngle, 0, cameraStationaryXResetSpeed * Time.deltaTime);
+		//}
+
+		//Smart Y rot
+		if (new Vector2(velocity.x, velocity.z).sqrMagnitude > 64) {
+			float angle = Vector3.SignedAngle(cameraTrans.forward, transform.rotation * velocity, Vector3.up);
+			if (angle < 0)
+				cameraYAngle -= (cameraSmartYCorrectionBase + cameraSmartYCorrectionRate * Mathf.Abs(angle) / 180) * Time.deltaTime;
+			else
+				cameraYAngle += (cameraSmartYCorrectionBase + cameraSmartYCorrectionRate * Mathf.Abs(angle) / 180) * Time.deltaTime;
+		}
 		cameraRotation = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
 
 		if (Grounded()) {
 			transform.rotation = Quaternion.Euler(new Vector3(0, cameraYAngle, 0));
-		} else {
-
 		}
 
 		cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmooting);
 
-		if (Physics.Raycast(transform.position, Quaternion.Euler(cameraXAngle, cameraYAngle, 0) * cameraOffset, out cameraRayHit, Vector3.Distance(Vector3.zero, cameraOffset), triggerMask)) {
-			cameraTrans.position = cameraRayHit.point + cameraTrans.forward * .4f;
+		//Camera Obstacle Avoidance
+		Quaternion cameraRayRot = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
+		if (cameraObstacleDetected)
+			cameraObstacleAvoidanceOffset = Mathf.Lerp(cameraObstacleAvoidanceOffset, cameraObstacleAvoidanceMaxOffset, cameraObstacleAvoidanceOffsetLerp);
+		else
+			cameraObstacleAvoidanceOffset = Mathf.Lerp(cameraObstacleAvoidanceOffset, 0, cameraObstacleAvoidanceOffsetLerp);
+		if (Physics.Raycast(transform.position, cameraRayRot * cameraOffset, out cameraRayHit, cameraRayDistance, triggerMask)) {
+			cameraObstacleDetected = true;
+			cameraTrans.position = cameraRayHit.point + cameraTrans.forward * (cameraObstacleAvoidanceOffset);
 		} else {
+			cameraObstacleDetected = false;
 			cameraTrans.position = cameraDesiredPosition;
 		}
 
@@ -352,8 +380,8 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-    //RETURN FUNCTIONS
-    bool Grounded ()
+	//RETURN FUNCTIONS
+	bool Grounded ()
 	{
 		if (groundedSuspended) {
 			return false;
@@ -378,8 +406,8 @@ public class PlayerController : MonoBehaviour
 				groundType = 3;
 			}
 
-            //beetje lelijk dit
-            canHop = true;
+			//beetje lelijk dit
+			canHop = true;
 			if (!isBuildingLaunch) {
 				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 					launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
@@ -430,7 +458,10 @@ public class PlayerController : MonoBehaviour
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
 		}
-		//transform.rotation = Quaternion.Euler(0, 0, 0);
+		transform.rotation = Quaternion.Euler(0, 0, 0);
+		dragonModel.transform.rotation = Quaternion.identity;
+		modelYRotation = 0;
+		modelXRotation = 0;
 		rig.velocity = Vector3.zero;
 		cameraTrans.gameObject.SetActive(!disableCamera);
 		enabled = false;
