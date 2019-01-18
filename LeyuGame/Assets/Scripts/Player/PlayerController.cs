@@ -33,10 +33,13 @@ public class PlayerController : MonoBehaviour
 	public float cameraPositionSmooting = .12f, cameraTargetSmoothing = .32f;
 	public float cameraVerticalInfluenceThreshold = 14, cameraVerticalInfluenceFactor = .06f;
 	public float cameraStationaryYResetSpeed = 30, cameraStationaryXResetSpeed = 15;
+	public float cameraSmartYCorrectionBase = 12, cameraSmartYCorrectionRate = 140;
 	float cameraVerticalInfluence = 0, cameraXAngle = 0, cameraYAngle = 0;
 	Vector3 cameraDesiredPosition, cameraDesiredTarget;
 	Quaternion cameraRotation;
 	RaycastHit cameraRayHit;
+	float cameraRayDistance, cameraObstacleAvoidanceOffset = 0, cameraObstacleAvoidanceMaxOffset = 1.1f, cameraObstacleAvoidanceOffsetLerp = .1f;
+	bool cameraObstacleDetected = false;
 
 	[Header("Launch Settings")]
 	public bool launchEnabled = true;
@@ -60,6 +63,8 @@ public class PlayerController : MonoBehaviour
 	Vector3 modelLateralVelocity;
 
 	[Header("Movement Settings")]
+	public GameObject snowLandingParticlePrefab;
+	GameObject[] snowLandingParticlePool;
 	public Vector3 leapingVelocity = new Vector3(0, 12.5f, 18);
 	public Vector3 snowLeapingVelocity = new Vector3(0, 8, 14);
 	public float airborneMovementSpeed = 25, snowAirborneMovementSpeed = 14, airborneMovementAcceleration = 50, airborneDecceleration = 56;
@@ -90,6 +95,14 @@ public class PlayerController : MonoBehaviour
 	{
 		rig = GetComponent<Rigidbody>();
 
+		snowLandingParticlePool = new GameObject[6];
+		for (int i = 0; i < snowLandingParticlePool.Length; i++) {
+			snowLandingParticlePool[i] = Instantiate(snowLandingParticlePrefab);
+			snowLandingParticlePool[i].hideFlags = HideFlags.HideInHierarchy;
+			snowLandingParticlePool[i].SetActive(false);
+		}
+
+		cameraRayDistance = cameraOffset.magnitude;
 		cameraYAngle = transform.rotation.eulerAngles.y;
 		cameraDesiredPosition = transform.position + transform.rotation * cameraOffset;
 		cameraTrans.position = cameraDesiredPosition;
@@ -206,6 +219,7 @@ public class PlayerController : MonoBehaviour
 	{
 		cameraYAngle += orientationInput.x * cameraHorizontalSensitivity * Time.deltaTime;
 		cameraXAngle = Mathf.Clamp(cameraXAngle - orientationInput.y * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
+		
 		//CAMERA RESET ZN ROTATIE WANNEER SPELER STIL STAAT. NIET TEVREDEN OVER.
 		//if (velocity.sqrMagnitude <= 1) {
 		//	if (cameraYAngle != modelYRotation) {
@@ -214,12 +228,16 @@ public class PlayerController : MonoBehaviour
 		//	}
 		//	cameraXAngle = Mathf.MoveTowards(cameraXAngle, 0, cameraStationaryXResetSpeed * Time.deltaTime);
 		//}
-		if (velocity.sqrMagnitude > 64) {
-			float angle = Vector3.SignedAngle(cameraTrans.forward, transform.rotation * velocity, Vector3.up);
+
+		//Smart Y rot
+		Vector3 lateralVelocity = new Vector3(velocity.x, 0, velocity.z);
+		if (lateralVelocity.sqrMagnitude > 64) {
+			Vector3 cameraOrientation = Quaternion.Euler(0, cameraTrans.eulerAngles.y, 0) * Vector3.forward;
+			float angle = Vector3.SignedAngle(cameraOrientation, transform.rotation * lateralVelocity, Vector3.up);
 			if (angle < 0) {
-				cameraYAngle -= (8 + 94 * Mathf.Abs(angle) / 180) * Time.deltaTime;
+				cameraYAngle -= (cameraSmartYCorrectionRate * Mathf.Abs(angle) / 180) * Time.deltaTime;
 			} else {
-				cameraYAngle += (8 + 94 * Mathf.Abs(angle) / 180) * Time.deltaTime;
+				cameraYAngle += (cameraSmartYCorrectionRate * Mathf.Abs(angle) / 180) * Time.deltaTime;
 			}
 		}
 		cameraRotation = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
@@ -230,9 +248,17 @@ public class PlayerController : MonoBehaviour
 
 		cameraDesiredPosition = Vector3.Lerp(cameraTrans.position, transform.position + cameraRotation * cameraOffset, cameraPositionSmooting);
 
-		if (Physics.Raycast(transform.position, Quaternion.Euler(cameraXAngle, cameraYAngle, 0) * cameraOffset, out cameraRayHit, Vector3.Distance(Vector3.zero, cameraOffset), triggerMask)) {
-			cameraTrans.position = cameraRayHit.point + cameraTrans.forward * .4f;
+		//Camera Obstacle Avoidance
+		Quaternion cameraRayRot = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
+		if (cameraObstacleDetected)
+			cameraObstacleAvoidanceOffset = Mathf.Lerp(cameraObstacleAvoidanceOffset, cameraObstacleAvoidanceMaxOffset, cameraObstacleAvoidanceOffsetLerp);
+		else
+			cameraObstacleAvoidanceOffset = Mathf.Lerp(cameraObstacleAvoidanceOffset, 0, cameraObstacleAvoidanceOffsetLerp);
+		if (Physics.Raycast(transform.position, cameraRayRot * cameraOffset, out cameraRayHit, cameraRayDistance, triggerMask)) {
+			cameraObstacleDetected = true;
+			cameraTrans.position = cameraRayHit.point + cameraTrans.forward * (cameraObstacleAvoidanceOffset);
 		} else {
+			cameraObstacleDetected = false;
 			cameraTrans.position = cameraDesiredPosition;
 		}
 
@@ -308,6 +334,14 @@ public class PlayerController : MonoBehaviour
 				if (groundType == 1.5f) {
 					if (!waitForBounceRoutineRunning) {
 						waitForBounceRoutineRunning = true;
+						foreach (GameObject g in snowLandingParticlePool) {
+							if (!g.activeSelf) {
+								g.transform.position = transform.position - Vector3.up * .5f;
+								g.SetActive(true);
+								StartCoroutine(DisableSnowLandingParticle(g));
+								break;
+							}
+						}
 						StartCoroutine(BouncePause());
 					}
 				} else {
@@ -445,7 +479,10 @@ public class PlayerController : MonoBehaviour
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
 		}
-		//transform.rotation = Quaternion.Euler(0, 0, 0);
+		transform.rotation = Quaternion.Euler(0, 0, 0);
+		dragonModel.transform.rotation = Quaternion.identity;
+		modelYRotation = 0;
+		modelXRotation = 0;
 		rig.velocity = Vector3.zero;
 		cameraTrans.gameObject.SetActive(!disableCamera);
 		enabled = false;
@@ -466,6 +503,12 @@ public class PlayerController : MonoBehaviour
 	{
 		yield return new WaitForSeconds(.05f);
 		waitingForNextBounce = waitForBounceRoutineRunning = false;
+	}
+
+	IEnumerator DisableSnowLandingParticle (GameObject go)
+	{
+		yield return new WaitForSeconds(go.GetComponent<ParticleSystem>().main.duration);
+		go.SetActive(false);
 	}
 
 	IEnumerator LaunchRoutine ()
