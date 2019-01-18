@@ -14,7 +14,12 @@ public class CreatureEncounter : MonoBehaviour {
     GameObject wayPointDraak;
     GameObject creature;
     GameObject creatureBeweging;
-    Vector3 distanceToWaypointDraak;
+    float distanceToWaypointDraak;
+    bool playerLookAtCreature = false;
+    bool playerLookAtSnowHeap = false;
+    Quaternion oldDraakRot;
+    Quaternion newDraakRot;
+    public GameObject playerLookAtPoint;
 
     public GameObject snowExplosionPrefab;
 
@@ -63,9 +68,9 @@ public class CreatureEncounter : MonoBehaviour {
         {
             playerBody.velocity = new Vector3(0, playerBody.velocity.y *-3, 0);
         }
-        playerAnim.SetBool("IsLaunching",false);
+        //playerAnim.SetBool("IsLaunching",false);
         //playerAnim.SetBool("IsBouncing", false);
-        playerAnim.SetBool("IsAirborne", false);
+        //playerAnim.SetBool("IsAirborne", false);
 
         //Teleport to position on cutscene start:
         //player.transform.position = wayPointDraak.transform.position;
@@ -78,16 +83,27 @@ public class CreatureEncounter : MonoBehaviour {
         //Move to position on cutscene start:
         if (dragonMoveToWaypoing == true)
         {
-            player.transform.position = Vector3.MoveTowards(player.transform.position, wayPointDraak.transform.position, 4f*Time.deltaTime);
-            distanceToWaypointDraak = player.transform.position - wayPointDraak.transform.position;
-            distanceToWaypointDraak = new Vector3(Mathf.Abs(distanceToWaypointDraak.x), distanceToWaypointDraak.y, distanceToWaypointDraak.z);
-            if (distanceToWaypointDraak.x < 0.5f)
+            if (playerLookAtSnowHeap == true)
             {
-                playerAnim.SetBool("IsBouncing", false);
+                player.transform.LookAt(playerLookAtPoint.transform.position);
             }
-            else
+            player.transform.position = Vector3.MoveTowards(player.transform.position, wayPointDraak.transform.position, 4f*Time.deltaTime);
+            distanceToWaypointDraak = Vector3.Distance(player.transform.position, wayPointDraak.transform.position);
+            print(distanceToWaypointDraak);
+            //distanceToWaypointDraak = player.transform.position - wayPointDraak.transform.position;
+            //distanceToWaypointDraak = new Vector3(Mathf.Abs(distanceToWaypointDraak.x), distanceToWaypointDraak.y, distanceToWaypointDraak.z);
+            if (distanceToWaypointDraak < 0.5f)
             {
-                player.transform.LookAt(creature.transform.position);
+                //playerAnim.SetBool("curiousLook", true);
+                
+                if (playerLookAtCreature == true)
+                {
+                    playerLookAtSnowHeap = false;
+                    oldDraakRot = player.transform.rotation;
+                    player.transform.LookAt(creature.transform.position);
+                    newDraakRot = player.transform.rotation;
+                    player.transform.rotation = Quaternion.Lerp(oldDraakRot, newDraakRot, 0.1f);
+                }
             }
         }
 
@@ -95,6 +111,8 @@ public class CreatureEncounter : MonoBehaviour {
 
     IEnumerator CutsceneTime()
     {
+        playerLookAtSnowHeap = true;
+
         yield return new WaitForSeconds(1f);
         dragonMoveToWaypoing = true;
 
@@ -102,6 +120,7 @@ public class CreatureEncounter : MonoBehaviour {
 
         creatureBewegingAnim.SetBool("isPlaying", true); //2.04 seconden voor dat de keyframes het creature omhoog uit de sneeuw verplaatsen
         creatureAnim.SetBool("isFlying", true); // op seconde 2.04 moet het creature uit e sneeuw bewegen.
+        playerAnim.SetBool("curiousLook", true);
 
         // pas na 2.04 seconde moet dus alles gebeuren.
         yield return new WaitForSeconds(1f); // 8sec into cutscene
@@ -113,6 +132,9 @@ public class CreatureEncounter : MonoBehaviour {
         Destroy(destructibleBoi);
         creatureAnim.SetBool("isFlying", false);
         creatureAnim.SetBool("isFlop", true);
+
+        //yield return new WaitForSeconds(0.2f);
+        playerLookAtCreature = true;
 
         yield return new WaitForSeconds(3f); // 11 sec into cutscene
         creatureAnim.SetBool("isFlop", false);
@@ -153,7 +175,7 @@ public class CreatureEncounter : MonoBehaviour {
         }
 
         cameraDistance = Vector3.Distance(cutsceneCamera.transform.position, playerCamera.transform.position);
-        print(cameraDistance);
+        //print(cameraDistance);
 
         if (cameraDistance < 0.01f)
         {
