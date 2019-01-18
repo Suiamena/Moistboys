@@ -1936,8 +1936,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1625656965695350}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 759.8, y: 55.3, z: 513.1}
+  m_LocalRotation: {x: -0, y: 0.69926023, z: -0, w: 0.7148673}
+  m_LocalPosition: {x: -456.02774, y: 218.489, z: 375.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4624373607199524}
@@ -2689,6 +2689,10 @@ MonoBehaviour:
   cameraTargetSmoothing: 0.32
   cameraVerticalInfluenceThreshold: 16
   cameraVerticalInfluenceFactor: 0.05
+  cameraStationaryYResetSpeed: 30
+  cameraStationaryXResetSpeed: 15
+  cameraSmartYCorrectionBase: 12
+  cameraSmartYCorrectionRate: 140
   launchEnabled: 0
   launchStageTwoTime: 0.7
   launchStageOneForce: {x: 0, y: 35, z: 10}
@@ -2701,6 +2705,8 @@ MonoBehaviour:
   modelRotationLerpFactor: 0.12
   modelRotationMaximumXAngle: 20
   modelRotationMinimumXAngle: -40
+  snowLandingParticlePrefab: {fileID: 1055422880598436, guid: 1c5fd2ff9a7296f42b3325e819b24de1,
+    type: 2}
   leapingVelocity: {x: 0, y: 12.5, z: 18}
   snowLeapingVelocity: {x: 0, y: 8, z: 14}
   airborneMovementSpeed: 25
@@ -2757,7 +2763,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1420076219880442}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12601acaf9af72343b85bace4eb57570, type: 3}
   m_Name: 
