@@ -4,60 +4,76 @@ using UnityEngine;
 
 public class ElevatorPlatform : MonoBehaviour {
 
-    bool goingUp, goingDown, playerIsOnElevator;
+    bool goUp, goDown, elevatorIsMoving;
     public int elevatorSpeed;
 
     public GameObject elevatorPlatform;
     public GameObject nextLocation;
+    public GameObject wallObject;
+    PlangeMuurInteractive wallScript;
 
     Vector3 startingLocation;
+    bool startingLocationSet;
+
+    //REWRITE ALL!
 
     private void Awake()
     {
-        startingLocation = elevatorPlatform.transform.position;
+        wallScript = wallObject.GetComponent<PlangeMuurInteractive>();
         nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3, nextLocation.transform.position.z);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        playerIsOnElevator = true;
-        if (!goingDown && playerIsOnElevator)
+        if (!startingLocationSet)
         {
-            goingUp = true;
-            StartCoroutine(MoveUp());
+            startingLocation = elevatorPlatform.transform.position;
+            startingLocationSet = true;
+        }
+
+        if (!elevatorIsMoving)
+        {
+            goUp = true;
+            elevatorIsMoving = true;
+            StartCoroutine(Move());
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        playerIsOnElevator = false;
-        if (!goingUp && !playerIsOnElevator)
+        if (!elevatorIsMoving)
         {
-            goingDown = true;
-            StartCoroutine(GoDown());
+            goDown = true;
+            elevatorIsMoving = true;
+            StartCoroutine(Move());
         }
     }
 
-    IEnumerator MoveUp()
+    IEnumerator Move()
     {
-        while ((elevatorPlatform.transform.position.SquareDistance(nextLocation.transform.position) > .1f))
+        if (goUp)
         {
-            elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, nextLocation.transform.position, elevatorSpeed * Time.deltaTime);
-            yield return null;
+            while ((elevatorPlatform.transform.position.SquareDistance(nextLocation.transform.position) > .1f))
+            {
+                elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, nextLocation.transform.position, elevatorSpeed * Time.deltaTime);
+                yield return null;
+            }
         }
-        goingUp = false;
-        StartCoroutine(GoDown());
-    }
+        if (goDown)
+        {
+            yield return new WaitForSeconds(1f);
+            while ((elevatorPlatform.transform.position.SquareDistance(startingLocation) > .1f))
+            {
 
-    IEnumerator GoDown()
-    {
-        yield return new WaitForSeconds(1f);
-        while ((elevatorPlatform.transform.position.SquareDistance(startingLocation) > .1f))
-        {
-            elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, startingLocation, elevatorSpeed * Time.deltaTime);
-            yield return null;
+                elevatorPlatform.transform.position = Vector3.MoveTowards(elevatorPlatform.transform.position, startingLocation, elevatorSpeed * Time.deltaTime);
+                yield return null;
+            }
         }
-        goingDown = false;
+        goUp = false;
+        goDown = false;
+        elevatorIsMoving = false;
+
+        wallScript.DisablePiccolo();
     }
 
 }
