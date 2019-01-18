@@ -53,7 +53,7 @@ public class ElevatorPlatform : MonoBehaviour {
         if (goUp) {
             distance = Mathf.Abs(elevatorPlatform.transform.position.y - nextLocation.transform.position.y);
             while (distance > .1f) {
-                player.transform.rotation = Quaternion.Euler(90, 0, 90);
+                //player.transform.rotation = Quaternion.Euler(40, 0, 40);
                 distance = Mathf.Abs(elevatorPlatform.transform.position.y - nextLocation.transform.position.y);
                 elevatorPlatform.transform.position = Vector3.MoveTowards(
                     new Vector3(elevatorPlatform.transform.position.x, elevatorPlatform.transform.position.y, elevatorPlatform.transform.position.z),
