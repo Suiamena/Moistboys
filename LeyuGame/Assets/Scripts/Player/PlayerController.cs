@@ -218,7 +218,9 @@ public class PlayerController : MonoBehaviour
 		//	}
 		//	cameraXAngle = Mathf.MoveTowards(cameraXAngle, 0, cameraStationaryXResetSpeed * Time.deltaTime);
 		//}
-		if (velocity.sqrMagnitude > 64) {
+
+		//Smart Y rot
+		if (new Vector2(velocity.x, velocity.z).sqrMagnitude > 64) {
 			float angle = Vector3.SignedAngle(cameraTrans.forward, transform.rotation * velocity, Vector3.up);
 			if (angle < 0)
 				cameraYAngle -= (cameraSmartYCorrectionBase + cameraSmartYCorrectionRate * Mathf.Abs(angle) / 180) * Time.deltaTime;
