@@ -183,6 +183,7 @@ public class PlangeMuurInteractive : MonoBehaviour
                 readyForSequence = true;
                 break;
             case PreSequenceActivities.Waggle:
+                Debug.Log("waggle");
                 wagglePrefab.GetComponent<ISocialEncounter>().Initialize(() => {
                     wagglePrefab.GetComponent<ISocialEncounter>().Execute(() => {
                         wagglePrefab.GetComponent<ISocialEncounter>().End(() => {
