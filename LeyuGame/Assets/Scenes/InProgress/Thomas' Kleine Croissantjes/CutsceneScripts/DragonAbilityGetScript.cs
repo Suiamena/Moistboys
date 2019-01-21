@@ -43,10 +43,11 @@ public class DragonAbilityGetScript : MonoBehaviour {
     //float windStormStrength, particlesSpeed;
     //bool accelerateSnowstorm;
     [Header("Particle Settings")]
-    public GameObject snowParticlesWindObject;
+    public GameObject snowParticles;
     ParticleSystem snowParticlesSystem;
     ParticleSystem.EmissionModule emissionModule;
     ParticleSystem.MainModule main;
+    public float stormIntensity;
 
     void Start ()
     {
@@ -71,6 +72,10 @@ public class DragonAbilityGetScript : MonoBehaviour {
         image.color = tempColor;
 
         cutsceneCollider = GetComponent<SphereCollider>();
+
+        snowParticlesSystem = snowParticles.GetComponent<ParticleSystem>();
+        emissionModule = snowParticlesSystem.emission;
+        main = snowParticlesSystem.main;
     }
 
     void OnTriggerEnter()
@@ -117,6 +122,9 @@ public class DragonAbilityGetScript : MonoBehaviour {
             var tempColor = image.color;
             tempColor.a += 0.0028f;
             image.color = tempColor;
+
+            stormIntensity += 10f;
+            emissionModule.rateOverTime = stormIntensity;
         }
     }
 
@@ -136,9 +144,6 @@ public class DragonAbilityGetScript : MonoBehaviour {
         Level3Music.startMusic = true;
         Destroy(abilityPickUp);
         cutsceneCollider.enabled = false;
-
-        //sneeuwstormTrigger.SetActive(true);
-        //Destroy(gameObject);
         FadingToWhite = true;
 
         while (image.color.a < 1)
