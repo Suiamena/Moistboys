@@ -45,7 +45,7 @@ public class PlangeMuurInteractive : MonoBehaviour
     //MANAGER
     int activePlatform = 0;
     public GameObject spawnPlatformParticle;
-    bool creatureBecamePiccolo, sequenceIsRunning;
+    public bool sequenceIsRunning, creatureBecamePiccolo;
 
     private void Awake()
     {
@@ -225,19 +225,7 @@ public class PlangeMuurInteractive : MonoBehaviour
             yield return null;
         }
         platformTransforms[currentPlatform].position = platformDefaultPositions[currentPlatform];
-        //PICCOLO
-        if (creatureBecamePiccolo) {
-            while (creatureBecamePiccolo) {
-                moustacheAnimator.SetBool("isFlying", false);
-
-                //dit naar de elevator!
-                moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, player.transform.position.y, moustacheBoi.transform.position.z);
-                yield return null;
-            }
-        }
     }
-
-    //PICCOLO FUNCTIE
 
     public void DisablePiccolo()
     {
