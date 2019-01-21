@@ -304,7 +304,7 @@ public class PlayerController : MonoBehaviour
 			modelYRotation -= orientationInput.x * Time.deltaTime * cameraHorizontalSensitivity;
 		}
 
-		Debug.Log(modelXRotation);
+		//Debug.Log(modelXRotation);
 		dragonModel.transform.rotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
 
 		//modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);

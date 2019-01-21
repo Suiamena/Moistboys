@@ -39,7 +39,7 @@ Shader "SHAD_Creature_Glow"
 			float2 uv_TEX_Creature = i.uv_texcoord * _TEX_Creature_ST.xy + _TEX_Creature_ST.zw;
 			o.Albedo = tex2D( _TEX_Creature, uv_TEX_Creature ).rgb;
 			float2 uv_TextureSample1 = i.uv_texcoord * _TextureSample1_ST.xy + _TextureSample1_ST.zw;
-			o.Emission = ( ( _Color0 * tex2D( _TextureSample1, uv_TextureSample1 ) ) * (0.0 + (sin( ( _Time.y * _PulseSpeed ) ) - 0.0) * (1.0 - 0.0) / (1.0 - 0.0)) * _GlowStrength ).rgb;
+			o.Emission = ( ( _Color0 * tex2D( _TextureSample1, uv_TextureSample1 ) ) * (0.7 + (sin( ( _Time.y * _PulseSpeed ) ) - 0.0) * (1.0 - 0.7) / (1.0 - 0.0)) * _GlowStrength ).rgb;
 			o.Alpha = 1;
 		}
 
@@ -50,14 +50,14 @@ Shader "SHAD_Creature_Glow"
 }
 /*ASEBEGIN
 Version=16100
-293.6;182.4;986;576;1470.386;381.2915;1.762169;True;True
+2265;100;1294;738;1406.03;308.3205;1.3;True;True
 Node;AmplifyShaderEditor.SimpleTimeNode;17;-1471.621,280.1144;Float;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;18;-1462.842,385.4417;Float;False;Property;_PulseSpeed;PulseSpeed;2;0;Create;True;0;0;False;0;1;2;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;19;-1197.33,264.754;Float;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SinOpNode;20;-892.3188,227.4508;Float;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;16;-811.1503,-28.25554;Float;True;Property;_TextureSample1;Texture Sample 1;1;0;Create;True;0;0;False;0;400a34856b35e3441a75ef0aca7fb442;400a34856b35e3441a75ef0aca7fb442;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ColorNode;22;-779.6809,-277.4409;Float;False;Property;_Color0;Color 0;3;0;Create;True;0;0;False;0;0,1,0.990005,0;0.1529412,0.6509804,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TFHCRemapNode;21;-612.4454,240.6167;Float;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;21;-612.4454,240.6167;Float;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0.7;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;23;-379.9509,-135.6012;Float;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;24;-497.8794,550.4375;Float;False;Property;_GlowStrength;GlowStrength;4;0;Create;True;0;0;False;0;1;2;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;25;-229.739,-62.16808;Float;False;3;3;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;COLOR;0
@@ -75,4 +75,4 @@ WireConnection;25;2;24;0
 WireConnection;0;0;15;0
 WireConnection;0;2;25;0
 ASEEND*/
-//CHKSM=976B14AC95D2F49391694C500290ECC25F89ADE7
+//CHKSM=71405256C7F0232FE7B9B929556B910654E0F6B1
