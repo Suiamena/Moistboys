@@ -286,7 +286,6 @@ public class PlayerController : MonoBehaviour
 
 	void ModelRotation ()
 	{
-		//HIER BEN IK BEZIG WANT ALLES STUKKKKKKKKKKKKKKKKK
 		if (velocity.y > 0)
 			modelXRotation += -modelXRotationSpeed * Time.deltaTime;
 		else
@@ -303,12 +302,8 @@ public class PlayerController : MonoBehaviour
 			modelXRotation = Mathf.MoveTowards(modelXRotation, 0, modelXRotationSpeed * 2 * Time.deltaTime);
 			modelYRotation -= orientationInput.x * Time.deltaTime * cameraHorizontalSensitivity;
 		}
-
-		//Debug.Log(modelXRotation);
+		
 		dragonModel.transform.rotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
-
-		//modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
-		//dragonModel.transform.rotation = Quaternion.Lerp(dragonModel.transform.rotation, modelRotationDesiredRotation, modelRotationLerpFactor);
 	}
 
 	void Hop ()
@@ -390,7 +385,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	void Gravity ()
+	public void Gravity ()
 	{
 		if (!Grounded()) {
 			if (velocity.y > -maximumFallingSpeed)

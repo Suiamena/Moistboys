@@ -5,6 +5,13 @@ using XInputDotNetPure;
 
 public class PlangeMuurInteractive : MonoBehaviour
 {
+    public enum PreSequenceActivities { Waggle, Sneeze, WelcomeBack, None };
+    public PreSequenceActivities preSequenceActivity = PreSequenceActivities.None;
+    public enum SequenceActivities { Flop, Superflop, None };
+    public SequenceActivities sequenceActivity = SequenceActivities.None;
+    public enum PostSequenceActivities { TotZo, None };
+    public PostSequenceActivities postSequenceActivity = PostSequenceActivities.None;
+
     public static int currentCreatureLocation = 0;
 
     GameObject player;
@@ -16,14 +23,23 @@ public class PlangeMuurInteractive : MonoBehaviour
     float jumpingSpeed = 40, jumpHeight = 3;
     float playerPlatformOffset = .7f;
 
+    [HideInInspector]
     public GameObject moustacheBoi;
     Animator moustacheAnimator;
 
-    [Header("Platform Settings")]
+    [HideInInspector]
     public GameObject creatureFlyInPositionObject;
+    [HideInInspector]
     public GameObject platformsObject;
-    public GameObject initialCameraPoint, initialCameraTarget;
-    public float platformCreationTime = .5f, platformCreationDistance = 7f;
+
+    [Header("Creature Materials")]
+    public Material defaultMaterial;
+    public Material glowingMaterial;
+    Renderer creatureRenderer;
+
+    [Header("Platform Settings")]
+    public float platformCreationTime = .5f;
+    public float platformCreationDistance = 7f;
     List<Transform> platformTransforms = new List<Transform>();
     List<Vector3> platformDefaultPositions = new List<Vector3>();
 
@@ -35,7 +51,9 @@ public class PlangeMuurInteractive : MonoBehaviour
     bool flyingRoutineRunning = false;
 
     [Header("Social Events")]
+    [HideInInspector]
     public GameObject wagglePrefab;
+    [HideInInspector]
     public GameObject sneezePrefab, welcomeBackPrefab, flopPrefab, superflopPrefab, totZoPrefab;
     bool readyForSequence = false, afterSequenceEventPlayed = false;
 
@@ -44,7 +62,9 @@ public class PlangeMuurInteractive : MonoBehaviour
 
     //MANAGER
     int activePlatform = 0;
+    [HideInInspector]
     public GameObject spawnPlatformParticle;
+    [HideInInspector]
     public bool sequenceIsRunning, creatureBecamePiccolo;
 
     private void Awake()
@@ -59,6 +79,7 @@ public class PlangeMuurInteractive : MonoBehaviour
         moustacheBoi.SetActive(false);
         currentCreatureLocation = 0;
         moustacheAnimator = moustacheBoi.GetComponent<Animator>();
+        creatureRenderer = moustacheBoi.GetComponentInChildren<Renderer>();
         jumpingSpeed = playerScript.creatureWallJumpSpeed;
 
         Transform platformsParent;
@@ -153,6 +174,77 @@ public class PlangeMuurInteractive : MonoBehaviour
 
     IEnumerator CreatureSpawnsFirstPlatform()
     {
+        bool readyToAdvance = false;
+
+        //PRE SEQUENCE
+        switch (preSequenceActivity)
+        {
+            case PreSequenceActivities.None:
+                readyForSequence = true;
+                break;
+            case PreSequenceActivities.Waggle:
+                wagglePrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+                    wagglePrefab.GetComponent<ISocialEncounter>().Execute(() => {
+                        wagglePrefab.GetComponent<ISocialEncounter>().End(() => {
+                            readyForSequence = true;
+                        });
+                    });
+                });
+                break;
+            case PreSequenceActivities.Sneeze:
+                sneezePrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+                    sneezePrefab.GetComponent<ISocialEncounter>().Execute(() => {
+                        sneezePrefab.GetComponent<ISocialEncounter>().End(() => {
+                            readyForSequence = true;
+                        });
+                    });
+                });
+                break;
+            case PreSequenceActivities.WelcomeBack:
+                welcomeBackPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+                    welcomeBackPrefab.GetComponent<ISocialEncounter>().Execute(() => {
+                        welcomeBackPrefab.GetComponent<ISocialEncounter>().End(() => {
+                            readyForSequence = true;
+                        });
+                    });
+                });
+                break;
+        }
+        while (!readyForSequence)
+        {
+            yield return null;
+        }
+        //SEQUENCE
+        switch (sequenceActivity)
+        {
+            case SequenceActivities.None:
+                readyToAdvance = true;
+                break;
+            case SequenceActivities.Flop:
+                flopPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+                    flopPrefab.GetComponent<ISocialEncounter>().Execute(() => {
+                        flopPrefab.GetComponent<ISocialEncounter>().End(() => {
+                            readyToAdvance = true;
+                        });
+                    });
+                });
+                break;
+            case SequenceActivities.Superflop:
+                superflopPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+                    superflopPrefab.GetComponent<ISocialEncounter>().Execute(() => {
+                        superflopPrefab.GetComponent<ISocialEncounter>().End(() => {
+                            readyToAdvance = true;
+                        });
+                    });
+                });
+                break;
+        }
+        while (!readyToAdvance)
+        {
+            yield return null;
+        }
+        //SPAWN
+        creatureRenderer.material = glowingMaterial;
         MoustacheBoiAudio.PlayRumble();
         GamePad.SetVibration(0, .6f, .6f);
         GameObject particle = Instantiate(spawnPlatformParticle, flyToPlatformPosition, Quaternion.Euler(0, 0, 0));
@@ -172,6 +264,7 @@ public class PlangeMuurInteractive : MonoBehaviour
             moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
             yield return null;
         }
+        creatureRenderer.material = defaultMaterial;
         sequenceIsRunning = true;
     }
 
@@ -205,17 +298,20 @@ public class PlangeMuurInteractive : MonoBehaviour
 
     IEnumerator CreatureSpawnsPlatform(int currentPlatform)
     {
+        creatureRenderer.material = glowingMaterial;
         PlatformType platformTypeScript;
         platformTypeScript = platformTransforms[currentPlatform].GetComponent<PlatformType>();
         if (platformTypeScript.platformIsElevator) {
             creatureBecamePiccolo = true;
+            moustacheAnimator.SetBool("isFlying", false);
         }
         //FLY TO NEXT PLATFORM
         if (!creatureBecamePiccolo) {
             StartCoroutine(CreatureFliesToPlatform());
         }
-
-        GameObject particle = Instantiate(spawnPlatformParticle, flyToPlatformPosition, Quaternion.Euler(0, 5, 5));
+        MoustacheBoiAudio.PlayRumble();
+        GamePad.SetVibration(0, .6f, .6f);
+        GameObject particle = Instantiate(spawnPlatformParticle, new Vector3(flyToPlatformPosition.x, flyToPlatformPosition.y - 5, flyToPlatformPosition.z), Quaternion.Euler(0, 5, 5));
         for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
             if (platformTypeScript.emergeFromTheGround) {
                 platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, -platformCreationDistance, 0) / platformCreationTime * Time.deltaTime;
@@ -225,6 +321,9 @@ public class PlangeMuurInteractive : MonoBehaviour
             yield return null;
         }
         platformTransforms[currentPlatform].position = platformDefaultPositions[currentPlatform];
+        GamePad.SetVibration(0, .6f, .6f);
+        GamePad.SetVibration(0, 0, 0);
+        creatureRenderer.material = defaultMaterial;
     }
 
     public void DisablePiccolo()
@@ -238,6 +337,20 @@ public class PlangeMuurInteractive : MonoBehaviour
 
     IEnumerator EndSequence()
     {
+    //END SEQUENCE
+    //if (postSequenceActivity == PostSequenceActivities.TotZo)
+    //{
+    //    totZoPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+    //        totZoPrefab.GetComponent<ISocialEncounter>().Execute(() => {
+    //            totZoPrefab.GetComponent<ISocialEncounter>().End(() => { afterSequenceEventPlayed = true; });
+    //        });
+    //    });
+    //}
+    //else
+    //{
+    //    afterSequenceEventPlayed = true;
+    //}
+
         sequenceIsRunning = false;
         creatureBecamePiccolo = false;
         activePlatform = 0;
