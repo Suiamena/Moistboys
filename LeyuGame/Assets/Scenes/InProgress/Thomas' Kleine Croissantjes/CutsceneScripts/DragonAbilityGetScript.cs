@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DragonAbilityGetScript : MonoBehaviour {
 
@@ -19,7 +21,33 @@ public class DragonAbilityGetScript : MonoBehaviour {
     GameObject abilityLight;
     Light abilityLightIntensity;
 
-    public GameObject sneeuwstormTrigger;
+    //public GameObject sneeuwstormTrigger;
+    SphereCollider cutsceneCollider;
+    public GameObject sneeuwParticlesPos;
+    bool particlesFollowPlayer = false;
+    public float distanceInFrontOfPlayer = 50;
+
+
+    //COMBINING FUCKING SCRIPTS
+    public Image image;
+    bool FadingToWhite = false;
+
+    Color tempColor;
+
+    float windStormStrength, particlesSpeed;
+
+    bool accelerateSnowstorm;
+    bool screechPlayed = false;
+
+    //GameObject creature;
+    //AudioSource creatureScreech;
+    //public AudioClip screech;
+
+    [Header("Particle Settings")]
+    //public GameObject snowParticlesWindObject;
+    ParticleSystem snowParticlesSystem;
+    ParticleSystem.EmissionModule emissionModule;
+    ParticleSystem.MainModule main;
 
     void Start ()
     {
@@ -38,6 +66,12 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
         abilityLight = GameObject.Find("OrangeLight");
         abilityLightIntensity = abilityLight.GetComponent<Light>();
+
+        var tempColor = image.color;
+        tempColor.a = 0f;
+        image.color = tempColor;
+
+        cutsceneCollider = GetComponent<SphereCollider>();
     }
 
     void OnTriggerEnter()
@@ -54,6 +88,8 @@ public class DragonAbilityGetScript : MonoBehaviour {
         playerAnim.SetBool("IsLaunching", false);
         playerAnim.SetBool("IsBouncing", false);
         playerAnim.SetBool("IsAirborne", false);
+
+        particlesFollowPlayer = true;
     }
 
     void OnTriggerStay()
@@ -73,7 +109,17 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     void Update ()
     {
+        if (particlesFollowPlayer == true)
+        {
+            sneeuwParticlesPos.transform.position = new Vector3(player.transform.position.x + distanceInFrontOfPlayer, player.transform.position.y, player.transform.position.z);
+        }
 
+        if (FadingToWhite == true)
+        {
+            var tempColor = image.color;
+            tempColor.a += 0.0028f;
+            image.color = tempColor;
+        }
     }
 
     IEnumerator CutsceneTime()
@@ -88,17 +134,27 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
         yield return new WaitForSeconds(4f);
         controllerSwitch.EnablePlayer();
-        Level3Music.startMusic = true;
-
         controllerSwitch.launchEnabled = true;
-
-        //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
-        //playerBody.velocity = new Vector3(0, 0, 0);
-        //
-
-        //ACTIVATE LAUNCH
+        Level3Music.startMusic = true;
         Destroy(abilityPickUp);
-        sneeuwstormTrigger.SetActive(true);
-        Destroy(gameObject);
+        cutsceneCollider.enabled = false;
+
+        //sneeuwstormTrigger.SetActive(true);
+        //Destroy(gameObject);
+        FadingToWhite = true;
+
+        while (image.color.a < 1)
+        {
+            yield return null;
+        }
+
+        print("FUCKKKKKK");
+        yield return new WaitForSeconds(1f);
+        print("hallo?");
+        AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        Level2Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        SceneManager.LoadScene("Level 3");
     }
 }
+
+
