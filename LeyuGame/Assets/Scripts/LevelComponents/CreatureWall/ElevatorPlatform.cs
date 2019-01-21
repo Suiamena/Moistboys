@@ -16,6 +16,8 @@ public class ElevatorPlatform : MonoBehaviour {
     public GameObject elevatorRadio;
     public GameObject elevatorBell;
 
+    public GameObject moustacheBoi;
+
     Vector3 startingLocation;
     bool startingLocationSet;
 
@@ -56,7 +58,6 @@ public class ElevatorPlatform : MonoBehaviour {
             elevatorRadio.SetActive(true);
             distance = Mathf.Abs(elevatorPlatform.transform.position.y - nextLocation.transform.position.y);
             while (distance > .1f) {
-                //player.transform.rotation = Quaternion.Euler(40, 0, 40);
                 distance = Mathf.Abs(elevatorPlatform.transform.position.y - nextLocation.transform.position.y);
                 elevatorPlatform.transform.position = Vector3.MoveTowards(
                     new Vector3(elevatorPlatform.transform.position.x, elevatorPlatform.transform.position.y, elevatorPlatform.transform.position.z),
@@ -87,6 +88,8 @@ public class ElevatorPlatform : MonoBehaviour {
             elevatorIsMoving = true;
             StartCoroutine(Move());
         }
+        yield return new WaitForSeconds(1f);
+        elevatorBell.SetActive(false);
     }
 
 }
