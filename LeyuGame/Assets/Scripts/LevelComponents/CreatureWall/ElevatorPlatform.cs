@@ -12,6 +12,10 @@ public class ElevatorPlatform : MonoBehaviour {
     public GameObject wallObject;
     PlangeMuurInteractive wallScript;
 
+    public GameObject player;
+    public GameObject elevatorRadio;
+    public GameObject elevatorBell;
+
     Vector3 startingLocation;
     bool startingLocationSet;
 
@@ -49,8 +53,10 @@ public class ElevatorPlatform : MonoBehaviour {
     IEnumerator Move()
     {
         if (goUp) {
+            elevatorRadio.SetActive(true);
             distance = Mathf.Abs(elevatorPlatform.transform.position.y - nextLocation.transform.position.y);
             while (distance > .1f) {
+                //player.transform.rotation = Quaternion.Euler(40, 0, 40);
                 distance = Mathf.Abs(elevatorPlatform.transform.position.y - nextLocation.transform.position.y);
                 elevatorPlatform.transform.position = Vector3.MoveTowards(
                     new Vector3(elevatorPlatform.transform.position.x, elevatorPlatform.transform.position.y, elevatorPlatform.transform.position.z),
@@ -69,6 +75,9 @@ public class ElevatorPlatform : MonoBehaviour {
                 yield return null;
             }
         }
+        elevatorBell.SetActive(true);
+        //ELEVATOR BELL INACTIVE!
+        elevatorRadio.SetActive(false);
         goUp = false;
         goDown = false;
         elevatorIsMoving = false;
