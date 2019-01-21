@@ -34,15 +34,15 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     Color tempColor;
 
-    float windStormStrength, particlesSpeed;
 
-    bool accelerateSnowstorm;
-    bool screechPlayed = false;
-
+    //bool screechPlayed = false;
     //GameObject creature;
     //AudioSource creatureScreech;
     //public AudioClip screech;
 
+    float windStormStrength, particlesSpeed;
+
+    bool accelerateSnowstorm;
     [Header("Particle Settings")]
     //public GameObject snowParticlesWindObject;
     ParticleSystem snowParticlesSystem;
@@ -85,15 +85,14 @@ public class DragonAbilityGetScript : MonoBehaviour {
             playerBody.velocity = new Vector3(0, playerBody.velocity.y * -3, 0);
         }
 
-        playerAnim.SetBool("IsLaunching", false);
-        playerAnim.SetBool("IsBouncing", false);
-        playerAnim.SetBool("IsAirborne", false);
+        playerAnim.SetBool("curiousLook", true);
 
         particlesFollowPlayer = true;
     }
 
     void OnTriggerStay()
     {
+        //controllerSwitch.Gravity();
         player.transform.LookAt(gameObject.transform.position);
         playerCamera.transform.LookAt(abilityPickUp.transform.position);
 
