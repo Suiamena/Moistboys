@@ -173,6 +173,7 @@ public class PlayerController : MonoBehaviour
 	//UPDATES
 	void Update ()
 	{
+		Time.timeScale = 1;
 		creatureWallsEnabled = true;
 		ProcessInputs();
 
@@ -197,6 +198,7 @@ public class PlayerController : MonoBehaviour
 		if (enablePlayerPushBack) {
 			rig.velocity += boundaryPushingDirection;
 		}
+		Debug.Log("Ik leef");
 	}
 
 	private void OnApplicationQuit ()

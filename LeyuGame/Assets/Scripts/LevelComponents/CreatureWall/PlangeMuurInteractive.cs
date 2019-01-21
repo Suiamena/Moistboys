@@ -229,11 +229,15 @@ public class PlangeMuurInteractive : MonoBehaviour
         if (creatureBecamePiccolo) {
             while (creatureBecamePiccolo) {
                 moustacheAnimator.SetBool("isFlying", false);
+
+                //dit naar de elevator!
                 moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, player.transform.position.y, moustacheBoi.transform.position.z);
                 yield return null;
             }
         }
     }
+
+    //PICCOLO FUNCTIE
 
     public void DisablePiccolo()
     {
