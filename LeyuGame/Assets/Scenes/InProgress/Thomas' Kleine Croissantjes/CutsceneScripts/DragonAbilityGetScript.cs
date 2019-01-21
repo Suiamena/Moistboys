@@ -40,11 +40,10 @@ public class DragonAbilityGetScript : MonoBehaviour {
     //AudioSource creatureScreech;
     //public AudioClip screech;
 
-    float windStormStrength, particlesSpeed;
-
-    bool accelerateSnowstorm;
+    //float windStormStrength, particlesSpeed;
+    //bool accelerateSnowstorm;
     [Header("Particle Settings")]
-    //public GameObject snowParticlesWindObject;
+    public GameObject snowParticlesWindObject;
     ParticleSystem snowParticlesSystem;
     ParticleSystem.EmissionModule emissionModule;
     ParticleSystem.MainModule main;
