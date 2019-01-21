@@ -173,7 +173,6 @@ public class PlayerController : MonoBehaviour
 	//UPDATES
 	void Update ()
 	{
-		Time.timeScale = 1;
 		creatureWallsEnabled = true;
 		ProcessInputs();
 
@@ -198,7 +197,6 @@ public class PlayerController : MonoBehaviour
 		if (enablePlayerPushBack) {
 			rig.velocity += boundaryPushingDirection;
 		}
-		Debug.Log("Ik leef");
 	}
 
 	private void OnApplicationQuit ()
@@ -220,7 +218,7 @@ public class PlayerController : MonoBehaviour
 	{
 		cameraYAngle += orientationInput.x * cameraHorizontalSensitivity * Time.deltaTime;
 		cameraXAngle = Mathf.Clamp(cameraXAngle - orientationInput.y * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
-		
+
 		//CAMERA RESET ZN ROTATIE WANNEER SPELER STIL STAAT. NIET TEVREDEN OVER.
 		//if (velocity.sqrMagnitude <= 1) {
 		//	if (cameraYAngle != modelYRotation) {
@@ -290,9 +288,10 @@ public class PlayerController : MonoBehaviour
 	{
 		//HIER BEN IK BEZIG WANT ALLES STUKKKKKKKKKKKKKKKKK
 		if (velocity.y > 0)
-			modelXRotation -= modelXRotationSpeed * Time.deltaTime;
+			modelXRotation += -modelXRotationSpeed * Time.deltaTime;
 		else
-			modelXRotation -= modelXRotationSpeed * Time.deltaTime;
+			modelXRotation += modelXRotationSpeed * Time.deltaTime;
+		modelXRotation = Mathf.Clamp(modelXRotation, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
 
 		modelLateralVelocity = new Vector3(velocity.x, 0, velocity.z);
 		if (modelLateralVelocity.magnitude > .1f) {
@@ -301,10 +300,11 @@ public class PlayerController : MonoBehaviour
 				modelYRotation *= -1;
 		}
 		if (Grounded()) {
-			modelXRotation = Mathf.MoveTowards(modelXRotation, 0, modelXRotationSpeed * Time.deltaTime);
+			modelXRotation = Mathf.MoveTowards(modelXRotation, 0, modelXRotationSpeed * 2 * Time.deltaTime);
 			modelYRotation -= orientationInput.x * Time.deltaTime * cameraHorizontalSensitivity;
 		}
 
+		Debug.Log(modelXRotation);
 		dragonModel.transform.rotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
 
 		//modelRotationDesiredRotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
