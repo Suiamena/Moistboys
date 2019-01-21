@@ -6,7 +6,7 @@ using System;
 public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 {
 	public Transform moustacheBoy;
-	public GameObject pressButtonPopup;
+	//public GameObject pressButtonPopup;
 	GameObject player;
 
 	[Header("Animation Settings")]
@@ -55,7 +55,7 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 			}
 
 			if (IsPlayerInRange()) {
-				pressButtonPopup.SetActive(true);
+				//pressButtonPopup.SetActive(true);
 				sneezeTimer += Time.deltaTime;
 
 				if (sneezeTimer >= timeBeforeSneeze) {
@@ -69,7 +69,7 @@ public class SE_Sneeze : MonoBehaviour, ISocialEncounter
 					break;
 				}
 			} else {
-				pressButtonPopup.SetActive(false);
+				//pressButtonPopup.SetActive(false);
 				sneezeTimer = 0;
 			}
 			yield return null;

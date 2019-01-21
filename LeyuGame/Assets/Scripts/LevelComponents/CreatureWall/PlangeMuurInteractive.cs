@@ -183,7 +183,6 @@ public class PlangeMuurInteractive : MonoBehaviour
                 readyForSequence = true;
                 break;
             case PreSequenceActivities.Waggle:
-                Debug.Log("waggle");
                 wagglePrefab.GetComponent<ISocialEncounter>().Initialize(() => {
                     wagglePrefab.GetComponent<ISocialEncounter>().Execute(() => {
                         wagglePrefab.GetComponent<ISocialEncounter>().End(() => {
@@ -211,9 +210,10 @@ public class PlangeMuurInteractive : MonoBehaviour
                 });
                 break;
         }
-
-        yield return new WaitForSeconds(3f);
-
+        while (!readyForSequence)
+        {
+            yield return null;
+        }
         //SEQUENCE
         switch (sequenceActivity)
         {
@@ -240,10 +240,9 @@ public class PlangeMuurInteractive : MonoBehaviour
                 break;
         }
         while (!readyToAdvance)
+        {
             yield return null;
-
-        yield return new WaitForSeconds(3f);
-
+        }
         //SPAWN
         creatureRenderer.material = glowingMaterial;
         MoustacheBoiAudio.PlayRumble();
@@ -339,20 +338,20 @@ public class PlangeMuurInteractive : MonoBehaviour
     IEnumerator EndSequence()
     {
     //END SEQUENCE
-    if (postSequenceActivity == PostSequenceActivities.TotZo)
-    {
-        totZoPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
-            totZoPrefab.GetComponent<ISocialEncounter>().Execute(() => {
-                totZoPrefab.GetComponent<ISocialEncounter>().End(() => { afterSequenceEventPlayed = true; });
-            });
-        });
-    }
-    else
-    {
-        afterSequenceEventPlayed = true;
-    }
+    //if (postSequenceActivity == PostSequenceActivities.TotZo)
+    //{
+    //    totZoPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
+    //        totZoPrefab.GetComponent<ISocialEncounter>().Execute(() => {
+    //            totZoPrefab.GetComponent<ISocialEncounter>().End(() => { afterSequenceEventPlayed = true; });
+    //        });
+    //    });
+    //}
+    //else
+    //{
+    //    afterSequenceEventPlayed = true;
+    //}
 
-    sequenceIsRunning = false;
+        sequenceIsRunning = false;
         creatureBecamePiccolo = false;
         activePlatform = 0;
         for (int i = 0; i < platformTransforms.Count - 1; i++)
