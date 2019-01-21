@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class ElevatorPlatform : MonoBehaviour {
 
-    bool goUp, goDown, elevatorIsMoving;
+    //PICCOLO
+    Vector3 previousCreatureLocation;
+    public bool PlayerHasTouchedElevator;
+    bool goUp, goDown, elevatorIsMoving, creaturePiccoloCoroutineRunOnce;
     public int elevatorSpeed;
 
     public GameObject elevatorPlatform;
@@ -29,8 +32,56 @@ public class ElevatorPlatform : MonoBehaviour {
         nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3, nextLocation.transform.position.z);
     }
 
+    private void Update()
+    {
+        //reset elevator
+        if (!wallScript.sequenceIsRunning) {
+            PlayerHasTouchedElevator = false;
+        }
+
+        //piccolo
+        if (PlayerHasTouchedElevator && !goDown) {
+            if (player.transform.position.y < transform.position.y) {
+                if (!creaturePiccoloCoroutineRunOnce)
+                {
+                    Debug.Log("keeps running");
+                    StartCoroutine(CreatureBackToElevator());
+                    creaturePiccoloCoroutineRunOnce = true;
+                }
+            }
+        }
+        if (wallScript.creatureBecamePiccolo) {
+            Debug.Log(creaturePiccoloCoroutineRunOnce);
+            if (!creaturePiccoloCoroutineRunOnce) {
+                StartCoroutine(CreaturePiccolo());
+                creaturePiccoloCoroutineRunOnce = true;
+            }
+        }
+    }
+
+    IEnumerator CreatureBackToElevator()
+    {
+        wallScript.creatureBecamePiccolo = true;
+        while (moustacheBoi.transform.position.SquareDistance(transform.position) > .1f) {
+            moustacheBoi.transform.LookAt(player.transform.position);
+            moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, transform.position, (20 * 2f) * Time.deltaTime);
+            yield return null;
+        }
+        creaturePiccoloCoroutineRunOnce = false;
+    }
+
+    IEnumerator CreaturePiccolo()
+    {
+        while (wallScript.creatureBecamePiccolo) {
+            moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, transform.position.y, moustacheBoi.transform.position.z);
+            yield return null;
+        }
+        creaturePiccoloCoroutineRunOnce = false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+        PlayerHasTouchedElevator = true;
         if (!startingLocationSet) {
             startingLocation = elevatorPlatform.transform.position;
             startingLocationSet = true;
@@ -64,6 +115,7 @@ public class ElevatorPlatform : MonoBehaviour {
                     new Vector3(elevatorPlatform.transform.position.x, nextLocation.transform.position.y, elevatorPlatform.transform.position.z), elevatorSpeed * Time.deltaTime);
                 yield return null;
             }
+            wallScript.DisablePiccolo();
         }
         if (goDown) {
             yield return new WaitForSeconds(1f);
@@ -77,12 +129,10 @@ public class ElevatorPlatform : MonoBehaviour {
             }
         }
         elevatorBell.SetActive(true);
-        //ELEVATOR BELL INACTIVE!
         elevatorRadio.SetActive(false);
         goUp = false;
         goDown = false;
         elevatorIsMoving = false;
-        wallScript.DisablePiccolo();
         if (goDown)
         {
             elevatorIsMoving = true;
