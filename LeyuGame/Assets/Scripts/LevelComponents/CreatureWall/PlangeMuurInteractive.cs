@@ -32,6 +32,11 @@ public class PlangeMuurInteractive : MonoBehaviour
     [HideInInspector]
     public GameObject platformsObject;
 
+    [Header("Creature Materials")]
+    public Material defaultMaterial;
+    public Material glowingMaterial;
+    Renderer creatureRenderer;
+
     [Header("Platform Settings")]
     public float platformCreationTime = .5f;
     public float platformCreationDistance = 7f;
@@ -74,6 +79,7 @@ public class PlangeMuurInteractive : MonoBehaviour
         moustacheBoi.SetActive(false);
         currentCreatureLocation = 0;
         moustacheAnimator = moustacheBoi.GetComponent<Animator>();
+        creatureRenderer = moustacheBoi.GetComponentInChildren<Renderer>();
         jumpingSpeed = playerScript.creatureWallJumpSpeed;
 
         Transform platformsParent;
@@ -177,6 +183,7 @@ public class PlangeMuurInteractive : MonoBehaviour
                 readyForSequence = true;
                 break;
             case PreSequenceActivities.Waggle:
+                Debug.Log("waggle");
                 wagglePrefab.GetComponent<ISocialEncounter>().Initialize(() => {
                     wagglePrefab.GetComponent<ISocialEncounter>().Execute(() => {
                         wagglePrefab.GetComponent<ISocialEncounter>().End(() => {
@@ -204,6 +211,8 @@ public class PlangeMuurInteractive : MonoBehaviour
                 });
                 break;
         }
+
+        yield return new WaitForSeconds(3f);
 
         //SEQUENCE
         switch (sequenceActivity)
@@ -233,7 +242,10 @@ public class PlangeMuurInteractive : MonoBehaviour
         while (!readyToAdvance)
             yield return null;
 
+        yield return new WaitForSeconds(3f);
+
         //SPAWN
+        creatureRenderer.material = glowingMaterial;
         MoustacheBoiAudio.PlayRumble();
         GamePad.SetVibration(0, .6f, .6f);
         GameObject particle = Instantiate(spawnPlatformParticle, flyToPlatformPosition, Quaternion.Euler(0, 0, 0));
@@ -253,6 +265,7 @@ public class PlangeMuurInteractive : MonoBehaviour
             moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
             yield return null;
         }
+        creatureRenderer.material = defaultMaterial;
         sequenceIsRunning = true;
     }
 
@@ -286,6 +299,7 @@ public class PlangeMuurInteractive : MonoBehaviour
 
     IEnumerator CreatureSpawnsPlatform(int currentPlatform)
     {
+        creatureRenderer.material = glowingMaterial;
         PlatformType platformTypeScript;
         platformTypeScript = platformTransforms[currentPlatform].GetComponent<PlatformType>();
         if (platformTypeScript.platformIsElevator) {
@@ -296,6 +310,8 @@ public class PlangeMuurInteractive : MonoBehaviour
         if (!creatureBecamePiccolo) {
             StartCoroutine(CreatureFliesToPlatform());
         }
+        MoustacheBoiAudio.PlayRumble();
+        GamePad.SetVibration(0, .6f, .6f);
         GameObject particle = Instantiate(spawnPlatformParticle, new Vector3(flyToPlatformPosition.x, flyToPlatformPosition.y - 5, flyToPlatformPosition.z), Quaternion.Euler(0, 5, 5));
         for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
             if (platformTypeScript.emergeFromTheGround) {
@@ -306,6 +322,9 @@ public class PlangeMuurInteractive : MonoBehaviour
             yield return null;
         }
         platformTransforms[currentPlatform].position = platformDefaultPositions[currentPlatform];
+        GamePad.SetVibration(0, .6f, .6f);
+        GamePad.SetVibration(0, 0, 0);
+        creatureRenderer.material = defaultMaterial;
     }
 
     public void DisablePiccolo()
