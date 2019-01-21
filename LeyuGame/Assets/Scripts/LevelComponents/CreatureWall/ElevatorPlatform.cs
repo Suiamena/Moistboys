@@ -7,7 +7,9 @@ public class ElevatorPlatform : MonoBehaviour {
     //PICCOLO
     Vector3 previousCreatureLocation;
     public bool PlayerHasTouchedElevator;
-    bool goUp, goDown, elevatorIsMoving, creaturePiccoloCoroutineRunOnce;
+    float backToElevatorThreshold;
+
+    bool goUp, goDown, elevatorIsMoving, creatureCoroutineOneOnce, creatureCoroutineTwoOnce, creatureIsBack = true;
     public int elevatorSpeed;
 
     public GameObject elevatorPlatform;
@@ -39,22 +41,21 @@ public class ElevatorPlatform : MonoBehaviour {
             PlayerHasTouchedElevator = false;
         }
 
-        //piccolo
-        if (PlayerHasTouchedElevator && !goDown) {
-            if (player.transform.position.y < transform.position.y) {
-                if (!creaturePiccoloCoroutineRunOnce)
+        //fly back
+        if (PlayerHasTouchedElevator && !goDown && !goUp) {
+            if (player.transform.position.y < (moustacheBoi.transform.position.y - 5)) {
+                if (!creatureCoroutineOneOnce)
                 {
-                    Debug.Log("keeps running");
+                    creatureCoroutineOneOnce = true;
                     StartCoroutine(CreatureBackToElevator());
-                    creaturePiccoloCoroutineRunOnce = true;
                 }
             }
         }
+        //piccolo state
         if (wallScript.creatureBecamePiccolo) {
-            Debug.Log(creaturePiccoloCoroutineRunOnce);
-            if (!creaturePiccoloCoroutineRunOnce) {
+            if (!creatureCoroutineTwoOnce && creatureIsBack) {
                 StartCoroutine(CreaturePiccolo());
-                creaturePiccoloCoroutineRunOnce = true;
+                creatureCoroutineTwoOnce = true;
             }
         }
     }
@@ -67,16 +68,19 @@ public class ElevatorPlatform : MonoBehaviour {
             moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, transform.position, (20 * 2f) * Time.deltaTime);
             yield return null;
         }
-        creaturePiccoloCoroutineRunOnce = false;
+        creatureCoroutineOneOnce = false;
+        creatureIsBack = true;
     }
 
     IEnumerator CreaturePiccolo()
     {
+        creatureIsBack = false;
         while (wallScript.creatureBecamePiccolo) {
+            moustacheBoi.transform.LookAt(player.transform.position);
             moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, transform.position.y, moustacheBoi.transform.position.z);
             yield return null;
         }
-        creaturePiccoloCoroutineRunOnce = false;
+        creatureCoroutineTwoOnce = false;
     }
 
     private void OnTriggerEnter(Collider other)
