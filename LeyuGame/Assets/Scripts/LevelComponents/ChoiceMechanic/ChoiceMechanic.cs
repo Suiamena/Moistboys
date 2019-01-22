@@ -25,8 +25,9 @@ public class ChoiceMechanic : MonoBehaviour {
     int moustacheBoiSpeed = 10, abilitySpeed = 3, playerAbilitySpeed = 6;
 
     //WarmthSource Settings
-    GameObject warmthSource;
-    public GameObject warmthSourceOpen;
+    public GameObject warmthSource;
+    public GameObject warmthSourceAnimObject;
+    Animator warmthSourceAnimator;
     GameObject playerAbilityTarget;
     GameObject warmthSourceTarget;
     public GameObject playerAbility, moustacheBoiAbility;
@@ -35,6 +36,7 @@ public class ChoiceMechanic : MonoBehaviour {
     //Cutscene Settings
     public GameObject cutsceneCamera, secondCutsceneCamera, thirdCutsceneCamera, fourthCutsceneCamera;
     GameObject cutsceneCameraOneTransformTarget;
+    public GameObject invisibleWall;
 
     //cutscene 1 (creature gives ability)
     bool creatureToSource, abilityCreatureMoves, firstCutsceneFinished;
@@ -59,18 +61,19 @@ public class ChoiceMechanic : MonoBehaviour {
 
     private void Awake()
     {
+        warmthSourceAnimator = warmthSourceAnimObject.GetComponent<Animator>();
+
         player = GameObject.Find("Character");
         playerScript = player.GetComponent<PlayerController>();
         playerRig = player.GetComponent<Rigidbody>();
         playerModel = GameObject.Find("MOD_Draak");
         playerAnim = playerModel.GetComponent<Animator>();
         playerCamera = GameObject.Find("Main Camera");
-        landingIndicatorObject = GameObject.Find("LandingIndicator");
+        landingIndicatorObject = GameObject.Find("Shadow");
 
         moustacheBoiTarget = GameObject.Find("MoustacheBoiTarget");
         moustacheBoiAnim = moustacheBoiCutscene.GetComponent<Animator>();
 
-        warmthSource = GameObject.Find("WarmthSourceCutscene");
         playerAbilityTarget = GameObject.Find("PlayerAbilityTarget");
         warmthSourceTarget = GameObject.Find("WarmthSourceTarget");
 
@@ -350,7 +353,7 @@ public class ChoiceMechanic : MonoBehaviour {
         yield return new WaitForSeconds(1F);
 
         //VERWARM WERELD (NIEUWE CAMERA EN MODEL?)
-        warmthSourceOpen.SetActive(true);
+        warmthSourceAnimator.SetBool("isOpening", true);
         warmthSource.SetActive(false);
         yield return new WaitForSeconds(2F);
 
@@ -359,29 +362,20 @@ public class ChoiceMechanic : MonoBehaviour {
         //set player settings
         playerScript.EnablePlayer();
         fourthCutsceneCamera.SetActive(false);
+        invisibleWall.SetActive(false);
         //RESOLVE
-        //uitvoeren if null
         if (competentScript.playerChooseCompetence)
         {
-            //PlayerPrefs.SetString("LevelSixChoice", "Launch");
             VariablesGlobal.chosenForCompetence = true;
             moustacheBoiAnim.SetBool("goodBye", true);
             playerScript.launchEnabled = true;
         }
         else
         {
-            //PlayerPrefs.SetString("LevelSixChoice", "Creature");
             VariablesGlobal.chosenForSocial = true;
             moustacheBoiEnding.SetActive(true);
             moustacheBoiCutscene.SetActive(false);
         }
-        //SceneSettings sceneSettingObject = FindObjectOfType<SceneSettings>();
-        //if (sceneSettingObject != null)
-        //{
-        //}
-        //else
-        //{
-        //}
     }
 
 }

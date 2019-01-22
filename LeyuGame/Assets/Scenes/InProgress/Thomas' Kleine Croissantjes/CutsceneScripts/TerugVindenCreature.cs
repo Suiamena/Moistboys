@@ -176,7 +176,6 @@ public class TerugVindenCreature : MonoBehaviour
         cameraDistance = Vector3.Distance(cutsceneCamera.transform.position, playerCamera.transform.position);
         cameraRotationDifference = Quaternion.Angle(cutsceneCamera.transform.rotation, playerCamera.transform.rotation);
         //print(cameraDistance);
-        print(cameraRotationDifference);
 
         if (cameraDistance < 0.1f)
         {

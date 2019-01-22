@@ -11,12 +11,14 @@ public class TitleScreen : MonoBehaviour {
     public GameObject pointer;
     public GameObject startPointer;
     public GameObject controlsPointer;
+    public GameObject creditsPointer;
     public GameObject quitPointer;
     public GameObject controlsInstruction;
+    public GameObject creditsInstruction;
 
     int iconPosition;
 
-    bool menuStarted, titleScreenDone, controlsOpened, stickPushed, keyboardPressed;
+    bool menuStarted, titleScreenDone, controlsOpened, stickPushed, keyboardPressed, creditsOpened;
 
     public GameObject level;
 
@@ -44,7 +46,7 @@ public class TitleScreen : MonoBehaviour {
             RunMenu();
         }
 
-        if (controlsOpened)
+        if (controlsOpened || creditsOpened)
         {
             BackToMenu();
         }
@@ -70,22 +72,30 @@ public class TitleScreen : MonoBehaviour {
             {
                 if (iconPosition == 1)
                 {
-                    iconPosition = 3;
+                    iconPosition = 4;
                     pointer.transform.position = quitPointer.transform.position;
                 }
                 else
                 {
-                    if (iconPosition == 3)
+                    if (iconPosition == 4)
                     {
-                        iconPosition = 2;
-                        pointer.transform.position = controlsPointer.transform.position;
+                        iconPosition = 3;
+                        pointer.transform.position = creditsPointer.transform.position;
                     }
                     else
                     {
-                        if (iconPosition == 2)
+                        if (iconPosition == 3)
                         {
-                            iconPosition = 1;
-                            pointer.transform.position = startPointer.transform.position;
+                            iconPosition = 2;
+                            pointer.transform.position = controlsPointer.transform.position;
+                        }
+                        else
+                        {
+                            if (iconPosition == 2)
+                            {
+                                iconPosition = 1;
+                                pointer.transform.position = startPointer.transform.position;
+                            }
                         }
                     }
                 }
@@ -103,14 +113,22 @@ public class TitleScreen : MonoBehaviour {
                     if (iconPosition == 2)
                     {
                         iconPosition = 3;
-                        pointer.transform.position = quitPointer.transform.position;
+                        pointer.transform.position = creditsPointer.transform.position;
                     }
                     else
                     {
                         if (iconPosition == 3)
                         {
-                            iconPosition = 1;
-                            pointer.transform.position = startPointer.transform.position;
+                            iconPosition = 4;
+                            pointer.transform.position = quitPointer.transform.position;
+                        }
+                        else
+                        {
+                            if (iconPosition == 4)
+                            {
+                                iconPosition = 1;
+                                pointer.transform.position = startPointer.transform.position;
+                            }
                         }
                     }
                 }
@@ -141,6 +159,13 @@ public class TitleScreen : MonoBehaviour {
             }
             if (iconPosition == 3)
             {
+                menuStarted = false;
+                creditsInstruction.SetActive(true);
+                buttons.SetActive(false);
+                StartCoroutine(BackToMenuDelayCredits());
+            }
+            if (iconPosition == 4)
+            {
                 Application.Quit();
             }
         }
@@ -152,7 +177,9 @@ public class TitleScreen : MonoBehaviour {
         if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Keyboard Space"))
         {
             controlsInstruction.SetActive(false);
+            creditsInstruction.SetActive(false);
             controlsOpened = false;
+            creditsOpened = false;
             buttons.SetActive(true);
             menuStarted = true;
         }
@@ -168,5 +195,11 @@ public class TitleScreen : MonoBehaviour {
     {
         yield return new WaitForSeconds(0.1f);
         controlsOpened = true;
+    }
+
+    IEnumerator BackToMenuDelayCredits()
+    {
+        yield return new WaitForSeconds(0.1f);
+        creditsOpened = true;
     }
 }

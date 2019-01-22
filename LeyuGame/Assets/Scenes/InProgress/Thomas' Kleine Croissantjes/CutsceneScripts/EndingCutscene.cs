@@ -77,7 +77,6 @@ public class EndingCutscene : MonoBehaviour {
         yield return new WaitForSeconds(2f);
         AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         Level6Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        SceneManager.LoadScene("TitleScreen");
-        print("lol");
+        SceneManager.LoadScene("Credits");
     }
 }
