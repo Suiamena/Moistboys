@@ -67,6 +67,9 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     void Start ()
     {
+
+        rend.material.SetFloat("_Cutoff", 1);
+
         player = GameObject.Find("Character");
         playerCamera = GameObject.Find("Main Camera");
         abilityPickUp = GameObject.Find("DragonAbilityPickUp");
@@ -183,7 +186,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
         {
             //glow = 0.05f * energyAmount;
             rend.material.SetFloat("_Cutoff", aureoolVisibility);
-            aureoolVisibility = Mathf.Lerp(aureoolVisibility, 0.5f, 0.5f);
+            //aureoolVisibility = Mathf.Lerp(aureoolVisibility, 0.5f, 0.5f);
             print(aureoolVisibility + "...");
         }
 
@@ -222,13 +225,9 @@ public class DragonAbilityGetScript : MonoBehaviour {
         {
             yield return null;
         }
-        print("FUCKKKKKK");
         yield return new WaitForSeconds(1f);
-        print("hallo?");
         AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         Level2Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         SceneManager.LoadScene("Level 3");
     }
 }
-
-
