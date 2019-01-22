@@ -20,12 +20,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4037206894032736}
   - component: {fileID: 205516161861934674}
+  - component: {fileID: 64840316188921178}
   m_Layer: 0
   m_Name: Mod_CoralTree1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 125
+  m_StaticEditorFlags: 124
   m_IsActive: 1
 --- !u!1 &1293290194873334
 GameObject:
@@ -42,7 +43,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 125
+  m_StaticEditorFlags: 124
   m_IsActive: 1
 --- !u!1 &1718807368370414
 GameObject:
@@ -59,7 +60,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 125
+  m_StaticEditorFlags: 124
   m_IsActive: 1
 --- !u!4 &4037206894032736
 Transform:
@@ -68,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1097037582525982}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 90.121765, y: -16.977161, z: 113.72081}
+  m_LocalPosition: {x: 644.9753, y: 369.8468, z: 1023.2189}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4754717056327878}
@@ -186,6 +187,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1718807368370414}
   m_Mesh: {fileID: 4300004, guid: 7a20983fcf4ae994bbf6b0b6eb503612, type: 3}
+--- !u!64 &64840316188921178
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1097037582525982}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 0}
 --- !u!205 &205516161861934674
 LODGroup:
   m_ObjectHideFlags: 1
@@ -198,7 +213,7 @@ LODGroup:
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LODs:
-  - screenRelativeHeight: 0.25
+  - screenRelativeHeight: 0.1455168
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 23854965393135500}

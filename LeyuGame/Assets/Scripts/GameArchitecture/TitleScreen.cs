@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -169,5 +169,4 @@ public class TitleScreen : MonoBehaviour {
         yield return new WaitForSeconds(0.1f);
         controlsOpened = true;
     }
-
 }

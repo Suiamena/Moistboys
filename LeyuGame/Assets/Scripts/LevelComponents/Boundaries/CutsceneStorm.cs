@@ -27,6 +27,8 @@ public class CutsceneStorm : MonoBehaviour {
     ParticleSystem.EmissionModule emissionModule;
     ParticleSystem.MainModule main;
 
+    public float particleDistanceInFrontOfPlayer = 50;
+
     private void Awake()
     {
         player = GameObject.Find("Character");
@@ -49,13 +51,13 @@ public class CutsceneStorm : MonoBehaviour {
     {
         if (followPlayer)
         {
-            storm.transform.position = new Vector3(player.transform.position.x + 30, player.transform.position.y, player.transform.position.z);
+            storm.transform.position = new Vector3(player.transform.position.x + particleDistanceInFrontOfPlayer, player.transform.position.y, player.transform.position.z);
         }
         if (startToAccelerate)
         {
-            windStormStrength += 20F;
-            windStormStrength = Mathf.Clamp(windStormStrength, 0, 1500);
-            emissionModule.rateOverTime = windStormStrength;
+            //windStormStrength += 20F;
+            //windStormStrength = Mathf.Clamp(windStormStrength, 0, 1500);
+            //emissionModule.rateOverTime = windStormStrength;
 
             if (windStormStrength == 5000)
             {

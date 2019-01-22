@@ -120,7 +120,6 @@ public class CreatureEncounter : MonoBehaviour {
 
         creatureBewegingAnim.SetBool("isPlaying", true); //2.04 seconden voor dat de keyframes het creature omhoog uit de sneeuw verplaatsen
         creatureAnim.SetBool("isFlying", true); // op seconde 2.04 moet het creature uit e sneeuw bewegen.
-        playerAnim.SetBool("curiousLook", true);
 
         // pas na 2.04 seconde moet dus alles gebeuren.
         yield return new WaitForSeconds(1f); // 8sec into cutscene
@@ -132,6 +131,7 @@ public class CreatureEncounter : MonoBehaviour {
         Destroy(destructibleBoi);
         creatureAnim.SetBool("isFlying", false);
         creatureAnim.SetBool("isFlop", true);
+        playerAnim.SetBool("curiousLook", true);
 
         //yield return new WaitForSeconds(0.2f);
         playerLookAtCreature = true;
