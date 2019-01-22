@@ -11,7 +11,7 @@ namespace Creature{
 		Transform moustacheBoy, player;
 		Animator moustacheBoyAnimator;
 		public Vector3 startingOffset = new Vector3(0, 20, 0), flyingOffset = new Vector3(0, 2.2f, 3.6f), endingOffset = new Vector3(5, 20, 35);
-		public float lerpFactor = .14f, baseSpeed = 10, distanceSpeedIncrease = 60, turnRate = 250, flyingSway = 2.5f, obstacleDetectRange = 9;
+		public float lerpFactor = .14f, baseSpeed = 10, distanceSpeedIncrease = 60, turnRate = 250, flyingSway = 2.5f, obstacleDetectRange = 9, currentXRot = 0;
 		bool flyAlong = false;
 
 		private void Awake ()
@@ -71,6 +71,7 @@ namespace Creature{
 				float obstacleDetectionTurnFactor = 0;
 				for (int i = -1; i <= 1; ++i) {
 					if (Physics.Raycast(moustacheBoy.position + moustacheBoy.right * i, moustacheBoy.forward, out obstacleRayHit, obstacleDetectRange, obstacleDetectMask)) {
+						currentXRot += -15 * Time.deltaTime;
 						if (Vector3.SignedAngle(moustacheBoy.forward, obstacleRayHit.normal, Vector3.up) < 0)
 							obstacleDetectionTurnFactor += -1.2f;
 						else
@@ -79,18 +80,18 @@ namespace Creature{
 				}
 				obstacleDetectionTurnFactor = Mathf.Clamp(obstacleDetectionTurnFactor, -2.8f, 2.8f);
 				float yRotation = turnRate * obstacleDetectionTurnFactor * Time.deltaTime;
+				moustacheBoy.Rotate(0, turnRate * obstacleDetectionTurnFactor * Time.deltaTime, 0, 0);
 
-				float xRotation = 0;
 				if (targetPos.y > moustacheBoy.position.y) {
-					xRotation += 45;
+					currentXRot += -45 * Time.deltaTime;
 				} else {
-					xRotation += -45;
+					currentXRot += 45 * Time.deltaTime;
 				}
-				if (Physics.Raycast(moustacheBoy.position, Vector3.down, 10, obstacleDetectMask)) {
-					xRotation += -30;
+				if (Physics.Raycast(moustacheBoy.position, Vector3.down, flyingOffset.y + 1, obstacleDetectMask)) {
+					currentXRot += -90 * Time.deltaTime;
 				}
-				moustacheBoy.Rotate(xRotation * Time.deltaTime, turnRate * obstacleDetectionTurnFactor * Time.deltaTime, 0);
-				moustacheBoy.rotation = Quaternion.Euler(Mathf.Clamp(moustacheBoy.eulerAngles.x, -20, 20), moustacheBoy.eulerAngles.y, 0);
+				currentXRot = Mathf.Clamp(currentXRot, -25, 25);
+				moustacheBoy.rotation = Quaternion.Euler(currentXRot, moustacheBoy.eulerAngles.y, 0);
 				yield return null;
 			}
 
