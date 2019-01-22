@@ -337,20 +337,6 @@ public class PlangeMuurInteractive : MonoBehaviour
 
     IEnumerator EndSequence()
     {
-    //END SEQUENCE
-    //if (postSequenceActivity == PostSequenceActivities.TotZo)
-    //{
-    //    totZoPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
-    //        totZoPrefab.GetComponent<ISocialEncounter>().Execute(() => {
-    //            totZoPrefab.GetComponent<ISocialEncounter>().End(() => { afterSequenceEventPlayed = true; });
-    //        });
-    //    });
-    //}
-    //else
-    //{
-    //    afterSequenceEventPlayed = true;
-    //}
-
         sequenceIsRunning = false;
         creatureBecamePiccolo = false;
         activePlatform = 0;
