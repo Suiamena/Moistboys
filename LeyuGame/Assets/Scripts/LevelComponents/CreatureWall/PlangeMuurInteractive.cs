@@ -9,8 +9,6 @@ public class PlangeMuurInteractive : MonoBehaviour
     public PreSequenceActivities preSequenceActivity = PreSequenceActivities.None;
     public enum SequenceActivities { Flop, Superflop, None };
     public SequenceActivities sequenceActivity = SequenceActivities.None;
-    public enum PostSequenceActivities { TotZo, None };
-    public PostSequenceActivities postSequenceActivity = PostSequenceActivities.None;
 
     public static int currentCreatureLocation = 0;
 
@@ -55,10 +53,7 @@ public class PlangeMuurInteractive : MonoBehaviour
     public GameObject wagglePrefab;
     [HideInInspector]
     public GameObject sneezePrefab, welcomeBackPrefab, flopPrefab, superflopPrefab, totZoPrefab;
-    bool readyForSequence = false, afterSequenceEventPlayed = false;
-
-    [Header("Other Settings")]
-    //public const float triggerAbilityRange = 16;
+    bool readyForSequence = false, afterSequenceEventPlayed = false, readyToAdvance = false;
 
     //MANAGER
     int activePlatform = 0;
@@ -81,7 +76,6 @@ public class PlangeMuurInteractive : MonoBehaviour
         moustacheAnimator = moustacheBoi.GetComponent<Animator>();
         creatureRenderer = moustacheBoi.GetComponentInChildren<Renderer>();
         jumpingSpeed = playerScript.creatureWallJumpSpeed;
-
         Transform platformsParent;
         platformsParent = transform.GetChild(0);
         for (int i = 0; i < platformsParent.childCount; i++) {
