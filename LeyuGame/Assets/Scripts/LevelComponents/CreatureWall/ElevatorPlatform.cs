@@ -53,6 +53,7 @@ public class ElevatorPlatform : MonoBehaviour {
         }
         //piccolo state
         if (wallScript.creatureBecamePiccolo) {
+            Debug.Log(creatureIsBack);
             if (!creatureCoroutineTwoOnce && creatureIsBack) {
                 StartCoroutine(CreaturePiccolo());
                 creatureCoroutineTwoOnce = true;
@@ -70,7 +71,6 @@ public class ElevatorPlatform : MonoBehaviour {
         }
         creatureIsBack = true;
         creatureCoroutineOneOnce = false;
-        //wordt soms niet true?
     }
 
     IEnumerator CreaturePiccolo()
@@ -82,7 +82,6 @@ public class ElevatorPlatform : MonoBehaviour {
             moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, transform.position.y, moustacheBoi.transform.position.z);
             yield return null;
         }
-        wallScript.startEvent = false;
         creatureCoroutineTwoOnce = false;
     }
 
