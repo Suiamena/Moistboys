@@ -53,6 +53,7 @@ public class ElevatorPlatform : MonoBehaviour {
         }
         //piccolo state
         if (wallScript.creatureBecamePiccolo) {
+            Debug.Log(creatureIsBack);
             if (!creatureCoroutineTwoOnce && creatureIsBack) {
                 StartCoroutine(CreaturePiccolo());
                 creatureCoroutineTwoOnce = true;
