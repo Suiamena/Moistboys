@@ -21045,7 +21045,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4993296583937290, guid: cd3368b957e381c4b9afb290b4a05417, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 1287.8
+      value: 1281.7
       objectReference: {fileID: 0}
     - target: {fileID: 4993296583937290, guid: cd3368b957e381c4b9afb290b4a05417, type: 2}
       propertyPath: m_LocalPosition.y
@@ -21053,23 +21053,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4993296583937290, guid: cd3368b957e381c4b9afb290b4a05417, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 370.4
+      value: 374
       objectReference: {fileID: 0}
     - target: {fileID: 4993296583937290, guid: cd3368b957e381c4b9afb290b4a05417, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4993296583937290, guid: cd3368b957e381c4b9afb290b4a05417, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.027203172
       objectReference: {fileID: 0}
     - target: {fileID: 4993296583937290, guid: cd3368b957e381c4b9afb290b4a05417, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4993296583937290, guid: cd3368b957e381c4b9afb290b4a05417, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.99963
       objectReference: {fileID: 0}
     - target: {fileID: 4993296583937290, guid: cd3368b957e381c4b9afb290b4a05417, type: 2}
       propertyPath: m_RootOrder
@@ -21077,11 +21077,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4993296583937290, guid: cd3368b957e381c4b9afb290b4a05417, type: 2}
       propertyPath: m_LocalScale.x
-      value: 255.90784
+      value: 255.26294
       objectReference: {fileID: 0}
     - target: {fileID: 4993296583937290, guid: cd3368b957e381c4b9afb290b4a05417, type: 2}
       propertyPath: m_LocalScale.z
-      value: 196.11609
+      value: 193.55911
       objectReference: {fileID: 0}
     - target: {fileID: 65118424569784598, guid: cd3368b957e381c4b9afb290b4a05417,
         type: 2}
@@ -21106,6 +21106,10 @@ Prefab:
     - target: {fileID: 1914891145960326, guid: cd3368b957e381c4b9afb290b4a05417, type: 2}
       propertyPath: m_TagString
       value: Amethyst
+      objectReference: {fileID: 0}
+    - target: {fileID: 4993296583937290, guid: cd3368b957e381c4b9afb290b4a05417, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 3.118
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd3368b957e381c4b9afb290b4a05417, type: 2}
@@ -22485,14 +22489,23 @@ Prefab:
       propertyPath: m_StitchLightmapSeams
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2300008, guid: 7d4cc7cac9affc84ca5bda11f6d9fa77, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b2b1efd5c01d2a04e975a4b2fa45450b, type: 2}
+    - target: {fileID: 2300008, guid: 7d4cc7cac9affc84ca5bda11f6d9fa77, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: d844df9ebd2ae0742af4fc28f085e47f, type: 2}
     m_RemovedComponents:
     - {fileID: 2300000, guid: 7d4cc7cac9affc84ca5bda11f6d9fa77, type: 3}
     - {fileID: 3300000, guid: 7d4cc7cac9affc84ca5bda11f6d9fa77, type: 3}
+    - {fileID: 2300006, guid: 7d4cc7cac9affc84ca5bda11f6d9fa77, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7d4cc7cac9affc84ca5bda11f6d9fa77, type: 3}
   m_IsPrefabAsset: 0
 --- !u!1 &818384477 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 100004, guid: 7d4cc7cac9affc84ca5bda11f6d9fa77,
+  m_CorrespondingSourceObject: {fileID: 100010, guid: 7d4cc7cac9affc84ca5bda11f6d9fa77,
     type: 3}
   m_PrefabInternal: {fileID: 818384476}
 --- !u!1 &818384478 stripped
@@ -22513,8 +22526,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300002, guid: 7d4cc7cac9affc84ca5bda11f6d9fa77, type: 3}
+  m_Mesh: {fileID: 4300006, guid: 7d4cc7cac9affc84ca5bda11f6d9fa77, type: 3}
 --- !u!64 &818384480
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 818384478}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 7d4cc7cac9affc84ca5bda11f6d9fa77, type: 3}
+--- !u!64 &818384481
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -39857,7 +39884,7 @@ MonoBehaviour:
   FogTransitionSize: 5
   MaxLightDistance: 128
   AboveFogPercent: 0.1
-  Offset: {x: 72113.11, y: 41653.047, z: 3809.5432}
+  Offset: {x: 72635.78, y: 42306.406, z: 3861.8047}
 --- !u!108 &1540924106
 Light:
   m_ObjectHideFlags: 0
@@ -43504,6 +43531,36 @@ Prefab:
         type: 2}
       propertyPath: MatrixV.e11
       value: 0.9728062
+      objectReference: {fileID: 0}
+    - target: {fileID: 114075830412594094, guid: 0a0d5718f38a861478f5fe3ea7f2abce,
+        type: 2}
+      propertyPath: launchStageOneColor.g
+      value: 0.30258194
+      objectReference: {fileID: 0}
+    - target: {fileID: 114075830412594094, guid: 0a0d5718f38a861478f5fe3ea7f2abce,
+        type: 2}
+      propertyPath: launchStageOneColor.r
+      value: 0.9716981
+      objectReference: {fileID: 0}
+    - target: {fileID: 114075830412594094, guid: 0a0d5718f38a861478f5fe3ea7f2abce,
+        type: 2}
+      propertyPath: launchStageOneColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114075830412594094, guid: 0a0d5718f38a861478f5fe3ea7f2abce,
+        type: 2}
+      propertyPath: launchStageTwoColor.b
+      value: 0.32204372
+      objectReference: {fileID: 0}
+    - target: {fileID: 114075830412594094, guid: 0a0d5718f38a861478f5fe3ea7f2abce,
+        type: 2}
+      propertyPath: launchStageTwoColor.r
+      value: 0.83137256
+      objectReference: {fileID: 0}
+    - target: {fileID: 114075830412594094, guid: 0a0d5718f38a861478f5fe3ea7f2abce,
+        type: 2}
+      propertyPath: launchStageTwoColor.g
+      value: 0.027450997
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114584684331154410, guid: 0a0d5718f38a861478f5fe3ea7f2abce, type: 2}
