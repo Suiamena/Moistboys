@@ -18,6 +18,8 @@ public class ElevatorPlatform : MonoBehaviour {
     PlangeMuurInteractive wallScript;
 
     public GameObject player;
+    DynamicBone playerBones;
+
     public GameObject elevatorRadio;
     public GameObject elevatorBell;
 
@@ -31,6 +33,8 @@ public class ElevatorPlatform : MonoBehaviour {
     private void Awake()
     {
         wallScript = wallObject.GetComponent<PlangeMuurInteractive>();
+        playerBones = player.GetComponentInChildren<DynamicBone>();
+
         nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3, nextLocation.transform.position.z);
     }
 
@@ -53,7 +57,6 @@ public class ElevatorPlatform : MonoBehaviour {
         }
         //piccolo state
         if (wallScript.creatureBecamePiccolo) {
-            Debug.Log(creatureIsBack);
             if (!creatureCoroutineTwoOnce && creatureIsBack) {
                 StartCoroutine(CreaturePiccolo());
                 creatureCoroutineTwoOnce = true;
@@ -100,8 +103,14 @@ public class ElevatorPlatform : MonoBehaviour {
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        playerBones.enabled = false;
+    }
+
     private void OnTriggerExit(Collider other)
     {
+        playerBones.enabled = true;
         goDown = true;
         if (!elevatorIsMoving) {
             elevatorIsMoving = true;
