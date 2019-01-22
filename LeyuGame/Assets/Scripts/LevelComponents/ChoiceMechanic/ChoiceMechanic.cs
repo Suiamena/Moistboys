@@ -147,10 +147,12 @@ public class ChoiceMechanic : MonoBehaviour {
         }
     }
 
+    // FIRST CUTSCENE
     IEnumerator CreatureApproachesSource()
     {
         //SUPERFLOP HIERIN!
-        cutsceneCamera.SetActive(true);
+        //cutsceneCamera.SetActive(true);
+        secondCutsceneCamera.SetActive(true);
         player.transform.position = playerTransformTarget.transform.position;
         landingIndicatorObject.transform.position = playerTransformTarget.transform.position;
         player.transform.rotation = Quaternion.Euler(-10, 90, 0);
@@ -166,8 +168,8 @@ public class ChoiceMechanic : MonoBehaviour {
 
         //Ability is Lost
         GlowStart.start();
-        cutsceneCamera.transform.position = cutsceneCameraOneTransformTarget.transform.position;
-        cutsceneCamera.transform.rotation = cutsceneCameraOneTransformTarget.transform.rotation;
+        //cutsceneCamera.transform.position = cutsceneCameraOneTransformTarget.transform.position;
+        //cutsceneCamera.transform.rotation = cutsceneCameraOneTransformTarget.transform.rotation;
         moustacheBoiAnim.SetBool("isUsingAbility", true);
         yield return new WaitForSeconds(1F);
         moustacheBoiAbility.SetActive(true);
@@ -193,6 +195,8 @@ public class ChoiceMechanic : MonoBehaviour {
     void StopFirstCutscene()
     {
         playerScript.EnablePlayer();
+        //cutsceneCamera.SetActive(false);
+        secondCutsceneCamera.SetActive(false);
         cutsceneCamera.SetActive(false);
         firstCutsceneFinished = true;
     }
