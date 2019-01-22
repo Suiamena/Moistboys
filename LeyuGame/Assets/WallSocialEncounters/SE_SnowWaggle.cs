@@ -20,6 +20,7 @@ public class SE_SnowWaggle : MonoBehaviour, ISocialEncounter
 	{
         endPosition = moustacheBoyEndLocation.position;
         endRotation = moustacheBoyEndLocation.rotation;
+        Debug.Log("go");
         moustacheBoy.position = moustacheBoyStartLocation.position;
 		moustacheBoy.rotation = moustacheBoyStartLocation.rotation;
 		audioSource = GetComponent<AudioSource>();
