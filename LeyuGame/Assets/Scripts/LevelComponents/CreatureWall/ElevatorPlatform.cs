@@ -71,7 +71,6 @@ public class ElevatorPlatform : MonoBehaviour {
         }
         creatureIsBack = true;
         creatureCoroutineOneOnce = false;
-        //wordt soms niet true?
     }
 
     IEnumerator CreaturePiccolo()
