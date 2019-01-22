@@ -69,14 +69,14 @@ public class ElevatorPlatform : MonoBehaviour {
             moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, transform.position, (20 * 2f) * Time.deltaTime);
             yield return null;
         }
-        creatureCoroutineOneOnce = false;
-        //wordt soms niet true?
         creatureIsBack = true;
+        creatureCoroutineOneOnce = false;
     }
 
     IEnumerator CreaturePiccolo()
     {
         creatureIsBack = false;
+        wallScript.startEvent = true;
         while (wallScript.creatureBecamePiccolo) {
             moustacheBoi.transform.LookAt(player.transform.position);
             moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, transform.position.y, moustacheBoi.transform.position.z);
@@ -122,6 +122,8 @@ public class ElevatorPlatform : MonoBehaviour {
                 yield return null;
             }
             wallScript.DisablePiccolo();
+            elevatorBell.SetActive(true);
+            elevatorRadio.SetActive(false);
         }
         if (goDown) {
             yield return new WaitForSeconds(1f);
@@ -134,8 +136,6 @@ public class ElevatorPlatform : MonoBehaviour {
                 yield return null;
             }
         }
-        elevatorBell.SetActive(true);
-        elevatorRadio.SetActive(false);
         goUp = false;
         goDown = false;
         elevatorIsMoving = false;
