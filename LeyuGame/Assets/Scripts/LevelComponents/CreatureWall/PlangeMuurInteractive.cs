@@ -5,12 +5,11 @@ using XInputDotNetPure;
 
 public class PlangeMuurInteractive : MonoBehaviour
 {
-    public enum PreSequenceActivities { Waggle, Sneeze, WelcomeBack, None };
-    public PreSequenceActivities preSequenceActivity = PreSequenceActivities.None;
-    public enum SequenceActivities { Flop, Superflop, None };
+    public enum SequenceActivities { Sneeze, WelcomeBack, Flop, Superflop, None };
     public SequenceActivities sequenceActivity = SequenceActivities.None;
-    public enum PostSequenceActivities { TotZo, None };
-    public PostSequenceActivities postSequenceActivity = PostSequenceActivities.None;
+
+    [HideInInspector]
+    public bool startEvent;
 
     public static int currentCreatureLocation = 0;
 
@@ -32,9 +31,9 @@ public class PlangeMuurInteractive : MonoBehaviour
     [HideInInspector]
     public GameObject platformsObject;
 
-    [Header("Creature Materials")]
-    public Material defaultMaterial;
-    public Material glowingMaterial;
+    //CREATURE MATERIALS
+    [HideInInspector]
+    public Material defaultMaterial, glowingMaterial;
     Renderer creatureRenderer;
 
     [Header("Platform Settings")]
@@ -44,21 +43,18 @@ public class PlangeMuurInteractive : MonoBehaviour
     List<Vector3> platformDefaultPositions = new List<Vector3>();
 
     [Header("Flying Settings")]
+    public float flyingSpeed = 50;
+    public float flyInOutRange = 45;
+    [HideInInspector]
     public Vector3 flyInOutPoint = new Vector3(0, 40, -7);
-    public float flyingSpeed = 50, flyInOutRange = 45;
     Vector3 defaultCreaturePos, flyInPosition, flyToPlatformPosition;
     Quaternion defaultCreatureRot;
     bool flyingRoutineRunning = false;
 
     [Header("Social Events")]
     [HideInInspector]
-    public GameObject wagglePrefab;
-    [HideInInspector]
-    public GameObject sneezePrefab, welcomeBackPrefab, flopPrefab, superflopPrefab, totZoPrefab;
-    bool readyForSequence = false, afterSequenceEventPlayed = false;
-
-    [Header("Other Settings")]
-    //public const float triggerAbilityRange = 16;
+    public GameObject sneezePrefab, welcomeBackPrefab, flopPrefab, superflopPrefab;
+    bool readyForSequence = false, afterSequenceEventPlayed = false, readyToAdvance = false;
 
     //MANAGER
     int activePlatform = 0;
@@ -81,7 +77,6 @@ public class PlangeMuurInteractive : MonoBehaviour
         moustacheAnimator = moustacheBoi.GetComponent<Animator>();
         creatureRenderer = moustacheBoi.GetComponentInChildren<Renderer>();
         jumpingSpeed = playerScript.creatureWallJumpSpeed;
-
         Transform platformsParent;
         platformsParent = transform.GetChild(0);
         for (int i = 0; i < platformsParent.childCount; i++) {
@@ -99,10 +94,77 @@ public class PlangeMuurInteractive : MonoBehaviour
         }
         flyInPosition = creatureFlyInPositionObject.transform.position;
     }
-    
+
     private void Update()
     {
         CheckForFlying();
+        if (startEvent) {
+            StartCoroutine(PlayEvent());
+        }
+    }
+
+    IEnumerator PlayEvent()
+    {
+        //EVENT
+        switch (sequenceActivity)
+        {
+            case SequenceActivities.None:
+                readyForSequence = true;
+                break;
+            case SequenceActivities.Sneeze:
+                sneezePrefab.GetComponent<ISocialEncounter>().Initialize(() =>
+                {
+                    sneezePrefab.GetComponent<ISocialEncounter>().Execute(() =>
+                    {
+                        sneezePrefab.GetComponent<ISocialEncounter>().End(() =>
+                        {
+                            readyForSequence = true;
+                        });
+                    });
+                });
+                break;
+            case SequenceActivities.WelcomeBack:
+                welcomeBackPrefab.GetComponent<ISocialEncounter>().Initialize(() =>
+                {
+                    welcomeBackPrefab.GetComponent<ISocialEncounter>().Execute(() =>
+                    {
+                        welcomeBackPrefab.GetComponent<ISocialEncounter>().End(() =>
+                        {
+                            readyForSequence = true;
+                        });
+                    });
+                });
+                break;
+            case SequenceActivities.Flop:
+                flopPrefab.GetComponent<ISocialEncounter>().Initialize(() =>
+                {
+                    flopPrefab.GetComponent<ISocialEncounter>().Execute(() =>
+                    {
+                        flopPrefab.GetComponent<ISocialEncounter>().End(() =>
+                        {
+                            readyForSequence = true;
+                        });
+                    });
+                });
+                break;
+            case SequenceActivities.Superflop:
+                superflopPrefab.GetComponent<ISocialEncounter>().Initialize(() =>
+                {
+                    superflopPrefab.GetComponent<ISocialEncounter>().Execute(() =>
+                    {
+                        superflopPrefab.GetComponent<ISocialEncounter>().End(() =>
+                        {
+                            readyForSequence = true;
+                        });
+                    });
+                });
+                break;
+        }
+        while (!readyForSequence)
+        {
+            yield return null;
+        }
+        startEvent = false;
     }
 
     void CheckForFlying()
@@ -174,76 +236,6 @@ public class PlangeMuurInteractive : MonoBehaviour
 
     IEnumerator CreatureSpawnsFirstPlatform()
     {
-        bool readyToAdvance = false;
-
-        //PRE SEQUENCE
-        switch (preSequenceActivity)
-        {
-            case PreSequenceActivities.None:
-                readyForSequence = true;
-                break;
-            case PreSequenceActivities.Waggle:
-                Debug.Log("waggle");
-                wagglePrefab.GetComponent<ISocialEncounter>().Initialize(() => {
-                    wagglePrefab.GetComponent<ISocialEncounter>().Execute(() => {
-                        wagglePrefab.GetComponent<ISocialEncounter>().End(() => {
-                            readyForSequence = true;
-                        });
-                    });
-                });
-                break;
-            case PreSequenceActivities.Sneeze:
-                sneezePrefab.GetComponent<ISocialEncounter>().Initialize(() => {
-                    sneezePrefab.GetComponent<ISocialEncounter>().Execute(() => {
-                        sneezePrefab.GetComponent<ISocialEncounter>().End(() => {
-                            readyForSequence = true;
-                        });
-                    });
-                });
-                break;
-            case PreSequenceActivities.WelcomeBack:
-                welcomeBackPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
-                    welcomeBackPrefab.GetComponent<ISocialEncounter>().Execute(() => {
-                        welcomeBackPrefab.GetComponent<ISocialEncounter>().End(() => {
-                            readyForSequence = true;
-                        });
-                    });
-                });
-                break;
-        }
-
-        yield return new WaitForSeconds(3f);
-
-        //SEQUENCE
-        switch (sequenceActivity)
-        {
-            case SequenceActivities.None:
-                readyToAdvance = true;
-                break;
-            case SequenceActivities.Flop:
-                flopPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
-                    flopPrefab.GetComponent<ISocialEncounter>().Execute(() => {
-                        flopPrefab.GetComponent<ISocialEncounter>().End(() => {
-                            readyToAdvance = true;
-                        });
-                    });
-                });
-                break;
-            case SequenceActivities.Superflop:
-                superflopPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
-                    superflopPrefab.GetComponent<ISocialEncounter>().Execute(() => {
-                        superflopPrefab.GetComponent<ISocialEncounter>().End(() => {
-                            readyToAdvance = true;
-                        });
-                    });
-                });
-                break;
-        }
-        while (!readyToAdvance)
-            yield return null;
-
-        yield return new WaitForSeconds(3f);
-
         //SPAWN
         creatureRenderer.material = glowingMaterial;
         MoustacheBoiAudio.PlayRumble();
@@ -338,21 +330,7 @@ public class PlangeMuurInteractive : MonoBehaviour
 
     IEnumerator EndSequence()
     {
-    //END SEQUENCE
-    if (postSequenceActivity == PostSequenceActivities.TotZo)
-    {
-        totZoPrefab.GetComponent<ISocialEncounter>().Initialize(() => {
-            totZoPrefab.GetComponent<ISocialEncounter>().Execute(() => {
-                totZoPrefab.GetComponent<ISocialEncounter>().End(() => { afterSequenceEventPlayed = true; });
-            });
-        });
-    }
-    else
-    {
-        afterSequenceEventPlayed = true;
-    }
-
-    sequenceIsRunning = false;
+        sequenceIsRunning = false;
         creatureBecamePiccolo = false;
         activePlatform = 0;
         for (int i = 0; i < platformTransforms.Count - 1; i++)
@@ -377,4 +355,5 @@ public class PlangeMuurInteractive : MonoBehaviour
             }
         }
     }
+
 }

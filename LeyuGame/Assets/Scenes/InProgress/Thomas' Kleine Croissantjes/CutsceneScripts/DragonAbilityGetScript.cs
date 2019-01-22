@@ -34,19 +34,20 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     Color tempColor;
 
-
     //bool screechPlayed = false;
     //GameObject creature;
     //AudioSource creatureScreech;
     //public AudioClip screech;
+    public GameObject creatureFlyAlong;
 
     //float windStormStrength, particlesSpeed;
     //bool accelerateSnowstorm;
     [Header("Particle Settings")]
-    public GameObject snowParticlesWindObject;
+    public GameObject snowParticles;
     ParticleSystem snowParticlesSystem;
     ParticleSystem.EmissionModule emissionModule;
     ParticleSystem.MainModule main;
+    public float stormIntensity = 3000f;
 
     void Start ()
     {
@@ -71,6 +72,10 @@ public class DragonAbilityGetScript : MonoBehaviour {
         image.color = tempColor;
 
         cutsceneCollider = GetComponent<SphereCollider>();
+
+        snowParticlesSystem = snowParticles.GetComponent<ParticleSystem>();
+        emissionModule = snowParticlesSystem.emission;
+        main = snowParticlesSystem.main;
     }
 
     void OnTriggerEnter()
@@ -91,6 +96,8 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     void OnTriggerStay()
     {
+        //Raycast totdat ie iets raakt. dan eenmalig sneeuw poefje. dan stoppen met het hele gebeuren.
+
         //controllerSwitch.Gravity();
         player.transform.LookAt(gameObject.transform.position);
         playerCamera.transform.LookAt(abilityPickUp.transform.position);
@@ -117,6 +124,9 @@ public class DragonAbilityGetScript : MonoBehaviour {
             var tempColor = image.color;
             tempColor.a += 0.0028f;
             image.color = tempColor;
+
+            stormIntensity += 10f;
+            emissionModule.rate = stormIntensity;
         }
     }
 
@@ -136,9 +146,6 @@ public class DragonAbilityGetScript : MonoBehaviour {
         Level3Music.startMusic = true;
         Destroy(abilityPickUp);
         cutsceneCollider.enabled = false;
-
-        //sneeuwstormTrigger.SetActive(true);
-        //Destroy(gameObject);
         FadingToWhite = true;
 
         while (image.color.a < 1)
@@ -146,6 +153,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
             yield return null;
         }
 
+        creatureFlyAlong.SetActive(true);
         print("FUCKKKKKK");
         yield return new WaitForSeconds(1f);
         print("hallo?");

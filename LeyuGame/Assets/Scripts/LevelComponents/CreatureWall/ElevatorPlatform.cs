@@ -18,6 +18,8 @@ public class ElevatorPlatform : MonoBehaviour {
     PlangeMuurInteractive wallScript;
 
     public GameObject player;
+    DynamicBone playerBones;
+
     public GameObject elevatorRadio;
     public GameObject elevatorBell;
 
@@ -31,6 +33,8 @@ public class ElevatorPlatform : MonoBehaviour {
     private void Awake()
     {
         wallScript = wallObject.GetComponent<PlangeMuurInteractive>();
+        playerBones = player.GetComponentInChildren<DynamicBone>();
+
         nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3, nextLocation.transform.position.z);
     }
 
@@ -68,13 +72,14 @@ public class ElevatorPlatform : MonoBehaviour {
             moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, transform.position, (20 * 2f) * Time.deltaTime);
             yield return null;
         }
-        creatureCoroutineOneOnce = false;
         creatureIsBack = true;
+        creatureCoroutineOneOnce = false;
     }
 
     IEnumerator CreaturePiccolo()
     {
         creatureIsBack = false;
+        wallScript.startEvent = true;
         while (wallScript.creatureBecamePiccolo) {
             moustacheBoi.transform.LookAt(player.transform.position);
             moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, transform.position.y, moustacheBoi.transform.position.z);
@@ -98,8 +103,14 @@ public class ElevatorPlatform : MonoBehaviour {
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        playerBones.enabled = false;
+    }
+
     private void OnTriggerExit(Collider other)
     {
+        playerBones.enabled = true;
         goDown = true;
         if (!elevatorIsMoving) {
             elevatorIsMoving = true;
@@ -120,6 +131,8 @@ public class ElevatorPlatform : MonoBehaviour {
                 yield return null;
             }
             wallScript.DisablePiccolo();
+            elevatorBell.SetActive(true);
+            elevatorRadio.SetActive(false);
         }
         if (goDown) {
             yield return new WaitForSeconds(1f);
@@ -132,8 +145,6 @@ public class ElevatorPlatform : MonoBehaviour {
                 yield return null;
             }
         }
-        elevatorBell.SetActive(true);
-        elevatorRadio.SetActive(false);
         goUp = false;
         goDown = false;
         elevatorIsMoving = false;
