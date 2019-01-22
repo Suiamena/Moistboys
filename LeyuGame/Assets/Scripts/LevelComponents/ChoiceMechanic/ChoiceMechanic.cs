@@ -25,7 +25,7 @@ public class ChoiceMechanic : MonoBehaviour {
     int moustacheBoiSpeed = 10, abilitySpeed = 3, playerAbilitySpeed = 6;
 
     //WarmthSource Settings
-    GameObject warmthSource;
+    public GameObject warmthSource;
     public GameObject warmthSourceOpen;
     GameObject playerAbilityTarget;
     GameObject warmthSourceTarget;
@@ -65,12 +65,11 @@ public class ChoiceMechanic : MonoBehaviour {
         playerModel = GameObject.Find("MOD_Draak");
         playerAnim = playerModel.GetComponent<Animator>();
         playerCamera = GameObject.Find("Main Camera");
-        landingIndicatorObject = GameObject.Find("LandingIndicator");
+        landingIndicatorObject = GameObject.Find("Shadow");
 
         moustacheBoiTarget = GameObject.Find("MoustacheBoiTarget");
         moustacheBoiAnim = moustacheBoiCutscene.GetComponent<Animator>();
 
-        warmthSource = GameObject.Find("WarmthSourceCutscene");
         playerAbilityTarget = GameObject.Find("PlayerAbilityTarget");
         warmthSourceTarget = GameObject.Find("WarmthSourceTarget");
 
@@ -360,28 +359,18 @@ public class ChoiceMechanic : MonoBehaviour {
         playerScript.EnablePlayer();
         fourthCutsceneCamera.SetActive(false);
         //RESOLVE
-        //uitvoeren if null
         if (competentScript.playerChooseCompetence)
         {
-            //PlayerPrefs.SetString("LevelSixChoice", "Launch");
             VariablesGlobal.chosenForCompetence = true;
             moustacheBoiAnim.SetBool("goodBye", true);
             playerScript.launchEnabled = true;
         }
         else
         {
-            //PlayerPrefs.SetString("LevelSixChoice", "Creature");
             VariablesGlobal.chosenForSocial = true;
             moustacheBoiEnding.SetActive(true);
             moustacheBoiCutscene.SetActive(false);
         }
-        //SceneSettings sceneSettingObject = FindObjectOfType<SceneSettings>();
-        //if (sceneSettingObject != null)
-        //{
-        //}
-        //else
-        //{
-        //}
     }
 
 }
