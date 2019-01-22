@@ -97,8 +97,13 @@ public class DragonAbilityGetScript : MonoBehaviour {
         stormIntensityPerSec = (maxStormIntensity - baseStormIntensity) / stormIntensityTime;
 
         //SHADER STUFF
+        //LENNY TRYOUT
+        aureoolModel.GetComponent<Renderer>().sharedMaterial.SetFloat("_Cutoff", 1);
+
         rend = aureoolModel.GetComponent<Renderer>();
         rend.material.shader = Shader.Find("SHAD_Dragon_Symbol_Glow");
+
+        Debug.Log(rend);
     }
 
     void OnTriggerEnter()
@@ -144,6 +149,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     void Update ()
     {
+        aureoolModel.GetComponent<Renderer>().sharedMaterial.SetFloat("_Cutoff", 1);
         if (particlesFollowPlayer == true)
         {
             sneeuwParticlesPos.transform.position = new Vector3(player.transform.position.x + distanceInFrontOfPlayer, player.transform.position.y, player.transform.position.z);
@@ -183,7 +189,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
         {
             //glow = 0.05f * energyAmount;
             rend.material.SetFloat("_Cutoff", aureoolVisibility);
-            aureoolVisibility = Mathf.Lerp(aureoolVisibility, 0.5f, 0.5f);
+            //aureoolVisibility = Mathf.Lerp(aureoolVisibility, 0.5f, 0.5f);
             print(aureoolVisibility + "...");
         }
 
@@ -222,13 +228,9 @@ public class DragonAbilityGetScript : MonoBehaviour {
         {
             yield return null;
         }
-        print("FUCKKKKKK");
         yield return new WaitForSeconds(1f);
-        print("hallo?");
         AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         Level2Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         SceneManager.LoadScene("Level 3");
     }
 }
-
-

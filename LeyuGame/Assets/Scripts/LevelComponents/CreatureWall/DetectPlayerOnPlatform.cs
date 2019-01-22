@@ -1,28 +1,34 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Creature;
 
-public class DetectPlayerOnPlatform : MonoBehaviour {
-
-    public GameObject wallObject;
-    PlangeMuurInteractive wallScript;
-    public bool playerOnPlatform;
-
-    private void Awake()
+namespace Creature
+{
+    public class DetectPlayerOnPlatform : MonoBehaviour
     {
-        wallScript = wallObject.GetComponent<PlangeMuurInteractive>();
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
+        public GameObject wallObject;
+        PlangeMuurInteractive wallScript;
+        public bool playerOnPlatform;
+
+        private void Awake()
         {
-            if (!playerOnPlatform)
+            wallScript = wallObject.GetComponent<PlangeMuurInteractive>();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "Player")
             {
-                playerOnPlatform = true;
-                wallScript.NewPlatform(playerOnPlatform);
+                if (!playerOnPlatform)
+                {
+                    playerOnPlatform = true;
+                    wallScript.NewPlatform(playerOnPlatform);
+                }
             }
         }
+
     }
 
 }
