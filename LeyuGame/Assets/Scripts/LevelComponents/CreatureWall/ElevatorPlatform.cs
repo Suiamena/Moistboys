@@ -82,7 +82,6 @@ public class ElevatorPlatform : MonoBehaviour {
             moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, transform.position.y, moustacheBoi.transform.position.z);
             yield return null;
         }
-        wallScript.startEvent = false;
         creatureCoroutineTwoOnce = false;
     }
 
