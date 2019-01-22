@@ -2,110 +2,112 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreatureFlyAlong : MonoBehaviour
-{
-	public LayerMask obstacleDetectMask;
-	RaycastHit obstacleRayHit;
-	bool flyAlongRoutineRunning = false;
-	Transform moustacheBoy, player;
-	Animator moustacheBoyAnimator;
-	public Vector3 startingOffset = new Vector3(0, 20, 0), flyingOffset = new Vector3(0, 2.2f, 3.6f), endingOffset = new Vector3(5, 20, 35);
-	public float lerpFactor = .14f, baseSpeed = 10, distanceSpeedIncrease = 60, turnRate = 250, flyingSway = 2.5f, obstacleDetectRange = 9;
-	bool flyAlong = false;
-
-	private void Awake ()
+namespace Creature{
+	public class CreatureFlyAlong : MonoBehaviour
 	{
-		moustacheBoy = transform.GetChild(0);
-		moustacheBoyAnimator = moustacheBoy.GetComponent<Animator>();
-	}
+		public LayerMask obstacleDetectMask;
+		RaycastHit obstacleRayHit;
+		bool flyAlongRoutineRunning = false;
+		Transform moustacheBoy, player;
+		Animator moustacheBoyAnimator;
+		public Vector3 startingOffset = new Vector3(0, 20, 0), flyingOffset = new Vector3(0, 2.2f, 3.6f), endingOffset = new Vector3(5, 20, 35);
+		public float lerpFactor = .14f, baseSpeed = 10, distanceSpeedIncrease = 60, turnRate = 250, flyingSway = 2.5f, obstacleDetectRange = 9;
+		bool flyAlong = false;
 
-	private void OnTriggerEnter (Collider other)
-	{
-		if (other.CompareTag("Player")) {
-			player = other.transform.GetChild(0);
-			if (!flyAlongRoutineRunning) {
-				flyAlongRoutineRunning = true;
-				StartCoroutine(FlyAlong());
-			}
+		private void Awake ()
+		{
+			moustacheBoy = transform.GetChild(0);
+			moustacheBoyAnimator = moustacheBoy.GetComponent<Animator>();
 		}
-	}
-	private void OnTriggerExit (Collider other)
-	{
-		if (other.CompareTag("Player")) {
-			flyAlong = false;
-		}
-	}
 
-	IEnumerator FlyAlong ()
-	{
-		//Fly in
-		flyAlong = true;
-		moustacheBoy.position = player.position + startingOffset;
-		moustacheBoy.gameObject.SetActive(true);
-
-		float yAngle = player.eulerAngles.y;
-		moustacheBoy.eulerAngles = new Vector3(0, yAngle, 0);
-
-		moustacheBoyAnimator.SetBool("isFlying", true);
-
-		Vector3 targetPos;
-		float correctedSpeed;
-		while (flyAlong) {
-			//Move 
-			targetPos = player.position + player.rotation * flyingOffset + new Vector3(Mathf.Sin(Time.time * .1f) * flyingOffset.x, 0, Mathf.Sin(Time.time * 0.08f));
-
-			float distance = Vector3.Distance(moustacheBoy.position, targetPos);
-			correctedSpeed = baseSpeed + distance;
-
-			moustacheBoy.position += moustacheBoy.forward * correctedSpeed * Time.deltaTime;
-
-			//Steer based on targetPos
-			float rightDistance = (moustacheBoy.position + moustacheBoy.right).SquareDistance(targetPos);
-			if ((moustacheBoy.position + -moustacheBoy.right).SquareDistance(targetPos) < rightDistance)
-				moustacheBoy.Rotate(new Vector3(0, -turnRate * Time.deltaTime, 0));
-			else
-				moustacheBoy.Rotate(new Vector3(0, turnRate * Time.deltaTime, 0));
-
-			//Detect obstacles in front
-			float obstacleDetectionTurnFactor = 0;
-			for (int i = -1; i <= 1; ++i) {
-				if (Physics.Raycast(moustacheBoy.position + moustacheBoy.right * i, moustacheBoy.forward, out obstacleRayHit, obstacleDetectRange, obstacleDetectMask)) {
-					if (Vector3.SignedAngle(moustacheBoy.forward, obstacleRayHit.normal, Vector3.up) < 0)
-						obstacleDetectionTurnFactor += -1.2f;
-					else
-						obstacleDetectionTurnFactor += 1.2f;
+		private void OnTriggerEnter (Collider other)
+		{
+			if (other.CompareTag("Player")) {
+				player = other.transform.GetChild(0);
+				if (!flyAlongRoutineRunning) {
+					flyAlongRoutineRunning = true;
+					StartCoroutine(FlyAlong());
 				}
 			}
-			obstacleDetectionTurnFactor = Mathf.Clamp(obstacleDetectionTurnFactor, -2.8f, 2.8f);
-			float yRotation = turnRate * obstacleDetectionTurnFactor * Time.deltaTime;
-
-			float xRotation = 0;
-			if (targetPos.y > moustacheBoy.position.y) {
-				xRotation += 45;
-			} else {
-				xRotation += -45;
+		}
+		private void OnTriggerExit (Collider other)
+		{
+			if (other.CompareTag("Player")) {
+				flyAlong = false;
 			}
-			if (Physics.Raycast(moustacheBoy.position, Vector3.down, 10, obstacleDetectMask)) {
-				xRotation += -30;
-			}
-			moustacheBoy.Rotate(xRotation * Time.deltaTime, turnRate * obstacleDetectionTurnFactor * Time.deltaTime, 0);
-			moustacheBoy.rotation = Quaternion.Euler(Mathf.Clamp(moustacheBoy.eulerAngles.x, -20, 20), moustacheBoy.eulerAngles.y, 0);
-			yield return null;
 		}
 
-		targetPos = player.position + Quaternion.Euler(new Vector3(0, player.eulerAngles.y, 0)) * endingOffset;
-		Quaternion oldRot = moustacheBoy.rotation;
-		moustacheBoy.LookAt(targetPos);
-		float targetYAngle = moustacheBoy.eulerAngles.y;
-		moustacheBoy.rotation = oldRot;
+		IEnumerator FlyAlong ()
+		{
+			//Fly in
+			flyAlong = true;
+			moustacheBoy.position = player.position + startingOffset;
+			moustacheBoy.gameObject.SetActive(true);
 
-		while (moustacheBoy.position.SquareDistance(targetPos) > 1) {
-			moustacheBoy.position = Vector3.MoveTowards(moustacheBoy.position, targetPos, baseSpeed * Time.deltaTime);
-			moustacheBoy.eulerAngles = new Vector3(20, Mathf.Lerp(moustacheBoy.eulerAngles.y, targetYAngle, lerpFactor), 0);
-			yield return null;
+			float yAngle = player.eulerAngles.y;
+			moustacheBoy.eulerAngles = new Vector3(0, yAngle, 0);
+
+			moustacheBoyAnimator.SetBool("isFlying", true);
+
+			Vector3 targetPos;
+			float correctedSpeed;
+			while (flyAlong) {
+				//Move 
+				targetPos = player.position + player.rotation * flyingOffset + new Vector3(Mathf.Sin(Time.time * .1f) * flyingOffset.x, 0, Mathf.Sin(Time.time * 0.08f));
+
+				float distance = Vector3.Distance(moustacheBoy.position, targetPos);
+				correctedSpeed = baseSpeed + distance;
+
+				moustacheBoy.position += moustacheBoy.forward * correctedSpeed * Time.deltaTime;
+
+				//Steer based on targetPos
+				float rightDistance = (moustacheBoy.position + moustacheBoy.right).SquareDistance(targetPos);
+				if ((moustacheBoy.position + -moustacheBoy.right).SquareDistance(targetPos) < rightDistance)
+					moustacheBoy.Rotate(new Vector3(0, -turnRate * Time.deltaTime, 0));
+				else
+					moustacheBoy.Rotate(new Vector3(0, turnRate * Time.deltaTime, 0));
+
+				//Detect obstacles in front
+				float obstacleDetectionTurnFactor = 0;
+				for (int i = -1; i <= 1; ++i) {
+					if (Physics.Raycast(moustacheBoy.position + moustacheBoy.right * i, moustacheBoy.forward, out obstacleRayHit, obstacleDetectRange, obstacleDetectMask)) {
+						if (Vector3.SignedAngle(moustacheBoy.forward, obstacleRayHit.normal, Vector3.up) < 0)
+							obstacleDetectionTurnFactor += -1.2f;
+						else
+							obstacleDetectionTurnFactor += 1.2f;
+					}
+				}
+				obstacleDetectionTurnFactor = Mathf.Clamp(obstacleDetectionTurnFactor, -2.8f, 2.8f);
+				float yRotation = turnRate * obstacleDetectionTurnFactor * Time.deltaTime;
+
+				float xRotation = 0;
+				if (targetPos.y > moustacheBoy.position.y) {
+					xRotation += 45;
+				} else {
+					xRotation += -45;
+				}
+				if (Physics.Raycast(moustacheBoy.position, Vector3.down, 10, obstacleDetectMask)) {
+					xRotation += -30;
+				}
+				moustacheBoy.Rotate(xRotation * Time.deltaTime, turnRate * obstacleDetectionTurnFactor * Time.deltaTime, 0);
+				moustacheBoy.rotation = Quaternion.Euler(Mathf.Clamp(moustacheBoy.eulerAngles.x, -20, 20), moustacheBoy.eulerAngles.y, 0);
+				yield return null;
+			}
+
+			targetPos = player.position + Quaternion.Euler(new Vector3(0, player.eulerAngles.y, 0)) * endingOffset;
+			Quaternion oldRot = moustacheBoy.rotation;
+			moustacheBoy.LookAt(targetPos);
+			float targetYAngle = moustacheBoy.eulerAngles.y;
+			moustacheBoy.rotation = oldRot;
+
+			while (moustacheBoy.position.SquareDistance(targetPos) > 1) {
+				moustacheBoy.position = Vector3.MoveTowards(moustacheBoy.position, targetPos, baseSpeed * Time.deltaTime);
+				moustacheBoy.eulerAngles = new Vector3(20, Mathf.Lerp(moustacheBoy.eulerAngles.y, targetYAngle, lerpFactor), 0);
+				yield return null;
+			}
+
+			flyAlongRoutineRunning = false;
+			moustacheBoy.gameObject.SetActive(false);
 		}
-
-		flyAlongRoutineRunning = false;
-		moustacheBoy.gameObject.SetActive(false);
 	}
 }
