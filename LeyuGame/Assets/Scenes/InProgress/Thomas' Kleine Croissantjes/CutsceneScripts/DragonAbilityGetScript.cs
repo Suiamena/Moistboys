@@ -67,9 +67,6 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     void Start ()
     {
-
-        rend.material.SetFloat("_Cutoff", 1);
-
         player = GameObject.Find("Character");
         playerCamera = GameObject.Find("Main Camera");
         abilityPickUp = GameObject.Find("DragonAbilityPickUp");
@@ -100,8 +97,13 @@ public class DragonAbilityGetScript : MonoBehaviour {
         stormIntensityPerSec = (maxStormIntensity - baseStormIntensity) / stormIntensityTime;
 
         //SHADER STUFF
+        //LENNY TRYOUT
+        aureoolModel.GetComponent<Renderer>().sharedMaterial.SetFloat("_Cutoff", 1);
+
         rend = aureoolModel.GetComponent<Renderer>();
         rend.material.shader = Shader.Find("SHAD_Dragon_Symbol_Glow");
+
+        Debug.Log(rend);
     }
 
     void OnTriggerEnter()
@@ -147,6 +149,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     void Update ()
     {
+        aureoolModel.GetComponent<Renderer>().sharedMaterial.SetFloat("_Cutoff", 1);
         if (particlesFollowPlayer == true)
         {
             sneeuwParticlesPos.transform.position = new Vector3(player.transform.position.x + distanceInFrontOfPlayer, player.transform.position.y, player.transform.position.z);
