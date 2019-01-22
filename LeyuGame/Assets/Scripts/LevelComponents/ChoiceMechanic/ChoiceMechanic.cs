@@ -26,7 +26,8 @@ public class ChoiceMechanic : MonoBehaviour {
 
     //WarmthSource Settings
     public GameObject warmthSource;
-    public GameObject warmthSourceOpen;
+    public GameObject warmthSourceAnimObject;
+    Animator warmthSourceAnimator;
     GameObject playerAbilityTarget;
     GameObject warmthSourceTarget;
     public GameObject playerAbility, moustacheBoiAbility;
@@ -35,6 +36,7 @@ public class ChoiceMechanic : MonoBehaviour {
     //Cutscene Settings
     public GameObject cutsceneCamera, secondCutsceneCamera, thirdCutsceneCamera, fourthCutsceneCamera;
     GameObject cutsceneCameraOneTransformTarget;
+    public GameObject invisibleWall;
 
     //cutscene 1 (creature gives ability)
     bool creatureToSource, abilityCreatureMoves, firstCutsceneFinished;
@@ -59,6 +61,8 @@ public class ChoiceMechanic : MonoBehaviour {
 
     private void Awake()
     {
+        warmthSourceAnimator = warmthSourceAnimObject.GetComponent<Animator>();
+
         player = GameObject.Find("Character");
         playerScript = player.GetComponent<PlayerController>();
         playerRig = player.GetComponent<Rigidbody>();
@@ -349,7 +353,7 @@ public class ChoiceMechanic : MonoBehaviour {
         yield return new WaitForSeconds(1F);
 
         //VERWARM WERELD (NIEUWE CAMERA EN MODEL?)
-        warmthSourceOpen.SetActive(true);
+        warmthSourceAnimator.SetBool("isOpening", true);
         warmthSource.SetActive(false);
         yield return new WaitForSeconds(2F);
 
@@ -358,6 +362,7 @@ public class ChoiceMechanic : MonoBehaviour {
         //set player settings
         playerScript.EnablePlayer();
         fourthCutsceneCamera.SetActive(false);
+        invisibleWall.SetActive(false);
         //RESOLVE
         if (competentScript.playerChooseCompetence)
         {
