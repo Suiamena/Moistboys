@@ -13,7 +13,6 @@ public class Credits : MonoBehaviour {
     IEnumerator LoadTitleScreen()
     {
         yield return new WaitForSeconds(5f);
-        Debug.Log("load");
         SceneManager.LoadScene("TitleScreen");
     }
 
