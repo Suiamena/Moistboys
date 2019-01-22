@@ -34,11 +34,11 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     Color tempColor;
 
-
     //bool screechPlayed = false;
     //GameObject creature;
     //AudioSource creatureScreech;
     //public AudioClip screech;
+    public GameObject creatureFlyAlong;
 
     //float windStormStrength, particlesSpeed;
     //bool accelerateSnowstorm;
@@ -47,7 +47,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
     ParticleSystem snowParticlesSystem;
     ParticleSystem.EmissionModule emissionModule;
     ParticleSystem.MainModule main;
-    public float stormIntensity;
+    public float stormIntensity = 3000f;
 
     void Start ()
     {
@@ -96,6 +96,8 @@ public class DragonAbilityGetScript : MonoBehaviour {
 
     void OnTriggerStay()
     {
+        //Raycast totdat ie iets raakt. dan eenmalig sneeuw poefje. dan stoppen met het hele gebeuren.
+
         //controllerSwitch.Gravity();
         player.transform.LookAt(gameObject.transform.position);
         playerCamera.transform.LookAt(abilityPickUp.transform.position);
@@ -124,7 +126,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
             image.color = tempColor;
 
             stormIntensity += 10f;
-            emissionModule.rateOverTime = stormIntensity;
+            emissionModule.rate = stormIntensity;
         }
     }
 
@@ -151,6 +153,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
             yield return null;
         }
 
+        creatureFlyAlong.SetActive(true);
         print("FUCKKKKKK");
         yield return new WaitForSeconds(1f);
         print("hallo?");
