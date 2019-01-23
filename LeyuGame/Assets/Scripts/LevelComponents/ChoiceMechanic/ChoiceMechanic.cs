@@ -212,7 +212,7 @@ public class ChoiceMechanic : MonoBehaviour {
     //SETUP CUTSCENE TWO
     void TakePlayerAbility()
     {
-        if (!secondCutsceneFinished)
+        if (!secondCutsceneFinished) // wrm niet firstCutsceneFinished = true???
         {
             playerScript.DisablePlayer();
             cameraTwoSecondPosition = firstCutsceneCamera.transform.position;
