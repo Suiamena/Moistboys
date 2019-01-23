@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ToggleInside : MonoBehaviour
 {
+    //public GameObject snowParticles;
 
     private void OnTriggerExit(Collider other)
     {

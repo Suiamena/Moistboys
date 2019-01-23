@@ -25,8 +25,9 @@ public class ChoiceMechanic : MonoBehaviour {
     int moustacheBoiSpeed = 10, abilitySpeed = 3, playerAbilitySpeed = 6;
 
     //WarmthSource Settings
-    GameObject warmthSource;
-    public GameObject warmthSourceOpen;
+    public GameObject warmthSource;
+    public GameObject warmthSourceAnimObject;
+    Animator warmthSourceAnimator;
     GameObject playerAbilityTarget;
     GameObject warmthSourceTarget;
     public GameObject playerAbility, moustacheBoiAbility;
@@ -35,6 +36,7 @@ public class ChoiceMechanic : MonoBehaviour {
     //Cutscene Settings
     public GameObject cutsceneCamera, secondCutsceneCamera, thirdCutsceneCamera, fourthCutsceneCamera;
     GameObject cutsceneCameraOneTransformTarget;
+    public GameObject invisibleWall;
 
     //cutscene 1 (creature gives ability)
     bool creatureToSource, abilityCreatureMoves, firstCutsceneFinished;
@@ -59,18 +61,19 @@ public class ChoiceMechanic : MonoBehaviour {
 
     private void Awake()
     {
+        warmthSourceAnimator = warmthSourceAnimObject.GetComponent<Animator>();
+
         player = GameObject.Find("Character");
         playerScript = player.GetComponent<PlayerController>();
         playerRig = player.GetComponent<Rigidbody>();
         playerModel = GameObject.Find("MOD_Draak");
         playerAnim = playerModel.GetComponent<Animator>();
         playerCamera = GameObject.Find("Main Camera");
-        landingIndicatorObject = GameObject.Find("LandingIndicator");
+        landingIndicatorObject = GameObject.Find("Shadow");
 
         moustacheBoiTarget = GameObject.Find("MoustacheBoiTarget");
         moustacheBoiAnim = moustacheBoiCutscene.GetComponent<Animator>();
 
-        warmthSource = GameObject.Find("WarmthSourceCutscene");
         playerAbilityTarget = GameObject.Find("PlayerAbilityTarget");
         warmthSourceTarget = GameObject.Find("WarmthSourceTarget");
 
@@ -86,6 +89,10 @@ public class ChoiceMechanic : MonoBehaviour {
         cutsceneCameraThreeTransformTargetTwo = GameObject.Find("CameraTargetFour");
 
         GlowStart = FMODUnity.RuntimeManager.CreateInstance(glowStart);
+
+        //Thomas Shit
+        moustacheBoiAnim.SetBool("isFlying", true);
+        moustacheBoiAbility.transform.localScale = new Vector3(0, 0, 0);
     }
 
     private void FixedUpdate()
@@ -144,15 +151,16 @@ public class ChoiceMechanic : MonoBehaviour {
         }
     }
 
+    // FIRST CUTSCENE
     IEnumerator CreatureApproachesSource()
     {
         //SUPERFLOP HIERIN!
-        cutsceneCamera.SetActive(true);
+        //cutsceneCamera.SetActive(true);
+        secondCutsceneCamera.SetActive(true);
         player.transform.position = playerTransformTarget.transform.position;
         landingIndicatorObject.transform.position = playerTransformTarget.transform.position;
         player.transform.rotation = Quaternion.Euler(-10, 90, 0);
-        moustacheBoiAnim.SetBool("isFlying", true);
-        yield return new WaitForSeconds(1.5F);
+        //yield return new WaitForSeconds(1.5F);
 
         //Creature Moves
         creatureToSource = true;
@@ -163,10 +171,10 @@ public class ChoiceMechanic : MonoBehaviour {
 
         //Ability is Lost
         GlowStart.start();
-        cutsceneCamera.transform.position = cutsceneCameraOneTransformTarget.transform.position;
-        cutsceneCamera.transform.rotation = cutsceneCameraOneTransformTarget.transform.rotation;
+        //cutsceneCamera.transform.position = cutsceneCameraOneTransformTarget.transform.position;
+        //cutsceneCamera.transform.rotation = cutsceneCameraOneTransformTarget.transform.rotation;
         moustacheBoiAnim.SetBool("isUsingAbility", true);
-        yield return new WaitForSeconds(1F);
+        yield return new WaitForSeconds(0.5F);
         moustacheBoiAbility.SetActive(true);
         abilityCreatureMoves = true;
         yield return new WaitForSeconds(2F);
@@ -184,12 +192,16 @@ public class ChoiceMechanic : MonoBehaviour {
 
     void CreatureAbilityMoves()
     {
-        moustacheBoiAbility.transform.position = Vector3.MoveTowards(moustacheBoiAbility.transform.position, new Vector3(moustacheBoiAbility.transform.position.x, moustacheBoiAbility.transform.position.y + 3, moustacheBoiAbility.transform.position.z), abilitySpeed * Time.deltaTime);
+        moustacheBoiAbility.transform.position = Vector3.MoveTowards(moustacheBoiAbility.transform.position, new Vector3(moustacheBoiAbility.transform.position.x, moustacheBoiAbility.transform.position.y + 1, moustacheBoiAbility.transform.position.z), abilitySpeed * Time.deltaTime);
+        moustacheBoiAbility.transform.localScale += new Vector3(0.0005f, 0.0005f, 0.0005f);
+        moustacheBoiAbility.transform.localScale = new Vector3(Mathf.Clamp(moustacheBoiAbility.transform.localScale.x, 0, 0.05f), Mathf.Clamp(moustacheBoiAbility.transform.localScale.y, 0, 0.05f), Mathf.Clamp(moustacheBoiAbility.transform.localScale.z, 0, 0.05f));
     }
 
     void StopFirstCutscene()
     {
         playerScript.EnablePlayer();
+        //cutsceneCamera.SetActive(false);
+        secondCutsceneCamera.SetActive(false);
         cutsceneCamera.SetActive(false);
         firstCutsceneFinished = true;
     }
@@ -350,7 +362,7 @@ public class ChoiceMechanic : MonoBehaviour {
         yield return new WaitForSeconds(1F);
 
         //VERWARM WERELD (NIEUWE CAMERA EN MODEL?)
-        warmthSourceOpen.SetActive(true);
+        warmthSourceAnimator.SetBool("isOpening", true);
         warmthSource.SetActive(false);
         yield return new WaitForSeconds(2F);
 
@@ -359,29 +371,20 @@ public class ChoiceMechanic : MonoBehaviour {
         //set player settings
         playerScript.EnablePlayer();
         fourthCutsceneCamera.SetActive(false);
+        invisibleWall.SetActive(false);
         //RESOLVE
-        //uitvoeren if null
         if (competentScript.playerChooseCompetence)
         {
-            //PlayerPrefs.SetString("LevelSixChoice", "Launch");
             VariablesGlobal.chosenForCompetence = true;
             moustacheBoiAnim.SetBool("goodBye", true);
             playerScript.launchEnabled = true;
         }
         else
         {
-            //PlayerPrefs.SetString("LevelSixChoice", "Creature");
             VariablesGlobal.chosenForSocial = true;
             moustacheBoiEnding.SetActive(true);
             moustacheBoiCutscene.SetActive(false);
         }
-        //SceneSettings sceneSettingObject = FindObjectOfType<SceneSettings>();
-        //if (sceneSettingObject != null)
-        //{
-        //}
-        //else
-        //{
-        //}
     }
 
 }
