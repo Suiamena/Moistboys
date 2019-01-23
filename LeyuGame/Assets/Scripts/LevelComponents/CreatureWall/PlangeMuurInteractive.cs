@@ -326,7 +326,7 @@ namespace Creature
 		public void DisablePiccolo ()
 		{
 			if (sequenceIsRunning) {
-                //flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -12);
+                flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -12);
                 creatureBecamePiccolo = false;
                 moustacheAnimator.SetBool("isFlying", true);
                 if (rememberThisPlatformID == 0)
