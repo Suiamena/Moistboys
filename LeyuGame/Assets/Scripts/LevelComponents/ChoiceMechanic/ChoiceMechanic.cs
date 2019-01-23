@@ -34,7 +34,7 @@ public class ChoiceMechanic : MonoBehaviour {
     public int takeAbilityRange = 30;
 
     //Cutscene Settings
-    public GameObject cutsceneCamera, secondCutsceneCamera, thirdCutsceneCamera, fourthCutsceneCamera;
+    public GameObject firstCutsceneCamera, secondCutsceneCamera, thirdCutsceneCamera, fourthCutsceneCamera;
     GameObject cutsceneCameraOneTransformTarget;
     public GameObject invisibleWall;
 
@@ -58,6 +58,9 @@ public class ChoiceMechanic : MonoBehaviour {
     GameObject cutsceneCameraThreeTransformTargetTwo;
 
     public GameObject moustacheBoiEnding;
+
+    //Thomas Shit
+    public GameObject creatureAbilityTarget;
 
     private void Awake()
     {
@@ -156,10 +159,11 @@ public class ChoiceMechanic : MonoBehaviour {
     {
         //SUPERFLOP HIERIN!
         //cutsceneCamera.SetActive(true);
-        secondCutsceneCamera.SetActive(true);
-        player.transform.position = playerTransformTarget.transform.position;
-        landingIndicatorObject.transform.position = playerTransformTarget.transform.position;
-        player.transform.rotation = Quaternion.Euler(-10, 90, 0);
+        firstCutsceneCamera.SetActive(true);
+        player.transform.position = playerTransformTargetTwo.transform.position;
+        landingIndicatorObject.transform.position = playerTransformTargetTwo.transform.position;
+        //player.transform.rotation = Quaternion.Euler(-10, 66.223f, 0);
+        player.transform.LookAt(warmthSource.transform.position);
         //yield return new WaitForSeconds(1.5F);
 
         //Creature Moves
@@ -181,7 +185,6 @@ public class ChoiceMechanic : MonoBehaviour {
         moustacheBoiAnim.SetBool("isUsingAbility", false);
         abilityCreatureMoves = false;
         yield return new WaitForSeconds(2F);
-
         StopFirstCutscene();
     }
 
@@ -192,8 +195,8 @@ public class ChoiceMechanic : MonoBehaviour {
 
     void CreatureAbilityMoves()
     {
-        moustacheBoiAbility.transform.position = Vector3.MoveTowards(moustacheBoiAbility.transform.position, new Vector3(moustacheBoiAbility.transform.position.x, moustacheBoiAbility.transform.position.y + 1, moustacheBoiAbility.transform.position.z), abilitySpeed * Time.deltaTime);
-        moustacheBoiAbility.transform.localScale += new Vector3(0.0005f, 0.0005f, 0.0005f);
+        moustacheBoiAbility.transform.position = Vector3.MoveTowards(moustacheBoiAbility.transform.position, creatureAbilityTarget.transform.position, abilitySpeed * Time.deltaTime);
+        moustacheBoiAbility.transform.localScale += new Vector3(0.00045f, 0.00045f, 0.00045f);
         moustacheBoiAbility.transform.localScale = new Vector3(Mathf.Clamp(moustacheBoiAbility.transform.localScale.x, 0, 0.05f), Mathf.Clamp(moustacheBoiAbility.transform.localScale.y, 0, 0.05f), Mathf.Clamp(moustacheBoiAbility.transform.localScale.z, 0, 0.05f));
     }
 
@@ -201,21 +204,21 @@ public class ChoiceMechanic : MonoBehaviour {
     {
         playerScript.EnablePlayer();
         //cutsceneCamera.SetActive(false);
-        secondCutsceneCamera.SetActive(false);
-        cutsceneCamera.SetActive(false);
+        firstCutsceneCamera.SetActive(false);
+        //cutsceneCamera.SetActive(false);
         firstCutsceneFinished = true;
     }
 
     //SETUP CUTSCENE TWO
     void TakePlayerAbility()
     {
-        if (!secondCutsceneFinished)
+        if (!secondCutsceneFinished) // wrm niet firstCutsceneFinished = true???
         {
             playerScript.DisablePlayer();
-            cameraTwoSecondPosition = secondCutsceneCamera.transform.position;
-            cameraTwoSecondRotation = secondCutsceneCamera.transform.rotation;
-            secondCutsceneCamera.transform.position = cutsceneCameraTwoTransformTarget.transform.position;
-            secondCutsceneCamera.transform.rotation = cutsceneCameraTwoTransformTarget.transform.rotation;
+            cameraTwoSecondPosition = firstCutsceneCamera.transform.position;
+            cameraTwoSecondRotation = firstCutsceneCamera.transform.rotation;
+            firstCutsceneCamera.transform.position = cutsceneCameraTwoTransformTarget.transform.position;
+            firstCutsceneCamera.transform.rotation = cutsceneCameraTwoTransformTarget.transform.rotation;
             if (!runOnce)
             {
                 StartCoroutine(PlayerLosesAbility());

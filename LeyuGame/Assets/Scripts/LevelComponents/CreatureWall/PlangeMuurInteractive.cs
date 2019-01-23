@@ -43,6 +43,7 @@ namespace Creature
 		public float platformCreationDistance = 7f;
 		List<Transform> platformTransforms = new List<Transform>();
 		List<Vector3> platformDefaultPositions = new List<Vector3>();
+        public GameObject finalCreatureLocation;
 
 		[Header("Flying Settings")]
 		public float flyingSpeed = 50;
@@ -189,8 +190,6 @@ namespace Creature
 				moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyInPosition, flyingSpeed * Time.deltaTime);
 				yield return null;
 			}
-			MoustacheBoiAudio.StopFlaps();
-			moustacheAnimator.SetBool("isFlying", false);
 			while (Quaternion.Angle(moustacheBoi.transform.rotation, defaultCreatureRot) > .1f) {
 				moustacheBoi.transform.rotation = Quaternion.RotateTowards(moustacheBoi.transform.rotation, defaultCreatureRot, 260 * Time.deltaTime);
 				yield return null;
@@ -251,33 +250,43 @@ namespace Creature
 		public void NewPlatform (bool playerOnPlatform)
 		{
 			activePlatform += 1;
-			if (activePlatform < platformTransforms.Count - 1) {
-				StartCoroutine(CreatureSpawnsPlatform(activePlatform));
-			} else {
-				moustacheAnimator.SetBool("isFlying", false);
-			}
-		}
+            if (!creatureBecamePiccolo)
+            {
+                if (activePlatform < platformTransforms.Count - 1)
+                {
+                    StartCoroutine(CreatureSpawnsPlatform(activePlatform));
+                }
+                else
+                {
+                    StartCoroutine(CreatureFliesToPlatform());
+                }
+            }
+        }
 
 		IEnumerator CreatureFliesToPlatform ()
 		{
 			if (creatureBecamePiccolo) {
 			} else {
 				if (activePlatform < platformTransforms.Count - 1) {
-					flyToPlatformPosition = platformTransforms[activePlatform + 1].position + platformTransforms[activePlatform + 1].transform.rotation * new Vector3(0, -2, -12);
+                    flyToPlatformPosition = platformTransforms[activePlatform + 1].position + platformTransforms[activePlatform + 1].transform.rotation * new Vector3(0, -2, -12);
 				} else {
-					flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, 0, 0);
-					moustacheAnimator.SetBool("isFlying", false);
+                    flyToPlatformPosition = finalCreatureLocation.transform.position;
 				}
 				while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) {
 					moustacheBoi.transform.LookAt(player.transform.position);
 					moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
 					yield return null;
 				}
+                if (activePlatform >= platformTransforms.Count - 1)
+                {
+                    moustacheAnimator.SetBool("isFlying", false);
+                }
 			}
 		}
 
 		IEnumerator CreatureSpawnsPlatform (int currentPlatform)
 		{
+            Debug.Log(activePlatform);
 			creatureRenderer.material = glowingMaterial;
 			PlatformType platformTypeScript;
 			platformTypeScript = platformTransforms[currentPlatform].GetComponent<PlatformType>();
@@ -290,7 +299,7 @@ namespace Creature
 				StartCoroutine(CreatureFliesToPlatform());
 			}
 			MoustacheBoiAudio.PlayRumble();
-			GamePad.SetVibration(0, .6f, .6f);
+            GamePad.SetVibration(0, .6f, .6f);
 			GameObject particle = Instantiate(spawnPlatformParticle, new Vector3(flyToPlatformPosition.x, flyToPlatformPosition.y - 5, flyToPlatformPosition.z), Quaternion.Euler(0, 5, 5));
 			for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
 				if (platformTypeScript.emergeFromTheGround) {
@@ -310,8 +319,10 @@ namespace Creature
 		{
 			if (sequenceIsRunning) {
 				creatureBecamePiccolo = false;
-				moustacheAnimator.SetBool("isFlying", true);
-				StartCoroutine(CreatureFliesToPlatform());
+                moustacheAnimator.SetBool("isFlying", true);
+                Debug.Log(platformTransforms[activePlatform]);
+                flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -12);
+                StartCoroutine(CreatureSpawnsPlatform(activePlatform));
 			}
 		}
 
