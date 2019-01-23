@@ -38,10 +38,10 @@ namespace Creature
 			}
 		}
 
-		ICreature RequestCreature ()
-		{
+		//ICreature RequestCreature ()
+		//{
 
-		}
+		//}
 
 		IEnumerator FlyAlong ()
 		{
