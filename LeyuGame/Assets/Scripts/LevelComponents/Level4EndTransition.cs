@@ -19,16 +19,15 @@ public class Level4EndTransition : MonoBehaviour
         postProcessingRate = 1 / transitionLength;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && !running)
-        {
-            running = true;
-            StartCoroutine(Transition());
-        }
-    }
+	public void Transition ()
+	{
+		if (!running) {
+			running = true;
+			StartCoroutine(TransitionRoutine());
+		}
+	}
 
-    public IEnumerator Transition()
+    public IEnumerator TransitionRoutine()
     {
         List<float> transitionRate = new List<float>(), transitionFill = new List<float>();
         materials = new List<Material>();
@@ -67,6 +66,7 @@ public class Level4EndTransition : MonoBehaviour
             yield return null;
         }
 
+		//FINALIZE AND CHANGE TAG FOR CORRECT SOUNDS
         beforePostProcessing.weight = 0;
         afterPostProcessing.weight = 1;
 
