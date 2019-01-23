@@ -261,7 +261,7 @@ namespace Creature
                     StartCoroutine(CreatureFliesToPlatform());
                 }
             }
-		}
+        }
 
 		IEnumerator CreatureFliesToPlatform ()
 		{
@@ -299,9 +299,8 @@ namespace Creature
 				StartCoroutine(CreatureFliesToPlatform());
 			}
 			MoustacheBoiAudio.PlayRumble();
-			GamePad.SetVibration(0, .6f, .6f);
+            GamePad.SetVibration(0, .6f, .6f);
 			GameObject particle = Instantiate(spawnPlatformParticle, new Vector3(flyToPlatformPosition.x, flyToPlatformPosition.y - 5, flyToPlatformPosition.z), Quaternion.Euler(0, 5, 5));
-            Debug.Log(flyToPlatformPosition);
 			for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
 				if (platformTypeScript.emergeFromTheGround) {
 					platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, -platformCreationDistance, 0) / platformCreationTime * Time.deltaTime;
@@ -321,7 +320,9 @@ namespace Creature
 			if (sequenceIsRunning) {
 				creatureBecamePiccolo = false;
                 moustacheAnimator.SetBool("isFlying", true);
-				StartCoroutine(CreatureSpawnsPlatform(activePlatform));
+                Debug.Log(platformTransforms[activePlatform]);
+                flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -12);
+                StartCoroutine(CreatureSpawnsPlatform(activePlatform));
 			}
 		}
 
