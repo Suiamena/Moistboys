@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Creature
 {
-	public class CreatureFlyAlong : MonoBehaviour, ICreature
+	public class CreatureFlyAlong : MonoBehaviour
 	{
 		public LayerMask obstacleDetectMask;
 		RaycastHit obstacleRayHit;
