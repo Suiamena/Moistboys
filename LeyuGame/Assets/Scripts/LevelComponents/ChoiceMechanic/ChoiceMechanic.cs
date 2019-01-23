@@ -61,6 +61,7 @@ public class ChoiceMechanic : MonoBehaviour {
 
     //Thomas Shit
     public GameObject creatureAbilityTarget;
+    public GameObject playerLookAtTarget;
     //public GameObject playerRot;
 
     private void Awake()
@@ -112,6 +113,7 @@ public class ChoiceMechanic : MonoBehaviour {
         }
         if (playerabilityMoves)
         {
+            //player.transform.LookAt(playerLookAtTarget.transform.position);
             PlayerabilityMovesToSource();
         }
 
@@ -215,7 +217,6 @@ public class ChoiceMechanic : MonoBehaviour {
     {
         if (!secondCutsceneFinished) // wrm niet firstCutsceneFinished = true???
         {
-            playerScript.DisablePlayer();
             //cameraTwoSecondPosition = firstCutsceneCamera.transform.position;
             //cameraTwoSecondRotation = firstCutsceneCamera.transform.rotation;
             //firstCutsceneCamera.transform.position = cutsceneCameraTwoTransformTarget.transform.position;
@@ -230,9 +231,11 @@ public class ChoiceMechanic : MonoBehaviour {
 
     IEnumerator PlayerLosesAbility()
     {
+        playerScript.DisablePlayer();
         secondCutsceneCamera.SetActive(true);
         player.transform.position = playerTransformTarget.transform.position;
-        player.transform.localRotation = Quaternion.Euler(-120, 90, 0);
+        player.transform.LookAt(playerLookAtTarget.transform.position);
+        //player.transform.localRotation = Quaternion.Euler(-120, 90, 0);
         //landingIndicatorObject.transform.position = playerTransformTargetTwo.transform.position;
         yield return new WaitForSeconds(1F);
         //Ability moves
@@ -241,7 +244,7 @@ public class ChoiceMechanic : MonoBehaviour {
         //secondCutsceneCamera.transform.rotation = cameraTwoSecondRotation;
         yield return new WaitForSeconds(2F);
         playerabilityMoves = false;
-        yield return new WaitForSeconds(2F);
+        //yield return new WaitForSeconds(2F);
         //secondCutsceneCamera.SetActive(false);
         //player.transform.position = playerTransformTargetTwo.transform.position;
         //thirdCutsceneCamera.SetActive(true);
