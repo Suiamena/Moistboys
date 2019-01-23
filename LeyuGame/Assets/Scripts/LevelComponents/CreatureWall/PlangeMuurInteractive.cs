@@ -28,7 +28,6 @@ namespace Creature
 		public GameObject moustacheBoi;
 		Animator moustacheAnimator;
 
-		[HideInInspector]
 		public GameObject creatureFlyInPositionObject;
 		[HideInInspector]
 		public GameObject platformsObject;
