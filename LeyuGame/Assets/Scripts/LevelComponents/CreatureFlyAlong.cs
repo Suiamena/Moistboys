@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Creature{
-	public class CreatureFlyAlong : MonoBehaviour
+namespace Creature
+{
+	public class CreatureFlyAlong : MonoBehaviour, ICreature
 	{
 		public LayerMask obstacleDetectMask;
 		RaycastHit obstacleRayHit;
@@ -36,6 +37,11 @@ namespace Creature{
 				flyAlong = false;
 			}
 		}
+
+		//ICreature RequestCreature ()
+		//{
+
+		//}
 
 		IEnumerator FlyAlong ()
 		{
