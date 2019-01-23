@@ -189,8 +189,6 @@ namespace Creature
 				moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyInPosition, flyingSpeed * Time.deltaTime);
 				yield return null;
 			}
-			MoustacheBoiAudio.StopFlaps();
-			moustacheAnimator.SetBool("isFlying", false);
 			while (Quaternion.Angle(moustacheBoi.transform.rotation, defaultCreatureRot) > .1f) {
 				moustacheBoi.transform.rotation = Quaternion.RotateTowards(moustacheBoi.transform.rotation, defaultCreatureRot, 260 * Time.deltaTime);
 				yield return null;
