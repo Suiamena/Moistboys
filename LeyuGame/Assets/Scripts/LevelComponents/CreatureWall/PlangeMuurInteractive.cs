@@ -270,7 +270,6 @@ namespace Creature
             if (creatureBecamePiccolo) {
 			} else {
 				if (activePlatform < platformTransforms.Count - 1) {
-                    Debug.Log(activePlatform + 1);
                     flyToPlatformPosition = platformTransforms[activePlatform + 1].position + platformTransforms[activePlatform + 1].transform.rotation * new Vector3(0, -2, -12);
 				} else {
                     flyToPlatformPosition = finalCreatureLocation.transform.position;
@@ -289,18 +288,23 @@ namespace Creature
 
 		IEnumerator CreatureSpawnsPlatform (int currentPlatform)
 		{
-            creatureRenderer.material = glowingMaterial;
 			PlatformType platformTypeScript;
 			platformTypeScript = platformTransforms[currentPlatform].GetComponent<PlatformType>();
-            //original
-			//FLY TO NEXT PLATFORM
+            if (platformTypeScript.platformIsElevator) { 
+                creatureBecamePiccolo = true;
+                moustacheAnimator.SetBool("isFlying", false);
+            }
+            platformTypeScript = platformTransforms[currentPlatform - 1].GetComponent<PlatformType>();
+            if (platformTypeScript.platformIsElevator) {
+                while (creatureBecamePiccolo) {
+                    yield return null;
+                }
+            }
+            //FLY TO NEXT PLATFORM
             StartCoroutine(CreatureFliesToPlatform());
 
-            while (creatureBecamePiccolo)
-            {
-                yield return null;
-            }
-
+            //SPAWN
+            creatureRenderer.material = glowingMaterial;
             MoustacheBoiAudio.PlayRumble();
             GamePad.SetVibration(0, .6f, .6f);
             Vector3 spawnParticlesPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -12);
@@ -317,12 +321,6 @@ namespace Creature
 			GamePad.SetVibration(0, .6f, .6f);
 			GamePad.SetVibration(0, 0, 0);
 			creatureRenderer.material = defaultMaterial;
-
-            if (platformTypeScript.platformIsElevator)
-            {
-                creatureBecamePiccolo = true;
-                moustacheAnimator.SetBool("isFlying", false);
-            }
         }
 
 		public void DisablePiccolo ()
