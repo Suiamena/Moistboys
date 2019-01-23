@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Creature;
 
 namespace Creature
 {
-	public class CreatureFlyAlong : MonoBehaviour
+	public class CreatureFlyAlong : MonoBehaviour, ICreature
 	{
 		public LayerMask obstacleDetectMask;
 		RaycastHit obstacleRayHit;
@@ -19,16 +20,26 @@ namespace Creature
 		{
 			moustacheBoy = transform.GetChild(0);
 			moustacheBoyAnimator = moustacheBoy.GetComponent<Animator>();
+			moustacheBoy.gameObject.SetActive(false);
 		}
 
 		private void OnTriggerEnter (Collider other)
 		{
 			if (other.CompareTag("Player")) {
 				player = other.transform.GetChild(0);
-				if (!flyAlongRoutineRunning) {
-					flyAlongRoutineRunning = true;
-					StartCoroutine(FlyAlong());
+				ICreature script = CreatureManager.activeFlyAlongScript;
+				if (script == null) {
+					CreatureManager.activeFlyAlongScript = this;
+					if (!flyAlongRoutineRunning) {
+						flyAlongRoutineRunning = true;
+						StartCoroutine(FlyAlong());
+					}
+				} else if (script.GetType() == typeof(CreatureFlyAlong)) {
+					ReceiveCreature(CreatureManager.activeFlyAlongScript.GiveAwayCreature());
+				} else if (script.GetType() == typeof(PlangeMuurInteractive)) {
+					//DAFUQ GAAN WE HIERMEE DOEN????
 				}
+
 			}
 		}
 		private void OnTriggerExit (Collider other)
@@ -38,21 +49,38 @@ namespace Creature
 			}
 		}
 
-		//ICreature RequestCreature ()
-		//{
+		public Transform GiveAwayCreature ()
+		{
+			moustacheBoy.gameObject.SetActive(false);
+			StopCoroutine(FlyAlong());
+			flyAlong = false;
+			flyAlongRoutineRunning = false;
+			CreatureManager.activeFlyAlongScript = null;
+			return moustacheBoy;
+		}
 
-		//}
+		public void ReceiveCreature (Transform creatureTrans)
+		{
+			moustacheBoy.transform.position = creatureTrans.position;
+			moustacheBoy.transform.rotation = creatureTrans.rotation;
+			StopCoroutine(FlyAlong());
+			StartCoroutine(FlyAlong(true));
+			flyAlongRoutineRunning = true;
+			CreatureManager.activeFlyAlongScript = this;
+		}
 
-		IEnumerator FlyAlong ()
+		IEnumerator FlyAlong (bool skipFlyIn = false)
 		{
 			//Fly in
 			flyAlong = true;
-			moustacheBoy.position = player.position + startingOffset;
+			if (!skipFlyIn) {
+				moustacheBoy.position = player.position + startingOffset;
+
+				float yAngle = player.eulerAngles.y;
+				moustacheBoy.eulerAngles = new Vector3(0, yAngle, 0);
+			}
+
 			moustacheBoy.gameObject.SetActive(true);
-
-			float yAngle = player.eulerAngles.y;
-			moustacheBoy.eulerAngles = new Vector3(0, yAngle, 0);
-
 			moustacheBoyAnimator.SetBool("isFlying", true);
 
 			Vector3 targetPos;
@@ -115,6 +143,7 @@ namespace Creature
 
 			flyAlongRoutineRunning = false;
 			moustacheBoy.gameObject.SetActive(false);
+			CreatureManager.activeFlyAlongScript = null;
 		}
 	}
 }
