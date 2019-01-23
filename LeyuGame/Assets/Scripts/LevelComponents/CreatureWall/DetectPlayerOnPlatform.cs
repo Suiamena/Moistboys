@@ -25,6 +25,7 @@ namespace Creature
                 {
                     playerOnPlatform = true;
                     wallScript.NewPlatform(playerOnPlatform);
+                    Debug.Log("trigger");
                 }
             }
         }
