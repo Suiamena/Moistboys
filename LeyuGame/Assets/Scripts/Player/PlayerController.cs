@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch, isHopping, isLaunchingSuperSaiyan;
 	public GameObject dragonModel;
 	public LayerMask triggerMask;
+	public DynamicBone dynamicBone;
 
 	[Header("Camera Settings")]
 	public Transform cameraTrans;
@@ -180,6 +181,7 @@ public class PlayerController : MonoBehaviour
 		Launch();
 		Hop();
 		ModelRotation();
+		ManageDynamicBone();
 		if (Grounded())
 			animator.SetBool("airborne", false);
 		else
@@ -286,11 +288,15 @@ public class PlayerController : MonoBehaviour
 
 	void ModelRotation ()
 	{
+		float desiredModelXRotation;
 		if (velocity.y > 0)
-			modelXRotation += -modelXRotationSpeed * Time.deltaTime;
+			desiredModelXRotation = -modelRotationMaximumXAngle;
+			//modelXRotation += -modelXRotationSpeed * Time.deltaTime;
 		else
-			modelXRotation += modelXRotationSpeed * Time.deltaTime;
-		modelXRotation = Mathf.Clamp(modelXRotation, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
+			desiredModelXRotation = -modelRotationMinimumXAngle;
+		//modelXRotation += modelXRotationSpeed * Time.deltaTime;
+		modelXRotation = Mathf.Lerp(modelXRotation, desiredModelXRotation, .1f);
+		//modelXRotation = Mathf.Clamp(modelXRotation, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
 
 		modelLateralVelocity = new Vector3(velocity.x, 0, velocity.z);
 		if (modelLateralVelocity.magnitude > .1f) {
@@ -302,8 +308,15 @@ public class PlayerController : MonoBehaviour
 			modelXRotation = Mathf.MoveTowards(modelXRotation, 0, modelXRotationSpeed * 2 * Time.deltaTime);
 			modelYRotation -= rightStickInput.x * Time.deltaTime * cameraHorizontalSensitivity;
 		}
-		
+
 		dragonModel.transform.rotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
+	}
+
+	void ManageDynamicBone ()
+	{
+		if (1 / Time.deltaTime < dynamicBone.m_UpdateRate) {
+			//dynamicBone.m_UpdateRate = Mathf.FloorToInt(1 / Time.deltaTime);
+		}
 	}
 
 	void Hop ()
