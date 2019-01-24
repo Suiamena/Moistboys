@@ -6,7 +6,7 @@ using Creature;
 public class ElevatorPlatform : MonoBehaviour {
 
     //PICCOLO
-    Vector3 previousCreatureLocation;
+    //Vector3 previousCreatureLocation;
     public bool PlayerHasTouchedElevator;
     float backToElevatorThreshold;
 
@@ -116,6 +116,7 @@ public class ElevatorPlatform : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log("down");
         playerBones.enabled = true;
         goDown = true;
         if (!elevatorIsMoving) {
@@ -158,7 +159,6 @@ public class ElevatorPlatform : MonoBehaviour {
         {
             elevatorIsMoving = true;
             StartCoroutine(Move());
-            Debug.Log("down");
         }
         yield return new WaitForSeconds(1f);
         elevatorBell.SetActive(false);
