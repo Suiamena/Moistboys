@@ -9,7 +9,7 @@ Material:
   m_Name: MAT_Creature_GLOW
   m_Shader: {fileID: 4800000, guid: 95601e5662dbec640a9b345e4f705941, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 4
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -54,8 +54,28 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TE:
+        m_Texture: {fileID: 2800000, guid: ee46616aff9c94b4695a93becddad62b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TEX_:
+        m_Texture: {fileID: 2800000, guid: ee46616aff9c94b4695a93becddad62b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TEX_Creature:
         m_Texture: {fileID: 2800000, guid: 4c9c0ee684418494f9cfffbfee8e623c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TEX_CreatureSymbol:
+        m_Texture: {fileID: 2800000, guid: ee46616aff9c94b4695a93becddad62b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TEX_GlowMask:
+        m_Texture: {fileID: 2800000, guid: 400a34856b35e3441a75ef0aca7fb442, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: ee46616aff9c94b4695a93becddad62b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample1:
@@ -90,3 +110,4 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0, g: 1, b: 0.990005, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GlowColour: {r: 0, g: 1, b: 0.990005, a: 0}
