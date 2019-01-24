@@ -105,7 +105,8 @@ namespace Creature
 		{
 			CheckForFlying();
 			if (startEvent) {
-				StartCoroutine(PlayEvent());
+                startEvent = false;
+                StartCoroutine(PlayEvent());
 			}
 		}
 
@@ -156,7 +157,6 @@ namespace Creature
 			while (!readyForSequence) {
 				yield return null;
 			}
-			startEvent = false;
 		}
 
 		void CheckForFlying ()
@@ -296,6 +296,8 @@ namespace Creature
             }
             while (creatureBecamePiccolo) {
                 creatureRenderer.material = glowingMaterial;
+                MoustacheBoiAudio.StopFlaps();
+                moustacheAnimator.SetBool("isFlying", false);
                 yield return null;
             }
             creatureHasArrivedToNewPlatform = false;

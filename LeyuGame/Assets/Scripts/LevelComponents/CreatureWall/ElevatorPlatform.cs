@@ -41,8 +41,6 @@ public class ElevatorPlatform : MonoBehaviour {
 
     private void Update()
     {
-        Debug.Log(wallScript.creatureHasArrivedToNewPlatform);
-        //Debug.Log(wallScript.creatureBecamePiccolo);
         //reset elevator
         if (!wallScript.sequenceIsRunning) {
             PlayerHasTouchedElevator = false;
