@@ -309,7 +309,7 @@ public class ChoiceMechanic : MonoBehaviour {
         if (socialScript.playerChooseSocial)
         {
             moustacheBoiAbility.transform.position = Vector3.MoveTowards(moustacheBoiAbility.transform.position, moustacheBoiCutscene.transform.position, abilitySpeed * Time.deltaTime);
-            moustacheBoiAbility.transform.localScale -= new Vector3(0.01f, 0.01f, 0.01f);
+            moustacheBoiAbility.transform.localScale -= new Vector3(0.00045f, 0.00045f, 0.00045f);
             moustacheBoiAbility.transform.localScale = new Vector3(Mathf.Clamp(moustacheBoiAbility.transform.localScale.x, 0.05f, 0), Mathf.Clamp(moustacheBoiAbility.transform.localScale.y, 0.05f, 0), Mathf.Clamp(moustacheBoiAbility.transform.localScale.z, 0.05f, 0));
             creatureAbilityLightIntensity.intensity -= 0.05f;
             creatureAbilityLightIntensity.intensity = Mathf.Clamp(creatureAbilityLightIntensity.intensity, 0, 5f);
@@ -317,8 +317,8 @@ public class ChoiceMechanic : MonoBehaviour {
         if (competentScript.playerChooseCompetence)
         {
             playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, player.transform.position, abilitySpeed * Time.deltaTime);
-            playerAbility.transform.localScale -= new Vector3(0.01f, 0.01f, 0.01f);
-            playerAbility.transform.localScale = new Vector3(Mathf.Clamp(playerAbility.transform.localScale.x, 0.05f, 0), Mathf.Clamp(playerAbility.transform.localScale.y, 0.05f, 0), Mathf.Clamp(playerAbility.transform.localScale.z, 0.05f, 0));
+            playerAbility.transform.localScale -= new Vector3(0.00045f, 0.00045f, 0.00045f);
+            playerAbility.transform.localScale = new Vector3(Mathf.Clamp(playerAbility.transform.localScale.x, 0, 0.05f), Mathf.Clamp(playerAbility.transform.localScale.y, 0, 0.05f), Mathf.Clamp(playerAbility.transform.localScale.z, 0, 0.05f));
             playerAbilityLightIntensity.intensity -= 0.05f;
             playerAbilityLightIntensity.intensity = Mathf.Clamp(playerAbilityLightIntensity.intensity, 0, 5f);
         }
