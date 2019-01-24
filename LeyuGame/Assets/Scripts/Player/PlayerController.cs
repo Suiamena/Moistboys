@@ -230,7 +230,7 @@ public class PlayerController : MonoBehaviour
 
 		//Smart Y rot
 		Vector3 lateralVelocity = new Vector3(velocity.x, 0, velocity.z);
-		if (lateralVelocity.sqrMagnitude > 64 && rightStickInput.x < .2f) {
+		if (lateralVelocity.sqrMagnitude > 64) {
 			Vector3 cameraOrientation = Quaternion.Euler(0, cameraTrans.eulerAngles.y, 0) * Vector3.forward;
 			float angle = Vector3.SignedAngle(cameraOrientation, transform.rotation * lateralVelocity, Vector3.up);
 			if (angle < 0) {
