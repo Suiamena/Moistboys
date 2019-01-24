@@ -36,7 +36,7 @@ public class ElevatorPlatform : MonoBehaviour {
         wallScript = wallObject.GetComponent<PlangeMuurInteractive>();
         playerBones = player.GetComponentInChildren<DynamicBone>();
 
-        nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3, nextLocation.transform.position.z);
+        nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3.5f, nextLocation.transform.position.z);
     }
 
     private void Update()

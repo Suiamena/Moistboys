@@ -12,44 +12,74 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 114165101745606624}
-  - {fileID: 114396157072471502}
+  - {fileID: 114519439914712856}
+  - {fileID: 114545261821879010}
   EditorEvents:
-  - {fileID: 114654331570801264}
-  - {fileID: 114953227468200276}
-  - {fileID: 114676237151535986}
-  - {fileID: 114847991045357088}
-  - {fileID: 114568305553282980}
-  - {fileID: 114457394229128364}
-  - {fileID: 114694686569844396}
-  - {fileID: 114906678745225636}
-  - {fileID: 114995646083080648}
-  - {fileID: 114177845286909912}
-  - {fileID: 114834762373790488}
-  - {fileID: 114915368610705662}
-  - {fileID: 114351855780531040}
-  - {fileID: 114974492341451204}
-  - {fileID: 114736052641988972}
-  - {fileID: 114045490222146556}
-  - {fileID: 114050329535957844}
-  - {fileID: 114420354983950340}
-  - {fileID: 114978229021116428}
-  - {fileID: 114170234401754764}
-  - {fileID: 114122942717703728}
-  - {fileID: 114718916110026110}
-  - {fileID: 114328021540279510}
-  - {fileID: 114271967728423556}
-  - {fileID: 114485571513877910}
-  - {fileID: 114923056647588698}
-  - {fileID: 114862335077522180}
-  - {fileID: 114098336467860390}
-  - {fileID: 114399771131894682}
-  - {fileID: 114241647742024672}
-  - {fileID: 114491348323158074}
-  MasterBankRef: {fileID: 114396157072471502}
-  StringsBankRef: {fileID: 114165101745606624}
+  - {fileID: 114368942272564292}
+  - {fileID: 114946783287089646}
+  - {fileID: 114748106924622050}
+  - {fileID: 114680549788801684}
+  - {fileID: 114546307173389228}
+  - {fileID: 114726745978389790}
+  - {fileID: 114357632327161370}
+  - {fileID: 114452826946015796}
+  - {fileID: 114714143037214742}
+  - {fileID: 114319633000919392}
+  - {fileID: 114062826234166990}
+  - {fileID: 114514735917520598}
+  - {fileID: 114146604160185090}
+  - {fileID: 114644419601679040}
+  - {fileID: 114116029937705548}
+  - {fileID: 114663237853378070}
+  - {fileID: 114112736702937220}
+  - {fileID: 114724800617637522}
+  - {fileID: 114043113043734546}
+  - {fileID: 114741717330163362}
+  - {fileID: 114155154754363652}
+  - {fileID: 114121399264946120}
+  - {fileID: 114993605004540536}
+  - {fileID: 114719777488763356}
+  - {fileID: 114830120671613500}
+  - {fileID: 114940158871386276}
+  - {fileID: 114471512517509856}
+  - {fileID: 114516257487392734}
+  - {fileID: 114488590426333850}
+  - {fileID: 114711150065411350}
+  - {fileID: 114680491106376292}
+  MasterBankRef: {fileID: 114545261821879010}
+  StringsBankRef: {fileID: 114519439914712856}
   stringsBankWriteTime: 636834279095607397
   cacheVersion: 2
+--- !u!114 &114003800804343846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Inside
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114005186929244588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Wind
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114006783361376644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,6 +570,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 30
   Length: 960
+--- !u!114 &114043113043734546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Ambience/Birds
+  guid: 99d266df9f6082408b9cdf57f4ab7780
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 139238
 --- !u!114 &114043408527344846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,6 +745,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 50
   Length: 3091
+--- !u!114 &114054874381621002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Moustache_Boy/Screeches
+  guid: 089986b874193f4aba84551e436d0dec
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2197
 --- !u!114 &114056818502337234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -817,6 +891,28 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114062826234166990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Moustache_Boy/Wall_Rumble
+  guid: 6abcccebd08d8946b801cc5d2869112a
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 85
+  Length: 3650
 --- !u!114 &114064460051170258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -899,6 +995,21 @@ MonoBehaviour:
   Name: Inside
   Min: 0
   Max: 1
+  Default: 0
+--- !u!114 &114069526391766400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Music
+  Min: 0
+  Max: 15
   Default: 0
 --- !u!114 &114071546757567348
 MonoBehaviour:
@@ -1065,6 +1176,32 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 139238
+--- !u!114 &114083838001456722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Ambience/Ambience
+  guid: e137604f02cc6548b55692e5f63f541e
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114351844827334638}
+  - {fileID: 114345505791844372}
+  - {fileID: 114003800804343846}
+  - {fileID: 114005186929244588}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 111372
 --- !u!114 &114084397509597662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1159,6 +1296,28 @@ MonoBehaviour:
   - Name: Desktop
     Value: 23657280
   Exists: 1
+--- !u!114 &114094346452670830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Creatures/Awoo
+  guid: c75b3835434a0f40b7edb9f837ac2d34
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 6653
 --- !u!114 &114095165199422584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1375,6 +1534,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 6000
+--- !u!114 &114112736702937220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Dragon/Airjump
+  guid: 92b2b81a6137bc4d87d8d8ec54675114
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 30
+  Length: 960
 --- !u!114 &114112870294890504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1431,6 +1612,28 @@ MonoBehaviour:
   Min: 0
   Max: 15
   Default: 0
+--- !u!114 &114114895311971118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Ambience/Birds
+  guid: 99d266df9f6082408b9cdf57f4ab7780
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 139238
 --- !u!114 &114114920024072896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1446,6 +1649,29 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114116029937705548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Dragon/Launch
+  guid: 8077220c7e4d3d4c862e8319d032138c
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114660765034896966}
+  MinDistance: 1
+  MaxDistance: 35
+  Length: 12213
 --- !u!114 &114119419258181882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1483,6 +1709,29 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 12085
+--- !u!114 &114121399264946120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Moustache_Boy/Snow Footsteps
+  guid: b39173582acd7542a66f1e9592d9158d
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 114545652090069132}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 498
 --- !u!114 &114121912391070482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1557,6 +1806,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2197
+--- !u!114 &114125768693472666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Moustache_Boy/Wall_Rumble
+  guid: 6abcccebd08d8946b801cc5d2869112a
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 85
+  Length: 3650
 --- !u!114 &114126146713181016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1603,6 +1874,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 35
   Length: 12213
+--- !u!114 &114128672456897886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Music
+  Min: 0
+  Max: 15
+  Default: 0
 --- !u!114 &114129543363026208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1641,6 +1927,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 15
   Length: 12213
+--- !u!114 &114132501295278538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Vegetation/Vegetation 1 Cracking
+  guid: 05eb567a06b44248b9521cc46d92686c
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 12085
 --- !u!114 &114133222270732662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1682,6 +1990,28 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114135354385616228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Creatures/Wolf
+  guid: aaaa25d1e0392f4a855b90b7b4233ce9
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 18000
 --- !u!114 &114142750827881954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1771,6 +2101,28 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114146604160185090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Objects/Ice_Breaking
+  guid: 7576c1967611dd41831ea8f032890eec
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 950
+  Length: 1994
 --- !u!114 &114150072688654692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1839,6 +2191,28 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114155154754363652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Creatures/Wolf
+  guid: aaaa25d1e0392f4a855b90b7b4233ce9
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 18000
 --- !u!114 &114156061715624890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2478,6 +2852,28 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114201659680463372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Objects/Glow_Start
+  guid: c1a8cbb00be0a94f80f052654dd490fc
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 60
+  Length: 6500
 --- !u!114 &114204398482757474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2540,6 +2936,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 9750
+--- !u!114 &114212229585354876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Elevator/Bell
+  guid: 2428c2995ec1384b870da670f00dfd59
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 4000
 --- !u!114 &114212765167091652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2614,6 +3032,21 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 25600
+--- !u!114 &114216197554865452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Ground
+  Min: 0
+  Max: 3
+  Default: 0
 --- !u!114 &114223699061437904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2781,6 +3214,29 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 11358
+--- !u!114 &114242565360777416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Dragon/Launch
+  guid: 8077220c7e4d3d4c862e8319d032138c
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114607773393886646}
+  MinDistance: 1
+  MaxDistance: 35
+  Length: 12213
 --- !u!114 &114244773211034254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2895,6 +3351,29 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 50
   Length: 9750
+--- !u!114 &114252080063823672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Music
+  guid: c07ca1dae6025240b381eb57402222c5
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114128672456897886}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1160200
 --- !u!114 &114252425124183872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3204,6 +3683,21 @@ MonoBehaviour:
   Min: 0
   Max: 4
   Default: 0
+--- !u!114 &114286381579427138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Screech
+  Min: 0
+  Max: 4
+  Default: 0
 --- !u!114 &114287131523505780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3472,6 +3966,43 @@ MonoBehaviour:
   - Name: Desktop
     Value: 18692032
   Exists: 1
+--- !u!114 &114319633000919392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Vegetation/Vegetation 4 grass
+  guid: 5f97ea87a49fc740ac13e76e57f711a4
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2030
+--- !u!114 &114321392534532314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Screech
+  Min: 0
+  Max: 4
+  Default: 0
 --- !u!114 &114322328452839416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3562,6 +4093,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2310
+--- !u!114 &114328993537067708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Vegetation/Vegetation 3 Hollow
+  guid: 6dc2991956649d4fbaa12033afb924c0
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 22406
 --- !u!114 &114329905294077200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3592,6 +4145,28 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114332242369387432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Dragon/Walljump
+  guid: 1186be5a0d70b04eaedfd8622444a058
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 50
+  Length: 3091
 --- !u!114 &114332303034067582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3761,6 +4336,28 @@ MonoBehaviour:
   Min: 0
   Max: 15
   Default: 0
+--- !u!114 &114338854045609222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Vegetation/Vegetation 2 Sticks
+  guid: 95e2bffc1348e34497ff84a9fbb1a0f9
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2921
 --- !u!114 &114340935982515434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3818,6 +4415,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Launch
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114345505791844372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Amethyst
   Min: 0
   Max: 1
   Default: 0
@@ -3937,6 +4549,21 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 111372
+--- !u!114 &114351844827334638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Area
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114351855780531040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4015,6 +4642,30 @@ MonoBehaviour:
   - Name: Desktop
     Value: 2176
   Exists: 1
+--- !u!114 &114357632327161370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Dragon/Bounce
+  guid: 50797acb3078a04d90b3c4cd5ba5466b
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 114216197554865452}
+  - {fileID: 114814273814965210}
+  MinDistance: 1
+  MaxDistance: 30
+  Length: 6872
 --- !u!114 &114360346831412620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4122,6 +4773,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2310
+--- !u!114 &114368942272564292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Vegetation/Vegetation 1 Cracking
+  guid: 05eb567a06b44248b9521cc46d92686c
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 12085
 --- !u!114 &114369706019194668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4644,6 +5317,21 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 4750
+--- !u!114 &114405889849798620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MB
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114406757226528300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4717,6 +5405,28 @@ MonoBehaviour:
   - Name: Desktop
     Value: 20944480
   Exists: 1
+--- !u!114 &114413759559331332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Objects/Glow_Ability
+  guid: e4cca7ea62b5314390403ab2f23a515c
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 30
+  Length: 21200
 --- !u!114 &114414068138338566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5106,6 +5816,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 139238
+--- !u!114 &114452826946015796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Vegetation/Vegetation 8 Leaves
+  guid: 52affb622d41cc458e88c66343d0b47c
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2310
 --- !u!114 &114453882123694324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5151,6 +5883,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 50
   Length: 400
+--- !u!114 &114458444254199320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MB
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114459068309975792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5233,6 +5980,28 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114471512517509856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Elevator/Bossa Nova
+  guid: d1eb04a442c02c46ac614e318b36b878
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 25600
 --- !u!114 &114471780972190830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5397,6 +6166,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 6653
+--- !u!114 &114488590426333850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Objects/Glow_Ability
+  guid: e4cca7ea62b5314390403ab2f23a515c
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 30
+  Length: 21200
 --- !u!114 &114490369743966674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5771,6 +6562,51 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114512831124188296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Moustache_Boy/Start_Flaps
+  guid: 4d6f35b12b05064f901083cfaa8b8ba8
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 114945414971808758}
+  MinDistance: 1
+  MaxDistance: 50
+  Length: 400
+--- !u!114 &114514735917520598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Vegetation/Vegetation 3 Hollow
+  guid: 6dc2991956649d4fbaa12033afb924c0
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 22406
 --- !u!114 &114514815003270434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5786,6 +6622,32 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114516257487392734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Ambience/Ambience
+  guid: e137604f02cc6548b55692e5f63f541e
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114893945925947606}
+  - {fileID: 114611692805223884}
+  - {fileID: 114937847885393648}
+  - {fileID: 114783074723989850}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 111372
 --- !u!114 &114518763103272474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5808,6 +6670,25 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 18000
+--- !u!114 &114519439914712856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: D:\Thomas\HKU\Jaar 3\Project Vrij 3\FMOD voor Unity\Snow\Build\Desktop\Master
+    Bank.strings.bank
+  lastModified: 636834279095607397
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 2348
+  Exists: 1
 --- !u!114 &114522842473763602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5863,6 +6744,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Inside
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114528063409105326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Scared
   Min: 0
   Max: 1
   Default: 0
@@ -5964,6 +6860,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2197
+--- !u!114 &114535571413189718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MB
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114537112591934722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6083,6 +6994,40 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 4000
+--- !u!114 &114545261821879010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: D:\Thomas\HKU\Jaar 3\Project Vrij 3\FMOD voor Unity\Snow\Build\Desktop\Master
+    Bank.bank
+  lastModified: 636834279095482611
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 23997888
+  Exists: 1
+--- !u!114 &114545652090069132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Place
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114545896905235956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6135,6 +7080,73 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114546307173389228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Dragon/Dragon_Screeches
+  guid: 4cad4c1a9601a046a3b01bad3a54eb5c
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 114286381579427138}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 5463
+--- !u!114 &114546397076072324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Elevator/Bossa Nova
+  guid: d1eb04a442c02c46ac614e318b36b878
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 25600
+--- !u!114 &114549974691607314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Vegetation/Vegetation 4 grass
+  guid: 5f97ea87a49fc740ac13e76e57f711a4
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2030
 --- !u!114 &114550507834908474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6202,6 +7214,25 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114559181493686662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: C:\Users\Lennart Kuyvenhoven\Downloads\Snow 18_01 New\Snow\Build\Desktop\Master
+    Bank.strings.bank
+  lastModified: 636838377125215417
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 2348
+  Exists: 1
 --- !u!114 &114559745246813558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6805,6 +7836,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114607773393886646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Launch
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114607800505695360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6847,6 +7893,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Height
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114611692805223884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Amethyst
   Min: 0
   Max: 1
   Default: 0
@@ -7044,6 +8105,28 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114636525169134040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Dragon/Airjump
+  guid: 92b2b81a6137bc4d87d8d8ec54675114
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 30
+  Length: 960
 --- !u!114 &114639792798359104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7067,6 +8150,29 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 50
   Length: 9750
+--- !u!114 &114640000111418472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Creatures/Lion Mouse
+  guid: e68da660d1ec0f42b4261d3a37c889f1
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114528063409105326}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 11358
 --- !u!114 &114640170965438442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7119,6 +8225,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 12085
+--- !u!114 &114644419601679040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Creatures/Cutterfish
+  guid: 789c7d8c3397cb45a9cc8d20fedef045
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2271
 --- !u!114 &114645566198023302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7242,6 +8370,21 @@ MonoBehaviour:
   - Name: Desktop
     Value: 23107168
   Exists: 1
+--- !u!114 &114660765034896966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Launch
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114661193365241730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7279,6 +8422,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 6653
+--- !u!114 &114663237853378070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Vegetation/Amethyst_Ground
+  guid: 89ebbf83a0a66e40b3e3bf657ebb90c4
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 4750
 --- !u!114 &114663264802429952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7540,6 +8705,50 @@ MonoBehaviour:
   Min: 0
   Max: 15
   Default: 0
+--- !u!114 &114680491106376292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Objects/Glow_Creature
+  guid: ed342ca3c6fef2419ba1423abccbc2ed
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 30
+  Length: 21200
+--- !u!114 &114680549788801684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Elevator/Bell
+  guid: 2428c2995ec1384b870da670f00dfd59
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 4000
 --- !u!114 &114682176705994668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7596,6 +8805,29 @@ MonoBehaviour:
   - Name: Desktop
     Value: 2348
   Exists: 1
+--- !u!114 &114689808277380724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Moustache_Boy/Flaps
+  guid: 538c864039d9aa449d7ea89981c8fa46
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114405889849798620}
+  MinDistance: 1
+  MaxDistance: 50
+  Length: 9750
 --- !u!114 &114694686569844396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7820,6 +9052,29 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114711150065411350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Creatures/Lion Mouse
+  guid: e68da660d1ec0f42b4261d3a37c889f1
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114717393876651546}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 11358
 --- !u!114 &114712179638689576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7872,6 +9127,51 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 4750
+--- !u!114 &114713197396954320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Objects/Ice_Breaking
+  guid: 7576c1967611dd41831ea8f032890eec
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 950
+  Length: 1994
+--- !u!114 &114714143037214742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Moustache_Boy/Flaps
+  guid: 538c864039d9aa449d7ea89981c8fa46
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114535571413189718}
+  MinDistance: 1
+  MaxDistance: 50
+  Length: 9750
 --- !u!114 &114714733253533764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7894,6 +9194,21 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 139238
+--- !u!114 &114717393876651546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Scared
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114718368918253302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7932,6 +9247,73 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 498
+--- !u!114 &114719777488763356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Objects/Glow_Start
+  guid: c1a8cbb00be0a94f80f052654dd490fc
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 60
+  Length: 6500
+--- !u!114 &114724800617637522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Vegetation/Vegetation 2 Sticks
+  guid: 95e2bffc1348e34497ff84a9fbb1a0f9
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2921
+--- !u!114 &114726745978389790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Moustache_Boy/Start_Flaps
+  guid: 4d6f35b12b05064f901083cfaa8b8ba8
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 114458444254199320}
+  MinDistance: 1
+  MaxDistance: 50
+  Length: 400
 --- !u!114 &114730168075297136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8002,6 +9384,65 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 22406
+--- !u!114 &114733026142516182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Place
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114733117047640016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Vegetation/Vegetation 8 Leaves
+  guid: 52affb622d41cc458e88c66343d0b47c
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2310
+--- !u!114 &114735655737706006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Dragon/Idle
+  guid: 9cb8fc7db13cf7418dfceb1c18c5680d
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2414
 --- !u!114 &114735751514775864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8077,6 +9518,28 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114741717330163362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Dragon/Idle
+  guid: 9cb8fc7db13cf7418dfceb1c18c5680d
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2414
 --- !u!114 &114742316830792080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8195,6 +9658,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 950
   Length: 1994
+--- !u!114 &114748106924622050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Dragon/Walljump
+  guid: 1186be5a0d70b04eaedfd8622444a058
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 50
+  Length: 3091
 --- !u!114 &114750415828420244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8255,6 +9740,52 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114760633681364422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Objects/Glow_Creature
+  guid: ed342ca3c6fef2419ba1423abccbc2ed
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 30
+  Length: 21200
+--- !u!114 &114760856770956474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Dragon/Bounce
+  guid: 50797acb3078a04d90b3c4cd5ba5466b
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 114791495768164840}
+  - {fileID: 114997666426503842}
+  MinDistance: 1
+  MaxDistance: 30
+  Length: 6872
 --- !u!114 &114762148173759616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8375,6 +9906,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 11358
+--- !u!114 &114772761910920784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Creatures/Cutterfish
+  guid: 789c7d8c3397cb45a9cc8d20fedef045
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2271
 --- !u!114 &114776050764327330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8431,6 +9984,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Place
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114783074723989850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Wind
   Min: 0
   Max: 1
   Default: 0
@@ -8627,6 +10195,21 @@ MonoBehaviour:
   Name: Area
   Min: 0
   Max: 1
+  Default: 0
+--- !u!114 &114791495768164840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Ground
+  Min: 0
+  Max: 3
   Default: 0
 --- !u!114 &114791781828261348
 MonoBehaviour:
@@ -8840,6 +10423,21 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 11358
+--- !u!114 &114814273814965210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Height
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114814974452260148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9064,6 +10662,50 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 100
   Length: 4258
+--- !u!114 &114829199718090184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Vegetation/Amethyst_Ground
+  guid: 89ebbf83a0a66e40b3e3bf657ebb90c4
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 4750
+--- !u!114 &114830120671613500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Creatures/Awoo
+  guid: c75b3835434a0f40b7edb9f837ac2d34
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 6653
 --- !u!114 &114834762373790488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9776,6 +11418,25 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 50
   Length: 3091
+--- !u!114 &114879800740632366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: C:\Users\Lennart Kuyvenhoven\Downloads\Snow 18_01 New\Snow\Build\Desktop\Master
+    Bank.bank
+  lastModified: 636838377125085755
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 23997888
+  Exists: 1
 --- !u!114 &114880779738714060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10069,6 +11730,29 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114892410367854540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Dragon/Dragon_Screeches
+  guid: 4cad4c1a9601a046a3b01bad3a54eb5c
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 114321392534532314}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 5463
 --- !u!114 &114893333021902800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10092,6 +11776,21 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1160200
+--- !u!114 &114893945925947606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Area
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114896788527065568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10638,6 +12337,21 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114937847885393648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Inside
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114939096182773666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10660,6 +12374,67 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2921
+--- !u!114 &114940158871386276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Objects/Lighttower
+  guid: cb0445e9406b984f914b3e2039274304
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114951087370426686}
+  MinDistance: 1
+  MaxDistance: 50
+  Length: 26500
+--- !u!114 &114943079323807334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Moustache_Boy/Snow Footsteps
+  guid: b39173582acd7542a66f1e9592d9158d
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 114733026142516182}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 498
+--- !u!114 &114945414971808758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: MB
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114945779206320990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10682,6 +12457,28 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2197
+--- !u!114 &114946783287089646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Moustache_Boy/Screeches
+  guid: 089986b874193f4aba84551e436d0dec
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2197
 --- !u!114 &114950052903399948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10694,6 +12491,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Amethyst
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114951087370426686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Snorring
   Min: 0
   Max: 1
   Default: 0
@@ -10866,6 +12678,29 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114966048606464946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Objects/Lighttower
+  guid: cb0445e9406b984f914b3e2039274304
+  Banks:
+  - {fileID: 114879800740632366}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114997104528685028}
+  MinDistance: 1
+  MaxDistance: 50
+  Length: 26500
 --- !u!114 &114966391016711948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11217,6 +13052,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 18000
+--- !u!114 &114993605004540536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Music
+  guid: c07ca1dae6025240b381eb57402222c5
+  Banks:
+  - {fileID: 114545261821879010}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114069526391766400}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1160200
 --- !u!114 &114995312426862372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11277,6 +13135,36 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 50
   Length: 9750
+--- !u!114 &114997104528685028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Snorring
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114997666426503842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Height
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114998107019778820
 MonoBehaviour:
   m_ObjectHideFlags: 0
