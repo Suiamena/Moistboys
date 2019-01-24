@@ -64,22 +64,10 @@ public class ResetGame : MonoBehaviour {
             Level4Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Level5Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Level6Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            SceneManager.LoadScene("Level 5");
-        }
-
-        if (Input.GetKeyDown("6"))
-        {
-            AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            Level1Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            Level2Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            Level3Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            Level4Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            Level5Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            Level6Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             SceneManager.LoadScene("Level 6");
         }
 
-        if (Input.GetKeyDown("7"))
+        if (Input.GetKeyDown("6"))
         {
             AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Level1Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
