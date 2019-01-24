@@ -36,12 +36,13 @@ public class ElevatorPlatform : MonoBehaviour {
         player = GameObject.Find("MOD_Draak");
         wallScript = wallObject.GetComponent<PlangeMuurInteractive>();
         playerBones = player.GetComponentInChildren<DynamicBone>();
-
         nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3.5f, nextLocation.transform.position.z);
     }
 
     private void Update()
     {
+        Debug.Log(wallScript.creatureHasArrivedToNewPlatform);
+        //Debug.Log(wallScript.creatureBecamePiccolo);
         //reset elevator
         if (!wallScript.sequenceIsRunning) {
             PlayerHasTouchedElevator = false;
@@ -80,6 +81,12 @@ public class ElevatorPlatform : MonoBehaviour {
 
     IEnumerator CreaturePiccolo()
     {
+        while (!wallScript.creatureHasArrivedToNewPlatform)
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(2f);
+        Debug.Log("go");
         creatureIsBack = false;
         wallScript.startEvent = true;
         while (wallScript.creatureBecamePiccolo) {
