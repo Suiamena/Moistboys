@@ -70,6 +70,10 @@ public class ChoiceMechanic : MonoBehaviour {
     public GameObject creatureAbilityLight;
     Light creatureAbilityLightIntensity;
 
+    public GameObject transition;
+    Level4EndTransition transitionScript;
+    bool playTransition = false;
+
     private void Awake()
     {
         warmthSourceAnimator = warmthSourceAnimObject.GetComponent<Animator>();
@@ -110,6 +114,8 @@ public class ChoiceMechanic : MonoBehaviour {
         creatureAbilityLightIntensity = creatureAbilityLight.GetComponent<Light>();
         playerAbilityLightIntensity.intensity = 0f;
         creatureAbilityLightIntensity.intensity = 0f;
+
+        transitionScript = transition.GetComponent<Level4EndTransition>();
     }
 
     private void FixedUpdate()
@@ -153,6 +159,11 @@ public class ChoiceMechanic : MonoBehaviour {
             {
                 RunSacrificeAbility();
             }
+        }
+
+        if (playTransition == true)
+        {
+            transitionScript.Transition();
         }
     }
 
@@ -349,13 +360,13 @@ public class ChoiceMechanic : MonoBehaviour {
         {
             fourthCutsceneCamera.SetActive(true);
             moustacheBoiAnim.SetBool("isSuperFlop", true);
-            yield return new WaitForSeconds(3F);
+            yield return new WaitForSeconds(1F);
         }
         else
         {
             thirdCutsceneCamera.SetActive(true);
             //moustacheBoiAnim.SetBool("isRejected", true);
-            yield return new WaitForSeconds(3F);
+            yield return new WaitForSeconds(1F);
         }
 
         moustacheBoiAnim.SetBool("isRejected", false);
@@ -396,8 +407,12 @@ public class ChoiceMechanic : MonoBehaviour {
         //VERWARM WERELD (NIEUWE CAMERA EN MODEL?)
         warmthSourceAnimator.SetBool("isOpening", true);
         warmthSource.SetActive(false);
-        yield return new WaitForSeconds(2F);
 
+        //TRANSITION
+        yield return new WaitForSeconds(2F);
+        playTransition = true;
+
+        yield return new WaitForSeconds(2F);
         thirdCutsceneCamera.SetActive(false);
         fourthCutsceneCamera.SetActive(false);
 
