@@ -86,12 +86,11 @@ public class ElevatorPlatform : MonoBehaviour {
             yield return null;
         }
         yield return new WaitForSeconds(2f);
-        Debug.Log("go");
         creatureIsBack = false;
         wallScript.startEvent = true;
         while (wallScript.creatureBecamePiccolo) {
             moustacheBoi.transform.LookAt(player.transform.position);
-            moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, transform.position.y, moustacheBoi.transform.position.z);
+            moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, Mathf.Lerp(moustacheBoi.transform.position.y, transform.position.y, 0.5f), moustacheBoi.transform.position.z);
             yield return null;
         }
         creatureCoroutineTwoOnce = false;
