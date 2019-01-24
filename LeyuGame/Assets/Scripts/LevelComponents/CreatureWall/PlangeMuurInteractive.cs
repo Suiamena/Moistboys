@@ -64,7 +64,7 @@ namespace Creature
 		[HideInInspector]
 		public GameObject spawnPlatformParticle;
 		[HideInInspector]
-		public bool sequenceIsRunning, creatureBecamePiccolo;
+		public bool sequenceIsRunning, creatureBecamePiccolo, elevatorIDSaved;
 
 		private void Awake ()
 		{
@@ -346,25 +346,21 @@ namespace Creature
 		public void DisablePiccolo ()
 		{
 			if (sequenceIsRunning) {
-                //CREATURE WAITS UNTIL HE CAN FLY TO A NEW DESTINATION AND SPAWNS THIS PLATFORM
-
-                //SET NEXT LOCATION (EITHER THE NEXT PLATFORM OR THE FINAL
+                if (!elevatorIDSaved)
+                {
+                    rememberThisPlatformID = activePlatform;
+                    elevatorIDSaved = true;
+                }
                 if (activePlatform < platformTransforms.Count - 2)
                 {
-                    Debug.Log("bad boy");
+                    flyToPlatformPosition = platformTransforms[rememberThisPlatformID].position + platformTransforms[rememberThisPlatformID].transform.rotation * new Vector3(0, -2, -12);
                 }
                 else
                 {
-                    Debug.Log("good");
+                    flyToPlatformPosition = platformTransforms[rememberThisPlatformID].position + platformTransforms[rememberThisPlatformID].transform.rotation * new Vector3(0, 0, 0);
                 }
-                flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -12);
                 creatureBecamePiccolo = false;
                 moustacheAnimator.SetBool("isFlying", true);
-                if (rememberThisPlatformID == 0)
-                {
-                    //MAKE SURE THE GAME REMEMBERS THIS!
-                    //rememberThisPlatformID = activePlatform;
-                }
             }
 		}
 
@@ -372,6 +368,7 @@ namespace Creature
 		{
 			sequenceIsRunning = false;
 			creatureBecamePiccolo = false;
+            elevatorIDSaved = false;
             rememberThisPlatformID = 0;
             activePlatform = 0;
 			for (int i = 0; i < platformTransforms.Count - 1; i++) {
