@@ -86,7 +86,7 @@ namespace Creature
 				platformDefaultPositions.Add(platformTransforms[i].position);
 			}
 			for (int i = 0; i < platformsParent.childCount - 1; i++) {
-				PlatformType platformTypeScript;
+                PlatformType platformTypeScript;
 				platformTypeScript = platformTransforms[i].GetComponent<PlatformType>();
 				if (platformTypeScript.emergeFromTheGround) {
 					platformTransforms[i].position += platformTransforms[i].rotation * new Vector3(0, -platformCreationDistance, 0);
@@ -159,9 +159,9 @@ namespace Creature
 		{
 			if (playerScript.creatureWallsEnabled) {
 				if (currentCreatureLocation == 0) {
-					if (defaultCreaturePos.SquareDistance(player.transform.position) < flyInOutRange * flyInOutRange) {
-						if (!flyingRoutineRunning) {
-							flyingRoutineRunning = true;
+                    if (defaultCreaturePos.SquareDistance(player.transform.position) < flyInOutRange * flyInOutRange) {
+                        if (!flyingRoutineRunning) {
+                            flyingRoutineRunning = true;
 							StartCoroutine(FlyIn());
 						}
 					}
@@ -262,7 +262,7 @@ namespace Creature
 		IEnumerator CreatureFliesToPlatform ()
 		{
             if (!creatureBecamePiccolo) {
-                if (activePlatform < platformTransforms.Count - 1) {
+                if (activePlatform < platformTransforms.Count - 2) {
                     flyToPlatformPosition = platformTransforms[activePlatform + 1].position + platformTransforms[activePlatform + 1].transform.rotation * new Vector3(0, -2, -12);
                 } else {
                     flyToPlatformPosition = finalCreatureLocation.transform.position;
@@ -363,6 +363,9 @@ namespace Creature
 					platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
 				}
 			}
+            //SPAWN INSURANCE
+            yield return new WaitForSeconds(3f);
+            currentCreatureLocation = 0;
 		}
 	}
 }
