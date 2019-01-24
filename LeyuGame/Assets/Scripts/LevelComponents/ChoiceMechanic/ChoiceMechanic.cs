@@ -267,7 +267,7 @@ public class ChoiceMechanic : MonoBehaviour {
             abilityFoundPlayer = true;
         }
         playerAbility.transform.position = Vector3.MoveTowards(playerAbility.transform.position, playerAbilityTarget.transform.position, playerAbilitySpeed * Time.deltaTime);
-        playerAbility.transform.localScale += new Vector3(0.00045f, 0.00045f, 0.00045f);
+        playerAbility.transform.localScale += new Vector3(0.0001f, 0.0001f, 0.0001f);
         playerAbility.transform.localScale = new Vector3(Mathf.Clamp(playerAbility.transform.localScale.x, 0, 0.05f), Mathf.Clamp(playerAbility.transform.localScale.y, 0, 0.05f), Mathf.Clamp(playerAbility.transform.localScale.z, 0, 0.05f));
     }
 
