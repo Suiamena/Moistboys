@@ -18,7 +18,7 @@ public class ElevatorPlatform : MonoBehaviour {
     public GameObject wallObject;
     PlangeMuurInteractive wallScript;
 
-    public GameObject player;
+    GameObject player;
     DynamicBone playerBones;
 
     public GameObject elevatorRadio;
@@ -33,6 +33,7 @@ public class ElevatorPlatform : MonoBehaviour {
 
     private void Awake()
     {
+        player = GameObject.Find("MOD_Draak");
         wallScript = wallObject.GetComponent<PlangeMuurInteractive>();
         playerBones = player.GetComponentInChildren<DynamicBone>();
 

@@ -1212,7 +1212,6 @@ MonoBehaviour:
   elevatorPlatform: {fileID: 1034010327}
   nextLocation: {fileID: 504398522}
   wallObject: {fileID: 181484958}
-  player: {fileID: 0}
   elevatorRadio: {fileID: 1108063941}
   elevatorBell: {fileID: 690955119}
   moustacheBoi: {fileID: 1207143253}
@@ -1637,7 +1636,7 @@ MonoBehaviour:
   launchStageOneColor: {r: 1, g: 0.86833215, b: 0, a: 1}
   launchStageTwoColor: {r: 1, g: 0, b: 0.019583702, a: 1}
   launchRenderer: {fileID: 1531881186}
-  creatureWallsEnabled: 1
+  creatureWallsEnabled: 0
   creatureWallJumpSpeed: 40
   modelXRotationSpeed: 90
   modelRotationMaximumXAngle: 35
@@ -5659,6 +5658,8 @@ MonoBehaviour:
   glowingMaterial: {fileID: 2100000, guid: 369e86144d26cf94d9e846061c0838ad, type: 2}
   platformCreationTime: 0.5
   platformCreationDistance: 12
+  finalCreatureLocation: {fileID: 1413710976}
+  flyToPlatformSpeed: 25
   flyingSpeed: 50
   flyInOutRange: 45
   flyInOutPoint: {x: -20, y: 40, z: 7}
@@ -6253,6 +6254,8 @@ MonoBehaviour:
   glowingMaterial: {fileID: 2100000, guid: 369e86144d26cf94d9e846061c0838ad, type: 2}
   platformCreationTime: 0.5
   platformCreationDistance: 12
+  finalCreatureLocation: {fileID: 1544126487}
+  flyToPlatformSpeed: 25
   flyingSpeed: 50
   flyInOutRange: 45
   flyInOutPoint: {x: -20, y: 40, z: 7}
@@ -6508,7 +6511,6 @@ MonoBehaviour:
   elevatorPlatform: {fileID: 462566748}
   nextLocation: {fileID: 371586813}
   wallObject: {fileID: 198133110}
-  player: {fileID: 0}
   elevatorRadio: {fileID: 470865351}
   elevatorBell: {fileID: 186278812}
   moustacheBoi: {fileID: 525562169}
@@ -10718,8 +10720,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 347311230}
   m_LocalRotation: {x: -0, y: -0.38831928, z: -0, w: 0.9215249}
-  m_LocalPosition: {x: 19.66, y: 9.96, z: 23.22}
-  m_LocalScale: {x: 2.7765653, y: 2.8839831, z: 2.0837264}
+  m_LocalPosition: {x: 19.58, y: 7.7, z: 23.14}
+  m_LocalScale: {x: 2.7765653, y: 1.9134074, z: 2.0837264}
   m_Children: []
   m_Father: {fileID: 1543629530}
   m_RootOrder: 4
@@ -20638,7 +20640,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4756108217203194, guid: 66db52abbcba7954da466c5498f22755, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4756108217203194, guid: 66db52abbcba7954da466c5498f22755, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -26847,9 +26849,9 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 835215505}
-  m_LocalRotation: {x: -0.0000000037252907, y: -0.991683, z: 0.000000022351744, w: -0.12870437}
-  m_LocalPosition: {x: -1.41, y: -2.12, z: 2}
-  m_LocalScale: {x: 5.1388783, y: 1.2209463, z: 5.092164}
+  m_LocalRotation: {x: 0.000000015832484, y: -0.991683, z: -0.0000000018626451, w: -0.12870422}
+  m_LocalPosition: {x: 0.32554284, y: -2.1740227, z: -1.9408937}
+  m_LocalScale: {x: 5.139442, y: 1.2210827, z: 5.0921764}
   m_Children:
   - {fileID: 600263423}
   m_Father: {fileID: 891357319}
@@ -28276,7 +28278,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 891357318}
   m_LocalRotation: {x: -0.02800943, y: -0.18613811, z: 0.08710004, w: 0.97825444}
-  m_LocalPosition: {x: 8.736926, y: 10.582351, z: 16.05017}
+  m_LocalPosition: {x: 5.38, y: 10.58, z: 19.34}
   m_LocalScale: {x: 1.0900103, y: 4.5867267, z: 1.0899974}
   m_Children:
   - {fileID: 835215506}
@@ -32518,6 +32520,8 @@ MonoBehaviour:
   glowingMaterial: {fileID: 2100000, guid: 369e86144d26cf94d9e846061c0838ad, type: 2}
   platformCreationTime: 0.5
   platformCreationDistance: 12
+  finalCreatureLocation: {fileID: 1631127678}
+  flyToPlatformSpeed: 25
   flyingSpeed: 50
   flyInOutRange: 80
   flyInOutPoint: {x: -20, y: 40, z: 7}
@@ -32611,7 +32615,6 @@ MonoBehaviour:
   elevatorPlatform: {fileID: 1028413694}
   nextLocation: {fileID: 1560052597}
   wallObject: {fileID: 1036125429}
-  player: {fileID: 0}
   elevatorRadio: {fileID: 286136780}
   elevatorBell: {fileID: 1914231883}
   moustacheBoi: {fileID: 2042169541}
@@ -46409,6 +46412,8 @@ MonoBehaviour:
   glowingMaterial: {fileID: 2100000, guid: 369e86144d26cf94d9e846061c0838ad, type: 2}
   platformCreationTime: 0.5
   platformCreationDistance: 12
+  finalCreatureLocation: {fileID: 347311230}
+  flyToPlatformSpeed: 25
   flyingSpeed: 50
   flyInOutRange: 70
   flyInOutPoint: {x: -20, y: 40, z: 7}
@@ -55890,10 +55895,10 @@ MonoBehaviour:
   MapToLDR: 0
   RemoveColorBanding: 1
   MatrixVP:
-    e00: -1.0163442
-    e01: -2.3675936e-10
-    e02: -0.03282117
-    e03: 786.27466
+    e00: -0.72289735
+    e01: -1.6840035e-10
+    e02: -0.023344785
+    e03: 559.2553
     e10: -0.012948657
     e11: -1.6849498
     e12: 0.40096956
@@ -55907,10 +55912,10 @@ MonoBehaviour:
     e32: -0.9722996
     e33: 555.4414
   LastMatrixVP:
-    e00: -1.0163442
-    e01: -2.3675936e-10
-    e02: -0.03282117
-    e03: 786.27466
+    e00: -0.72289735
+    e01: -1.6840035e-10
+    e02: -0.023344785
+    e03: 559.2553
     e10: 0.012948657
     e11: 1.6849498
     e12: -0.40096956
@@ -55998,7 +56003,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1739882286}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12601acaf9af72343b85bace4eb57570, type: 3}
   m_Name: 

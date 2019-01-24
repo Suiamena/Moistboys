@@ -15,5 +15,7 @@ public class CommunicateChoice : MonoBehaviour
 			playerController.creatureWallsEnabled = true;
 		else
 			playerController.creatureWallsEnabled = false;
+        Debug.Log(VariablesGlobal.chosenForCompetence);
+        Debug.Log(VariablesGlobal.chosenForSocial);
 	}
 }
