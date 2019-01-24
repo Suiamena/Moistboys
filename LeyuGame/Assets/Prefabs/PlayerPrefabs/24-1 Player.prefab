@@ -1795,15 +1795,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1625656965695350}
-  m_LocalRotation: {x: -0.12154005, y: 0.5404894, z: 0.07926584, w: 0.82874376}
-  m_LocalPosition: {x: 1034, y: 405.9, z: 1299}
+  m_LocalRotation: {x: 0, y: 0.9756036, z: 0, w: 0.21953979}
+  m_LocalPosition: {x: 682.2181, y: 82.38649, z: 820.8465}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4624373607199524}
   - {fileID: 4526235926081698}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 66.223, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 154.636, z: 0}
 --- !u!4 &4324429496739010
 Transform:
   m_ObjectHideFlags: 1
@@ -2446,7 +2446,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!81 &81799246114809918
@@ -2512,7 +2512,8 @@ MonoBehaviour:
   dragonModel: {fileID: 1836611707524320}
   triggerMask:
     serializedVersion: 2
-    m_Bits: 567
+    m_Bits: 55
+  dynamicBone: {fileID: 114698226370301124}
   cameraTrans: {fileID: 4757320769923710}
   cameraOffset: {x: 0, y: 3, z: -7.5}
   cameraTarget: {x: 0, y: 0.5, z: 3}
@@ -2537,9 +2538,9 @@ MonoBehaviour:
   launchRenderer: {fileID: 137384761220876408}
   creatureWallsEnabled: 1
   creatureWallJumpSpeed: 40
-  modelXRotationSpeed: 45
-  modelRotationMaximumXAngle: 20
-  modelRotationMinimumXAngle: -40
+  modelXRotationSpeed: 100
+  modelRotationMaximumXAngle: 65
+  modelRotationMinimumXAngle: -55
   snowLandingParticlePrefab: {fileID: 1055422880598436, guid: 1c5fd2ff9a7296f42b3325e819b24de1,
     type: 2}
   leapingVelocity: {x: 0, y: 12.5, z: 18}
@@ -2598,7 +2599,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1420076219880442}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12601acaf9af72343b85bace4eb57570, type: 3}
   m_Name: 
@@ -3353,8 +3354,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9ac8d30c6a0d9642a11e5be4c440740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Root: {fileID: 4504794013895374}
-  m_UpdateRate: 60
+  m_Root: {fileID: 4203804888770610}
+  m_UpdateRate: 30
   m_UpdateMode: 0
   m_Damping: 0.801
   m_DampingDistrib:
