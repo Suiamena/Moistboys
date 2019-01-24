@@ -296,11 +296,11 @@ namespace Creature
                 moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (flyToPlatformSpeed * 2f) * Time.deltaTime);
                 yield return null;
             }
-            if (activePlatform >= platformTransforms.Count - 1)
-            {
-                moustacheAnimator.SetBool("isFlying", false);
-                moustacheBoi.transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
+            //if (activePlatform >= platformTransforms.Count - 1)
+            //{
+            //    moustacheAnimator.SetBool("isFlying", false);
+            //    moustacheBoi.transform.rotation = Quaternion.Euler(0, 0, 0);
+            //}
         }
 
 		IEnumerator CreatureSpawnsPlatform (int currentPlatform)
