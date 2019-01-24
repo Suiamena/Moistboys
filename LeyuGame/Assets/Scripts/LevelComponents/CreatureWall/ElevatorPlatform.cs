@@ -116,7 +116,6 @@ public class ElevatorPlatform : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("down");
         playerBones.enabled = true;
         goDown = true;
         if (!elevatorIsMoving) {
@@ -142,7 +141,7 @@ public class ElevatorPlatform : MonoBehaviour {
             elevatorRadio.SetActive(false);
         }
         if (goDown) {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(5f);
             distance = Mathf.Abs(elevatorPlatform.transform.position.y - startingLocation.y);
             while (distance > .1f) {
                 distance = Mathf.Abs(elevatorPlatform.transform.position.y - startingLocation.y);
