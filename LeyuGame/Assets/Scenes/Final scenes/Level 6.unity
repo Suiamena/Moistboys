@@ -1003,6 +1003,93 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4975267302112594, guid: 5e99c76968377bf40832f96e21475719,
     type: 2}
   m_PrefabInternal: {fileID: 14168325}
+--- !u!1001 &15901448
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4320693825429702, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 760.75757
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320693825429702, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 54.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320693825429702, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 496.74078
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320693825429702, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0.004877594
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320693825429702, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0.9888573
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320693825429702, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0.14502165
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320693825429702, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.03325831
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320693825429702, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4780089047015216, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0.05920068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4780089047015216, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.9982308
+      objectReference: {fileID: 0}
+    - target: {fileID: 4171183300216358, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0.03959286
+      objectReference: {fileID: 0}
+    - target: {fileID: 4171183300216358, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0.026425151
+      objectReference: {fileID: 0}
+    - target: {fileID: 4171183300216358, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0.8288073
+      objectReference: {fileID: 0}
+    - target: {fileID: 4171183300216358, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.5575058
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014495510718002, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0.003455166
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014495510718002, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0.0313856
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320693825429702, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -16.687
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320693825429702, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 176.147
+      objectReference: {fileID: 0}
+    - target: {fileID: 114100366278755174, guid: fe818697bed7c3740a9653f87a18d810,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fe818697bed7c3740a9653f87a18d810, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!4 &19913443 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4247798702856314, guid: 880cae11f701cb04dba6cbb8c8c0246b,
@@ -6672,6 +6759,7 @@ MonoBehaviour:
   glowingMaterial: {fileID: 2100000, guid: 369e86144d26cf94d9e846061c0838ad, type: 2}
   platformCreationTime: 0.5
   platformCreationDistance: 12
+  platformTransforms: []
   finalCreatureLocation: {fileID: 1413710976}
   flyToPlatformSpeed: 25
   flyingSpeed: 50
@@ -6681,10 +6769,13 @@ MonoBehaviour:
   welcomeBackPrefab: {fileID: 1657758701}
   flopPrefab: {fileID: 1489708517}
   superflopPrefab: {fileID: 663292844}
+  activePlatform: 0
   spawnPlatformParticle: {fileID: 1440866586890112, guid: 84ece495729a5ac419b7326d2ae7a5b9,
     type: 2}
   sequenceIsRunning: 0
   creatureBecamePiccolo: 0
+  elevatorIDSaved: 0
+  creatureHasArrivedToNewPlatform: 0
 --- !u!1001 &183674513
 Prefab:
   m_ObjectHideFlags: 0
@@ -7195,6 +7286,7 @@ MonoBehaviour:
   glowingMaterial: {fileID: 2100000, guid: 369e86144d26cf94d9e846061c0838ad, type: 2}
   platformCreationTime: 0.5
   platformCreationDistance: 12
+  platformTransforms: []
   finalCreatureLocation: {fileID: 1544126487}
   flyToPlatformSpeed: 25
   flyingSpeed: 50
@@ -7204,10 +7296,13 @@ MonoBehaviour:
   welcomeBackPrefab: {fileID: 923075103}
   flopPrefab: {fileID: 1791519972}
   superflopPrefab: {fileID: 1301414357}
+  activePlatform: 0
   spawnPlatformParticle: {fileID: 1440866586890112, guid: 84ece495729a5ac419b7326d2ae7a5b9,
     type: 2}
   sequenceIsRunning: 0
   creatureBecamePiccolo: 0
+  elevatorIDSaved: 0
+  creatureHasArrivedToNewPlatform: 0
 --- !u!1 &199092948
 GameObject:
   m_ObjectHideFlags: 0
@@ -16506,7 +16601,7 @@ GameObject:
   - component: {fileID: 406045245}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17790,6 +17885,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 1637122979697620, guid: c50aca1cc539a394a87c95273608b0d6, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c50aca1cc539a394a87c95273608b0d6, type: 2}
   m_IsPrefabAsset: 0
@@ -17806,7 +17905,7 @@ GameObject:
   - component: {fileID: 439392723}
   m_Layer: 0
   m_Name: MOD_CreatureLift
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18680,7 +18779,7 @@ GameObject:
   - component: {fileID: 466869741}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21419,6 +21518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905c16e15c2a0d541a4ff32aaccc7aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallObject: {fileID: 198133110}
 --- !u!114 &525562172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21748,6 +21848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905c16e15c2a0d541a4ff32aaccc7aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallObject: {fileID: 0}
 --- !u!114 &526819922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29123,7 +29224,7 @@ GameObject:
   - component: {fileID: 671530729}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36353,7 +36454,7 @@ GameObject:
   - component: {fileID: 835215507}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38297,7 +38398,7 @@ GameObject:
   - component: {fileID: 881394779}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40308,7 +40409,7 @@ GameObject:
   - component: {fileID: 924626244}
   m_Layer: 0
   m_Name: MOD_CreatureLift_GLOW
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44213,7 +44314,7 @@ GameObject:
   - component: {fileID: 1030926993}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44447,6 +44548,7 @@ MonoBehaviour:
   glowingMaterial: {fileID: 2100000, guid: 369e86144d26cf94d9e846061c0838ad, type: 2}
   platformCreationTime: 0.5
   platformCreationDistance: 12
+  platformTransforms: []
   finalCreatureLocation: {fileID: 1631127678}
   flyToPlatformSpeed: 25
   flyingSpeed: 50
@@ -44456,10 +44558,13 @@ MonoBehaviour:
   welcomeBackPrefab: {fileID: 1487162473}
   flopPrefab: {fileID: 2023043722}
   superflopPrefab: {fileID: 112168566}
+  activePlatform: 0
   spawnPlatformParticle: {fileID: 1440866586890112, guid: 84ece495729a5ac419b7326d2ae7a5b9,
     type: 2}
   sequenceIsRunning: 0
   creatureBecamePiccolo: 0
+  elevatorIDSaved: 0
+  creatureHasArrivedToNewPlatform: 0
 --- !u!1 &1037909371
 GameObject:
   m_ObjectHideFlags: 0
@@ -46646,6 +46751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905c16e15c2a0d541a4ff32aaccc7aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallObject: {fileID: 0}
 --- !u!114 &1079446015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52483,6 +52589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905c16e15c2a0d541a4ff32aaccc7aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallObject: {fileID: 1460980114}
 --- !u!114 &1201497042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52959,6 +53066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905c16e15c2a0d541a4ff32aaccc7aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallObject: {fileID: 0}
 --- !u!114 &1207143256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55031,6 +55139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905c16e15c2a0d541a4ff32aaccc7aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallObject: {fileID: 0}
 --- !u!114 &1272635629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57781,57 +57890,6 @@ OcclusionArea:
   m_Size: {x: 243.73596, y: 70.796936, z: 211.36896}
   m_Center: {x: -36.825745, y: -127.09888, z: 200.39035}
   m_IsViewVolume: 1
---- !u!1001 &1327356498
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4320693825429702, guid: 0a0d5718f38a861478f5fe3ea7f2abce, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 755.13
-      objectReference: {fileID: 0}
-    - target: {fileID: 4320693825429702, guid: 0a0d5718f38a861478f5fe3ea7f2abce, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 61.09
-      objectReference: {fileID: 0}
-    - target: {fileID: 4320693825429702, guid: 0a0d5718f38a861478f5fe3ea7f2abce, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 603
-      objectReference: {fileID: 0}
-    - target: {fileID: 4320693825429702, guid: 0a0d5718f38a861478f5fe3ea7f2abce, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4320693825429702, guid: 0a0d5718f38a861478f5fe3ea7f2abce, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0.99986976
-      objectReference: {fileID: 0}
-    - target: {fileID: 4320693825429702, guid: 0a0d5718f38a861478f5fe3ea7f2abce, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4320693825429702, guid: 0a0d5718f38a861478f5fe3ea7f2abce, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.016140373
-      objectReference: {fileID: 0}
-    - target: {fileID: 4320693825429702, guid: 0a0d5718f38a861478f5fe3ea7f2abce, type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1625656965695350, guid: 0a0d5718f38a861478f5fe3ea7f2abce, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114100366278755174, guid: 0a0d5718f38a861478f5fe3ea7f2abce,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0a0d5718f38a861478f5fe3ea7f2abce, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &1327658392
 GameObject:
   m_ObjectHideFlags: 0
@@ -63157,6 +63215,7 @@ MonoBehaviour:
   glowingMaterial: {fileID: 2100000, guid: 369e86144d26cf94d9e846061c0838ad, type: 2}
   platformCreationTime: 0.5
   platformCreationDistance: 12
+  platformTransforms: []
   finalCreatureLocation: {fileID: 347311230}
   flyToPlatformSpeed: 25
   flyingSpeed: 50
@@ -63166,10 +63225,13 @@ MonoBehaviour:
   welcomeBackPrefab: {fileID: 0}
   flopPrefab: {fileID: 0}
   superflopPrefab: {fileID: 0}
+  activePlatform: 0
   spawnPlatformParticle: {fileID: 1440866586890112, guid: 84ece495729a5ac419b7326d2ae7a5b9,
     type: 2}
   sequenceIsRunning: 0
   creatureBecamePiccolo: 0
+  elevatorIDSaved: 0
+  creatureHasArrivedToNewPlatform: 0
 --- !u!1001 &1461459669
 Prefab:
   m_ObjectHideFlags: 0
@@ -70209,7 +70271,7 @@ GameObject:
   - component: {fileID: 1616950971}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71570,7 +71632,7 @@ GameObject:
   - component: {fileID: 1653321905}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76683,7 +76745,7 @@ GameObject:
   - component: {fileID: 1773049431}
   m_Layer: 0
   m_Name: MOD_CreatureLift
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85735,7 +85797,7 @@ GameObject:
   - component: {fileID: 1973949342}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87553,7 +87615,7 @@ GameObject:
   - component: {fileID: 2007292298}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88411,7 +88473,7 @@ GameObject:
   - component: {fileID: 2030018638}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88860,7 +88922,7 @@ GameObject:
   - component: {fileID: 2036497716}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89188,6 +89250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905c16e15c2a0d541a4ff32aaccc7aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallObject: {fileID: 0}
 --- !u!114 &2041312445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89726,6 +89789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905c16e15c2a0d541a4ff32aaccc7aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallObject: {fileID: 1036125429}
 --- !u!114 &2042169544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90353,7 +90417,7 @@ GameObject:
   - component: {fileID: 2050649208}
   m_Layer: 0
   m_Name: MOD_CreatureLift_GLOW
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92491,6 +92555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905c16e15c2a0d541a4ff32aaccc7aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallObject: {fileID: 0}
 --- !u!114 &2087045873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94363,6 +94428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905c16e15c2a0d541a4ff32aaccc7aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallObject: {fileID: 0}
 --- !u!114 &2133914808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94759,7 +94825,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4386128031401042, guid: 26251eb7edd8a5b49999fbce51d52a44, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 23611012484576640, guid: 26251eb7edd8a5b49999fbce51d52a44,
         type: 2}
