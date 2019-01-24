@@ -230,7 +230,7 @@ public class PlayerController : MonoBehaviour
 
 		//Smart Y rot
 		Vector3 lateralVelocity = new Vector3(velocity.x, 0, velocity.z);
-		if (lateralVelocity.sqrMagnitude > 64) {
+		if (lateralVelocity.sqrMagnitude > 64 && orientationInput.x < .2f) {
 			Vector3 cameraOrientation = Quaternion.Euler(0, cameraTrans.eulerAngles.y, 0) * Vector3.forward;
 			float angle = Vector3.SignedAngle(cameraOrientation, transform.rotation * lateralVelocity, Vector3.up);
 			if (angle < 0) {
@@ -241,7 +241,7 @@ public class PlayerController : MonoBehaviour
 		}
 		cameraRotation = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
 
-		if (Grounded()) {
+		if (Grounded() && movementInput.SqrMagnitude() == 0) {
 			transform.rotation = Quaternion.Euler(new Vector3(0, cameraYAngle, 0));
 		}
 
@@ -588,6 +588,6 @@ public class PlayerController : MonoBehaviour
 	IEnumerator KillVibrationRoutine (float timeBeforeKill = 0.1f)
 	{
 		yield return new WaitForSeconds(timeBeforeKill);
-		GamePad.SetVibration((PlayerIndex) 0, 0, 0);
+		GamePad.SetVibration(0, 0, 0);
 	}
 }

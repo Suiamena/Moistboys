@@ -105,6 +105,7 @@ namespace Creature
 		{
 			CheckForFlying();
 			if (startEvent) {
+                Debug.Log("event");
 				StartCoroutine(PlayEvent());
 			}
 		}
@@ -296,6 +297,7 @@ namespace Creature
             }
             while (creatureBecamePiccolo) {
                 creatureRenderer.material = glowingMaterial;
+                MoustacheBoiAudio.StopFlaps();
                 yield return null;
             }
             creatureHasArrivedToNewPlatform = false;
