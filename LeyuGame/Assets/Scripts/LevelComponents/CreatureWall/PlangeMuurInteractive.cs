@@ -21,14 +21,13 @@ namespace Creature
 		Rigidbody playerRig;
 		Animator playerAnim;
 
-		float jumpingSpeed = 40, jumpHeight = 3;
+		float jumpHeight = 3;
 		float playerPlatformOffset = .7f;
 
 		[HideInInspector]
 		public GameObject moustacheBoi;
 		Animator moustacheAnimator;
 
-		[HideInInspector]
 		public GameObject creatureFlyInPositionObject;
 		[HideInInspector]
 		public GameObject platformsObject;
@@ -45,7 +44,8 @@ namespace Creature
 		List<Vector3> platformDefaultPositions = new List<Vector3>();
         public GameObject finalCreatureLocation;
 
-		[Header("Flying Settings")]
+        [Header("Flying Settings")]
+        public float flyToPlatformSpeed = 25;
 		public float flyingSpeed = 50;
 		public float flyInOutRange = 45;
 		[HideInInspector]
@@ -79,7 +79,6 @@ namespace Creature
 			currentCreatureLocation = 0;
 			moustacheAnimator = moustacheBoi.GetComponent<Animator>();
 			creatureRenderer = moustacheBoi.GetComponentInChildren<Renderer>();
-			jumpingSpeed = playerScript.creatureWallJumpSpeed;
 			Transform platformsParent;
 			platformsParent = transform.GetChild(0);
 			for (int i = 0; i < platformsParent.childCount; i++) {
@@ -240,7 +239,7 @@ namespace Creature
 			moustacheAnimator.SetBool("isFlying", true);
 			flyToPlatformPosition = platformTransforms[1].position + platformTransforms[1].transform.rotation * new Vector3(0, -2, -12);
 			while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) {
-				moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
+				moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (flyToPlatformSpeed * 2f) * Time.deltaTime);
 				yield return null;
 			}
 			creatureRenderer.material = defaultMaterial;
@@ -274,12 +273,13 @@ namespace Creature
             }
             while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) {
                 moustacheBoi.transform.LookAt(player.transform.position);
-                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
+                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (flyToPlatformSpeed * 2f) * Time.deltaTime);
                 yield return null;
             }
             if (activePlatform >= platformTransforms.Count - 1)
             {
                 moustacheAnimator.SetBool("isFlying", false);
+                moustacheBoi.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
         }
 
@@ -307,8 +307,8 @@ namespace Creature
             creatureRenderer.material = glowingMaterial;
             MoustacheBoiAudio.PlayRumble();
             GamePad.SetVibration(0, .6f, .6f);
-            Vector3 spawnParticlesPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -12);
-            GameObject particle = Instantiate(spawnPlatformParticle, new Vector3(spawnParticlesPosition.x, spawnParticlesPosition.y - 5, spawnParticlesPosition.z), Quaternion.Euler(0, 5, 5));
+            Vector3 spawnParticlesPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, 0, 0);
+            GameObject particle = Instantiate(spawnPlatformParticle, new Vector3(spawnParticlesPosition.x, spawnParticlesPosition.y - 6, spawnParticlesPosition.z), Quaternion.Euler(0, 5, 5));
 			for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
 				if (platformTypeScript.emergeFromTheGround) {
 					platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, -platformCreationDistance, 0) / platformCreationTime * Time.deltaTime;
@@ -326,7 +326,7 @@ namespace Creature
 		public void DisablePiccolo ()
 		{
 			if (sequenceIsRunning) {
-                //flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -12);
+                flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, -2, -12);
                 creatureBecamePiccolo = false;
                 moustacheAnimator.SetBool("isFlying", true);
                 if (rememberThisPlatformID == 0)

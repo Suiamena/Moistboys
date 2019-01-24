@@ -4,13 +4,12 @@ namespace Creature
 {
 	public interface ICreature
 	{
-		ICreature RequestCreature ();
-		ICreature PassOnCreature ();
+		Transform GiveAwayCreature ();
+		void ReceiveCreature (Transform creatureTrans);
 	}
 
 	public static class CreatureManager
 	{
-		public static GameObject activeCreature = null;
-		public static ICreature activeScript = null;
+		public static ICreature activeFlyAlongScript = null;
 	}
 }
