@@ -159,11 +159,8 @@ namespace Creature
 		{
 			if (playerScript.creatureWallsEnabled) {
 				if (currentCreatureLocation == 0) {
-                    Debug.Log("0");
                     if (defaultCreaturePos.SquareDistance(player.transform.position) < flyInOutRange * flyInOutRange) {
-                        Debug.Log("1");
                         if (!flyingRoutineRunning) {
-                            Debug.Log("2");
                             flyingRoutineRunning = true;
 							StartCoroutine(FlyIn());
 						}
@@ -366,6 +363,9 @@ namespace Creature
 					platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
 				}
 			}
+            //SPAWN INSURANCE
+            yield return new WaitForSeconds(3f);
+            currentCreatureLocation = 0;
 		}
 	}
 }
