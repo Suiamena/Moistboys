@@ -19,10 +19,17 @@ public class Level4EndTransition : MonoBehaviour
         postProcessingRate = 1 / transitionLength;
     }
 
+    // loooool
+    //private void OnEnable()
+    //{
+    //    Transition();
+    //}
+
 	public void Transition ()
 	{
 		if (!running) {
-			running = true;
+            Debug.Log("looool");
+            running = true;
 			StartCoroutine(TransitionRoutine());
 		}
 	}

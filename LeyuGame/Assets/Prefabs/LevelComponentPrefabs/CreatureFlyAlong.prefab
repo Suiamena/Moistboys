@@ -279,6 +279,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4267953094082330}
   - component: {fileID: 95061890431051634}
+  - component: {fileID: 114530529750255786}
   m_Layer: 0
   m_Name: MOD_Woff
   m_TagString: Untagged
@@ -1599,7 +1600,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1569363549607222}
   m_LocalRotation: {x: -0, y: 0.14810914, z: -0, w: 0.988971}
-  m_LocalPosition: {x: -31.6, y: -13.5, z: -99.1}
+  m_LocalPosition: {x: 1010.3512, y: 84.36001, z: 151.23137}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4267953094082330}
@@ -1773,8 +1774,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 403.9052, y: 123.60604, z: 498.9826}
-  m_Center: {x: 42.646214, y: 61.80302, z: 133.34052}
+  m_Size: {x: 149.03255, y: 99.49578, z: 234.46286}
+  m_Center: {x: -1.7752348, y: 49.74789, z: -28.49026}
 --- !u!95 &95061890431051634
 Animator:
   serializedVersion: 3
@@ -1957,6 +1958,65 @@ MonoBehaviour:
   m_DistantDisable: 0
   m_ReferenceObject: {fileID: 0}
   m_DistanceToObject: 20
+--- !u!114 &114530529750255786
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1344892979267084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ac8d30c6a0d9642a11e5be4c440740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Root: {fileID: 4022736463393046}
+  m_UpdateRate: 60
+  m_UpdateMode: 0
+  m_Damping: 0
+  m_DampingDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Elasticity: 0
+  m_ElasticityDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Stiffness: 0
+  m_StiffnessDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Inert: 0
+  m_InertDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_Radius: 0
+  m_RadiusDistrib:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_EndLength: 0
+  m_EndOffset: {x: 0, y: 0, z: 0}
+  m_Gravity: {x: 0, y: 0, z: 0}
+  m_Force: {x: 0, y: 0, z: 0}
+  m_Colliders: []
+  m_Exclusions: []
+  m_FreezeAxis: 0
+  m_DistantDisable: 0
+  m_ReferenceObject: {fileID: 0}
+  m_DistanceToObject: 20
 --- !u!114 &114620216560042910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2027,6 +2087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905c16e15c2a0d541a4ff32aaccc7aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallObject: {fileID: 0}
 --- !u!114 &114955085953437268
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2159,6 +2220,7 @@ MonoBehaviour:
   endingOffset: {x: 5, y: 20, z: 35}
   lerpFactor: 0.12
   baseSpeed: 10
+  flyAwaySpeed: 36
   distanceSpeedIncrease: 60
   turnRate: 220
   flyingSway: 1.5
