@@ -315,7 +315,6 @@ namespace Creature
                 yield return null;
             }
             creatureHasArrivedToNewPlatform = true;
-            Debug.Log("done");
         }
 
 		IEnumerator CreatureSpawnsPlatform (int currentPlatform)

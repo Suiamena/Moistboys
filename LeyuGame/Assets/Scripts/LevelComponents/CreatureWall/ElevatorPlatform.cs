@@ -83,7 +83,10 @@ public class ElevatorPlatform : MonoBehaviour {
         {
             yield return null;
         }
-        yield return new WaitForSeconds(1f);
+        if (!creatureIsBack)
+        {
+            yield return new WaitForSeconds(1f);
+        }
         creatureIsBack = false;
         wallScript.startEvent = true;
         while (wallScript.creatureBecamePiccolo) {
