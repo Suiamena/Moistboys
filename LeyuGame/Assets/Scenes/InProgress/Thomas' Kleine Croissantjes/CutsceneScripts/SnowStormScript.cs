@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +22,7 @@ public class SnowStormScript : MonoBehaviour {
 
     [Header("Particle Settings")]
     public GameObject snowParticlesWindObject;
+	public Creature.CreatureFlyAlong flyAlongDoos;
     ParticleSystem snowParticlesSystem;
     ParticleSystem.EmissionModule emissionModule;
     ParticleSystem.MainModule main;
