@@ -13,8 +13,9 @@ public class DragonAbilityGetScript : MonoBehaviour {
     GameObject playerModel;
     Animator playerAnim;
     public GameObject playerAureool;
+	public Creature.CreatureFlyAlong flyAlongDoos;
 
-    GameObject abilityPlant;
+	GameObject abilityPlant;
     GameObject abilityPickUp;
     Animator abilityAnim;
     bool movingToCreature = false;
@@ -223,6 +224,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
         }
 
         creatureScreech.Play();
+		flyAlongDoos.FlyAway();
 
         while (image.color.a < 1)
         {
