@@ -154,6 +154,7 @@ public class ElevatorPlatform : MonoBehaviour {
         {
             elevatorIsMoving = true;
             StartCoroutine(Move());
+            Debug.Log("down");
         }
         yield return new WaitForSeconds(1f);
         elevatorBell.SetActive(false);

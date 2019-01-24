@@ -159,9 +159,12 @@ namespace Creature
 		{
 			if (playerScript.creatureWallsEnabled) {
 				if (currentCreatureLocation == 0) {
-					if (defaultCreaturePos.SquareDistance(player.transform.position) < flyInOutRange * flyInOutRange) {
-						if (!flyingRoutineRunning) {
-							flyingRoutineRunning = true;
+                    Debug.Log("0");
+                    if (defaultCreaturePos.SquareDistance(player.transform.position) < flyInOutRange * flyInOutRange) {
+                        Debug.Log("1");
+                        if (!flyingRoutineRunning) {
+                            Debug.Log("2");
+                            flyingRoutineRunning = true;
 							StartCoroutine(FlyIn());
 						}
 					}
@@ -271,7 +274,6 @@ namespace Creature
             while (creatureBecamePiccolo) {
                 yield return null;
             }
-            //Debug.Log(platformTransforms[activePlatform + 1]);
             while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) {
                 moustacheBoi.transform.LookAt(player.transform.position);
                 moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (flyToPlatformSpeed * 2f) * Time.deltaTime);
