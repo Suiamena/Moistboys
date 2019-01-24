@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 	Rigidbody rig;
 	Vector3 velocity;
 	bool groundedSuspended = false;
-	Vector2 movementInput = new Vector2(0, 0), orientationInput = new Vector2(0, 0);
+	Vector2 leftStickInput = new Vector2(0, 0), rightStickInput = new Vector2(0, 0);
 	public float mouseXSensitivity = 1.6f;
 	public float mouseYSensitivity = 1.4f;
 
@@ -209,15 +209,15 @@ public class PlayerController : MonoBehaviour
 	void ProcessInputs ()
 	{
 		if (!enableLaunchOnly) {
-			movementInput = new Vector2(Mathf.Clamp(Input.GetAxis("Left Stick X") + Input.GetAxis("Keyboard AD"), -1, 1), Mathf.Clamp(Input.GetAxis("Left Stick Y") + Input.GetAxis("Keyboard WS"), -1, 1));
-			orientationInput = new Vector2(Mathf.Clamp(Input.GetAxis("Right Stick X") + Input.GetAxis("Mouse X") * mouseXSensitivity, -1, 1), Mathf.Clamp(Input.GetAxis("Right Stick Y") + Input.GetAxis("Mouse Y") * mouseYSensitivity, -1, 1));
+			leftStickInput = new Vector2(Mathf.Clamp(Input.GetAxis("Left Stick X") + Input.GetAxis("Keyboard AD"), -1, 1), Mathf.Clamp(Input.GetAxis("Left Stick Y") + Input.GetAxis("Keyboard WS"), -1, 1));
+			rightStickInput = new Vector2(Mathf.Clamp(Input.GetAxis("Right Stick X") + Input.GetAxis("Mouse X") * mouseXSensitivity, -1, 1), Mathf.Clamp(Input.GetAxis("Right Stick Y") + Input.GetAxis("Mouse Y") * mouseYSensitivity, -1, 1));
 		}
 	}
 
 	void CameraControl ()
 	{
-		cameraYAngle += orientationInput.x * cameraHorizontalSensitivity * Time.deltaTime;
-		cameraXAngle = Mathf.Clamp(cameraXAngle - orientationInput.y * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
+		cameraYAngle += rightStickInput.x * cameraHorizontalSensitivity * Time.deltaTime;
+		cameraXAngle = Mathf.Clamp(cameraXAngle - rightStickInput.y * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
 
 		//CAMERA RESET ZN ROTATIE WANNEER SPELER STIL STAAT. NIET TEVREDEN OVER.
 		//if (velocity.sqrMagnitude <= 1) {
@@ -230,7 +230,7 @@ public class PlayerController : MonoBehaviour
 
 		//Smart Y rot
 		Vector3 lateralVelocity = new Vector3(velocity.x, 0, velocity.z);
-		if (lateralVelocity.sqrMagnitude > 64 && orientationInput.x < .2f) {
+		if (lateralVelocity.sqrMagnitude > 64) {
 			Vector3 cameraOrientation = Quaternion.Euler(0, cameraTrans.eulerAngles.y, 0) * Vector3.forward;
 			float angle = Vector3.SignedAngle(cameraOrientation, transform.rotation * lateralVelocity, Vector3.up);
 			if (angle < 0) {
@@ -241,7 +241,7 @@ public class PlayerController : MonoBehaviour
 		}
 		cameraRotation = Quaternion.Euler(cameraXAngle, cameraYAngle, 0);
 
-		if (Grounded() && movementInput.SqrMagnitude() == 0) {
+		if (Grounded() && leftStickInput.SqrMagnitude() == 0) {
 			transform.rotation = Quaternion.Euler(new Vector3(0, cameraYAngle, 0));
 		}
 
@@ -300,7 +300,7 @@ public class PlayerController : MonoBehaviour
 		}
 		if (Grounded()) {
 			modelXRotation = Mathf.MoveTowards(modelXRotation, 0, modelXRotationSpeed * 2 * Time.deltaTime);
-			modelYRotation -= orientationInput.x * Time.deltaTime * cameraHorizontalSensitivity;
+			modelYRotation -= rightStickInput.x * Time.deltaTime * cameraHorizontalSensitivity;
 		}
 		
 		dragonModel.transform.rotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
@@ -349,25 +349,26 @@ public class PlayerController : MonoBehaviour
 				}
 			}
 
-			if (movementInput.magnitude == 0 || waitingForNextBounce) {
+			if (leftStickInput.magnitude == 0 || waitingForNextBounce) {
 				velocity.x = velocity.z = 0;
 			} else {
-				velocity = new Vector3(movementInput.x, 0, movementInput.y) * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
+				Vector3 velocityDirection = Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0) * new Vector3(leftStickInput.x, 0, leftStickInput.y);
+				velocity = velocityDirection.normalized * leapingVelocity.z + new Vector3(0, leapingVelocity.y, 0);
 				StartCoroutine(SuspendGroundedCheck());
 			}
 		} else {
+			//ELSE IF NOT GROUNDED
 			Vector2 lateralSpeed = new Vector2(velocity.x, velocity.z);
 
-			if (movementInput.magnitude == 0) {
+			if (leftStickInput.magnitude == 0) {
 				//AIR MOVEMENT WHEN NOT GIVING INPUT
-				if (lateralSpeed.magnitude < 1)
+				if (lateralSpeed.SqrMagnitude() < 1)
 					lateralSpeed = Vector2.zero;
 				else
 					lateralSpeed += lateralSpeed.normalized * -airborneDecceleration * Time.fixedDeltaTime;
 			} else {
 				//AIR MOVEMENT WHEN GIVING INPUT
-				Vector2 lateralSpeedGain = movementInput.Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0)) * airborneMovementAcceleration;
-
+				Vector2 lateralSpeedGain = leftStickInput.Rotate(Quaternion.Inverse(transform.rotation) * Quaternion.Euler(0, cameraYAngle, 0)) * airborneMovementAcceleration;
 				lateralSpeed += lateralSpeedGain * Time.fixedDeltaTime;
 				if (!inSnow) {
 					if (lateralSpeed.magnitude > airborneMovementSpeed)
@@ -471,8 +472,8 @@ public class PlayerController : MonoBehaviour
 		animator.SetBool("airborne", false);
 
 		//DISABLE PLAYER MOVEMENT
-		movementInput = Vector2.zero;
-		orientationInput = Vector2.zero;
+		leftStickInput = Vector2.zero;
+		rightStickInput = Vector2.zero;
 		velocity = new Vector3(0, 0, 0);
 		StopCoroutine(LaunchRoutine());
 		launchRoutineRunning = false;
