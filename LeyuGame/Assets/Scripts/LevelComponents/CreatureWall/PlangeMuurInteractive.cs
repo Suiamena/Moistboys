@@ -33,7 +33,7 @@ namespace Creature
 		public GameObject platformsObject;
 
 		//CREATURE MATERIALS
-		[HideInInspector]
+		//[HideInInspector]
 		public Material defaultMaterial, glowingMaterial;
 		Renderer creatureRenderer;
 
@@ -82,7 +82,7 @@ namespace Creature
 			moustacheBoi.SetActive(false);
 			currentCreatureLocation = 0;
 			moustacheAnimator = moustacheBoi.GetComponent<Animator>();
-			creatureRenderer = moustacheBoi.GetComponentInChildren<Renderer>();
+            creatureRenderer = moustacheBoi.GetComponentInChildren<Renderer>();
 			Transform platformsParent;
 			platformsParent = transform.GetChild(0);
 			for (int i = 0; i < platformsParent.childCount; i++) {
@@ -103,11 +103,18 @@ namespace Creature
 
 		private void Update ()
 		{
-			CheckForFlying();
+            CheckForFlying();
 			if (startEvent) {
                 startEvent = false;
                 StartCoroutine(PlayEvent());
 			}
+            if (creatureBecamePiccolo)
+            {
+                creatureRenderer.material.shader = Shader.Find("SHAD_Creature_Glow");
+                creatureRenderer.material.SetFloat("GlowStrength", 1);
+                MoustacheBoiAudio.StopFlaps();
+                moustacheAnimator.SetBool("isFlying", false);
+            }
 		}
 
 		IEnumerator PlayEvent ()
@@ -225,9 +232,10 @@ namespace Creature
 
 		IEnumerator CreatureSpawnsFirstPlatform ()
 		{
-			//SPAWN
-			creatureRenderer.material = glowingMaterial;
-			MoustacheBoiAudio.PlayRumble();
+            //SPAWN
+            creatureRenderer.material.shader = Shader.Find("SHAD_Creature_Glow");
+            creatureRenderer.material.SetFloat("GlowStrength", 1);
+            MoustacheBoiAudio.PlayRumble();
 			GamePad.SetVibration(0, .6f, .6f);
 			GameObject particle = Instantiate(spawnPlatformParticle, flyToPlatformPosition, Quaternion.Euler(0, 0, 0));
 			particle.transform.rotation = platformTransforms[0].transform.rotation;
@@ -268,8 +276,9 @@ namespace Creature
                 }
             }
             creatureHasArrivedToNewPlatform = true;
-            creatureRenderer.material = defaultMaterial;
-			sequenceIsRunning = true;
+            creatureRenderer.material.shader = Shader.Find("SHAD_Creature_Glow");
+            creatureRenderer.material.SetFloat("GlowStrength", 0);
+            sequenceIsRunning = true;
 		}
 
 		public void NewPlatform (bool playerOnPlatform)
@@ -295,9 +304,6 @@ namespace Creature
                 }
             }
             while (creatureBecamePiccolo) {
-                creatureRenderer.material = glowingMaterial;
-                MoustacheBoiAudio.StopFlaps();
-                moustacheAnimator.SetBool("isFlying", false);
                 yield return null;
             }
             creatureHasArrivedToNewPlatform = false;
@@ -335,7 +341,8 @@ namespace Creature
             }
 
             //SPAWN
-            creatureRenderer.material = glowingMaterial;
+            creatureRenderer.material.shader = Shader.Find("SHAD_Creature_Glow");
+            creatureRenderer.material.SetFloat("GlowStrength", 1);
             MoustacheBoiAudio.PlayRumble();
             GamePad.SetVibration(0, .6f, .6f);
             Vector3 spawnParticlesPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, 0, 0);
@@ -351,7 +358,8 @@ namespace Creature
 			platformTransforms[currentPlatform].position = platformDefaultPositions[currentPlatform];
 			GamePad.SetVibration(0, .6f, .6f);
 			GamePad.SetVibration(0, 0, 0);
-			creatureRenderer.material = defaultMaterial;
+            creatureRenderer.material.shader = Shader.Find("SHAD_Creature_Glow");
+            creatureRenderer.material.SetFloat("GlowStrength", 0);
         }
 
 		public void DisablePiccolo ()
