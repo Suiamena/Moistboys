@@ -70,9 +70,11 @@ public class PlayerController : MonoBehaviour
 	[Range(0.0f, 1.0f)]
 	public float walkingBouncingThreshold = .8f;
 	bool inSnow = false;
+    [HideInInspector]
 	public float groundType, jumpHeight;
 	bool checkCurrentHeight, waitingForNextBounce = false, waitForBounceRoutineRunning = false;
-	public bool enableLaunchOnly;
+    [HideInInspector]
+    public bool enableLaunchOnly;
 
 	[Header("Hop Settings")]
 	public bool canHop = true;
@@ -143,19 +145,19 @@ public class PlayerController : MonoBehaviour
 				break;
 			case 4:
 				PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
-				creatureWallsEnabled = true;
+				//creatureWallsEnabled = true;
 				launchEnabled = true;
 				break;
 			case 5:
 				PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
-				creatureWallsEnabled = true;
+				//creatureWallsEnabled = true;
 				launchEnabled = true;
 				break;
 			case 6:
 				switch (PlayerPrefs.GetString(playerPrefsKey)) {
 					case playerPrefsNoChoiceMade:
 						launchEnabled = true;
-						creatureWallsEnabled = true;
+						//creatureWallsEnabled = true;
 						break;
 					case playerPrefsLaunch:
 						launchEnabled = true;
@@ -163,7 +165,7 @@ public class PlayerController : MonoBehaviour
 						break;
 					case playerPrefsCreature:
 						launchEnabled = false;
-						creatureWallsEnabled = true;
+						//creatureWallsEnabled = true;
 						break;
 				}
 				break;
@@ -173,7 +175,7 @@ public class PlayerController : MonoBehaviour
 	//UPDATES
 	void Update ()
 	{
-		creatureWallsEnabled = true;
+		//creatureWallsEnabled = true;
 		ProcessInputs();
 
 		CameraControl();
@@ -435,6 +437,9 @@ public class PlayerController : MonoBehaviour
 
 			//beetje lelijk dit
 			canHop = true;
+			if (velocity.y <= 0) {
+				launchRoutineRunning = false;
+			}
 
 			return true;
 		} else {
@@ -562,20 +567,12 @@ public class PlayerController : MonoBehaviour
 		StopCoroutine(SuspendGroundedCheck());
 		StartCoroutine(SuspendGroundedCheck());
 
-		while (true) {
-			if (velocity.y <= 1f) {
-				Ray launchGroundRay = new Ray(transform.position, Vector3.down);
-				if (Physics.SphereCast(launchGroundRay, .45f, .55f, triggerMask)) {
-					break;
-				}
-			}
+		while (launchRoutineRunning)
 			yield return null;
-		}
 
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
 		}
-		launchRoutineRunning = false;
 		yield return null;
 	}
 
