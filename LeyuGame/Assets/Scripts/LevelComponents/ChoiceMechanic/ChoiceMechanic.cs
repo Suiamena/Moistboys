@@ -456,14 +456,16 @@ public class ChoiceMechanic : MonoBehaviour {
         if (competentScript.playerChooseCompetence)
         {
             VariablesGlobal.chosenForCompetence = true;
+            VariablesGlobal.chosenForSocial = false;
             moustacheBoiAnim.SetBool("goodBye", true);
             playerScript.launchEnabled = true;
+            Debug.Log(VariablesGlobal.chosenForSocial);
         }
         else
         {
             VariablesGlobal.chosenForSocial = true;
+            VariablesGlobal.chosenForCompetence = false;
             moustacheBoiEnding.SetActive(true);
-            //moustacheBoiCutscene.SetActive(false);
         }
     }
 
