@@ -70,9 +70,11 @@ public class PlayerController : MonoBehaviour
 	[Range(0.0f, 1.0f)]
 	public float walkingBouncingThreshold = .8f;
 	bool inSnow = false;
+    [HideInInspector]
 	public float groundType, jumpHeight;
 	bool checkCurrentHeight, waitingForNextBounce = false, waitForBounceRoutineRunning = false;
-	public bool enableLaunchOnly;
+    [HideInInspector]
+    public bool enableLaunchOnly;
 
 	[Header("Hop Settings")]
 	public bool canHop = true;
