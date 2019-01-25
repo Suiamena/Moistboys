@@ -4,7 +4,7 @@ public class CommunicateChoice : MonoBehaviour
 {
 	void Start ()
 	{
-		PlayerController playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        PlayerController playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
 		if (VariablesGlobal.chosenForCompetence)
 			playerController.launchEnabled = true;
@@ -15,7 +15,5 @@ public class CommunicateChoice : MonoBehaviour
 			playerController.creatureWallsEnabled = true;
 		else
 			playerController.creatureWallsEnabled = false;
-        Debug.Log(VariablesGlobal.chosenForCompetence);
-        Debug.Log(VariablesGlobal.chosenForSocial);
 	}
 }
