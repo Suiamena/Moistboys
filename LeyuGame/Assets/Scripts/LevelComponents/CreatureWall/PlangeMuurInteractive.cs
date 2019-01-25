@@ -33,7 +33,7 @@ namespace Creature
 		public GameObject platformsObject;
 
 		//CREATURE MATERIALS
-		//[HideInInspector]
+		[HideInInspector]
 		public Material defaultMaterial, glowingMaterial, creatureMaterial;
 		Renderer creatureRenderer;
 
@@ -43,7 +43,7 @@ namespace Creature
         [HideInInspector]
         public List<Transform> platformTransforms = new List<Transform>();
 		List<Vector3> platformDefaultPositions = new List<Vector3>();
-        GameObject finalCreatureLocation;
+        public GameObject finalCreatureLocation;
 
         [Header("Flying Settings")]
         public float flyToPlatformSpeed = 25;
@@ -71,8 +71,7 @@ namespace Creature
 
 		private void Awake ()
 		{
-            finalCreatureLocation = GameObject.Find("CreatureFinalLocation");
-            player = GameObject.Find("Character");
+			player = GameObject.Find("Character");
 			playerModel = GameObject.Find("MOD_Draak");
 			playerScript = player.GetComponent<PlayerController>();
 			playerRig = player.GetComponent<Rigidbody>();
