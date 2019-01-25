@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
 	public bool isBouncing, isPreLaunching, isAirborne, isBuildingLaunch, isHopping, isLaunchingSuperSaiyan;
 	public GameObject dragonModel;
 	public LayerMask triggerMask;
-	public DynamicBone dynamicBone;
 
 	[Header("Camera Settings")]
 	public Transform cameraTrans;
@@ -181,7 +180,7 @@ public class PlayerController : MonoBehaviour
 		Launch();
 		Hop();
 		ModelRotation();
-		ManageDynamicBone();
+
 		if (Grounded())
 			animator.SetBool("airborne", false);
 		else
@@ -291,7 +290,7 @@ public class PlayerController : MonoBehaviour
 		float desiredModelXRotation;
 		if (velocity.y > 0)
 			desiredModelXRotation = -modelRotationMaximumXAngle;
-			//modelXRotation += -modelXRotationSpeed * Time.deltaTime;
+		//modelXRotation += -modelXRotationSpeed * Time.deltaTime;
 		else
 			desiredModelXRotation = -modelRotationMinimumXAngle;
 		//modelXRotation += modelXRotationSpeed * Time.deltaTime;
@@ -310,13 +309,6 @@ public class PlayerController : MonoBehaviour
 		}
 
 		dragonModel.transform.rotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
-	}
-
-	void ManageDynamicBone ()
-	{
-		if (1 / Time.deltaTime < dynamicBone.m_UpdateRate) {
-			//dynamicBone.m_UpdateRate = Mathf.FloorToInt(1 / Time.deltaTime);
-		}
 	}
 
 	void Hop ()
@@ -443,11 +435,6 @@ public class PlayerController : MonoBehaviour
 
 			//beetje lelijk dit
 			canHop = true;
-			if (!isBuildingLaunch) {
-				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-					launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
-				}
-			}
 
 			return true;
 		} else {
@@ -575,7 +562,13 @@ public class PlayerController : MonoBehaviour
 		StopCoroutine(SuspendGroundedCheck());
 		StartCoroutine(SuspendGroundedCheck());
 
-		while (!Grounded()) {
+		while (true) {
+			if (velocity.y <= 1f) {
+				Ray launchGroundRay = new Ray(transform.position, Vector3.down);
+				if (Physics.SphereCast(launchGroundRay, .45f, .55f, triggerMask)) {
+					break;
+				}
+			}
 			yield return null;
 		}
 
@@ -583,6 +576,7 @@ public class PlayerController : MonoBehaviour
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
 		}
 		launchRoutineRunning = false;
+		yield return null;
 	}
 
 	IEnumerator PreLaunchRoutine ()
