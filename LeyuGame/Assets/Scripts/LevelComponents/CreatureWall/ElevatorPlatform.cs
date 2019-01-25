@@ -6,7 +6,7 @@ using Creature;
 public class ElevatorPlatform : MonoBehaviour {
 
     //PICCOLO
-    Vector3 previousCreatureLocation;
+    //Vector3 previousCreatureLocation;
     public bool PlayerHasTouchedElevator;
     float backToElevatorThreshold;
 
@@ -83,7 +83,10 @@ public class ElevatorPlatform : MonoBehaviour {
         {
             yield return null;
         }
-        yield return new WaitForSeconds(2f);
+        if (!creatureIsBack)
+        {
+            yield return new WaitForSeconds(1f);
+        }
         creatureIsBack = false;
         wallScript.startEvent = true;
         while (wallScript.creatureBecamePiccolo) {
@@ -141,7 +144,7 @@ public class ElevatorPlatform : MonoBehaviour {
             elevatorRadio.SetActive(false);
         }
         if (goDown) {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(5f);
             distance = Mathf.Abs(elevatorPlatform.transform.position.y - startingLocation.y);
             while (distance > .1f) {
                 distance = Mathf.Abs(elevatorPlatform.transform.position.y - startingLocation.y);
@@ -158,7 +161,6 @@ public class ElevatorPlatform : MonoBehaviour {
         {
             elevatorIsMoving = true;
             StartCoroutine(Move());
-            Debug.Log("down");
         }
         yield return new WaitForSeconds(1f);
         elevatorBell.SetActive(false);

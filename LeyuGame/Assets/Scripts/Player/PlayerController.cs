@@ -180,6 +180,7 @@ public class PlayerController : MonoBehaviour
 		Launch();
 		Hop();
 		ModelRotation();
+
 		if (Grounded())
 			animator.SetBool("airborne", false);
 		else
@@ -286,11 +287,15 @@ public class PlayerController : MonoBehaviour
 
 	void ModelRotation ()
 	{
+		float desiredModelXRotation;
 		if (velocity.y > 0)
-			modelXRotation += -modelXRotationSpeed * Time.deltaTime;
+			desiredModelXRotation = -modelRotationMaximumXAngle;
+		//modelXRotation += -modelXRotationSpeed * Time.deltaTime;
 		else
-			modelXRotation += modelXRotationSpeed * Time.deltaTime;
-		modelXRotation = Mathf.Clamp(modelXRotation, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
+			desiredModelXRotation = -modelRotationMinimumXAngle;
+		//modelXRotation += modelXRotationSpeed * Time.deltaTime;
+		modelXRotation = Mathf.Lerp(modelXRotation, desiredModelXRotation, .1f);
+		//modelXRotation = Mathf.Clamp(modelXRotation, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
 
 		modelLateralVelocity = new Vector3(velocity.x, 0, velocity.z);
 		if (modelLateralVelocity.magnitude > .1f) {
@@ -302,7 +307,7 @@ public class PlayerController : MonoBehaviour
 			modelXRotation = Mathf.MoveTowards(modelXRotation, 0, modelXRotationSpeed * 2 * Time.deltaTime);
 			modelYRotation -= rightStickInput.x * Time.deltaTime * cameraHorizontalSensitivity;
 		}
-		
+
 		dragonModel.transform.rotation = transform.rotation * Quaternion.Euler(modelXRotation, modelYRotation, 0);
 	}
 
@@ -430,11 +435,6 @@ public class PlayerController : MonoBehaviour
 
 			//beetje lelijk dit
 			canHop = true;
-			if (!isBuildingLaunch) {
-				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-					launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
-				}
-			}
 
 			return true;
 		} else {
@@ -562,7 +562,13 @@ public class PlayerController : MonoBehaviour
 		StopCoroutine(SuspendGroundedCheck());
 		StartCoroutine(SuspendGroundedCheck());
 
-		while (!Grounded()) {
+		while (true) {
+			if (velocity.y <= 1f) {
+				Ray launchGroundRay = new Ray(transform.position, Vector3.down);
+				if (Physics.SphereCast(launchGroundRay, .45f, .55f, triggerMask)) {
+					break;
+				}
+			}
 			yield return null;
 		}
 
@@ -570,6 +576,7 @@ public class PlayerController : MonoBehaviour
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
 		}
 		launchRoutineRunning = false;
+		yield return null;
 	}
 
 	IEnumerator PreLaunchRoutine ()
