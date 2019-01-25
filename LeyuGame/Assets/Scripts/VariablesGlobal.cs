@@ -1,10 +1,10 @@
 public static class VariablesGlobal
 {
-    public static bool chosenForSocial = true, chosenForCompetence = true;
+    public static bool chosenForSocial = false, chosenForCompetence = false;
 
 	public static void Reset ()
 	{
-		chosenForSocial = true;
-		chosenForCompetence = true;
+		chosenForSocial = false;
+		chosenForCompetence = false;
 	}
 }

@@ -65,14 +65,15 @@ public class IntroTekstScript : MonoBehaviour {
             tempColor2.a -= 0.005f;
             background.color = tempColor2;
 
-            if (tempColor2.a <= 0)
-            {
+            //if (tempColor2.a <= 0)
+            //{
 
-            }
+            //}
         }
 
         if (cameraMoving == true)
         {
+            print("LOOLLL");
             cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
             cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 2.25f * cameraSpeed * Time.deltaTime);
             cameraSpeed += 0.5f;
@@ -109,6 +110,7 @@ public class IntroTekstScript : MonoBehaviour {
         yield return new WaitForSeconds(2f);
         warmthSourceSoundObject.SetActive(true);
         cameraMoving = true;
+        print(cameraMoving);
         cameraAnim.enabled = false;
         //Destroy(gameObject);
     }
