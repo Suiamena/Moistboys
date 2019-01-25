@@ -6,7 +6,7 @@ using Creature;
 public class ElevatorPlatform : MonoBehaviour {
 
     //PICCOLO
-    Vector3 previousCreatureLocation;
+    //Vector3 previousCreatureLocation;
     public bool PlayerHasTouchedElevator;
     float backToElevatorThreshold;
 
@@ -18,7 +18,7 @@ public class ElevatorPlatform : MonoBehaviour {
     public GameObject wallObject;
     PlangeMuurInteractive wallScript;
 
-    public GameObject player;
+    GameObject player;
     DynamicBone playerBones;
 
     public GameObject elevatorRadio;
@@ -33,10 +33,10 @@ public class ElevatorPlatform : MonoBehaviour {
 
     private void Awake()
     {
+        player = GameObject.Find("MOD_Draak");
         wallScript = wallObject.GetComponent<PlangeMuurInteractive>();
         playerBones = player.GetComponentInChildren<DynamicBone>();
-
-        nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3, nextLocation.transform.position.z);
+        nextLocation.transform.position = new Vector3(nextLocation.transform.position.x, nextLocation.transform.position.y - 3.5f, nextLocation.transform.position.z);
     }
 
     private void Update()
@@ -79,11 +79,19 @@ public class ElevatorPlatform : MonoBehaviour {
 
     IEnumerator CreaturePiccolo()
     {
+        while (!wallScript.creatureHasArrivedToNewPlatform)
+        {
+            yield return null;
+        }
+        if (!creatureIsBack)
+        {
+            yield return new WaitForSeconds(1f);
+        }
         creatureIsBack = false;
         wallScript.startEvent = true;
         while (wallScript.creatureBecamePiccolo) {
             moustacheBoi.transform.LookAt(player.transform.position);
-            moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, transform.position.y, moustacheBoi.transform.position.z);
+            moustacheBoi.transform.position = new Vector3(moustacheBoi.transform.position.x, Mathf.Lerp(moustacheBoi.transform.position.y, transform.position.y, 0.5f), moustacheBoi.transform.position.z);
             yield return null;
         }
         creatureCoroutineTwoOnce = false;
@@ -136,7 +144,7 @@ public class ElevatorPlatform : MonoBehaviour {
             elevatorRadio.SetActive(false);
         }
         if (goDown) {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(5f);
             distance = Mathf.Abs(elevatorPlatform.transform.position.y - startingLocation.y);
             while (distance > .1f) {
                 distance = Mathf.Abs(elevatorPlatform.transform.position.y - startingLocation.y);

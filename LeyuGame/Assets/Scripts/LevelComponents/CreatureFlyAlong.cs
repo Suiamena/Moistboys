@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Creature;
 
-namespace Creature{
-	public class CreatureFlyAlong : MonoBehaviour
+namespace Creature
+{
+	public class CreatureFlyAlong : MonoBehaviour, ICreature
 	{
 		public LayerMask obstacleDetectMask;
 		RaycastHit obstacleRayHit;
@@ -11,22 +13,32 @@ namespace Creature{
 		Transform moustacheBoy, player;
 		Animator moustacheBoyAnimator;
 		public Vector3 startingOffset = new Vector3(0, 20, 0), flyingOffset = new Vector3(0, 2.2f, 3.6f), endingOffset = new Vector3(5, 20, 35);
-		public float lerpFactor = .14f, baseSpeed = 10, distanceSpeedIncrease = 60, turnRate = 250, flyingSway = 2.5f, obstacleDetectRange = 9, currentXRot = 0;
+		public float lerpFactor = .14f, baseSpeed = 10, flyAwaySpeed = 36, distanceSpeedIncrease = 60, turnRate = 250, flyingSway = 2.5f, obstacleDetectRange = 9, currentXRot = 0;
 		bool flyAlong = false;
+		Coroutine flyAlongRoutine = null;
 
 		private void Awake ()
 		{
 			moustacheBoy = transform.GetChild(0);
 			moustacheBoyAnimator = moustacheBoy.GetComponent<Animator>();
+			moustacheBoy.gameObject.SetActive(false);
 		}
 
 		private void OnTriggerEnter (Collider other)
 		{
 			if (other.CompareTag("Player")) {
 				player = other.transform.GetChild(0);
-				if (!flyAlongRoutineRunning) {
-					flyAlongRoutineRunning = true;
-					StartCoroutine(FlyAlong());
+				ICreature script = CreatureManager.activeFlyAlongScript;
+				if (script == null) {
+					CreatureManager.activeFlyAlongScript = this;
+					if (!flyAlongRoutineRunning) {
+						flyAlongRoutineRunning = true;
+						flyAlongRoutine = StartCoroutine(FlyAlong());
+					}
+				} else if (script.GetType() == typeof(CreatureFlyAlong)) {
+					ReceiveCreature(CreatureManager.activeFlyAlongScript.GiveAwayCreature());
+				} else if (script.GetType() == typeof(PlangeMuurInteractive)) {
+					//DAFUQ GAAN WE HIERMEE DOEN????
 				}
 			}
 		}
@@ -37,16 +49,45 @@ namespace Creature{
 			}
 		}
 
-		IEnumerator FlyAlong ()
+		public Transform GiveAwayCreature ()
+		{
+			moustacheBoy.gameObject.SetActive(false);
+			flyAlong = false;
+			flyAlongRoutineRunning = false;
+			CreatureManager.activeFlyAlongScript = null;
+			StopCoroutine(flyAlongRoutine);
+			flyAlongRoutine = null;
+			return moustacheBoy;
+		}
+
+		public void ReceiveCreature (Transform creatureTrans)
+		{
+			moustacheBoy.transform.position = creatureTrans.position;
+			moustacheBoy.transform.rotation = creatureTrans.rotation;
+			flyAlongRoutineRunning = true;
+			CreatureManager.activeFlyAlongScript = this;
+			if (flyAlongRoutine != null)
+				StopCoroutine(flyAlongRoutine);
+			flyAlongRoutine = StartCoroutine(FlyAlong(true));
+		}
+
+		public void FlyAway ()
+		{
+			flyAlong = false;
+		}
+
+		IEnumerator FlyAlong (bool skipFlyIn = false)
 		{
 			//Fly in
 			flyAlong = true;
-			moustacheBoy.position = player.position + startingOffset;
+			if (!skipFlyIn) {
+				moustacheBoy.position = player.position + startingOffset;
+
+				float yAngle = player.eulerAngles.y;
+				moustacheBoy.eulerAngles = new Vector3(0, yAngle, 0);
+			}
+
 			moustacheBoy.gameObject.SetActive(true);
-
-			float yAngle = player.eulerAngles.y;
-			moustacheBoy.eulerAngles = new Vector3(0, yAngle, 0);
-
 			moustacheBoyAnimator.SetBool("isFlying", true);
 
 			Vector3 targetPos;
@@ -102,13 +143,15 @@ namespace Creature{
 			moustacheBoy.rotation = oldRot;
 
 			while (moustacheBoy.position.SquareDistance(targetPos) > 1) {
-				moustacheBoy.position = Vector3.MoveTowards(moustacheBoy.position, targetPos, baseSpeed * Time.deltaTime);
+				moustacheBoy.position = Vector3.MoveTowards(moustacheBoy.position, targetPos, flyAwaySpeed * Time.deltaTime);
 				moustacheBoy.eulerAngles = new Vector3(20, Mathf.Lerp(moustacheBoy.eulerAngles.y, targetYAngle, lerpFactor), 0);
 				yield return null;
 			}
 
 			flyAlongRoutineRunning = false;
 			moustacheBoy.gameObject.SetActive(false);
+			CreatureManager.activeFlyAlongScript = null;
+			flyAlongRoutine = null;
 		}
 	}
 }

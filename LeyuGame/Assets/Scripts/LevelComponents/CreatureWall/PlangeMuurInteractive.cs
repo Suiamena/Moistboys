@@ -21,30 +21,32 @@ namespace Creature
 		Rigidbody playerRig;
 		Animator playerAnim;
 
-		float jumpingSpeed = 40, jumpHeight = 3;
+		float jumpHeight = 3;
 		float playerPlatformOffset = .7f;
 
 		[HideInInspector]
 		public GameObject moustacheBoi;
 		Animator moustacheAnimator;
 
-		[HideInInspector]
 		public GameObject creatureFlyInPositionObject;
 		[HideInInspector]
 		public GameObject platformsObject;
 
 		//CREATURE MATERIALS
-		[HideInInspector]
+		//[HideInInspector]
 		public Material defaultMaterial, glowingMaterial;
 		Renderer creatureRenderer;
 
 		[Header("Platform Settings")]
 		public float platformCreationTime = .5f;
 		public float platformCreationDistance = 7f;
-		List<Transform> platformTransforms = new List<Transform>();
+        [HideInInspector]
+        public List<Transform> platformTransforms = new List<Transform>();
 		List<Vector3> platformDefaultPositions = new List<Vector3>();
+        public GameObject finalCreatureLocation;
 
-		[Header("Flying Settings")]
+        [Header("Flying Settings")]
+        public float flyToPlatformSpeed = 25;
 		public float flyingSpeed = 50;
 		public float flyInOutRange = 45;
 		[HideInInspector]
@@ -58,12 +60,14 @@ namespace Creature
 		public GameObject sneezePrefab, welcomeBackPrefab, flopPrefab, superflopPrefab;
 		bool readyForSequence = false, afterSequenceEventPlayed = false, readyToAdvance = false;
 
-		//MANAGER
-		int activePlatform = 0;
+        //MANAGER
+        [HideInInspector]
+        public int activePlatform = 0;
+        int rememberThisPlatformID;
 		[HideInInspector]
 		public GameObject spawnPlatformParticle;
 		[HideInInspector]
-		public bool sequenceIsRunning, creatureBecamePiccolo;
+		public bool sequenceIsRunning, creatureBecamePiccolo, elevatorIDSaved, creatureHasArrivedToNewPlatform;
 
 		private void Awake ()
 		{
@@ -77,16 +81,17 @@ namespace Creature
 			moustacheBoi.SetActive(false);
 			currentCreatureLocation = 0;
 			moustacheAnimator = moustacheBoi.GetComponent<Animator>();
-			creatureRenderer = moustacheBoi.GetComponentInChildren<Renderer>();
-			jumpingSpeed = playerScript.creatureWallJumpSpeed;
-			Transform platformsParent;
+            creatureRenderer = moustacheBoi.GetComponentInChildren<Renderer>();
+            creatureRenderer.material = defaultMaterial;
+            creatureRenderer.material.shader = Shader.Find("SHAD_Creature_Glow");
+            Transform platformsParent;
 			platformsParent = transform.GetChild(0);
 			for (int i = 0; i < platformsParent.childCount; i++) {
 				platformTransforms.Add(platformsParent.GetChild(i));
 				platformDefaultPositions.Add(platformTransforms[i].position);
 			}
 			for (int i = 0; i < platformsParent.childCount - 1; i++) {
-				PlatformType platformTypeScript;
+                PlatformType platformTypeScript;
 				platformTypeScript = platformTransforms[i].GetComponent<PlatformType>();
 				if (platformTypeScript.emergeFromTheGround) {
 					platformTransforms[i].position += platformTransforms[i].rotation * new Vector3(0, -platformCreationDistance, 0);
@@ -99,10 +104,18 @@ namespace Creature
 
 		private void Update ()
 		{
-			CheckForFlying();
+            CheckForFlying();
 			if (startEvent) {
-				StartCoroutine(PlayEvent());
+                startEvent = false;
+                StartCoroutine(PlayEvent());
 			}
+            if (creatureBecamePiccolo)
+            {
+                //creatureRenderer.material.shader = Shader.Find("SHAD_Creature_Glow");
+                creatureRenderer.material.SetFloat("GlowStrength", 1f);
+                MoustacheBoiAudio.StopFlaps();
+                moustacheAnimator.SetBool("isFlying", false);
+            }
 		}
 
 		IEnumerator PlayEvent ()
@@ -152,16 +165,15 @@ namespace Creature
 			while (!readyForSequence) {
 				yield return null;
 			}
-			startEvent = false;
 		}
 
 		void CheckForFlying ()
 		{
 			if (playerScript.creatureWallsEnabled) {
 				if (currentCreatureLocation == 0) {
-					if (defaultCreaturePos.SquareDistance(player.transform.position) < flyInOutRange * flyInOutRange) {
-						if (!flyingRoutineRunning) {
-							flyingRoutineRunning = true;
+                    if (defaultCreaturePos.SquareDistance(player.transform.position) < flyInOutRange * flyInOutRange) {
+                        if (!flyingRoutineRunning) {
+                            flyingRoutineRunning = true;
 							StartCoroutine(FlyIn());
 						}
 					}
@@ -189,8 +201,6 @@ namespace Creature
 				moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyInPosition, flyingSpeed * Time.deltaTime);
 				yield return null;
 			}
-			MoustacheBoiAudio.StopFlaps();
-			moustacheAnimator.SetBool("isFlying", false);
 			while (Quaternion.Angle(moustacheBoi.transform.rotation, defaultCreatureRot) > .1f) {
 				moustacheBoi.transform.rotation = Quaternion.RotateTowards(moustacheBoi.transform.rotation, defaultCreatureRot, 260 * Time.deltaTime);
 				yield return null;
@@ -223,9 +233,11 @@ namespace Creature
 
 		IEnumerator CreatureSpawnsFirstPlatform ()
 		{
-			//SPAWN
-			creatureRenderer.material = glowingMaterial;
-			MoustacheBoiAudio.PlayRumble();
+            //SPAWN
+            Debug.Log(creatureRenderer.material);
+            //creatureRenderer.material.shader = Shader.Find("SHAD_Creature_Glow");
+            creatureRenderer.material.SetFloat("GlowStrength", 1f);
+            MoustacheBoiAudio.PlayRumble();
 			GamePad.SetVibration(0, .6f, .6f);
 			GameObject particle = Instantiate(spawnPlatformParticle, flyToPlatformPosition, Quaternion.Euler(0, 0, 0));
 			particle.transform.rotation = platformTransforms[0].transform.rotation;
@@ -238,60 +250,100 @@ namespace Creature
 			platformTransforms[0].position = platformDefaultPositions[0];
 			GamePad.SetVibration(0, .6f, .6f);
 			GamePad.SetVibration(0, 0, 0);
-			moustacheAnimator.SetBool("isFlying", true);
-			flyToPlatformPosition = platformTransforms[1].position + platformTransforms[1].transform.rotation * new Vector3(0, -2, -12);
-			while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) {
-				moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
-				yield return null;
-			}
-			creatureRenderer.material = defaultMaterial;
-			sequenceIsRunning = true;
+            //creatureRenderer.material.shader = Shader.Find("SHAD_Creature_Glow");
+            creatureRenderer.material.SetFloat("GlowStrength", 0f);
+            Debug.Log(creatureRenderer.material);
+            //FLY TO ELEVATOR
+            creatureHasArrivedToNewPlatform = false;
+            PlatformType platformTypeScript;
+            platformTypeScript = platformTransforms[activePlatform].GetComponent<PlatformType>();
+            if (platformTypeScript.platformIsElevator)
+            {
+                creatureBecamePiccolo = true;
+                moustacheAnimator.SetBool("isFlying", false);
+                flyToPlatformPosition = platformTransforms[0].position + platformTransforms[0].transform.rotation * new Vector3(0, -5, 0);
+                while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
+                {
+                    moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (flyToPlatformSpeed * 2f) * Time.deltaTime);
+                    yield return null;
+                }
+            }
+            //FLY TO PLATFORM
+            else
+            {
+                moustacheAnimator.SetBool("isFlying", true);
+                flyToPlatformPosition = platformTransforms[1].position + platformTransforms[1].transform.rotation * new Vector3(0, -2, -12);
+                while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
+                {
+                    moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (flyToPlatformSpeed * 2f) * Time.deltaTime);
+                    yield return null;
+                }
+            }
+            creatureHasArrivedToNewPlatform = true;
+            sequenceIsRunning = true;
 		}
 
 		public void NewPlatform (bool playerOnPlatform)
 		{
-			activePlatform += 1;
-			if (activePlatform < platformTransforms.Count - 1) {
-				StartCoroutine(CreatureSpawnsPlatform(activePlatform));
-			} else {
-				moustacheAnimator.SetBool("isFlying", false);
-			}
-		}
+            activePlatform += 1;
+            if (activePlatform < platformTransforms.Count - 1)
+            {
+                StartCoroutine(CreatureSpawnsPlatform(activePlatform));
+            }
+            else
+            {
+                StartCoroutine(CreatureFliesToPlatform());
+            }
+        }
 
 		IEnumerator CreatureFliesToPlatform ()
 		{
-			if (creatureBecamePiccolo) {
-			} else {
-				if (activePlatform < platformTransforms.Count - 1) {
-					flyToPlatformPosition = platformTransforms[activePlatform + 1].position + platformTransforms[activePlatform + 1].transform.rotation * new Vector3(0, -2, -12);
-				} else {
-					flyToPlatformPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, 0, 0);
-					moustacheAnimator.SetBool("isFlying", false);
-				}
-				while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) {
-					moustacheBoi.transform.LookAt(player.transform.position);
-					moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (jumpingSpeed * 2f) * Time.deltaTime);
-					yield return null;
-				}
-			}
-		}
+            if (!creatureBecamePiccolo) {
+                if (activePlatform < platformTransforms.Count - 2) {
+                    flyToPlatformPosition = platformTransforms[activePlatform + 1].position + platformTransforms[activePlatform + 1].transform.rotation * new Vector3(0, -2, -12);
+                } else {
+                    flyToPlatformPosition = finalCreatureLocation.transform.position;
+                }
+            }
+            while (creatureBecamePiccolo) {
+                yield return null;
+            }
+            creatureHasArrivedToNewPlatform = false;
+            while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f) {
+                moustacheBoi.transform.LookAt(player.transform.position);
+                moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (flyToPlatformSpeed * 2f) * Time.deltaTime);
+                yield return null;
+            }
+            creatureHasArrivedToNewPlatform = true;
+        }
 
 		IEnumerator CreatureSpawnsPlatform (int currentPlatform)
 		{
-			creatureRenderer.material = glowingMaterial;
 			PlatformType platformTypeScript;
-			platformTypeScript = platformTransforms[currentPlatform].GetComponent<PlatformType>();
-			if (platformTypeScript.platformIsElevator) {
-				creatureBecamePiccolo = true;
-				moustacheAnimator.SetBool("isFlying", false);
-			}
-			//FLY TO NEXT PLATFORM
-			if (!creatureBecamePiccolo) {
-				StartCoroutine(CreatureFliesToPlatform());
-			}
-			MoustacheBoiAudio.PlayRumble();
-			GamePad.SetVibration(0, .6f, .6f);
-			GameObject particle = Instantiate(spawnPlatformParticle, new Vector3(flyToPlatformPosition.x, flyToPlatformPosition.y - 5, flyToPlatformPosition.z), Quaternion.Euler(0, 5, 5));
+            platformTypeScript = platformTransforms[currentPlatform].GetComponent<PlatformType>();
+            if (platformTypeScript.platformIsElevator) { 
+                creatureBecamePiccolo = true;
+                moustacheAnimator.SetBool("isFlying", false);
+            } else {
+                //FLY TO NEXT PLATFORM
+                StartCoroutine(CreatureFliesToPlatform());
+                platformTypeScript = platformTransforms[currentPlatform - 1].GetComponent<PlatformType>();
+                if (platformTypeScript.platformIsElevator)
+                {
+                    while (creatureBecamePiccolo)
+                    {
+                        yield return null;
+                    }
+                }
+            }
+
+            //SPAWN
+            //creatureRenderer.material.shader = Shader.Find("SHAD_Creature_Glow");
+            creatureRenderer.material.SetFloat("GlowStrength", 1f);
+            MoustacheBoiAudio.PlayRumble();
+            GamePad.SetVibration(0, .6f, .6f);
+            Vector3 spawnParticlesPosition = platformTransforms[activePlatform].position + platformTransforms[activePlatform].transform.rotation * new Vector3(0, 0, 0);
+            GameObject particle = Instantiate(spawnPlatformParticle, new Vector3(spawnParticlesPosition.x, spawnParticlesPosition.y - 6, spawnParticlesPosition.z), Quaternion.Euler(0, 5, 5));
 			for (float t = 0; t < platformCreationTime; t += Time.deltaTime) {
 				if (platformTypeScript.emergeFromTheGround) {
 					platformTransforms[currentPlatform].position -= platformTransforms[currentPlatform].rotation * new Vector3(0, -platformCreationDistance, 0) / platformCreationTime * Time.deltaTime;
@@ -303,23 +355,39 @@ namespace Creature
 			platformTransforms[currentPlatform].position = platformDefaultPositions[currentPlatform];
 			GamePad.SetVibration(0, .6f, .6f);
 			GamePad.SetVibration(0, 0, 0);
-			creatureRenderer.material = defaultMaterial;
-		}
+            //creatureRenderer.material.shader = Shader.Find("SHAD_Creature_Glow");
+            creatureRenderer.material.SetFloat("GlowStrength", 0f);
+        }
 
 		public void DisablePiccolo ()
 		{
 			if (sequenceIsRunning) {
-				creatureBecamePiccolo = false;
-				moustacheAnimator.SetBool("isFlying", true);
-				StartCoroutine(CreatureFliesToPlatform());
-			}
+                if (!elevatorIDSaved)
+                {
+                    rememberThisPlatformID = activePlatform;
+                    elevatorIDSaved = true;
+                }
+                if (activePlatform < platformTransforms.Count - 2)
+                {
+                    flyToPlatformPosition = platformTransforms[rememberThisPlatformID].position + platformTransforms[rememberThisPlatformID].transform.rotation * new Vector3(0, -2, -12);
+                }
+                else
+                {
+                    flyToPlatformPosition = platformTransforms[rememberThisPlatformID].position + platformTransforms[rememberThisPlatformID].transform.rotation * new Vector3(0, 0, 0);
+                }
+                creatureBecamePiccolo = false;
+                moustacheAnimator.SetBool("isFlying", true);
+            }
 		}
 
 		IEnumerator EndSequence ()
 		{
 			sequenceIsRunning = false;
 			creatureBecamePiccolo = false;
-			activePlatform = 0;
+            elevatorIDSaved = false;
+            creatureHasArrivedToNewPlatform = false;
+            rememberThisPlatformID = 0;
+            activePlatform = 0;
 			for (int i = 0; i < platformTransforms.Count - 1; i++) {
 				PlatformType platformTypeScript;
 				platformTypeScript = platformTransforms[i].GetComponent<PlatformType>();
@@ -340,6 +408,9 @@ namespace Creature
 					platformTransforms[i].position = platformDefaultPositions[i] + platformTransforms[i].rotation * new Vector3(0, 0, platformCreationDistance);
 				}
 			}
+            //SPAWN INSURANCE
+            yield return new WaitForSeconds(3f);
+            currentCreatureLocation = 0;
 		}
 	}
 }

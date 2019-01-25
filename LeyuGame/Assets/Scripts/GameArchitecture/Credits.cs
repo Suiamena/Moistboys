@@ -5,14 +5,19 @@ using UnityEngine;
 
 public class Credits : MonoBehaviour {
 
-    private void Awake()
+    private void Update()
     {
-        StartCoroutine(LoadTitleScreen());
+        if (Input.GetButtonDown("A Button") || Input.GetButton("Left Mouse Button"))
+        {
+            StartCoroutine(LoadTitleScreen());
+        }
     }
 
     IEnumerator LoadTitleScreen()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(0f);
+        AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        CreditsMusic.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         SceneManager.LoadScene("TitleScreen");
     }
 

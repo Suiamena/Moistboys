@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Creature;
 
 public class MoustacheBoiAudio : MonoBehaviour
 {
+    public GameObject wallObject;
+    PlangeMuurInteractive wallScript;
+
     [FMODUnity.EventRef]
     string flaps = "event:/Moustache_Boy/Flaps";
     static FMOD.Studio.EventInstance Flaps;
@@ -17,6 +21,7 @@ public class MoustacheBoiAudio : MonoBehaviour
     void Awake()
     {
         //moustache boy
+        wallScript = wallObject.GetComponent<PlangeMuurInteractive>();
         Flaps = FMODUnity.RuntimeManager.CreateInstance(flaps);
         Screeches = FMODUnity.RuntimeManager.CreateInstance(screeches);
         Wall_Rumble = FMODUnity.RuntimeManager.CreateInstance(wall_rumble);
@@ -30,7 +35,7 @@ public class MoustacheBoiAudio : MonoBehaviour
 
         Flaps.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
         Screeches.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
-        Wall_Rumble.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject.transform));
+        Wall_Rumble.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(wallScript.platformTransforms[wallScript.activePlatform].transform));
     }
 
     public static void PlayFlaps()
