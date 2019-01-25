@@ -50,6 +50,7 @@ public class CompetenceChoice : MonoBehaviour
             Level4Music.musicStage = 12.5f;
             playerChooseCompetence = true;
             choiceMessage.SetActive(false);
+            print("FUUUUKJKCKCKCK");
         }
     }
 
