@@ -52,5 +52,4 @@ public class SocialChoice : MonoBehaviour
             choiceMessage.SetActive(false);
         }
     }
-
 }
