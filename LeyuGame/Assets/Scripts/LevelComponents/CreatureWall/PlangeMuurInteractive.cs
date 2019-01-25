@@ -33,7 +33,7 @@ namespace Creature
 		public GameObject platformsObject;
 
 		//CREATURE MATERIALS
-		//[HideInInspector]
+		[HideInInspector]
 		public Material defaultMaterial, glowingMaterial, creatureMaterial;
 		Renderer creatureRenderer;
 
@@ -249,7 +249,6 @@ namespace Creature
 			GamePad.SetVibration(0, .6f, .6f);
 			GamePad.SetVibration(0, 0, 0);
             creatureMaterial.SetFloat("_GlowStrength", Mathf.Lerp(1, 0, 1f));
-            Debug.Log(creatureRenderer.material);
             //FLY TO ELEVATOR
             creatureHasArrivedToNewPlatform = false;
             PlatformType platformTypeScript;
@@ -259,6 +258,7 @@ namespace Creature
                 creatureBecamePiccolo = true;
                 moustacheAnimator.SetBool("isFlying", false);
                 flyToPlatformPosition = platformTransforms[0].position + platformTransforms[0].transform.rotation * new Vector3(0, -5, 0);
+                Debug.Log(platformTransforms[0]);
                 while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
                 {
                     moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, flyToPlatformPosition, (flyToPlatformSpeed * 2f) * Time.deltaTime);
@@ -268,6 +268,7 @@ namespace Creature
             //FLY TO PLATFORM
             else
             {
+                Debug.Log("not elevator");
                 moustacheAnimator.SetBool("isFlying", true);
                 flyToPlatformPosition = platformTransforms[1].position + platformTransforms[1].transform.rotation * new Vector3(0, -2, -12);
                 while (moustacheBoi.transform.position.SquareDistance(flyToPlatformPosition) > .1f)
@@ -320,6 +321,7 @@ namespace Creature
             platformTypeScript = platformTransforms[currentPlatform].GetComponent<PlatformType>();
             if (platformTypeScript.platformIsElevator) { 
                 creatureBecamePiccolo = true;
+                Debug.Log("piccolo");
                 moustacheAnimator.SetBool("isFlying", false);
             } else {
                 //FLY TO NEXT PLATFORM
@@ -404,8 +406,8 @@ namespace Creature
 				}
 			}
             //SPAWN INSURANCE
-            yield return new WaitForSeconds(3f);
-            currentCreatureLocation = 0;
+            //yield return new WaitForSeconds(3f);
+            //currentCreatureLocation = 0;
 		}
 	}
 }
