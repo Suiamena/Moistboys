@@ -145,19 +145,19 @@ public class PlayerController : MonoBehaviour
 				break;
 			case 4:
 				PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
-				creatureWallsEnabled = true;
+				//creatureWallsEnabled = true;
 				launchEnabled = true;
 				break;
 			case 5:
 				PlayerPrefs.SetString(playerPrefsKey, playerPrefsNoChoiceMade);
-				creatureWallsEnabled = true;
+				//creatureWallsEnabled = true;
 				launchEnabled = true;
 				break;
 			case 6:
 				switch (PlayerPrefs.GetString(playerPrefsKey)) {
 					case playerPrefsNoChoiceMade:
 						launchEnabled = true;
-						creatureWallsEnabled = true;
+						//creatureWallsEnabled = true;
 						break;
 					case playerPrefsLaunch:
 						launchEnabled = true;
@@ -165,7 +165,7 @@ public class PlayerController : MonoBehaviour
 						break;
 					case playerPrefsCreature:
 						launchEnabled = false;
-						creatureWallsEnabled = true;
+						//creatureWallsEnabled = true;
 						break;
 				}
 				break;
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
 	//UPDATES
 	void Update ()
 	{
-		creatureWallsEnabled = true;
+		//creatureWallsEnabled = true;
 		ProcessInputs();
 
 		CameraControl();
