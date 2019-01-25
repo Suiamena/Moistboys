@@ -437,6 +437,9 @@ public class PlayerController : MonoBehaviour
 
 			//beetje lelijk dit
 			canHop = true;
+			if (velocity.y <= 0) {
+				launchRoutineRunning = false;
+			}
 
 			return true;
 		} else {
@@ -564,20 +567,12 @@ public class PlayerController : MonoBehaviour
 		StopCoroutine(SuspendGroundedCheck());
 		StartCoroutine(SuspendGroundedCheck());
 
-		while (true) {
-			if (velocity.y <= 1f) {
-				Ray launchGroundRay = new Ray(transform.position, Vector3.down);
-				if (Physics.SphereCast(launchGroundRay, .45f, .55f, triggerMask)) {
-					break;
-				}
-			}
+		while (launchRoutineRunning)
 			yield return null;
-		}
 
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
 		}
-		launchRoutineRunning = false;
 		yield return null;
 	}
 
