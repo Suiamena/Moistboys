@@ -74,7 +74,7 @@ public class EndingCutscene : MonoBehaviour {
         yield return new WaitForSeconds(3f);
         tekstFadeAway = true;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4.25f);
         AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         Level6Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         SceneManager.LoadScene("Credits");

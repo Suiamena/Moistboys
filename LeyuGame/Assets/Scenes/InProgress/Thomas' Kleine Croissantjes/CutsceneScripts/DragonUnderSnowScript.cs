@@ -181,20 +181,11 @@ public class DragonUnderSnowScript : MonoBehaviour {
         //    chargingTime = 0;
         //}
 
-        //while (Input.GetAxis("Right Trigger") == 0 || Input.GetButtonDown("Keyboard Space") == false)
-        //{
-        //    yield return null;
-        //}
-        //while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Keyboard Space"))
-        //{
-        //    yield return null;
-        //}
-
-        while (Input.GetAxis("Right Trigger") == 0)
+        while (Input.GetAxis("Right Trigger") == 0 && Input.GetButtonDown("Keyboard Space") == false)
         {
             yield return null;
         }
-        while (Input.GetAxis("Right Trigger") > 0)
+        while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Keyboard Space"))
         {
             yield return null;
         }
