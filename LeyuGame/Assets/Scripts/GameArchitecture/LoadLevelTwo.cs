@@ -50,10 +50,9 @@ public class LoadLevelTwo : MonoBehaviour {
         SceneManager.LoadScene("Level 2");
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.tag == "Player")
-    //    {
+    //private void OnTriggerEnter(Collider other) {
+    //    if (other.tag == "Player") 
+    //        {
     //        AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     //        Level1Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     //        SceneManager.LoadScene("Level 2");
