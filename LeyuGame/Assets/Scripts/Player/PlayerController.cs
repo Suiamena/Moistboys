@@ -222,15 +222,6 @@ public class PlayerController : MonoBehaviour
 		cameraYAngle += rightStickInput.x * cameraHorizontalSensitivity * Time.deltaTime;
 		cameraXAngle = Mathf.Clamp(cameraXAngle - rightStickInput.y * cameraVerticalSensitivity * Time.deltaTime, cameraXRotationMinClamp, cameraXRotationMaxClamp);
 
-		//CAMERA RESET ZN ROTATIE WANNEER SPELER STIL STAAT. NIET TEVREDEN OVER.
-		//if (velocity.sqrMagnitude <= 1) {
-		//	if (cameraYAngle != modelYRotation) {
-		//		cameraYAngle = Mathf.MoveTowards(cameraYAngle, transform.eulerAngles.y + modelYRotation, cameraStationaryYResetSpeed * Time.deltaTime);
-		//		modelYRotation = Mathf.MoveTowards(modelYRotation, 0, cameraStationaryYResetSpeed * Time.deltaTime);
-		//	}
-		//	cameraXAngle = Mathf.MoveTowards(cameraXAngle, 0, cameraStationaryXResetSpeed * Time.deltaTime);
-		//}
-
 		//Smart Y rot
 		Vector3 lateralVelocity = new Vector3(velocity.x, 0, velocity.z);
 		if (lateralVelocity.sqrMagnitude > 64) {
@@ -485,7 +476,7 @@ public class PlayerController : MonoBehaviour
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
 		}
-		transform.rotation = Quaternion.Euler(0, 0, 0);
+		transform.rotation = Quaternion.identity;
 		dragonModel.transform.rotation = Quaternion.identity;
 		modelYRotation = 0;
 		modelXRotation = 0;
@@ -498,7 +489,7 @@ public class PlayerController : MonoBehaviour
 	public void EnablePlayer ()
 	{
 		enabled = true;
-		cameraYAngle = 0;
+        cameraYAngle = transform.eulerAngles.y;
 		cameraDesiredTarget = transform.position + cameraTarget;
 		cameraTrans.position = transform.position + cameraOffset;
 		cameraTrans.LookAt(cameraDesiredTarget);
