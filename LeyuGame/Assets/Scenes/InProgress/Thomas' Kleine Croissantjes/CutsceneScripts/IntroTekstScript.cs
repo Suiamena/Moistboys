@@ -78,6 +78,7 @@ public class IntroTekstScript : MonoBehaviour {
         if (cameraMoving == true) {
             cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
             cutsceneCamera.transform.LookAt(player.transform);
+            //cutsceneCam.transform.rotation = Quaternion.RotateTowards(cutsceneCam.transform.rotation, playerCamera.transform.rotation, 4.2f * cameraSpeed * Time.deltaTime);
             cameraSpeed += 0.5f;
         }
 
