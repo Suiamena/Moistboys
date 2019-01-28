@@ -36,8 +36,8 @@ public class IntroTekstScript : MonoBehaviour {
         player = GameObject.Find("Character");
         controllerSwitch = player.GetComponent<PlayerController>();
         controllerSwitch.launchEnabled = false;
-        //controllerSwitch.DisablePlayer(true);
-        controllerSwitch.enabled = false;
+        controllerSwitch.DisablePlayer(true);
+        //controllerSwitch.enabled = false;
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
         cameraAnim.enabled = false;
         draakAnim = draakBeweging.GetComponent<Animator>();
@@ -90,8 +90,8 @@ public class IntroTekstScript : MonoBehaviour {
 
         if (cameraDistance < 0.01f)
         {
-            //controllerSwitch.EnablePlayer();
-            controllerSwitch.enabled = true;
+            controllerSwitch.EnablePlayer();
+            //controllerSwitch.enabled = true;
             cutsceneCamera.SetActive(false);
             cameraMoving = false;
             Destroy(gameObject);
