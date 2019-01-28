@@ -36,7 +36,8 @@ public class IntroTekstScript : MonoBehaviour {
         player = GameObject.Find("Character");
         controllerSwitch = player.GetComponent<PlayerController>();
         controllerSwitch.launchEnabled = false;
-        controllerSwitch.DisablePlayer(true);
+        //controllerSwitch.DisablePlayer(true);
+        controllerSwitch.enabled = false;
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
         cameraAnim.enabled = false;
         draakAnim = draakBeweging.GetComponent<Animator>();
@@ -92,7 +93,8 @@ public class IntroTekstScript : MonoBehaviour {
         {
             cutsceneCamera.SetActive(false);
             cameraMoving = false;
-            controllerSwitch.EnablePlayer();
+            //controllerSwitch.EnablePlayer();
+            controllerSwitch.enabled = true;
             Destroy(gameObject);
         }
     }
