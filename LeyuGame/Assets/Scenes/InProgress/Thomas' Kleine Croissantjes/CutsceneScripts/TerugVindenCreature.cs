@@ -68,12 +68,12 @@ public class TerugVindenCreature : MonoBehaviour
         Level4Music.musicStage = 8.8f;
         cutsceneCamera.SetActive(true);
         StartCoroutine(CutsceneTime());
-        controllerSwitch.enabled = false;
-        playerBody.velocity = new Vector3(0, playerBody.velocity.y, 0);
-        if (playerBody.velocity.y > 0)
-        {
-            playerBody.velocity = new Vector3(0, playerBody.velocity.y * -3, 0);
-        }
+        controllerSwitch.DisablePlayer(true);
+        //playerBody.velocity = new Vector3(0, playerBody.velocity.y, 0);
+        //if (playerBody.velocity.y > 0)
+        //{
+        //    playerBody.velocity = new Vector3(0, playerBody.velocity.y * -3, 0);
+        //}
         playerAnim.SetBool("IsLaunching", false);
         //playerAnim.SetBool("IsBouncing", false);
         playerAnim.SetBool("IsAirborne", false);
@@ -96,11 +96,13 @@ public class TerugVindenCreature : MonoBehaviour
             {
                 playerAnim.SetBool("IsBouncing", false);
             }
-            else
-            {
-                player.transform.LookAt(creature.transform.position);
-            }
+            //else
+            //{
+            //    player.transform.LookAt(creature.transform.position);
+            //}
         }
+        //player.transform.position = wayPointDraak.transform.position;
+        player.transform.LookAt(creature.transform.position);
 
     }
 
@@ -140,7 +142,7 @@ public class TerugVindenCreature : MonoBehaviour
         //cutsceneCamera.SetActive(false);
         triggerCollider.enabled = false;
         cameraAnim.enabled = false;
-        controllerSwitch.enabled = true;
+        controllerSwitch.EnablePlayer();
 
         //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
         playerBody.velocity = new Vector3(0, 0, 0);

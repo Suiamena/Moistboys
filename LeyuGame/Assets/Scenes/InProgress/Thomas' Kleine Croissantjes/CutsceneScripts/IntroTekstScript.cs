@@ -35,6 +35,7 @@ public class IntroTekstScript : MonoBehaviour {
     {
         player = GameObject.Find("Character");
         controllerSwitch = player.GetComponent<PlayerController>();
+        controllerSwitch.launchEnabled = false;
         controllerSwitch.DisablePlayer(true);
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
         cameraAnim.enabled = false;
@@ -45,6 +46,11 @@ public class IntroTekstScript : MonoBehaviour {
 
     void Update()
     {
+        //player.transform.eulerAngles = new Vector3(player.transform.eulerAngles.x, 0, player.transform.eulerAngles.z);
+        //Quaternion target = Quaternion.Euler(player.transform.rotation.x, 0, player.transform.rotation.z);
+        //player.transform.rotation = target;
+        //player.transform.rotation = Quaternion.Euler(player.transform.rotation.x, Mathf.Clamp(player.transform.rotation.y, 0, 0), player.transform.rotation.z);
+
         if (tekstFadeIn == true)
         {
             var tempColor = tekstImage.color;
@@ -65,18 +71,19 @@ public class IntroTekstScript : MonoBehaviour {
             tempColor2.a -= 0.005f;
             background.color = tempColor2;
 
-            if (tempColor2.a <= 0)
-            {
+            //if (tempColor2.a <= 0)
+            //{
 
-            }
+            //}
         }
 
-        if (cameraMoving == true)
-        {
-            cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
-            cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 2.25f * cameraSpeed * Time.deltaTime);
-            cameraSpeed += 0.5f;
-        }
+        //if (cameraMoving == true)
+        //{
+        //    print("LOOLLL");
+        //    cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
+        //    cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 2.25f * cameraSpeed * Time.deltaTime);
+        //    cameraSpeed += 0.5f;
+        //}
 
         cameraDistance = Vector3.Distance(cutsceneCamera.transform.position, playerCamera.transform.position);
         //print(cameraDistance);
@@ -104,11 +111,12 @@ public class IntroTekstScript : MonoBehaviour {
         cameraAnim.enabled = true;
 
         yield return new WaitForSeconds(10f);
-        draakAnim.enabled = true;
+        //draakAnim.enabled = true;
 
         yield return new WaitForSeconds(2f);
         warmthSourceSoundObject.SetActive(true);
         cameraMoving = true;
+        print(cameraMoving);
         cameraAnim.enabled = false;
         //Destroy(gameObject);
     }

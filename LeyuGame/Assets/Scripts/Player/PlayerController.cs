@@ -489,6 +489,7 @@ public class PlayerController : MonoBehaviour
 		dragonModel.transform.rotation = Quaternion.identity;
 		modelYRotation = 0;
 		modelXRotation = 0;
+		cameraYAngle = 0;
 		rig.velocity = Vector3.zero;
 		cameraTrans.gameObject.SetActive(!disableCamera);
 		enabled = false;
@@ -497,8 +498,9 @@ public class PlayerController : MonoBehaviour
 	public void EnablePlayer ()
 	{
 		enabled = true;
-		cameraYAngle = transform.eulerAngles.y;
-		cameraDesiredTarget = transform.position + transform.rotation * cameraTarget;
+		cameraYAngle = 0;
+		cameraDesiredTarget = transform.position + cameraTarget;
+		cameraTrans.position = transform.position + cameraOffset;
 		cameraTrans.LookAt(cameraDesiredTarget);
 		cameraTrans.gameObject.SetActive(true);
 		modelYRotation = 0;
