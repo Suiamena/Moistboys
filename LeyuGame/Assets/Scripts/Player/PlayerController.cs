@@ -490,8 +490,8 @@ public class PlayerController : MonoBehaviour
 	{
 		enabled = true;
         cameraYAngle = transform.eulerAngles.y;
-		cameraDesiredTarget = transform.position + cameraTarget;
-		cameraTrans.position = transform.position + cameraOffset;
+		cameraDesiredTarget = transform.position + transform.rotation * cameraTarget;
+		cameraTrans.position = transform.position + transform.rotation * cameraOffset;
 		cameraTrans.LookAt(cameraDesiredTarget);
 		cameraTrans.gameObject.SetActive(true);
 		modelYRotation = 0;
