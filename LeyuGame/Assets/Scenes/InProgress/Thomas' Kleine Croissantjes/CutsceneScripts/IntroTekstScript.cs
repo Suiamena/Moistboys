@@ -78,23 +78,22 @@ public class IntroTekstScript : MonoBehaviour {
             //}
         }
 
-        //if (cameraMoving == true)
-        //{
-        //    print("LOOLLL");
-        //    cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
-        //    cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 2.25f * cameraSpeed * Time.deltaTime);
-        //    cameraSpeed += 0.5f;
-        //}
+        if (cameraMoving == true) {
+            print("LOOLLL");
+            cutsceneCamera.transform.position = Vector3.MoveTowards(cutsceneCamera.transform.position, playerCamera.transform.position, cameraSpeed * Time.deltaTime);
+            cutsceneCamera.transform.rotation = Quaternion.RotateTowards(cutsceneCamera.transform.rotation, playerCamera.transform.rotation, 0.9f * cameraSpeed * Time.deltaTime);
+            cameraSpeed += 0.5f;
+        }
 
         cameraDistance = Vector3.Distance(cutsceneCamera.transform.position, playerCamera.transform.position);
         //print(cameraDistance);
 
         if (cameraDistance < 0.01f)
         {
-            cutsceneCamera.SetActive(false);
-            cameraMoving = false;
             //controllerSwitch.EnablePlayer();
             controllerSwitch.enabled = true;
+            cutsceneCamera.SetActive(false);
+            cameraMoving = false;
             Destroy(gameObject);
         }
     }
@@ -112,10 +111,10 @@ public class IntroTekstScript : MonoBehaviour {
         fadingFromWhite = true;
         cameraAnim.enabled = true;
 
-        yield return new WaitForSeconds(10f);
-        //draakAnim.enabled = true;
+        yield return new WaitForSeconds(14.5f);
+        draakAnim.enabled = true;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2.75f);
         warmthSourceSoundObject.SetActive(true);
         cameraMoving = true;
         print(cameraMoving);
