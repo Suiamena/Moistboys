@@ -19,6 +19,8 @@ public class DragonUnderSnowScript : MonoBehaviour {
 
     GameObject player;
     GameObject playerCamera;
+    public GameObject playerModel;
+    Animator playerAnim;
     PlayerController controllerSwitch;
 
     public GameObject destructibleBoi;
@@ -45,6 +47,8 @@ public class DragonUnderSnowScript : MonoBehaviour {
         player = GameObject.Find("Character");
         playerCamera = GameObject.Find("Main Camera");
         playerCamera.SetActive(false);
+        playerAnim = playerModel.GetComponent<Animator>();
+        playerAnim.enabled = false;
         controllerSwitch = player.GetComponent<PlayerController>();
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
         rightTriggerUI.SetActive(false);
@@ -177,6 +181,15 @@ public class DragonUnderSnowScript : MonoBehaviour {
         //    chargingTime = 0;
         //}
 
+        //while (Input.GetAxis("Right Trigger") == 0 || Input.GetButtonDown("Keyboard Space") == false)
+        //{
+        //    yield return null;
+        //}
+        //while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Keyboard Space"))
+        //{
+        //    yield return null;
+        //}
+
         while (Input.GetAxis("Right Trigger") == 0)
         {
             yield return null;
@@ -186,6 +199,7 @@ public class DragonUnderSnowScript : MonoBehaviour {
             yield return null;
         }
 
+        playerAnim.enabled = true;
         controllerSwitch.enableLaunchOnly = false;
         playerHasMoved = true;
         rightTriggerUI.SetActive(false);
