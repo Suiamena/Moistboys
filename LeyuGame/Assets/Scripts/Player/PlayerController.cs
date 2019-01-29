@@ -495,6 +495,9 @@ public class PlayerController : MonoBehaviour
 		cameraTrans.LookAt(cameraDesiredTarget);
 		cameraTrans.gameObject.SetActive(true);
 		modelYRotation = 0;
+		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
+		}
 	}
 
 	//COROUTINES
