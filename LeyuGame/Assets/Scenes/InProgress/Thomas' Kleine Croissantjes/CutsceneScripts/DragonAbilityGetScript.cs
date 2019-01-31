@@ -213,7 +213,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
         controllerSwitch.EnablePlayer();
         cameraMoving = true;
         controllerSwitch.launchEnabled = true;
-        Level3Music.startMusic = true;
+        //Level3Music.startMusic = true;
         Destroy(abilityPickUp);
         cutsceneCollider.enabled = false;
         FadingToWhite = true;
