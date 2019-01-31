@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
 	public Vector3 launchStageOneForce = new Vector3(0, 35, 10), launchStageTwoForce = new Vector3(0, 50, 22);
 	public Color launchStageOneColor = Color.green, launchStageTwoColor = Color.red;
 	public Renderer launchRenderer;
+	public float launchStageZeroPulseSpeed = .7f, launchStageOnePulseSpeed = 1.3f, launchStageTwoPulseSpeed = 1.9f;
 	int[] launchMaterialIndexes = new int[] { 0, 3, 6, 9 };
 	Color launchBaseColor = Color.white;
 	bool launchRoutineRunning = false;
@@ -70,11 +71,11 @@ public class PlayerController : MonoBehaviour
 	[Range(0.0f, 1.0f)]
 	public float walkingBouncingThreshold = .8f;
 	bool inSnow = false;
-    [HideInInspector]
+	[HideInInspector]
 	public float groundType, jumpHeight;
 	bool checkCurrentHeight, waitingForNextBounce = false, waitForBounceRoutineRunning = false;
-    [HideInInspector]
-    public bool enableLaunchOnly;
+	[HideInInspector]
+	public bool enableLaunchOnly;
 
 	[Header("Hop Settings")]
 	public bool canHop = true;
@@ -87,9 +88,7 @@ public class PlayerController : MonoBehaviour
 
 	//Boundary Settings
 	[HideInInspector]
-	public bool playerIsAirborne, enablePlayerPushBack;
-	[HideInInspector]
-	public Vector3 boundaryPushingDirection;
+	public bool playerIsAirborne;
 
 	//SETUP
 	void Start ()
@@ -113,6 +112,13 @@ public class PlayerController : MonoBehaviour
 		animationModel = GameObject.Find("MOD_Draak");
 		animator = animationModel.GetComponent<Animator>();
 		launchBaseColor = launchRenderer.materials[launchMaterialIndexes[0]].GetColor("_baseColor");
+		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
+			if (launchEnabled)
+				launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", launchStageZeroPulseSpeed);
+			else
+				launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", 0);
+		}
+
 
 		GamePad.SetVibration(0, 0, 0);
 		Cursor.visible = false;
@@ -196,10 +202,6 @@ public class PlayerController : MonoBehaviour
 		CheckHeight();
 
 		rig.velocity = transform.rotation * velocity;
-		//APPLY BOUNDARY PUSHBACK FORCE
-		if (enablePlayerPushBack) {
-			rig.velocity += boundaryPushingDirection;
-		}
 	}
 
 	private void OnApplicationQuit ()
@@ -291,7 +293,7 @@ public class PlayerController : MonoBehaviour
 		//modelXRotation = Mathf.Clamp(modelXRotation, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
 
 		modelLateralVelocity = new Vector3(velocity.x, 0, velocity.z);
-		if (modelLateralVelocity.magnitude > .1f) {
+		if (modelLateralVelocity.sqrMagnitude > 1f) {
 			modelYRotation = Vector3.Angle(Vector3.forward, modelLateralVelocity);
 			if (velocity.x < 0)
 				modelYRotation *= -1;
@@ -475,6 +477,10 @@ public class PlayerController : MonoBehaviour
 		launchRoutineRunning = false;
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
+			if (launchEnabled)
+				launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", launchStageZeroPulseSpeed);
+			else
+				launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", 0);
 		}
 		transform.rotation = Quaternion.identity;
 		dragonModel.transform.rotation = Quaternion.identity;
@@ -489,7 +495,7 @@ public class PlayerController : MonoBehaviour
 	public void EnablePlayer ()
 	{
 		enabled = true;
-        cameraYAngle = transform.eulerAngles.y;
+		cameraYAngle = transform.eulerAngles.y;
 		cameraDesiredTarget = transform.position + transform.rotation * cameraTarget;
 		cameraTrans.position = transform.position + transform.rotation * cameraOffset;
 		cameraTrans.LookAt(cameraDesiredTarget);
@@ -497,6 +503,10 @@ public class PlayerController : MonoBehaviour
 		modelYRotation = 0;
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
+			if (launchEnabled)
+				launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", launchStageZeroPulseSpeed);
+			else
+				launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", 0);
 		}
 	}
 
@@ -522,6 +532,7 @@ public class PlayerController : MonoBehaviour
 
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchStageOneColor);
+			launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", launchStageOnePulseSpeed);
 		}
 
 		while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Keyboard Space")) {
@@ -533,6 +544,7 @@ public class PlayerController : MonoBehaviour
 				GamePad.SetVibration(PlayerIndex.One, .3f, .3f);
 				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 					launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchStageTwoColor);
+					launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", launchStageTwoPulseSpeed);
 				}
 			}
 			yield return null;
@@ -568,6 +580,7 @@ public class PlayerController : MonoBehaviour
 
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
+			launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", launchStageZeroPulseSpeed);
 		}
 		yield return null;
 	}

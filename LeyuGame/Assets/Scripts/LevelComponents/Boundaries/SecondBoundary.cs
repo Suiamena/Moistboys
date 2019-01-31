@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,8 +34,8 @@ public class SecondBoundary : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            playerInBoundary = true;
-            playerScript.enablePlayerPushBack = true;
+            //playerInBoundary = true;
+            //playerScript.enablePlayerPushBack = true;
 
             if (playerScript.playerIsAirborne)
             {
@@ -47,7 +47,7 @@ public class SecondBoundary : MonoBehaviour {
                 //player is grounded
                 if (!startCoroutine)
                 {
-                    StartCoroutine(PushBackPlayer());
+                    //StartCoroutine(PushBackPlayer());
                     startCoroutine = true;
                 }
             }
@@ -68,28 +68,28 @@ public class SecondBoundary : MonoBehaviour {
         //RESET SPEED
         playerScript.airborneMovementSpeed = startingAirborneVelocity;
         playerScript.leapingVelocity = startingVelocity;
-        playerScript.boundaryPushingDirection = new Vector3(0, 0, 0);
+    //    playerScript.boundaryPushingDirection = new Vector3(0, 0, 0);
 
-        //MANAGEMENT
-        playerInBoundary = false;
-        startCoroutine = false;
-        playerScript.enablePlayerPushBack = false;
-        StopCoroutine(PushBackPlayer());
-    }
+    //    //MANAGEMENT
+    //    playerInBoundary = false;
+    //    startCoroutine = false;
+    //    playerScript.enablePlayerPushBack = false;
+    //    StopCoroutine(PushBackPlayer());
+    //}
 
-    IEnumerator PushBackPlayer()
-    {
-        yield return new WaitForSeconds(0.2f);
-        if (!playerScript.playerIsAirborne && playerInBoundary)
-        {
-            playerScript.boundaryPushingDirection = new Vector3(windStrength, 0, 0);
-            playerScript.enablePlayerPushBack = true;
-        }
-        else
-        {
-            playerScript.enablePlayerPushBack = false;
-        }
-        startCoroutine = false;
+    //IEnumerator PushBackPlayer()
+    //{
+    //    yield return new WaitForSeconds(0.2f);
+    //    if (!playerScript.playerIsAirborne && playerInBoundary)
+    //    {
+    //        playerScript.boundaryPushingDirection = new Vector3(windStrength, 0, 0);
+    //        playerScript.enablePlayerPushBack = true;
+    //    }
+    //    else
+    //    {
+    //        playerScript.enablePlayerPushBack = false;
+        //}
+        //startCoroutine = false;
     }
 
 }

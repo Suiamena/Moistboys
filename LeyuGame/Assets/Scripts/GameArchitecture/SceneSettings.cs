@@ -21,15 +21,15 @@ public class SceneSettings : MonoBehaviour
                 levelSixChoice = LevelSixChoices.NoChoiceMade;
 				break;
 			case 1:
-				player.creatureWallsEnabled = false;
+				player.creatureWallsEnabled = true;
 				player.launchEnabled = false;
 				break;
 			case 2:
-				player.creatureWallsEnabled = false;
+				player.creatureWallsEnabled = true;
 				player.launchEnabled = false;
 				break;
 			case 3:
-				player.creatureWallsEnabled = false;
+				player.creatureWallsEnabled = true;
 				player.launchEnabled = true;
 				break;
 			case 4:

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,14 +39,14 @@ public class ThirdBoundary : MonoBehaviour
             if (playerScript.playerIsAirborne)
             {
                 //player is airborne
-                playerScript.enablePlayerPushBack = false;
+                //playerScript.enablePlayerPushBack = false;
             }
             else
             {
                 //player is grounded
                 Vector3 windDirection = Quaternion.Inverse(transform.rotation) * (player.transform.position - transform.position);
-                playerScript.boundaryPushingDirection = new Vector3(windDirection.x, 0, windDirection.z).normalized * windForce;
-                playerScript.enablePlayerPushBack = true;
+                //playerScript.boundaryPushingDirection = new Vector3(windDirection.x, 0, windDirection.z).normalized * windForce;
+                //playerScript.enablePlayerPushBack = true;
             }
         }
     }
@@ -56,7 +56,7 @@ public class ThirdBoundary : MonoBehaviour
         if (other.tag == "Player")
         {
             //windForce = 0;
-            playerScript.enablePlayerPushBack = false;
+            //playerScript.enablePlayerPushBack = false;
         }
     }
 
