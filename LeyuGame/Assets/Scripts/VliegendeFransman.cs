@@ -11,6 +11,9 @@ public class VliegendeFransman : MonoBehaviour
 	Vector3 rotation;
 	float sprintModifier = 2f, actualSpeed;
 
+    //public GameObject player;
+    //bool setPlayerRot = false;
+
 	void Start ()
 	{
 		cam = GetComponent<Camera>();
@@ -19,17 +22,30 @@ public class VliegendeFransman : MonoBehaviour
 	
 	void Update ()
 	{
-		if (!active) {
+        //if (active) 
+        //{
+        //    if (setPlayerRot == false) 
+        //    {
+        //        player.transform.localRotation = Quaternion.Euler(player.transform.rotation.x, player.transform.eulerAngles.y, player.transform.rotation.z);
+        //        setPlayerRot = true;
+        //    }
+
+        //}
+
+        if (!active) {
 			if (Input.GetButtonDown("Y Button")) {
 				active = true;
-				playerController.DisablePlayer(true);
-				cam.enabled = true;
+                //playerController.DisablePlayer(true);
+                playerController.enabled = false;
+                cam.enabled = true;
 			}
 		} else {
 			if (Input.GetButtonDown("Y Button")) {
 				active = false;
-				playerController.EnablePlayer();
-				cam.enabled = false;
+                //playerController.EnablePlayer();
+                playerController.enabled = true;
+                playerController.launchEnabled = true;
+                cam.enabled = false;
 			}
 
 			if (Input.GetButtonDown("X Button"))
