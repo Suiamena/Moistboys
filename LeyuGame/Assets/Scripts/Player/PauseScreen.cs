@@ -96,13 +96,13 @@ public class PauseScreen : MonoBehaviour
                     if (Input.GetButtonDown("A Button") || Input.GetButtonDown("Start Button") || Input.GetButtonDown("Keyboard Space"))
                     {
 						if (exitOptionSelected == 0) {
-							DeactivateExitScreen();
+                            Time.timeScale = 1;
+                            AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                            Level6Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                            SceneManager.LoadScene("TitleScreen");
 						} else if (exitOptionSelected == 1) {
-							Time.timeScale = 1;
-							AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-							Level6Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-							SceneManager.LoadScene("TitleScreen");
-						} else {
+                            DeactivateExitScreen();
+                        } else {
 							Application.Quit();
 						}
 					}
