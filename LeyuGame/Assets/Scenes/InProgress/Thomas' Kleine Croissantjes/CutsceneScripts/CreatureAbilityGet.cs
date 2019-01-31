@@ -131,7 +131,7 @@ public class CreatureAbilityGet : MonoBehaviour {
 
         if (glowBoiNow == 1)
         {
-            glow += 0.03f;
+            glow += 0.04f;
         }
 
         if (glow >= 1)

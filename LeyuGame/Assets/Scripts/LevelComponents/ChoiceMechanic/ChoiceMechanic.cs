@@ -79,6 +79,13 @@ public class ChoiceMechanic : MonoBehaviour {
     float speedAbilityToFlower = 0;
     bool creatureLookAtPlayer = false;
 
+    //GLOWY BOI
+    Renderer rend;
+    public GameObject creatureModel;
+    float glow;
+    int glowBoiNow = 0;
+    bool fuckingStopGlowing = false;
+
     private void Awake()
     {
         warmthSourceAnimator = warmthSourceAnimObject.GetComponent<Animator>();
@@ -123,6 +130,10 @@ public class ChoiceMechanic : MonoBehaviour {
         transitionScript = transition.GetComponent<Level4EndTransition>();
         heatExplosion.transform.position = warmthSource.transform.position;
         heatExplosion.transform.localScale = new Vector3(0, 0, 0);
+
+        //GLOWY BOI
+        rend = creatureModel.GetComponent<SkinnedMeshRenderer>();
+        rend.material.shader = Shader.Find("SHAD_Creature_Glow");
 
     }
 
@@ -185,7 +196,28 @@ public class ChoiceMechanic : MonoBehaviour {
         {
             moustacheBoiCutscene.transform.LookAt(player.transform.position);
         }
+    }
 
+    private void Update() 
+    {
+        rend.material.SetFloat("_GlowStrength", glow);
+
+        if (glowBoiNow == 1) {
+            glow += 0.03f;
+        }
+
+        if (glow >= 1) {
+            glowBoiNow = 0;
+            fuckingStopGlowing = true;
+        }
+
+        if (fuckingStopGlowing == true) {
+            glow -= 0.015f;
+
+            if (glow <= 0) {
+                fuckingStopGlowing = false;
+            }
+        }
     }
 
     //SETUP FIRST CUTSCENE - CREATURE GIVES ABILITY
@@ -218,10 +250,12 @@ public class ChoiceMechanic : MonoBehaviour {
         creatureToSource = true;
         yield return new WaitForSeconds(1.5F);
         moustacheBoiAnim.SetBool("isFlying", false);
+
         yield return new WaitForSeconds(1F);
         creatureToSource = false;
 
         //Ability is Lost
+        glowBoiNow = 1;
         GlowStart.start();
         //cutsceneCamera.transform.position = cutsceneCameraOneTransformTarget.transform.position;
         //cutsceneCamera.transform.rotation = cutsceneCameraOneTransformTarget.transform.rotation;
@@ -406,7 +440,14 @@ public class ChoiceMechanic : MonoBehaviour {
         //fourthCutsceneCamera.transform.rotation = cutsceneCameraThreeTransformTarget.transform.rotation;
         returnAbility = true;
 
-        yield return new WaitForSeconds(2.5F);
+        yield return new WaitForSeconds(1F);
+        if (socialScript.playerChooseSocial) 
+        {
+            glowBoiNow = 1;
+        }
+
+
+        yield return new WaitForSeconds(1.5F);
 
         if (socialScript.playerChooseSocial)
         {
