@@ -7,6 +7,7 @@ namespace Creature
 {
 	public class PlangeMuurInteractive : MonoBehaviour
 	{
+        GameObject neeson;
 		public enum SequenceActivities { Sneeze, WelcomeBack, Flop, Superflop, None };
 		public SequenceActivities sequenceActivity = SequenceActivities.None;
 
@@ -50,7 +51,7 @@ namespace Creature
 		public float flyingSpeed = 50;
 		public float flyInOutRange = 45;
 		[HideInInspector]
-		public Vector3 flyInOutPoint = new Vector3(0, 40, -7);
+		public Vector3 flyInOutPoint = new Vector3(-20, 40, -7);
 		Vector3 defaultCreaturePos, flyInPosition, flyToPlatformPosition;
 		Quaternion defaultCreatureRot;
 		bool flyingRoutineRunning = false;
@@ -71,6 +72,7 @@ namespace Creature
 
 		private void Awake ()
 		{
+            neeson = GameObject.Find("neeson");
 			player = GameObject.Find("Character");
 			playerModel = GameObject.Find("MOD_Draak");
 			playerScript = player.GetComponent<PlayerController>();
@@ -214,7 +216,8 @@ namespace Creature
 			MoustacheBoiAudio.PlayFlaps();
 			moustacheAnimator.SetBool("isFlying", true);
 			while (moustacheBoi.transform.position.SquareDistance(defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > 5f) {
-                Debug.Log("going");
+                neeson.transform.position = defaultCreaturePos + defaultCreatureRot * flyInOutPoint;
+                Debug.Log("flying");
 				moustacheBoi.transform.LookAt(player.transform.position);
 				moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint, flyingSpeed * Time.deltaTime);
 				yield return null;
