@@ -40,7 +40,6 @@ public class Level4EndTransition : MonoBehaviour
 	public void Transition ()
 	{
 		if (!running) {
-            Debug.Log("looool");
             running = true;
 			StartCoroutine(TransitionRoutine());
 		}
