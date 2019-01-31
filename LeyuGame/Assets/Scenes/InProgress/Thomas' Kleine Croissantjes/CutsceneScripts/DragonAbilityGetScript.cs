@@ -20,7 +20,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
     Animator abilityAnim;
     bool movingToCreature = false;
 
-    GameObject abilityLight;
+    public GameObject abilityLight;
     Light abilityLightIntensity;
 
     //public GameObject sneeuwstormTrigger;
@@ -81,7 +81,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
         abilityAnim = abilityPickUp.GetComponent<Animator>();
         abilityAnim.SetBool("IsPlaying", false);
 
-        abilityLight = GameObject.Find("OrangeLight");
+        //abilityLight = GameObject.Find("OrangeLight");
         abilityLightIntensity = abilityLight.GetComponent<Light>();
 
         var tempColor = image.color;
@@ -135,10 +135,10 @@ public class DragonAbilityGetScript : MonoBehaviour {
         if (movingToCreature == true)
         {
             //MOGELIJK WAYPOINT VOOR ABILITY IMPLEMENTEREN IN PLAYER CHARACTER
-            abilityLightIntensity.intensity -= 0.01f;
             abilityPickUp.transform.position = Vector3.MoveTowards(abilityPickUp.transform.position, new Vector3(player.transform.position.x, player.transform.position.y +1, player.transform.position.z), 5 * Time.deltaTime);
             abilityPickUp.transform.localScale -= new Vector3(0.015f, 0.015f, 0.015f);
             abilityPickUp.transform.localScale = new Vector3(Mathf.Clamp(abilityPickUp.transform.localScale.x, 0, 5), Mathf.Clamp(abilityPickUp.transform.localScale.y, 0, 5), Mathf.Clamp(abilityPickUp.transform.localScale.z, 0, 5));
+            abilityLightIntensity.intensity -= 0.02f;
         }
 
         if (cameraMoving == false)
@@ -233,6 +233,6 @@ public class DragonAbilityGetScript : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         AmbienceManager.Ambience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         Level2Music.Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        SceneManager.LoadScene("Level 3 Weenies");
+        SceneManager.LoadScene("Level 3");
     }
 }
