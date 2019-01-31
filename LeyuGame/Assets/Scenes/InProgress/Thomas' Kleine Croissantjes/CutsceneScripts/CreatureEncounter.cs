@@ -89,7 +89,6 @@ public class CreatureEncounter : MonoBehaviour {
             }
             player.transform.position = Vector3.MoveTowards(player.transform.position, wayPointDraak.transform.position, 4f*Time.deltaTime);
             distanceToWaypointDraak = Vector3.Distance(player.transform.position, wayPointDraak.transform.position);
-            print(distanceToWaypointDraak);
             //distanceToWaypointDraak = player.transform.position - wayPointDraak.transform.position;
             //distanceToWaypointDraak = new Vector3(Mathf.Abs(distanceToWaypointDraak.x), distanceToWaypointDraak.y, distanceToWaypointDraak.z);
             if (distanceToWaypointDraak < 0.5f)

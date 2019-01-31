@@ -40,6 +40,13 @@ public class CreatureAbilityGet : MonoBehaviour {
     Quaternion oldDraakRot;
     Quaternion newDraakRot;
 
+    //GLOWY BOI
+    Renderer rend;
+    public GameObject creatureModel;
+    float glow;
+    int glowBoiNow = 0;
+    bool fuckingStopGlowing = false;
+
     void Start()
     {
         player = GameObject.Find("Character");
@@ -63,6 +70,10 @@ public class CreatureAbilityGet : MonoBehaviour {
         abilityLightIntensity = abilityLight.GetComponent<Light>();
 
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
+
+        //GLOWY BOI
+        rend = creatureModel.GetComponent<SkinnedMeshRenderer>();
+        rend.material.shader = Shader.Find("SHAD_Creature_Glow");
     }
 
     void OnTriggerEnter()
@@ -115,6 +126,31 @@ public class CreatureAbilityGet : MonoBehaviour {
         abilityPickUp.transform.localScale = new Vector3(Mathf.Clamp(abilityPickUp.transform.localScale.x,0,5), Mathf.Clamp(abilityPickUp.transform.localScale.y, 0, 5), Mathf.Clamp(abilityPickUp.transform.localScale.z, 0, 5));
         abilityLightIntensity.intensity -= 0.02f;
         }
+
+        rend.material.SetFloat("_GlowStrength", glow);
+        print("glow =" + glow);
+
+        if (glowBoiNow == 1)
+        {
+            glow += 0.03f;
+        }
+
+        if (glow >= 1)
+        {
+            glowBoiNow = 0;
+            fuckingStopGlowing = true;
+        }
+
+        if (fuckingStopGlowing == true)
+        {
+            glow -= 0.015f;
+
+            if (glow <= 0)
+            {
+                fuckingStopGlowing = false;
+            }
+        }
+
     }
 
     IEnumerator CutsceneTime()
@@ -138,7 +174,10 @@ public class CreatureAbilityGet : MonoBehaviour {
         abilityMovingToCreature = true;
         playerAnim.SetBool("curiousLook", true);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
+        glowBoiNow = 1;
+
+        yield return new WaitForSeconds(0.5f);
         creatureBewegingAnim.SetBool("isPlaying", true);
         creatureAnim.SetBool("isUsingAbility", false);
 
