@@ -64,11 +64,11 @@ public class FinalBoundary : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            if (!playerScript.enablePlayerPushBack)
-            {
-                StartCoroutine(IncreaseWindStrength());
-                playerScript.enablePlayerPushBack = true;
-            }
+            //if (!playerScript.enablePlayerPushBack)
+            //{
+            //    StartCoroutine(IncreaseWindStrength());
+            //    playerScript.enablePlayerPushBack = true;
+            //}
 
             if (!snowSpawned)
             {
@@ -80,8 +80,8 @@ public class FinalBoundary : MonoBehaviour {
             //WIND FORCE
             windStrength += windStrengthAcceleration;
             windStrength = Mathf.Clamp(windStrength, 0, maxWindStrength);
-            appliedPushDirection = pushDirection * windStrength;
-            playerScript.boundaryPushingDirection = appliedPushDirection;
+            //appliedPushDirection = pushDirection * windStrength;
+            //playerScript.boundaryPushingDirection = appliedPushDirection;
 
             //PARTICLES
             particlesSpeed = windStrength;
@@ -102,8 +102,8 @@ public class FinalBoundary : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            windStrength = 0;
-            playerScript.enablePlayerPushBack = false;
+            //windStrength = 0;
+            //playerScript.enablePlayerPushBack = false;
             snowSpawned = false;
 
             //DECREASE WIND SOUND
