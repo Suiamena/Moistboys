@@ -127,7 +127,10 @@ public class CreatureAbilityGet : MonoBehaviour {
         abilityLightIntensity.intensity -= 0.02f;
         }
 
-        rend.material.SetFloat("_GlowStrength", glow);
+        try {
+            rend.material.SetFloat("_GlowStrength", glow);
+        }
+        catch { }
 
         if (glowBoiNow == 1)
         {
