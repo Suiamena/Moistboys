@@ -91,6 +91,7 @@ public class IntroTekstScript : MonoBehaviour {
 
         if (cameraDistance < 0.01f) {
             controllerSwitch.EnablePlayer();
+            warmthSourceSoundObject.SetActive(true);
             //controllerSwitch.enabled = true;
             cutsceneCamera.SetActive(false);
             cameraMoving = false;
@@ -116,7 +117,6 @@ public class IntroTekstScript : MonoBehaviour {
 
         yield return new WaitForSeconds(2.75f);
         playerAnim.SetBool("airborne", false);
-        warmthSourceSoundObject.SetActive(true);
         cameraMoving = true;
         print(cameraMoving);
         cameraAnim.enabled = false;

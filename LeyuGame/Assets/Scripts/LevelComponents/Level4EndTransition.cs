@@ -25,6 +25,7 @@ public class Level4EndTransition : MonoBehaviour
 				foreach (Material m in r.materials) {
 					if (m.HasProperty("_SurfaceSpreadTop")) {
 						materials.Add(m);
+						m.SetFloat("_SurfaceSpreadTop", 1);
 					}
 				}
 			}
@@ -40,6 +41,7 @@ public class Level4EndTransition : MonoBehaviour
 	public void Transition ()
 	{
 		if (!running) {
+            Debug.Log("looool");
             running = true;
 			StartCoroutine(TransitionRoutine());
 		}
@@ -48,7 +50,7 @@ public class Level4EndTransition : MonoBehaviour
     public IEnumerator TransitionRoutine()
     {
         //DO THINGS OVER TIME
-        for (float t = 0; t < transitionLength; t += Time.deltaTime)
+        for (float t = 1; t < transitionLength; t -= Time.deltaTime)
         {
             for (int i = 0; i < materials.Count; ++i)
             {
