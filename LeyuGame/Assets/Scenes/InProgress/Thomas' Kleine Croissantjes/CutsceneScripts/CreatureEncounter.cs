@@ -47,7 +47,7 @@ public class CreatureEncounter : MonoBehaviour {
         creatureBeweging = GameObject.Find("BewegingCreature");
         controllerSwitch = player.GetComponent<PlayerController>();
         playerBody = player.GetComponent<Rigidbody>();
-        playerAnim = playerModel.GetComponent<Animator>();
+        playerAnim = GameObject.Find("MOD_Draak").GetComponent<Animator>();
         wayPointDraak = GameObject.Find("WaypointDraak");
         creatureAnim = creature.GetComponent<Animator>();
         creatureAnim.SetBool("isFlying", false);
