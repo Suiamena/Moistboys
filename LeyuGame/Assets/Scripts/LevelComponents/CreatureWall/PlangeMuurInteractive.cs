@@ -7,7 +7,6 @@ namespace Creature
 {
 	public class PlangeMuurInteractive : MonoBehaviour
 	{
-        GameObject neeson;
 		public enum SequenceActivities { Sneeze, WelcomeBack, Flop, Superflop, None };
 		public SequenceActivities sequenceActivity = SequenceActivities.None;
 
@@ -72,7 +71,6 @@ namespace Creature
 
 		private void Awake ()
 		{
-            neeson = GameObject.Find("neeson");
 			player = GameObject.Find("Character");
 			playerModel = GameObject.Find("MOD_Draak");
 			playerScript = player.GetComponent<PlayerController>();
@@ -216,7 +214,6 @@ namespace Creature
 			MoustacheBoiAudio.PlayFlaps();
 			moustacheAnimator.SetBool("isFlying", true);
 			while (moustacheBoi.transform.position.SquareDistance(defaultCreaturePos + defaultCreatureRot * flyInOutPoint) > 5f) {
-                neeson.transform.position = defaultCreaturePos + defaultCreatureRot * flyInOutPoint;
                 Debug.Log("flying");
 				moustacheBoi.transform.LookAt(player.transform.position);
 				moustacheBoi.transform.position = Vector3.MoveTowards(moustacheBoi.transform.position, defaultCreaturePos + defaultCreatureRot * flyInOutPoint, flyingSpeed * Time.deltaTime);
