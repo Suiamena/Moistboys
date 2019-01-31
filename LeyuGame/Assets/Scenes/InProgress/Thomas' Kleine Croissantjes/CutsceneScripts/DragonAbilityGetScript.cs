@@ -104,7 +104,7 @@ public class DragonAbilityGetScript : MonoBehaviour {
         rend = aureoolModel.GetComponent<Renderer>();
         rend.material.shader = Shader.Find("SHAD_Dragon_Symbol_Glow");
 
-        Debug.Log(rend);
+        //Debug.Log(rend);
     }
 
     void OnTriggerEnter()
