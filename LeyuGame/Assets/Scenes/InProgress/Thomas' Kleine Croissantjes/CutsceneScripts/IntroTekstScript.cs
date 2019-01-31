@@ -29,7 +29,10 @@ public class IntroTekstScript : MonoBehaviour {
     Animator cameraAnim;
 
     public GameObject draakBeweging;
-    Animator draakAnim;
+    Animator draakBewegingAnim;
+
+    public GameObject playerModel;
+    Animator playerAnim;
 
     void Start() {
         player = GameObject.Find("Character");
@@ -41,9 +44,10 @@ public class IntroTekstScript : MonoBehaviour {
         //controllerSwitch.enabled = false;
         cameraAnim = cutsceneCamera.GetComponent<Animator>();
         cameraAnim.enabled = false;
-        draakAnim = draakBeweging.GetComponent<Animator>();
-        draakAnim.enabled = false;
+        draakBewegingAnim = draakBeweging.GetComponent<Animator>();
+        draakBewegingAnim.enabled = false;
         StartCoroutine(CutsceneTime());
+        playerAnim = playerModel.GetComponent<Animator>();
     }
 
     void Update() {
@@ -107,9 +111,11 @@ public class IntroTekstScript : MonoBehaviour {
         cameraAnim.enabled = true;
 
         yield return new WaitForSeconds(14.5f);
-        draakAnim.enabled = true;
+        draakBewegingAnim.enabled = true;
+        playerAnim.SetBool("airborne", true);
 
         yield return new WaitForSeconds(2.75f);
+        playerAnim.SetBool("airborne", false);
         warmthSourceSoundObject.SetActive(true);
         cameraMoving = true;
         print(cameraMoving);
