@@ -47,7 +47,6 @@ public class CreatureEncounter : MonoBehaviour {
         creatureBeweging = GameObject.Find("BewegingCreature");
         controllerSwitch = player.GetComponent<PlayerController>();
         playerBody = player.GetComponent<Rigidbody>();
-        playerModel = GameObject.Find("MOD_Draak");
         playerAnim = playerModel.GetComponent<Animator>();
         wayPointDraak = GameObject.Find("WaypointDraak");
         creatureAnim = creature.GetComponent<Animator>();
@@ -150,10 +149,7 @@ public class CreatureEncounter : MonoBehaviour {
         //cutsceneCamera.SetActive(false);
         triggerCollider.enabled = false;
         cameraAnim.enabled = false;
-        controllerSwitch.EnablePlayer();
-
-        //Poging om beweging, waarmee de draak de cutscene in komt, te stoppen wanneer de cutscene afgelopen is.
-        playerBody.velocity = new Vector3(0, 0, 0);
+		controllerSwitch.EnablePlayer();
         //
 
         //Destroy(gameObject);

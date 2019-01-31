@@ -283,20 +283,17 @@ public class PlayerController : MonoBehaviour
 	void ModelRotation ()
 	{
 		float desiredModelXRotation;
-		if (velocity.y > 0)
-			desiredModelXRotation = -modelRotationMaximumXAngle;
-		//modelXRotation += -modelXRotationSpeed * Time.deltaTime;
-		else
-			desiredModelXRotation = -modelRotationMinimumXAngle;
-		//modelXRotation += modelXRotationSpeed * Time.deltaTime;
-		modelXRotation = Mathf.Lerp(modelXRotation, desiredModelXRotation, .1f);
-		//modelXRotation = Mathf.Clamp(modelXRotation, modelRotationMinimumXAngle, modelRotationMaximumXAngle);
+		if (Mathf.Abs(velocity.y) > 2) {
+			if (velocity.y > 0)
+				desiredModelXRotation = -modelRotationMaximumXAngle;
+			else
+				desiredModelXRotation = -modelRotationMinimumXAngle;
+			modelXRotation = Mathf.Lerp(modelXRotation, desiredModelXRotation, .1f);
+		}
 
 		modelLateralVelocity = new Vector3(velocity.x, 0, velocity.z);
-		if (modelLateralVelocity.sqrMagnitude > 1f) {
-			modelYRotation = Vector3.Angle(Vector3.forward, modelLateralVelocity);
-			if (velocity.x < 0)
-				modelYRotation *= -1;
+		if (modelLateralVelocity.sqrMagnitude > 5f) {
+			modelYRotation = Vector3.SignedAngle(Vector3.forward, modelLateralVelocity, Vector3.up);
 		}
 		if (Grounded()) {
 			modelXRotation = Mathf.MoveTowards(modelXRotation, 0, modelXRotationSpeed * 2 * Time.deltaTime);
@@ -500,6 +497,7 @@ public class PlayerController : MonoBehaviour
 		cameraTrans.position = transform.position + transform.rotation * cameraOffset;
 		cameraTrans.LookAt(cameraDesiredTarget);
 		cameraTrans.gameObject.SetActive(true);
+		rig.velocity = Vector3.zero;
 		modelYRotation = 0;
 		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
 			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
