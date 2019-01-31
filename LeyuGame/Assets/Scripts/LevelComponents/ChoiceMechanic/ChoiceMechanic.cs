@@ -500,13 +500,17 @@ public class ChoiceMechanic : MonoBehaviour {
             VariablesGlobal.chosenForSocial = false;
             moustacheBoiAnim.SetBool("goodBye", true);
             playerScript.launchEnabled = true;
+            Debug.Log(VariablesGlobal.chosenForCompetence);
             Debug.Log(VariablesGlobal.chosenForSocial);
+            Debug.Log("competence");
         }
         else
         {
             VariablesGlobal.chosenForSocial = true;
             VariablesGlobal.chosenForCompetence = false;
-            moustacheBoiEnding.SetActive(true);
+            Debug.Log(VariablesGlobal.chosenForCompetence);
+            Debug.Log(VariablesGlobal.chosenForSocial);
+            Debug.Log("social");
         }
     }
 
