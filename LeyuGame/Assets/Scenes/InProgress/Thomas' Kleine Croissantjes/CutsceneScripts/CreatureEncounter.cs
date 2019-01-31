@@ -5,6 +5,8 @@ using UnityEngine;
 public class CreatureEncounter : MonoBehaviour {
 
     GameObject player;
+    Renderer playerRenderer;
+    Material playerMaterial;
     PlayerController controllerSwitch;
     Rigidbody playerBody;
     GameObject playerModel;
