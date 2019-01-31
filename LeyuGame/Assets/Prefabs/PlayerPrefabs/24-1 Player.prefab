@@ -1768,7 +1768,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1844903431108254}
   m_LocalRotation: {x: 0.22817141, y: 0.6692816, z: -0.22817141, w: 0.6692816}
-  m_LocalPosition: {x: -1.71, y: 1.33, z: 0}
+  m_LocalPosition: {x: -0.77, y: 1.11, z: 0}
   m_LocalScale: {x: 2.6204097, y: 2.62041, z: 2.6204107}
   m_Children:
   - {fileID: 4363392070322100}
@@ -2535,6 +2535,9 @@ MonoBehaviour:
   launchStageOneColor: {r: 1, g: 0.86833215, b: 0, a: 1}
   launchStageTwoColor: {r: 1, g: 0, b: 0.019583702, a: 1}
   launchRenderer: {fileID: 137384761220876408}
+  launchStageZeroPulseSpeed: 0.7
+  launchStageOnePulseSpeed: 1.3
+  launchStageTwoPulseSpeed: 1.9
   creatureWallsEnabled: 1
   creatureWallJumpSpeed: 40
   modelXRotationSpeed: 100
@@ -2557,8 +2560,6 @@ MonoBehaviour:
   gravityStrength: 48
   maximumFallingSpeed: 112
   playerIsAirborne: 0
-  enablePlayerPushBack: 0
-  boundaryPushingDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &114086201496081784
 MonoBehaviour:
   m_ObjectHideFlags: 1
