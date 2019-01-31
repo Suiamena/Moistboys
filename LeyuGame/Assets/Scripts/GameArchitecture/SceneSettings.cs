@@ -37,25 +37,23 @@ public class SceneSettings : MonoBehaviour
 				player.launchEnabled = true;
 				break;
 			case 5:
-				player.creatureWallsEnabled = true;
-				player.launchEnabled = true;
+				//player.creatureWallsEnabled = true;
+				//player.launchEnabled = true;
 				break;
 			case 6:
 				switch (levelSixChoice) {
+                    //PLEASE DON'T DO ANYTHING HERE! IT CONFLICTS WITH LENNY'S SCRIPT TO COMMUNICATE THE PLAYER'S CHOICE AND BREAKS THE GAME
 					case LevelSixChoices.NoChoiceMade:
-                        Debug.Log("none");
-						player.launchEnabled = true;
-						player.creatureWallsEnabled = true;
+						//player.launchEnabled = true;
+						//player.creatureWallsEnabled = true;
 						break;
 					case LevelSixChoices.Launch:
-                        Debug.Log("launch");
-                        player.launchEnabled = true;
-						player.creatureWallsEnabled = false;
+      //                  player.launchEnabled = true;
+						//player.creatureWallsEnabled = false;
 						break;
 					case LevelSixChoices.CreatureWall:
-                        Debug.Log("creature");
-                        player.launchEnabled = false;
-						player.creatureWallsEnabled = true;
+      //                  player.launchEnabled = false;
+						//player.creatureWallsEnabled = true;
 						break;
 				}
 				break;
