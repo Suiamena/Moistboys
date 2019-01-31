@@ -213,7 +213,7 @@ public class ChoiceMechanic : MonoBehaviour {
         }
 
         if (fuckingStopGlowing == true) {
-            glow -= 0.015f;
+            glow -= 0.03f;
 
             if (glow <= 0) {
                 fuckingStopGlowing = false;
