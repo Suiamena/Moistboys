@@ -115,7 +115,10 @@ public class IntroTekstScript : MonoBehaviour {
         draakBewegingAnim.enabled = true;
         playerAnim.SetBool("airborne", true);
 
-        yield return new WaitForSeconds(2.75f);
+        yield return new WaitForSeconds(1.50f);
+        playerAnim.SetBool("airborne", false);
+
+        yield return new WaitForSeconds(1.25f);
         playerAnim.SetBool("airborne", false);
         cameraMoving = true;
         print(cameraMoving);

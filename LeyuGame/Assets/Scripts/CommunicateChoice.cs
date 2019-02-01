@@ -7,6 +7,8 @@ public class CommunicateChoice : MonoBehaviour
     GameObject player;
     PlayerController playerScript;
 
+    public GameObject playerAureool;
+
     void Awake()
     {
         player = GameObject.Find("Character");
@@ -19,10 +21,12 @@ public class CommunicateChoice : MonoBehaviour
         if (VariablesGlobal.chosenForSocial)
         {
             playerScript.creatureWallsEnabled = true;
+            playerAureool.SetActive(false);
         }
         else
         {
             StartCoroutine(DisableCreature());
+            playerAureool.SetActive(true);
         }
     }
 

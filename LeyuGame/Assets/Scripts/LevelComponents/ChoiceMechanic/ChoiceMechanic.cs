@@ -57,8 +57,6 @@ public class ChoiceMechanic : MonoBehaviour {
     GameObject cutsceneCameraThreeTransformTarget;
     GameObject cutsceneCameraThreeTransformTargetTwo;
 
-    public GameObject moustacheBoiEnding;
-
     //Thomas Shit
     public GameObject backTrackWallBlock;
     public GameObject creatureAbilityTarget;
@@ -85,6 +83,9 @@ public class ChoiceMechanic : MonoBehaviour {
     float glow;
     int glowBoiNow = 0;
     bool fuckingStopGlowing = false;
+
+    //AUREOOL
+    public GameObject playerAureool;
 
     private void Awake()
     {
@@ -212,7 +213,7 @@ public class ChoiceMechanic : MonoBehaviour {
         }
 
         if (fuckingStopGlowing == true) {
-            glow -= 0.015f;
+            glow -= 0.03f;
 
             if (glow <= 0) {
                 fuckingStopGlowing = false;
@@ -321,9 +322,12 @@ public class ChoiceMechanic : MonoBehaviour {
         yield return new WaitForSeconds(1F);
         //Ability moves
         playerabilityMoves = true;
+
+        yield return new WaitForSeconds(0.5F);
+        playerAureool.SetActive(false);
         //secondCutsceneCamera.transform.position = cameraTwoSecondPosition;
         //secondCutsceneCamera.transform.rotation = cameraTwoSecondRotation;
-        yield return new WaitForSeconds(2F);
+        yield return new WaitForSeconds(1.5F);
         playerabilityMoves = false;
         //yield return new WaitForSeconds(2F);
         //secondCutsceneCamera.SetActive(false);
@@ -446,8 +450,13 @@ public class ChoiceMechanic : MonoBehaviour {
             glowBoiNow = 1;
         }
 
+        yield return new WaitForSeconds(1F);
+        if (competentScript.playerChooseCompetence) 
+        {
+            playerAureool.SetActive(true);
+        }
 
-        yield return new WaitForSeconds(1.5F);
+        yield return new WaitForSeconds(0.5F);
 
         if (socialScript.playerChooseSocial)
         {
