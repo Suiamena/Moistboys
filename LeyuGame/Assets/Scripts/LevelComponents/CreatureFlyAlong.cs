@@ -13,7 +13,8 @@ namespace Creature
 		Transform moustacheBoy, player;
 		Animator moustacheBoyAnimator;
 		public Vector3 startingOffset = new Vector3(0, 20, 0), flyingOffset = new Vector3(0, 2.2f, 3.6f), endingOffset = new Vector3(5, 20, 35);
-		public float lerpFactor = .14f, baseSpeed = 10, flyAwaySpeed = 36, distanceSpeedIncrease = 60, turnRate = 250, flyingSway = 2.5f, obstacleDetectRange = 9, currentXRot = 0;
+		public float lerpFactor = .14f, baseSpeed = 10, flyAwaySpeed = 36, distanceSpeedIncrease = 1.5f, turnRate = 250, flyingSway = 2.5f, obstacleDetectRange = 9;
+		float currentXRot = 0;
 		bool flyAlong = false;
 		Coroutine flyAlongRoutine = null;
 
@@ -93,17 +94,16 @@ namespace Creature
 			Vector3 targetPos;
 			float correctedSpeed;
 			while (flyAlong) {
-				//Move 
+				//Determine targetPos
 				targetPos = player.position + player.rotation * flyingOffset + new Vector3(Mathf.Sin(Time.time * .1f) * flyingOffset.x, 0, Mathf.Sin(Time.time * 0.08f));
 
+				//Move forward
 				float distance = Vector3.Distance(moustacheBoy.position, targetPos);
-				correctedSpeed = baseSpeed + distance;
-
+				correctedSpeed = baseSpeed + distance * distanceSpeedIncrease;
 				moustacheBoy.position += moustacheBoy.forward * correctedSpeed * Time.deltaTime;
 
 				//Steer based on targetPos
-				float rightDistance = (moustacheBoy.position + moustacheBoy.right).SquareDistance(targetPos);
-				if ((moustacheBoy.position + -moustacheBoy.right).SquareDistance(targetPos) < rightDistance)
+				if (Vector3.SignedAngle(moustacheBoy.forward, targetPos - moustacheBoy.position, Vector3.up) < 0)
 					moustacheBoy.Rotate(new Vector3(0, -turnRate * Time.deltaTime, 0));
 				else
 					moustacheBoy.Rotate(new Vector3(0, turnRate * Time.deltaTime, 0));
@@ -123,6 +123,7 @@ namespace Creature
 				float yRotation = turnRate * obstacleDetectionTurnFactor * Time.deltaTime;
 				moustacheBoy.Rotate(0, turnRate * obstacleDetectionTurnFactor * Time.deltaTime, 0, 0);
 
+				//Steer up/down
 				if (targetPos.y > moustacheBoy.position.y) {
 					currentXRot += -45 * Time.deltaTime;
 				} else {
