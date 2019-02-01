@@ -47,8 +47,8 @@ public class PlayerController : MonoBehaviour
 	public Vector3 launchStageOneForce = new Vector3(0, 35, 10), launchStageTwoForce = new Vector3(0, 50, 22);
 	public Color launchStageOneColor = Color.green, launchStageTwoColor = Color.red;
 	public Renderer launchRenderer;
-	public float launchStageZeroPulseSpeed = .7f, launchStageOnePulseSpeed = 1.3f, launchStageTwoPulseSpeed = 1.9f;
-	int[] launchMaterialIndexes = new int[] { 0, 3, 6, 9 };
+	public float launchBasePulseSpeed = .7f, launchStageOnePulseSpeed = 1.3f, launchStageTwoPulseSpeed = 1.9f;
+	List<Material> launchMaterials = new List<Material>();
 	Color launchBaseColor = Color.white;
 	bool launchRoutineRunning = false;
 
@@ -111,14 +111,17 @@ public class PlayerController : MonoBehaviour
 
 		animationModel = GameObject.Find("MOD_Draak");
 		animator = animationModel.GetComponent<Animator>();
-		launchBaseColor = launchRenderer.materials[launchMaterialIndexes[0]].GetColor("_baseColor");
-		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-			if (launchEnabled)
-				launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", launchStageZeroPulseSpeed);
-			else
-				launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", 0);
+		foreach (Material m in launchRenderer.materials) {
+			if (m.HasProperty("_baseColor"))
+				launchMaterials.Add(m);
 		}
-
+		launchBaseColor = launchMaterials[0].GetColor("_baseColor");
+		foreach (Material m in launchMaterials) {
+			if (launchEnabled)
+				m.SetFloat("_PulseSpeed", launchBasePulseSpeed);
+			else
+				m.SetFloat("_PulseSpeed", 0);
+		}
 
 		GamePad.SetVibration(0, 0, 0);
 		Cursor.visible = false;
@@ -472,12 +475,11 @@ public class PlayerController : MonoBehaviour
 		velocity = new Vector3(0, 0, 0);
 		StopCoroutine(LaunchRoutine());
 		launchRoutineRunning = false;
-		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
+		foreach (Material m in launchMaterials) {
 			if (launchEnabled)
-				launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", launchStageZeroPulseSpeed);
+				m.SetFloat("_PulseSpeed", launchBasePulseSpeed);
 			else
-				launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", 0);
+				m.SetFloat("_PulseSpeed", 0);
 		}
 		transform.rotation = Quaternion.identity;
 		dragonModel.transform.rotation = Quaternion.identity;
@@ -499,12 +501,11 @@ public class PlayerController : MonoBehaviour
 		cameraTrans.gameObject.SetActive(true);
 		rig.velocity = Vector3.zero;
 		modelYRotation = 0;
-		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
+		foreach (Material m in launchMaterials) {
 			if (launchEnabled)
-				launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", launchStageZeroPulseSpeed);
+				m.SetFloat("_PulseSpeed", launchBasePulseSpeed);
 			else
-				launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", 0);
+				m.SetFloat("_PulseSpeed", 0);
 		}
 	}
 
@@ -528,9 +529,9 @@ public class PlayerController : MonoBehaviour
 
 		GamePad.SetVibration(PlayerIndex.One, .1f, .1f);
 
-		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchStageOneColor);
-			launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", launchStageOnePulseSpeed);
+		foreach (Material m in launchMaterials) {
+			m.SetColor("_baseColor", launchStageOneColor);
+			m.SetFloat("_PulseSpeed", launchStageOnePulseSpeed);
 		}
 
 		while (Input.GetAxis("Right Trigger") != 0 || Input.GetButton("Keyboard Space")) {
@@ -540,9 +541,9 @@ public class PlayerController : MonoBehaviour
 			if (timeLapsed > launchStageTwoTime) {
 				stageTwoReached = true;
 				GamePad.SetVibration(PlayerIndex.One, .3f, .3f);
-				for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-					launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchStageTwoColor);
-					launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", launchStageTwoPulseSpeed);
+				foreach (Material m in launchMaterials) {
+					m.SetColor("_baseColor", launchStageTwoColor);
+					m.SetFloat("_PulseSpeed", launchStageTwoPulseSpeed);
 				}
 			}
 			yield return null;
@@ -576,9 +577,9 @@ public class PlayerController : MonoBehaviour
 		while (launchRoutineRunning)
 			yield return null;
 
-		for (int i = 0; i < launchMaterialIndexes.Length; i++) {
-			launchRenderer.materials[launchMaterialIndexes[i]].SetColor("_baseColor", launchBaseColor);
-			launchRenderer.materials[launchMaterialIndexes[i]].SetFloat("_PulseSpeed", launchStageZeroPulseSpeed);
+		foreach (Material m in launchMaterials) {
+			m.SetColor("_baseColor", launchBaseColor);
+			m.SetFloat("_PulseSpeed", launchBasePulseSpeed);
 		}
 		yield return null;
 	}
