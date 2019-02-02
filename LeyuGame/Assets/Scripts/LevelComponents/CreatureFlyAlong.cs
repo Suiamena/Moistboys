@@ -12,7 +12,7 @@ namespace Creature
 		bool flyAlongRoutineRunning = false;
 		Transform moustacheBoy, player;
 		Animator moustacheBoyAnimator;
-		public Vector3 startingOffset = new Vector3(0, 20, 0), flyingOffset = new Vector3(0, 2.2f, 3.6f), endingOffset = new Vector3(5, 20, 35);
+		public Vector3 startingOffset = new Vector3(0, 12, 0), flyingOffset = new Vector3(0, 2.2f, 3.6f), endingOffset = new Vector3(5, 20, 35);
 		public float lerpFactor = .14f, baseSpeed = 10, flyAwaySpeed = 36, distanceSpeedIncrease = 1.5f, turnRate = 250, flyingSway = 2.5f, obstacleDetectRange = 9;
 		float currentXRot = 0;
 		bool flyAlong = false;
