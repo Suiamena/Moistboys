@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.8055129, g: 0.8475793, b: 0.88659346, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -57,14 +57,14 @@ LightmapSettings:
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 10
-    m_Resolution: 2
-    m_BakeResolution: 40
+    m_Resolution: 0.01
+    m_BakeResolution: 8
     m_AtlasSize: 1024
     m_AO: 0
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
     m_CompAOExponentDirect: 0
-    m_Padding: 2
+    m_Padding: 8
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
@@ -75,14 +75,14 @@ LightmapSettings:
     m_MixedBakeMode: 2
     m_BakeBackend: 1
     m_PVRSampling: 1
-    m_PVRDirectSampleCount: 32
-    m_PVRSampleCount: 500
+    m_PVRDirectSampleCount: 5
+    m_PVRSampleCount: 50
     m_PVRBounces: 2
     m_PVRFilterTypeDirect: 0
     m_PVRFilterTypeIndirect: 0
     m_PVRFilterTypeAO: 0
     m_PVRFilteringMode: 1
-    m_PVRCulling: 1
+    m_PVRCulling: 0
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
     m_PVRFilteringGaussRadiusAO: 2
@@ -90,7 +90,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000532, guid: 34fce8b26963c7f40a158cbcc0564f8b,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -623,17 +624,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08f28bdf97cbdc841b67027d455d2c68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAureool: {fileID: 0}
-  flyAlongDoos: {fileID: 0}
-  abilityLight: {fileID: 0}
-  sneeuwParticlesPos: {fileID: 0}
-  distanceInFrontOfPlayer: 50
-  image: {fileID: 0}
-  creatureFlyAlong: {fileID: 0}
-  creature: {fileID: 0}
-  cutsceneCam: {fileID: 0}
-  snowParticles: {fileID: 0}
-  aureoolModel: {fileID: 0}
+  landingIndicatorObject: {fileID: 0}
+  sneeuwstormTrigger: {fileID: 0}
 --- !u!135 &17152222
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2003,14 +1995,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257c635f1d8af6f4798e58492c38280b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cutsceneLaunchObject: {fileID: 0}
   image: {fileID: 1355678067}
-  playerModel: {fileID: 1579065951}
   destructibleBoi: {fileID: 1379758406}
   snowExplosion: {fileID: 1821736216}
   cutsceneCamera: {fileID: 1406994232}
-  rightTriggerUI: {fileID: 489909471}
-  RTOrangeUI: {fileID: 1668444297}
-  RTRedUI: {fileID: 177354685}
 --- !u!4 &56198388 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4956469857134598, guid: 0a502b4261f16f44badad5461fd29f72,
@@ -7239,7 +7228,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &241381271
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15241,7 +15230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &508997685
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18233,7 +18222,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &606787686
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40292,14 +40281,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257c635f1d8af6f4798e58492c38280b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cutsceneLaunchObject: {fileID: 0}
   image: {fileID: 606787687}
-  playerModel: {fileID: 1579065951}
   destructibleBoi: {fileID: 231697851}
   snowExplosion: {fileID: 202705114}
   cutsceneCamera: {fileID: 858734783}
-  rightTriggerUI: {fileID: 594904880}
-  RTOrangeUI: {fileID: 1895922383}
-  RTRedUI: {fileID: 1442250751}
 --- !u!1001 &1099037672
 Prefab:
   m_ObjectHideFlags: 0
@@ -47839,7 +47825,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1355678066
 RectTransform:
   m_ObjectHideFlags: 0
@@ -52639,7 +52625,7 @@ MonoBehaviour:
   FogTransitionSize: 8.45
   MaxLightDistance: 128
   AboveFogPercent: 0.1
-  Offset: {x: 9702.658, y: 6556.4443, z: 0}
+  Offset: {x: 9703.158, y: 6556.5444, z: 0}
 --- !u!1001 &1532152473
 Prefab:
   m_ObjectHideFlags: 0
@@ -54029,7 +54015,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1577519424
 RectTransform:
   m_ObjectHideFlags: 0
@@ -54107,11 +54093,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &1579065951 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1846445920837308, guid: fe818697bed7c3740a9653f87a18d810,
-    type: 2}
-  m_PrefabInternal: {fileID: 1588380376}
 --- !u!4 &1585531429 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4940925163939696, guid: 53860d43f5ab3e34e857cd8e4aa3a911,
