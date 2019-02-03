@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class VervangGameObject : MonoBehaviour
+public class VervangGameObjects : MonoBehaviour
 {
 	public GameObject objectToReplaceWith;
 
@@ -26,5 +27,21 @@ public class VervangGameObject : MonoBehaviour
 
 		foreach (GameObject g in objects)
 			g.transform.parent = transform;
+	}
+}
+
+[CustomEditor(typeof(VervangGameObjects))]
+public class VervangGameObjectEditor : Editor
+{
+
+	public override void OnInspectorGUI ()
+	{
+		base.OnInspectorGUI();
+
+		VervangGameObjects t = (VervangGameObjects) target;
+
+		if (GUILayout.Button("Replace Objects")) {
+			t.ReplaceObjects();
+		}
 	}
 }
