@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="ParameterPreset" id="{5aa83afd-768a-4738-bb14-38e6a2c20632}">
+        <property name="name">
+            <value>Scared</value>
+        </property>
+        <relationship name="folder">
+            <destination>{83c0b0bf-e4c2-4400-8d5f-6dffd3b6c59f}</destination>
+        </relationship>
+        <relationship name="parameter">
+            <destination>{fbab638d-4fa4-4c84-a368-2da995c72e0b}</destination>
+        </relationship>
+    </object>
+    <object class="GameParameter" id="{fbab638d-4fa4-4c84-a368-2da995c72e0b}">
+        <property name="initialValue">
+            <value>0</value>
+        </property>
+        <relationship name="modulators">
+            <destination>{ce68de33-d00f-47b5-bc55-6b1ec1255766}</destination>
+        </relationship>
+    </object>
+    <object class="RandomizerModulator" id="{ce68de33-d00f-47b5-bc55-6b1ec1255766}">
+        <property name="nameOfPropertyBeingModulated">
+            <value>cursorPosition</value>
+        </property>
+    </object>
+</objects>

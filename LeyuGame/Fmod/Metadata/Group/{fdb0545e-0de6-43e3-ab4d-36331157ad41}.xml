@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="MixerGroup" id="{fdb0545e-0de6-43e3-ab4d-36331157ad41}">
+        <property name="name">
+            <value>Light One</value>
+        </property>
+        <relationship name="effectChain">
+            <destination>{d52bd8da-793a-4091-9549-7729e2158164}</destination>
+        </relationship>
+        <relationship name="panner">
+            <destination>{273f4923-310f-49d5-8fd0-59d349e962b6}</destination>
+        </relationship>
+        <relationship name="output">
+            <destination>{65db1e18-10e3-4e94-9532-404f2496c88f}</destination>
+        </relationship>
+    </object>
+    <object class="MixerBusEffectChain" id="{d52bd8da-793a-4091-9549-7729e2158164}">
+        <relationship name="effects">
+            <destination>{1fa2ce56-5d4e-443a-8913-760165a55190}</destination>
+            <destination>{361d73aa-c1dc-41ff-b938-967835468e0e}</destination>
+        </relationship>
+    </object>
+    <object class="MixerBusPanner" id="{273f4923-310f-49d5-8fd0-59d349e962b6}"/>
+    <object class="MixerBusFader" id="{1fa2ce56-5d4e-443a-8913-760165a55190}"/>
+    <object class="CompressorEffect" id="{361d73aa-c1dc-41ff-b938-967835468e0e}">
+        <property name="threshold">
+            <value>-3.5</value>
+        </property>
+        <property name="linkChannels">
+            <value>false</value>
+        </property>
+        <property name="sidechainEnabled">
+            <value>true</value>
+        </property>
+    </object>
+</objects>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="MixerGroup" id="{038c4561-5d4a-403a-a202-e3c9ed2894f1}">
+        <property name="name">
+            <value>BN</value>
+        </property>
+        <relationship name="effectChain">
+            <destination>{42c99af9-531a-4bc9-8ccf-ac923fda678b}</destination>
+        </relationship>
+        <relationship name="panner">
+            <destination>{a3667867-abe2-42d7-8e0b-f23ea7e6831f}</destination>
+        </relationship>
+        <relationship name="output">
+            <destination>{65db1e18-10e3-4e94-9532-404f2496c88f}</destination>
+        </relationship>
+    </object>
+    <object class="MixerBusEffectChain" id="{42c99af9-531a-4bc9-8ccf-ac923fda678b}">
+        <relationship name="effects">
+            <destination>{09bef883-e117-414f-9718-8afde7387ca9}</destination>
+            <destination>{21d26dce-0c3f-4622-b232-5bfa4cd6bb0c}</destination>
+        </relationship>
+    </object>
+    <object class="MixerBusPanner" id="{a3667867-abe2-42d7-8e0b-f23ea7e6831f}"/>
+    <object class="MixerBusFader" id="{09bef883-e117-414f-9718-8afde7387ca9}"/>
+    <object class="Sidechain" id="{21d26dce-0c3f-4622-b232-5bfa4cd6bb0c}">
+        <relationship name="targets">
+            <destination>{400e0da9-b54d-4e21-97f3-48ebe449185f}</destination>
+        </relationship>
+    </object>
+</objects>

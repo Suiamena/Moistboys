@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="MixerGroup" id="{0e55c323-1e51-49e3-95b0-d79ca011cb2d}">
+        <property name="name">
+            <value>Music</value>
+        </property>
+        <relationship name="effectChain">
+            <destination>{b9252629-ec18-42d3-9fdd-04762d28eb84}</destination>
+        </relationship>
+        <relationship name="panner">
+            <destination>{6f5a03f3-704a-4983-be0a-d5755d56cb1f}</destination>
+        </relationship>
+        <relationship name="output">
+            <destination>{65db1e18-10e3-4e94-9532-404f2496c88f}</destination>
+        </relationship>
+    </object>
+    <object class="MixerBusEffectChain" id="{b9252629-ec18-42d3-9fdd-04762d28eb84}">
+        <relationship name="effects">
+            <destination>{4a4cea1f-8837-48ed-a199-9a59ee3ef019}</destination>
+            <destination>{13a28930-8e55-4fb2-8804-57a770daca4c}</destination>
+            <destination>{400e0da9-b54d-4e21-97f3-48ebe449185f}</destination>
+        </relationship>
+    </object>
+    <object class="MixerBusPanner" id="{6f5a03f3-704a-4983-be0a-d5755d56cb1f}"/>
+    <object class="MixerBusFader" id="{4a4cea1f-8837-48ed-a199-9a59ee3ef019}"/>
+    <object class="CompressorEffect" id="{13a28930-8e55-4fb2-8804-57a770daca4c}">
+        <property name="threshold">
+            <value>-18</value>
+        </property>
+        <property name="ratio">
+            <value>1.5999999</value>
+        </property>
+        <property name="releaseTime">
+            <value>600</value>
+        </property>
+        <property name="sidechainEnabled">
+            <value>true</value>
+        </property>
+    </object>
+    <object class="CompressorEffect" id="{400e0da9-b54d-4e21-97f3-48ebe449185f}">
+        <property name="threshold">
+            <value>-60</value>
+        </property>
+        <property name="ratio">
+            <value>3.5999999</value>
+        </property>
+        <property name="attackTime">
+            <value>0.100000001</value>
+        </property>
+        <property name="releaseTime">
+            <value>400</value>
+        </property>
+        <property name="sidechainEnabled">
+            <value>true</value>
+        </property>
+    </object>
+</objects>

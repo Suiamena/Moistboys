@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="MixerGroup" id="{f8f61b29-4fae-4c0f-b9ae-47640ff3a7c3}">
+        <property name="name">
+            <value>Light Two</value>
+        </property>
+        <relationship name="effectChain">
+            <destination>{0a7af970-09f8-48e2-b0f7-a603bf1371ec}</destination>
+        </relationship>
+        <relationship name="panner">
+            <destination>{1c62a368-d8c5-48f8-9ed7-7f8cda9d7658}</destination>
+        </relationship>
+        <relationship name="output">
+            <destination>{65db1e18-10e3-4e94-9532-404f2496c88f}</destination>
+        </relationship>
+    </object>
+    <object class="MixerBusEffectChain" id="{0a7af970-09f8-48e2-b0f7-a603bf1371ec}">
+        <relationship name="effects">
+            <destination>{57184524-afd2-4bc0-b318-f71d0146b3fb}</destination>
+            <destination>{500fe5cc-12be-4d87-878f-e790cdfab7b0}</destination>
+        </relationship>
+    </object>
+    <object class="MixerBusPanner" id="{1c62a368-d8c5-48f8-9ed7-7f8cda9d7658}"/>
+    <object class="MixerBusFader" id="{57184524-afd2-4bc0-b318-f71d0146b3fb}"/>
+    <object class="Sidechain" id="{500fe5cc-12be-4d87-878f-e790cdfab7b0}">
+        <relationship name="targets">
+            <destination>{361d73aa-c1dc-41ff-b938-967835468e0e}</destination>
+        </relationship>
+    </object>
+</objects>
