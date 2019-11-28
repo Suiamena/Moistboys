@@ -1,27 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!21 &-8682792518324681807
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: a2146839e81671849afce84b1a3e3cbf, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &-8413392179163480927
+--- !u!21 &-8462391077372713468
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -30,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Shader: {fileID: 4800000, guid: c1d9a54d81528704491362fc61968e7e, type: 3}
-  m_ShaderKeywords: SHADOWS_OFF
+  m_ShaderKeywords: NOISE_ON SHADOWS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -42,7 +21,28 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors: []
---- !u!21 &-8257712453007508127
+--- !u!21 &-8039014843790921061
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Shader: {fileID: 4800000, guid: 7c8ef85e76c05f341a66461ff8df1792, type: 3}
+  m_ShaderKeywords: NOISE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats: []
+    m_Colors: []
+--- !u!21 &-7400654726406215436
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors: []
---- !u!21 &-7309052813740443590
+--- !u!21 &-6735512510398126486
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -72,6 +72,27 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Shader: {fileID: 4800000, guid: e018c43c94e977a4391a157071caa9d8, type: 3}
+  m_ShaderKeywords: NOISE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats: []
+    m_Colors: []
+--- !u!21 &-5896219721428434985
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Shader: {fileID: 4800000, guid: 7c8ef85e76c05f341a66461ff8df1792, type: 3}
   m_ShaderKeywords: NOISE_ON SHADOWS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -84,7 +105,7 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors: []
---- !u!21 &-7100203102456139956
+--- !u!21 &-4109442536384822162
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -105,7 +126,7 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors: []
---- !u!21 &-6738819909401310600
+--- !u!21 &-3806189113393184669
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -113,8 +134,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Shader: {fileID: 4800000, guid: e018c43c94e977a4391a157071caa9d8, type: 3}
-  m_ShaderKeywords: NOISE_ON POINT_COOKIE SHADOWS_OFF
+  m_Shader: {fileID: 4800000, guid: 7c8ef85e76c05f341a66461ff8df1792, type: 3}
+  m_ShaderKeywords: NOISE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -126,7 +147,7 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors: []
---- !u!21 &-6113851558219439962
+--- !u!21 &-3625380687236001461
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -135,7 +156,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Shader: {fileID: 4800000, guid: a2146839e81671849afce84b1a3e3cbf, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: NOISE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -147,28 +168,7 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors: []
---- !u!21 &-5812263432916645569
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: e018c43c94e977a4391a157071caa9d8, type: 3}
-  m_ShaderKeywords: POINT_COOKIE SHADOWS_OFF
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &-5587530003518626333
+--- !u!21 &-2241482761761556297
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors: []
---- !u!21 &-4625122059023059828
+--- !u!21 &-750486659576204741
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -199,111 +199,6 @@ Material:
   m_Name: 
   m_Shader: {fileID: 4800000, guid: c1d9a54d81528704491362fc61968e7e, type: 3}
   m_ShaderKeywords: NOISE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &-3065724226807447760
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: 7c8ef85e76c05f341a66461ff8df1792, type: 3}
-  m_ShaderKeywords: SHADOWS_OFF
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &-1862198431031179290
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: e018c43c94e977a4391a157071caa9d8, type: 3}
-  m_ShaderKeywords: NOISE_ON POINT_COOKIE
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &-1832807877442111389
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: 7c8ef85e76c05f341a66461ff8df1792, type: 3}
-  m_ShaderKeywords: NOISE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &-1137248785000231394
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: 7c8ef85e76c05f341a66461ff8df1792, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &-1027893560774415164
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: c1d9a54d81528704491362fc61968e7e, type: 3}
-  m_ShaderKeywords: NOISE_ON SHADOWS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -326,10 +221,6 @@ ShaderVariantCollection:
   - first: {fileID: 4800000, guid: 7c8ef85e76c05f341a66461ff8df1792, type: 3}
     second:
       variants:
-      - keywords: 
-        passType: 0
-      - keywords: SHADOWS_OFF
-        passType: 0
       - keywords: NOISE_ON
         passType: 0
       - keywords: NOISE_ON SHADOWS_OFF
@@ -337,17 +228,11 @@ ShaderVariantCollection:
   - first: {fileID: 4800000, guid: a2146839e81671849afce84b1a3e3cbf, type: 3}
     second:
       variants:
-      - keywords: 
-        passType: 0
       - keywords: NOISE_ON
         passType: 0
   - first: {fileID: 4800000, guid: c1d9a54d81528704491362fc61968e7e, type: 3}
     second:
       variants:
-      - keywords: 
-        passType: 0
-      - keywords: SHADOWS_OFF
-        passType: 0
       - keywords: NOISE_ON
         passType: 0
       - keywords: NOISE_ON SHADOWS_OFF
@@ -355,14 +240,6 @@ ShaderVariantCollection:
   - first: {fileID: 4800000, guid: e018c43c94e977a4391a157071caa9d8, type: 3}
     second:
       variants:
-      - keywords: 
-        passType: 0
-      - keywords: POINT_COOKIE
-        passType: 0
-      - keywords: SHADOWS_OFF
-        passType: 0
-      - keywords: POINT_COOKIE SHADOWS_OFF
-        passType: 0
       - keywords: NOISE_ON
         passType: 0
       - keywords: NOISE_ON POINT_COOKIE
@@ -371,7 +248,7 @@ ShaderVariantCollection:
         passType: 0
       - keywords: NOISE_ON POINT_COOKIE SHADOWS_OFF
         passType: 0
---- !u!21 &1172381183600247126
+--- !u!21 &1139944405414766652
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -379,8 +256,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Shader: {fileID: 4800000, guid: c1d9a54d81528704491362fc61968e7e, type: 3}
-  m_ShaderKeywords: SHADOWS_OFF
+  m_Shader: {fileID: 4800000, guid: e018c43c94e977a4391a157071caa9d8, type: 3}
+  m_ShaderKeywords: NOISE_ON SHADOWS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -392,7 +269,28 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors: []
---- !u!21 &2863731930203999804
+--- !u!21 &3165006232694574386
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Shader: {fileID: 4800000, guid: a2146839e81671849afce84b1a3e3cbf, type: 3}
+  m_ShaderKeywords: NOISE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats: []
+    m_Colors: []
+--- !u!21 &3995529296291556424
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -413,7 +311,7 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors: []
---- !u!21 &3563157418430378743
+--- !u!21 &8215126013518521970
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -422,7 +320,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Shader: {fileID: 4800000, guid: a2146839e81671849afce84b1a3e3cbf, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: NOISE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -434,7 +332,7 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors: []
---- !u!21 &4323806232461517417
+--- !u!21 &8408536552684184948
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -443,7 +341,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Shader: {fileID: 4800000, guid: e018c43c94e977a4391a157071caa9d8, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: NOISE_ON POINT_COOKIE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -455,7 +353,7 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors: []
---- !u!21 &5066611677821530804
+--- !u!21 &8887941583518268411
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -464,259 +362,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Shader: {fileID: 4800000, guid: e018c43c94e977a4391a157071caa9d8, type: 3}
-  m_ShaderKeywords: NOISE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &5169560257661393190
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: c1d9a54d81528704491362fc61968e7e, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &5402037876591963737
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: c1d9a54d81528704491362fc61968e7e, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &5541530194764356884
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: 7c8ef85e76c05f341a66461ff8df1792, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &6501536300793428249
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: a2146839e81671849afce84b1a3e3cbf, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &6579193261444266771
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: e018c43c94e977a4391a157071caa9d8, type: 3}
-  m_ShaderKeywords: SHADOWS_OFF
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &6951945891344948324
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: e018c43c94e977a4391a157071caa9d8, type: 3}
-  m_ShaderKeywords: POINT_COOKIE
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &7094731832864792527
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: 7c8ef85e76c05f341a66461ff8df1792, type: 3}
-  m_ShaderKeywords: NOISE_ON SHADOWS_OFF
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &7157371298338350799
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: 7c8ef85e76c05f341a66461ff8df1792, type: 3}
-  m_ShaderKeywords: NOISE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &7602730067024855437
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: a2146839e81671849afce84b1a3e3cbf, type: 3}
-  m_ShaderKeywords: NOISE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &7773551081511852640
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: 7c8ef85e76c05f341a66461ff8df1792, type: 3}
-  m_ShaderKeywords: SHADOWS_OFF
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &8849587855335801599
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: a2146839e81671849afce84b1a3e3cbf, type: 3}
-  m_ShaderKeywords: NOISE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
---- !u!21 &9090339003287052156
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Shader: {fileID: 4800000, guid: a2146839e81671849afce84b1a3e3cbf, type: 3}
-  m_ShaderKeywords: NOISE_ON
+  m_ShaderKeywords: NOISE_ON POINT_COOKIE SHADOWS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
